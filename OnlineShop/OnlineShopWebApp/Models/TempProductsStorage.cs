@@ -1,12 +1,26 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+
 
 namespace OnlineShopWebApp.Models
 {
-    //Временны класс для хранения товаров
+    //Временный класс для хранения товаров
     public class TempProductsStorage
     {
+        public const string FilePath = @".\data\Products.json";
         public IEnumerable<Product> GetAll()
+        {
+            if (!FileProvider.Exists(FilePath) || string.IsNullOrEmpty(FileProvider.GetContent(FilePath)))
+            {
+                InitializeInitialProducts();
+            }
+
+            var productsJson = FileProvider.GetContent(FilePath);
+            var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(productsJson);
+
+            return products;
+        }
+        private void InitializeInitialProducts()
         {
             var ssd = new Product(1, "SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD);
             ssd.Specifications["Manufacturer"] = "Kingston";
@@ -55,7 +69,9 @@ namespace OnlineShopWebApp.Models
                 cpu,
                 powerSupply
             };
-            return products;
+
+            var jsonData = JsonConvert.SerializeObject(products, Formatting.Indented);
+            FileProvider.Save(FilePath, jsonData);
         }
     }
 }
