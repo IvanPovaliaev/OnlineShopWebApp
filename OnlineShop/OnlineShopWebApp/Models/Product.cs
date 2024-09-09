@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineShopWebApp.Models
 {
     public class Product
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public decimal Cost { get; set; }
         public string Description { get; set; }
@@ -15,16 +17,25 @@ namespace OnlineShopWebApp.Models
 
         public Product()
         {
+            Id = Guid.NewGuid();
             Specifications = [];
         }
 
-        public Product(int id, string name, decimal cost, string description, ProductCategories category) : this()
+        public Product(string name, decimal cost, string description, ProductCategories category) : this()
         {
-            Id = id;
             Name = name;
             Cost = cost;
             Description = description;
             Category = category;
         }
+        public string GetFullInfo()
+        {
+            var baseInfo = $"{Id}\n{Name}\n{Cost}\n{Description}\n{Category}";
+
+            var specificationsInfo = Specifications.Select(spec => $"{spec.Key}: {spec.Value}");
+
+            return $"{baseInfo}\n\nХарактеристики:\n{string.Join("\n", specificationsInfo)}";
+        }
+        public override string ToString() => $"{Id}\n{Name}\n{Cost}";
     }
 }

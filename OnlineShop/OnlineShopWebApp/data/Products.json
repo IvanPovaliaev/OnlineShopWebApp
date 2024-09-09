@@ -1,6 +1,6 @@
 [
   {
-    "Id": 1,
+    "Id": "a0733dde-b7f1-44cb-a010-07aa92ac86c4",
     "Name": "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
     "Cost": 7050.0,
     "Description": "Test Description for SSD",
@@ -13,7 +13,7 @@
     }
   },
   {
-    "Id": 2,
+    "Id": "f218875c-fac7-4ec9-8608-5facd3516085",
     "Name": "2Tb SATA-III Seagate Barracuda (ST2000DM008)",
     "Cost": 7030.0,
     "Description": "Test Description for HDD",
@@ -27,7 +27,7 @@
     }
   },
   {
-    "Id": 3,
+    "Id": "39db1e27-9a4d-43a5-8953-c5dd5de1308a",
     "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
     "Cost": 11870.0,
     "Description": "Test Description for RAM",
@@ -43,7 +43,7 @@
     }
   },
   {
-    "Id": 4,
+    "Id": "2ddf44fe-3150-4c58-92ab-74c89a16a5bf",
     "Name": "Intel Core i5 - 12400F OEM",
     "Cost": 15870.0,
     "Description": "Test Description for CPU",
@@ -60,7 +60,7 @@
     }
   },
   {
-    "Id": 5,
+    "Id": "4d82e782-b94f-4fe0-8759-385035596c93",
     "Name": "750W Be Quiet System Power 10",
     "Cost": 8250.0,
     "Description": "Test Description for PowerSupply",
