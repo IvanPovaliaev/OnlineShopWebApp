@@ -4,42 +4,42 @@ namespace OnlineShopWebApp.Services
 {
     public static class FileService
     {
-        private static void CreateFile(string filePath)
+        private static void Create(string path)
         {
-            var dirPath = Path.GetDirectoryName(filePath) ?? ".";
+            var dirPath = Path.GetDirectoryName(path) ?? ".";
             var dirInfo = new DirectoryInfo(dirPath);
             dirInfo.Create();
-            File.Create(filePath).Close();
+            File.Create(path).Close();
         }
-        public static void Replace(string filePath, string content)
+        public static void Replace(string path, string content)
         {
-            if (!Exists(filePath))
+            if (!Exists(path))
             {
-                CreateFile(filePath);
+                Create(path);
             }
 
-            using (var sw = new StreamWriter(filePath, false, System.Text.Encoding.Default))
+            using (var sw = new StreamWriter(path, false, System.Text.Encoding.Default))
             {
                 sw.WriteLine(content);
             }
         }
-        public static string GetContent(string filePath)
+        public static string GetContent(string path)
         {
-            if (!Exists(filePath))
+            if (!Exists(path))
             {
-                CreateFile(filePath);
+                Create(path);
             }
 
-            return File.ReadAllText(filePath, System.Text.Encoding.Default);
+            return File.ReadAllText(path, System.Text.Encoding.Default);
         }
-        public static void Clear(string filePath)
+        public static void Clear(string path)
         {
-            if (Exists(filePath))
+            if (Exists(path))
             {
-                File.WriteAllText(filePath, string.Empty);
+                File.WriteAllText(path, string.Empty);
             }
         }
-        public static bool Exists(string filePath) => File.Exists(filePath);
-        public static void Save(string filePath, string fileData) => Replace(filePath, fileData);
+        public static bool Exists(string path) => File.Exists(path);
+        public static void Save(string path, string data) => Replace(path, data);
     }
 }
