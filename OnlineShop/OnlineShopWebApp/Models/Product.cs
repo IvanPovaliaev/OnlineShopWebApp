@@ -4,7 +4,8 @@ namespace OnlineShopWebApp.Models
 {
     public class Product
     {
-        public int Id { get; set; }
+        private static int _counter;
+        public int Id { get; }
         public string Name { get; set; }
         public decimal Cost { get; set; }
         public string Description { get; set; }
@@ -15,16 +16,19 @@ namespace OnlineShopWebApp.Models
 
         public Product()
         {
+            _counter++;
+            Id = _counter;
             Specifications = [];
         }
 
-        public Product(int id, string name, decimal cost, string description, ProductCategories category) : this()
+        public Product(string name, decimal cost, string description, ProductCategories category) : this()
         {
-            Id = id;
             Name = name;
             Cost = cost;
             Description = description;
             Category = category;
         }
+
+        public override string ToString() => $"{Id}\n{Name}\n{Cost}";
     }
 }
