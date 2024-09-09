@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Models
 {
     public class Product
     {
-        private static int _counter;
-        public int Id { get; }
+        public Guid Id { get; }
         public string Name { get; set; }
         public decimal Cost { get; set; }
         public string Description { get; set; }
@@ -16,8 +16,7 @@ namespace OnlineShopWebApp.Models
 
         public Product()
         {
-            _counter++;
-            Id = _counter;
+            Id = Guid.NewGuid();
             Specifications = [];
         }
 
