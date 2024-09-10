@@ -18,9 +18,9 @@ namespace OnlineShopWebApp.Services
                 Create(path);
             }
 
-            using (var sw = new StreamWriter(path, false, System.Text.Encoding.Default))
+            using (var streamWriter = new StreamWriter(path, false, System.Text.Encoding.Default))
             {
-                sw.WriteLine(content);
+                streamWriter.WriteLine(content);
             }
         }
         public static string GetContent(string path)

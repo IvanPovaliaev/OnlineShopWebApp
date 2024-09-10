@@ -7,26 +7,22 @@ using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
-    //Временный класс для хранения товаров
+    //Временный класс для работы с товарами
     public class ProductsService
     {
         public const string FilePath = @".\Data\Products.json";
+        private List<Product> _products;
 
-        public List<Product> GetAll()
+        public ProductsService()
         {
-            if (!FileService.Exists(FilePath) || string.IsNullOrEmpty(FileService.GetContent(FilePath)))
-            {
-                InitializeInitialProducts();
-            }
-
-            var productsJson = FileService.GetContent(FilePath);
-
-            return JsonConvert.DeserializeObject<List<Product>>(productsJson);
+            UpdateProducts();
         }
+
+        public List<Product> GetAll() => _products;
 
         public Product Get(Guid id)
         {
-            return GetAll().FirstOrDefault(p => p.Id == id);
+            return _products.FirstOrDefault(p => p.Id == id);
         }
 
         public bool TryGetInfo(Guid id, out string info)
@@ -39,8 +35,33 @@ namespace OnlineShopWebApp.Services
                 return false;
             }
 
-            info = product.GetFullInfo();
+            info = GetFullInfo(product);
             return true;
+        }
+
+        private string GetFullInfo(Product product)
+        {
+            var baseInfo = $"{product.Id}\n" +
+                $"{product.Name}\n" +
+                $"{product.Cost}\n" +
+                $"{product.Description}\n" +
+                $"{product.Category}";
+
+            var specificationsInfo = product.Specifications.Select(spec => $"{spec.Key}: {spec.Value}");
+
+            return $"{baseInfo}\n\nХарактеристики:\n{string.Join("\n", specificationsInfo)}";
+        }
+
+        private void UpdateProducts()
+        {
+            if (!FileService.Exists(FilePath) || string.IsNullOrEmpty(FileService.GetContent(FilePath)))
+            {
+                InitializeInitialProducts();
+            }
+
+            var productsJson = FileService.GetContent(FilePath);
+
+            _products = JsonConvert.DeserializeObject<List<Product>>(productsJson);
         }
 
         private void InitializeInitialProducts()

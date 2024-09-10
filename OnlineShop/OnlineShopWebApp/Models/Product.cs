@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OnlineShopWebApp.Models
 {
@@ -27,15 +26,6 @@ namespace OnlineShopWebApp.Models
             Cost = cost;
             Description = description;
             Category = category;
-        }
-
-        public string GetFullInfo()
-        {
-            var baseInfo = $"{Id}\n{Name}\n{Cost}\n{Description}\n{Category}";
-
-            var specificationsInfo = Specifications.Select(spec => $"{spec.Key}: {spec.Value}");
-
-            return $"{baseInfo}\n\nХарактеристики:\n{string.Join("\n", specificationsInfo)}";
         }
 
         public override string ToString() => $"{Id}\n{Name}\n{Cost}";
