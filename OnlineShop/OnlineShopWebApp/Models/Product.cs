@@ -28,6 +28,7 @@ namespace OnlineShopWebApp.Models
             Description = description;
             Category = category;
         }
+
         public string GetFullInfo()
         {
             var baseInfo = $"{Id}\n{Name}\n{Cost}\n{Description}\n{Category}";
@@ -36,6 +37,7 @@ namespace OnlineShopWebApp.Models
 
             return $"{baseInfo}\n\nХарактеристики:\n{string.Join("\n", specificationsInfo)}";
         }
+
         public override string ToString() => $"{Id}\n{Name}\n{Cost}";
     }
 }

@@ -7,17 +7,17 @@ namespace OnlineShopWebApp.Controllers
     [Route("[controller]")]
     public class ProductController : Controller
     {
-        private ProductsService _products;
+        private ProductsService _productsService;
 
         public ProductController()
         {
-            _products = new ProductsService();
+            _productsService = new ProductsService();
         }
 
         [Route("index/{id}")]
         public IActionResult Get(Guid id)
         {
-            return _products.TryGetInfo(id, out var info) ? Ok(info) : BadRequest(info);
+            return _productsService.TryGetInfo(id, out var info) ? Ok(info) : BadRequest(info);
         }
     }
 }
