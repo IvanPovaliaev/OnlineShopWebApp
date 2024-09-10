@@ -1,32 +1,21 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Services;
 
 namespace OnlineShopWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private ProductsService _productsService;
+        public HomeController()
         {
-            _logger = logger;
+            _productsService = new ProductsService();
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            var resultCollection = _productsService.GetAll();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return Ok(string.Join("\n\n", resultCollection));
         }
     }
 }
