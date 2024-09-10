@@ -6,22 +6,19 @@ namespace OnlineShopWebApp.Services
     //Временный класс для хранения товаров
     public class ProductsService
     {
-        private List<Product> _products;
-        public ProductsService()
+        private static List<Product> _products;
+
+        static ProductsService()
         {
-            _products = [];
+            InitializeInitialProducts();
         }
+
         public IEnumerable<Product> GetAll()
         {
-            if (_products.Count == 0)
-            {
-                InitializeInitialProducts();
-            }
-
             return _products;
         }
 
-        private void InitializeInitialProducts()
+        private static void InitializeInitialProducts()
         {
             var ssd = new Product("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD);
             ssd.Specifications["Manufacturer"] = "Kingston";
