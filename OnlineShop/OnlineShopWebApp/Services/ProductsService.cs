@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace OnlineShopWebApp.Services
 {
     //Временный класс для работы с товарами
