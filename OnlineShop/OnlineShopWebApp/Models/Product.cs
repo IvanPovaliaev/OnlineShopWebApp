@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Models
@@ -17,7 +17,7 @@ namespace OnlineShopWebApp.Models
         public Product()
         {
             Id = Guid.NewGuid();
-            Specifications = [];
+            Specifications = new Dictionary<string, string>();
         }
 
         public Product(string name, decimal cost, string description, ProductCategories category) : this()

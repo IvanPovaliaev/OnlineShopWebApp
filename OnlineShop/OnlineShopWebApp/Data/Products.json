@@ -1,0 +1,76 @@
+[
+  {
+    "Id": "0bd71eec-99e0-4ef4-b911-a49bd921859b",
+    "Name": "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
+    "Cost": 7050.0,
+    "Description": "Test Description for SSD",
+    "Category": 3,
+    "Specifications": {
+      "Manufacturer": "Kingston",
+      "ManufacturerCode": "SNV2S/1000G",
+      "FormFactor": "M.2",
+      "Capacity": "1000 Гб"
+    }
+  },
+  {
+    "Id": "3468c894-e161-45f7-b610-e8509925402f",
+    "Name": "2Tb SATA-III Seagate Barracuda (ST2000DM008)",
+    "Cost": 7030.0,
+    "Description": "Test Description for HDD",
+    "Category": 4,
+    "Specifications": {
+      "Manufacturer": "Seagate",
+      "ManufacturerCode": "ST2000DM008",
+      "FormFactor": "3.5\"",
+      "Interface": "SATA-III",
+      "Capacity": "2000 Гб"
+    }
+  },
+  {
+    "Id": "5c20e53d-9a69-42eb-aaf6-526797b37b74",
+    "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
+    "Cost": 11870.0,
+    "Description": "Test Description for RAM",
+    "Category": 5,
+    "Specifications": {
+      "Manufacturer": "Team",
+      "ManufacturerCode": "CTCED532G6000HC38ADC01",
+      "FormFactor": "DIMM",
+      "MemoryType": "DDR5",
+      "MemorySize": "32 Гб",
+      "ModulesCount": "2",
+      "ClockSpeed": "6000 МГц"
+    }
+  },
+  {
+    "Id": "2ead0503-2801-4718-b26c-4ac913c4c778",
+    "Name": "Intel Core i5 - 12400F OEM",
+    "Cost": 15870.0,
+    "Description": "Test Description for CPU",
+    "Category": 1,
+    "Specifications": {
+      "Manufacturer": "Intel",
+      "ManufacturerCode": "CM8071504555318/CM8071504650609",
+      "Model": "Core i5 12400F",
+      "Socket": "LGA 1700",
+      "Architecture": "Alder Lake",
+      "CoresCount": "6",
+      "ThreadsCount": "12",
+      "ClockSpeed": "2500 МГц"
+    }
+  },
+  {
+    "Id": "7f2edc32-6832-4efc-97dc-795bf42882ed",
+    "Name": "750W Be Quiet System Power 10",
+    "Cost": 8250.0,
+    "Description": "Test Description for PowerSupply",
+    "Category": 6,
+    "Specifications": {
+      "Manufacturer": "Be Quiet",
+      "ManufacturerCode": "BN329",
+      "Power": "750 Вт",
+      "PFC": "активный",
+      "FanSize": "120 мм"
+    }
+  }
+]

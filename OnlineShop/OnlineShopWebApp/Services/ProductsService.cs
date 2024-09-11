@@ -1,24 +1,69 @@
-﻿using OnlineShopWebApp.Models;
+using Newtonsoft.Json;
+using OnlineShopWebApp.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
-    //Временный класс для хранения товаров
+    //Временный класс для работы с товарами
     public class ProductsService
     {
-        private static List<Product> _products;
+        public const string FilePath = @".\Data\Products.json";
+        private List<Product> _products;
 
-        static ProductsService()
+        public ProductsService()
         {
-            InitializeInitialProducts();
+            UpdateProducts();
         }
 
-        public IEnumerable<Product> GetAll()
+        public List<Product> GetAll() => _products;
+
+        public Product Get(Guid id)
         {
-            return _products;
+            return _products.FirstOrDefault(p => p.Id == id);
         }
 
-        private static void InitializeInitialProducts()
+        public bool TryGetInfo(Guid id, out string info)
+        {
+            var product = Get(id);
+
+            if (product is null)
+            {
+                info = $"Товар с ID:{id} не найден";
+                return false;
+            }
+
+            info = GetFullInfo(product);
+            return true;
+        }
+
+        private string GetFullInfo(Product product)
+        {
+            var baseInfo = $"{product.Id}\n" +
+                $"{product.Name}\n" +
+                $"{product.Cost}\n" +
+                $"{product.Description}\n" +
+                $"{product.Category}";
+
+            var specificationsInfo = product.Specifications.Select(spec => $"{spec.Key}: {spec.Value}");
+
+            return $"{baseInfo}\n\nХарактеристики:\n{string.Join("\n", specificationsInfo)}";
+        }
+
+        private void UpdateProducts()
+        {
+            if (!FileService.Exists(FilePath) || string.IsNullOrEmpty(FileService.GetContent(FilePath)))
+            {
+                InitializeInitialProducts();
+            }
+
+            var productsJson = FileService.GetContent(FilePath);
+
+            _products = JsonConvert.DeserializeObject<List<Product>>(productsJson);
+        }
+
+        private void InitializeInitialProducts()
         {
             var ssd = new Product("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD);
             ssd.Specifications["Manufacturer"] = "Kingston";
@@ -59,14 +104,17 @@ namespace OnlineShopWebApp.Services
             powerSupply.Specifications["PFC"] = "активный";
             powerSupply.Specifications["FanSize"] = "120 мм";
 
-            _products =
-            [
+            var products = new List<Product>()
+            {
                 ssd,
                 hdd,
                 ram,
                 cpu,
                 powerSupply
-            ];
+            };
+
+            var jsonData = JsonConvert.SerializeObject(products, Formatting.Indented);
+            FileService.Save(FilePath, jsonData);
         }
     }
 }
