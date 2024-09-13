@@ -20,3 +20,61 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.card-home {
+    padding-top: 10px;
+    border: none;
+    height: 460px;
+    overflow: hidden;
+}
+
+.card-id {
+    font-size: 12px;
+}
+
+.card-title {
+    font-size: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-home-text {
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: auto;
+}
+
+.home-icon {
+    color: #D9D9D9;
+    width: 22px;
+    height: 22px;
+}
+
+.icons-col {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.home-card-img {
+    height: 160px;
+    width: 160px;
+}
+
+.card-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-card-home {
+    align-self: flex-end;
+}

@@ -13,9 +13,9 @@ namespace OnlineShopWebApp.Controllers
 
         public IActionResult Index()
         {
-            var resultCollection = _productsService.GetAll();
+            var products = _productsService.GetAll();
 
-            return Ok(string.Join("\n\n", resultCollection));
+            return View(products);
         }
     }
 }
