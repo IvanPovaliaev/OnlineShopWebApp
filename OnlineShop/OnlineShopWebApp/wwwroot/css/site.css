@@ -130,3 +130,16 @@ a {
     object-fit: cover;
 }
 
+footer {
+    background: #C9E0F2;
+    display: flex;
+    align-content: flex-end;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+}
+
+.text-black:hover {
+    color: #8C6642 !important;
+}
+
