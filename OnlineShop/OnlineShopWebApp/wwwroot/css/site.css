@@ -27,6 +27,10 @@ body {
   margin-bottom: 60px;
 }
 
+a {
+    text-decoration: none;
+}
+
 .card-home {
     padding-top: 10px;
     border: none;
@@ -63,13 +67,6 @@ body {
     height: 22px;
 }
 
-.icons-col {
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    align-content: flex-start;
-}
-
 .home-card-img {
     height: 160px;
     width: 160px;
@@ -81,16 +78,26 @@ body {
     align-items: center;
 }
 
+.btn-main {
+    color: #fff;
+    background-color: #729FD8;
+    border: none;
+}
+
+.btn-main:hover {
+    color: #fff;
+    background-color: #C9E0F2;
+    border-color: #0a58ca;
+}
+
 .btn-card-home {
+    font-size: 1rem;
     align-self: flex-end;
+    height: 20%;
 }
 
-.nav-second .container {
-    height: 61px;
-}
-
-.nav-second .dropdown {
-    height: 100%;
+.search-container {
+    height: 60px;
 }
 
 .btn-catalog {
@@ -104,3 +111,22 @@ body {
 .btn-catalog::after {
     display: none;
 }
+
+.border-brown {
+    border: 1px solid #8c6642;
+    border-radius: 5px;
+}
+
+.fill-height {
+    height: 100%;
+}
+
+.text-blue {
+    color: #729fd8;
+}
+
+.carousel-inner img {
+    height: 400px;
+    object-fit: cover;
+}
+
