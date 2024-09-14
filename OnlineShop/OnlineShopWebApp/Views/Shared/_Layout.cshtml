@@ -10,26 +10,96 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OnlineShopWebApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        @* Верхняя навигационня панель *@
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white">
+            <div class="container">
+
+                <div class="col-auto">
+                    <a class="navbar-brand col-2" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="icons/Logo.svg" alt="PC DREAM Logo" />
+                    </a>
+                </div>
+
+                @* Гамбургер для mobil *@
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between col">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" sp-controller="Home" asp-action="Index">О нас</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" sp-controller="Home" asp-action="Index">Магазины</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" sp-controller="Home" asp-action="Index">Доставка</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" sp-controller="Home" asp-action="Index">Контакты</a>
+                        </li>
+                        <li class="nav-item admin-link">
+                            <a class="nav-link text-dark" asp-area="" sp-controller="Home" asp-action="Index">Администратор</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
+        @* Нижняя навигационная панель *@
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white mb-3 nav-second">
+
+            <div class="container d-flex align-items-center">
+
+                @* Кнопка каталога *@
+                <div class="dropdown d-flex align-items-stretch">
+                    <button class="btn btn-secondary dropdown-toggle d-flex align-items-center justify-content-between btn-catalog" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Каталог
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30 2H2V6H30V2Z" fill="white" />
+                            <path d="M2 10H30V14H2V10Z" fill="white" />
+                            <path d="M30 18H2V22H30V18Z" fill="white" />
+                            <path d="M22 26H2V30H22V26Z" fill="white" />
+                        </svg>
+                    </button>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item text-dark" href="#">Видеокарты</a></li>
+                        <li><a class="dropdown-item text-dark" href="#">Процессоры</a></li>
+                        <li><a class="dropdown-item text-dark" href="#">Материнские платы</a></li>
+                        <li><a class="dropdown-item text-dark" href="#">SSD</a></li>
+                        <li><a class="dropdown-item text-dark" href="#">HDD</a></li>
+                        <li><a class="dropdown-item text-dark" href="#">Оперативная память</a></li>
+                        <li><a class="dropdown-item text-dark" href="#">Блоки питания</a></li>
+                    </ul>
+                </div>
+
+                @* Поиск *@
+                <div class="input-group d-flex align-items-stretch">
+                    <input type="text"
+                        class="form-control d-flex"
+                        placeholder="Введите названние товара или ID"
+                        aria-label="Введите названние товара или ID">
+                    <button class="btn btn-outline-secondary align-items-stretch"
+                        type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </button>
+                </div>
+
+                @* Иконки *@
+            </div>
+        </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
