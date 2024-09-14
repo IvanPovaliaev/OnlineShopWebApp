@@ -72,6 +72,11 @@ a {
     width: 160px;
 }
 
+.product-img {
+    height: 460px;
+    width: 460px;
+}
+
 .card-image-container {
     display: flex;
     justify-content: center;

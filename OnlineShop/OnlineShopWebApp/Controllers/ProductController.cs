@@ -17,7 +17,7 @@ namespace OnlineShopWebApp.Controllers
         [Route("index/{id}")]
         public IActionResult Get(Guid id)
         {
-            return _productsService.TryGetInfo(id, out var info) ? Ok(info) : NotFound(info);
+            return View(_productsService.Get(id));
         }
     }
 }

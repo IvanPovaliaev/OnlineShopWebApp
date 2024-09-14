@@ -1,0 +1,88 @@
+﻿@model Product
+@{
+    ViewData["Title"] = @Model.Name;
+    var shortSpecificationsCount = 10;
+    var addSpecificationFromStart = (int count) =>
+    {
+        @foreach (var specification in Model.Specifications.Take(count))
+        {
+            <li>
+                <span class="text-blue">@specification.Key:</span> @specification.Value
+            </li>
+        }
+    };
+
+    var addSpecificationFromEnd = (int count) =>
+    {
+        @foreach (var specification in Model.Specifications.TakeLast(count))
+        {
+            <li>
+                <span class="text-blue">@specification.Key:</span> @specification.Value
+            </li>
+        }
+    };
+}
+
+<section class="container">
+    <h1>@Model.Name</h1>
+    <hr class="border-brown" />
+
+    <div class="row">
+        <div class="col-5">
+            <img class="product-img" src="~/img/NVIDIA GeForce RTX 4060.webp" alt="@Model.Name image" />
+        </div>
+
+        <div class="col-3">
+            <div class="row">
+                <p>ID: @Model.Id</p>
+            </div>
+            <div class="row">
+                <h3>Коротко о товаре:</h3>
+                <ul class="list-unstyled">
+                    @{
+                        addSpecificationFromStart(shortSpecificationsCount);
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-4">
+            Some Text for cost card (Make it tommorow)
+        </div>
+    </div>
+
+    <h2>Описание</h2>
+    <hr class="border-brown"/>
+
+    <div class="row">
+        <p>@Model.Description</p>
+    </div>
+
+    <h2>Характеристики</h2>
+    <hr class="border-brown" />
+    <div class="row">
+        @{
+            var rigthColumnSpecificationsCount = Model.Specifications.Count / 2;
+            var leftColumnSpecificationsCount = Model.Specifications.Count - rigthColumnSpecificationsCount;
+        }
+        <div class="col-6">
+            <ul class="list-unstyled">
+                @{
+                    addSpecificationFromStart(leftColumnSpecificationsCount);
+                }
+            </ul>
+        </div>
+
+        <div class="col-6">
+            <ul class="list-unstyled">
+                @{
+                    addSpecificationFromEnd(rigthColumnSpecificationsCount);
+                }                
+            </ul>
+
+        </div>
+    </div>
+
+</section>
+
+
