@@ -11,7 +11,25 @@ namespace OnlineShopWebApp.Services
             dirInfo.Create();
             File.Create(path).Close();
         }
-        public static void Replace(string path, string content)
+
+        /// <summary>
+        /// Get file content
+        /// </summary>
+        /// <returns>string if file exists; otherwise null</returns>
+        public static string? GetContent(string path)
+        {
+            try
+            {
+                return File.ReadAllText(path, System.Text.Encoding.Default);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static bool Exists(string path) => File.Exists(path);
+        public static void Save(string path, string data)
         {
             if (!Exists(path))
             {
@@ -20,26 +38,8 @@ namespace OnlineShopWebApp.Services
 
             using (var streamWriter = new StreamWriter(path, false, System.Text.Encoding.Default))
             {
-                streamWriter.WriteLine(content);
+                streamWriter.WriteLine(data);
             }
         }
-        public static string GetContent(string path)
-        {
-            if (!Exists(path))
-            {
-                Create(path);
-            }
-
-            return File.ReadAllText(path, System.Text.Encoding.Default);
-        }
-        public static void Clear(string path)
-        {
-            if (Exists(path))
-            {
-                File.WriteAllText(path, string.Empty);
-            }
-        }
-        public static bool Exists(string path) => File.Exists(path);
-        public static void Save(string path, string data) => Replace(path, data);
     }
 }

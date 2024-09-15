@@ -17,12 +17,26 @@ namespace OnlineShopWebApp.Services
             UpdateProducts();
         }
 
+        /// <summary>
+        /// Get all products from storage
+        /// </summary>
+        /// <returns>List of all products from storage</returns>
         public List<Product> GetAll() => _products;
+
+        /// <summary>
+        /// Get all products from storage for current category
+        /// </summary>        
+        /// <returns>List of all products from storage for current category</returns>
+        /// <param name="category">Product category</param>
         public List<Product> GetAll(ProductCategories category)
         {
             return _products.Where(p => p.Category == category).ToList();
         }
 
+        /// <summary>
+        /// Get product from storage by GUID
+        /// </summary>
+        /// <returns>Product</returns>
         public Product Get(Guid id)
         {
             return _products.FirstOrDefault(p => p.Id == id);
