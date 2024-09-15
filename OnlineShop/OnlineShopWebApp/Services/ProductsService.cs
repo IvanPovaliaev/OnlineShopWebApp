@@ -18,37 +18,14 @@ namespace OnlineShopWebApp.Services
         }
 
         public List<Product> GetAll() => _products;
+        public List<Product> GetAll(ProductCategories category)
+        {
+            return _products.Where(p => p.Category == category).ToList();
+        }
 
         public Product Get(Guid id)
         {
             return _products.FirstOrDefault(p => p.Id == id);
-        }
-
-        public bool TryGetInfo(Guid id, out string info)
-        {
-            var product = Get(id);
-
-            if (product is null)
-            {
-                info = $"Товар с ID:{id} не найден";
-                return false;
-            }
-
-            info = GetFullInfo(product);
-            return true;
-        }
-
-        private string GetFullInfo(Product product)
-        {
-            var baseInfo = $"{product.Id}\n" +
-                $"{product.Name}\n" +
-                $"{product.Cost}\n" +
-                $"{product.Description}\n" +
-                $"{product.Category}";
-
-            var specificationsInfo = product.Specifications.Select(spec => $"{spec.Key}: {spec.Value}");
-
-            return $"{baseInfo}\n\nХарактеристики:\n{string.Join("\n", specificationsInfo)}";
         }
 
         private void UpdateProducts()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 
@@ -18,6 +19,12 @@ namespace OnlineShopWebApp.Controllers
         public IActionResult Get(Guid id)
         {
             return View(_productsService.Get(id));
+        }
+
+        [Route("categories/{category}")]
+        public IActionResult GetByCategory(ProductCategories category)
+        {
+            return View((_productsService.GetAll(category), category));
         }
     }
 }
