@@ -14,7 +14,7 @@ namespace OnlineShopWebApp.Services
 
         public ProductsService()
         {
-            UpdateProducts();
+            UploadProducts();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace OnlineShopWebApp.Services
             return _products.FirstOrDefault(p => p.Id == id);
         }
 
-        private void UpdateProducts()
+        private void UploadProducts()
         {
             if (!FileService.Exists(FilePath) || string.IsNullOrEmpty(FileService.GetContent(FilePath)))
             {
