@@ -6,14 +6,56 @@
 <section class="container">
     <h1>Корзина</h1>
     <hr class="border-brown" />
-
         @{
             if (Model is null)
             {
                 <p>Корзина пуста</p>
                 return;
             }
-            <p>Meow</p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-9">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Наименование</th>
+                                    <th scope="col" class="text-center">Количество</th>
+                                    <th scope="col" class="text-center">Стоимость, ₽</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                @foreach (var position in Model.Positions)
+                                {
+                                    <tr>
+                                        <td>@position.Product.Name</td>
+                                        <td class="text-center">@position.Quantity</td>
+                                        <td class="text-center">@position.Cost</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-3">
+                        <h4 class="text-center">Ваш заказ</h4>
+                        <div class="border-1 border-brown p-3">
+                            <div class="d-flex justify-content-between">
+                                <p>Ваши товары (@Model.Positions.Sum(p => p.Quantity))</p>
+                            <span>@Model.TotalCost ₽</span>
+                            </div>
+                            <hr class="border-brown" />
+
+                        <div class="d-flex justify-content-between">
+                            <p class="h5">Итого к оплате:</p>
+                            <span class="h5">@Model.TotalCost ₽</span>
+                        </div>
+
+                        <button class="btn btn-main w-100">
+                            Оформить заказ
+                        </button>                            
+                        </div>
+                    </div>
+                </div>                
+            </div>          
         }
 
 </section>

@@ -13,7 +13,7 @@ namespace OnlineShopWebApp.Services
 
         public CartsService()
         {
-            UpdatesCarts();
+            UploadCarts();
         }
 
         public Cart Get(Guid userId)
@@ -65,7 +65,7 @@ namespace OnlineShopWebApp.Services
             FileService.Save(FilePath, jsonData);
         }
 
-        private void UpdatesCarts()
+        private void UploadCarts()
         {
             var cartsJson = FileService.GetContent(FilePath);
 
