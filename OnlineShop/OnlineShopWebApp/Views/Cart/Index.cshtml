@@ -1,0 +1,21 @@
+﻿@model Cart
+@{
+    ViewData["Title"] = "Корзина";
+}
+
+<section class="container">
+    <h1>Корзина</h1>
+    <hr class="border-brown" />
+
+        @{
+            if (Model is null)
+            {
+                <p>Корзина пуста</p>
+                return;
+            }
+            <p>Meow</p>
+        }
+
+</section>
+
+
