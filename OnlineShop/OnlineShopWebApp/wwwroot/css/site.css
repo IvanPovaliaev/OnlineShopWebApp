@@ -1,19 +1,13 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
+﻿@media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
-
 @media (min-width: 576px) {
-    .admin-link {
-        margin-left: auto;
-    }
+  .admin-link {
+    margin-left: auto;
+  }
 }
-
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -21,6 +15,7 @@ html {
 html {
   position: relative;
   min-height: 100%;
+  font-size: 14px;
 }
 
 body {
@@ -28,123 +23,125 @@ body {
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .card-home {
-    padding-top: 10px;
-    border: none;
-    height: 460px;
-    overflow: hidden;
+  padding-top: 10px;
+  border: none;
+  height: 460px;
+  overflow: hidden;
 }
 
 .card-id {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .card-title {
-    font-size: 18px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-home-text {
-    font-size: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: auto;
+  font-size: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: auto;
 }
 
-.home-icon {
-    color: #D9D9D9;
-    width: 22px;
-    height: 22px;
+.card-heart-icon {
+  color: #D9D9D9;
+  width: 22px;
+  height: 22px;
 }
 
 .home-card-img {
-    height: 160px;
-    width: 160px;
+  height: 160px;
+  width: 160px;
 }
 
 .product-img {
-    height: 460px;
-    width: 460px;
+  width: 100%;
+  height: auto;
 }
 
 .card-image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-main {
-    color: #fff;
-    background-color: #729FD8;
-    border: none;
+  color: #fff;
+  background-color: #729FD8;
+  border: none;
 }
 
 .btn-main:hover {
-    color: #fff;
-    background-color: #C9E0F2;
-    border-color: #0a58ca;
+  color: #fff;
+  background-color: #C9E0F2;
 }
 
 .btn-card-home {
-    font-size: 1rem;
-    align-self: flex-end;
-    height: 20%;
+  font-size: 1rem;
+  align-self: flex-end;
+  height: 20%;
 }
 
 .search-container {
-    height: 60px;
+  height: 60px;
 }
 
 .btn-catalog {
-    background: #729fd8;
-    border-radius: 5px;
-    width: 173px;
-    border: none;
-    font-size: 18px;
+  background: #729FD8;
+  border-radius: 5px;
+  width: 173px;
+  border: none;
+  font-size: 18px;
 }
 
 .btn-catalog::after {
-    display: none;
+  display: none;
 }
 
 .border-brown {
-    border: 1px solid #8c6642;
-    border-radius: 5px;
+  border: 1px solid #8c6642;
+  border-radius: 5px;
 }
 
 .fill-height {
-    height: 100%;
+  height: 100%;
 }
 
 .text-blue {
-    color: #729fd8;
+  color: #729FD8;
 }
 
 .carousel-inner img {
-    height: 400px;
-    object-fit: cover;
+  height: 400px;
+  object-fit: cover;
 }
 
 footer {
-    background: #C9E0F2;
-    display: flex;
-    align-content: flex-end;
-    position: absolute;
-    bottom: 0%;
-    width: 100%;
+  background: #C9E0F2;
+  display: flex;
+  align-content: flex-end;
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
 }
 
 .text-black:hover {
-    color: #8C6642 !important;
+  color: #8c6642 !important;
 }
 
+.product-cost {
+  font-size: 1.5rem;
+}
