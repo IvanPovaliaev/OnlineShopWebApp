@@ -26,7 +26,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 a {
@@ -63,10 +63,16 @@ a {
     margin-bottom: auto;
 }
 
-.card-heart-icon {
-    color: $unactive-color;
-    width: 22px;
-    height: 22px;
+.nav-icon {
+    font-size: 28px;
+}
+
+.card-icon {
+    font-size: 1.25rem;
+}
+
+.product-page-icon {
+    font-size: 1.25rem;
 }
 
 .home-card-img {
@@ -129,6 +135,10 @@ a {
 
 .text-blue {
     color: $main-color;
+}
+
+.text-unactive {
+    color: $unactive-color;
 }
 
 .carousel-inner img {

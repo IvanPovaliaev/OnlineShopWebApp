@@ -14,7 +14,7 @@ namespace OnlineShopWebApp.Services
 
         public ProductsService()
         {
-            UpdateProducts();
+            UploadProducts();
         }
 
         /// <summary>
@@ -36,13 +36,18 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Get product from storage by GUID
         /// </summary>
-        /// <returns>Product</returns>
+        /// <returns>Product; returns null if product not found</returns>
         public Product Get(Guid id)
         {
-            return _products.FirstOrDefault(p => p.Id == id);
+            var product = _products.FirstOrDefault(p => p.Id == id);
+            return product;
         }
 
-        private void UpdateProducts()
+
+        /// <summary>
+        /// Upload products from storage
+        /// </summary>
+        private void UploadProducts()
         {
             if (!FileService.Exists(FilePath) || string.IsNullOrEmpty(FileService.GetContent(FilePath)))
             {
@@ -54,6 +59,10 @@ namespace OnlineShopWebApp.Services
             _products = JsonConvert.DeserializeObject<List<Product>>(productsJson);
         }
 
+
+        /// <summary>
+        /// Initializes initial products for storage
+        /// </summary>
         private void InitializeInitialProducts()
         {
             var ssd = new Product("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD);

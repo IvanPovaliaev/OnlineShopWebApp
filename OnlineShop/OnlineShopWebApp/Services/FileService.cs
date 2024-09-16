@@ -4,14 +4,6 @@ namespace OnlineShopWebApp.Services
 {
     public static class FileService
     {
-        private static void Create(string path)
-        {
-            var dirPath = Path.GetDirectoryName(path) ?? ".";
-            var dirInfo = new DirectoryInfo(dirPath);
-            dirInfo.Create();
-            File.Create(path).Close();
-        }
-
         /// <summary>
         /// Get file content
         /// </summary>
@@ -28,7 +20,15 @@ namespace OnlineShopWebApp.Services
             }
         }
 
+        /// <summary>
+        /// Determines whether specified file exists.
+        /// </summary>
+        /// <returns>true if the caller has the required permissions and path contains the name of an existing file; otherwise, false. This method also returns false if path is null, an invalid path, or a zero-length string. If the caller does not have sufficient permissions to read the specified file, no exception is thrown and the method returns false regardless of the existence of path.</returns>
         public static bool Exists(string path) => File.Exists(path);
+
+        /// <summary>
+        /// Saves (writes) data to the specified file.
+        /// </summary>
         public static void Save(string path, string data)
         {
             if (!Exists(path))
@@ -40,6 +40,18 @@ namespace OnlineShopWebApp.Services
             {
                 streamWriter.WriteLine(data);
             }
+        }
+
+        /// <summary>
+        /// Creates a file at the specified path.
+        /// </summary>
+        /// <param name="path">Path to the file</param>
+        private static void Create(string path)
+        {
+            var dirPath = Path.GetDirectoryName(path) ?? ".";
+            var dirInfo = new DirectoryInfo(dirPath);
+            dirInfo.Create();
+            File.Create(path).Close();
         }
     }
 }

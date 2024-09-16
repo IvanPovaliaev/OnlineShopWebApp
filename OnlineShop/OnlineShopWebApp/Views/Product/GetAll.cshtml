@@ -1,18 +1,6 @@
-﻿@model (List<Product> Products, ProductCategories)
+﻿@model List<Product>
 @{
-    var category = Model.Item2 switch
-    {
-        ProductCategories.SSD => "SSD",
-        ProductCategories.HDD => "HDD",
-        ProductCategories.RAM => "Оперативная память",
-        ProductCategories.Motherboards => "Материнские платы",
-        ProductCategories.Processors => "Процессоры",
-        ProductCategories.PowerSupplies => "Блоки питания",
-        ProductCategories.GraphicCards => "Видеокарты",
-        _ => "Неизвестная категория"
-    };
-
-    ViewData["Title"] = category;
+    ViewData["Title"] = "Все товары";
 }
 
 @* Карусель *@
@@ -24,13 +12,13 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="~/img/carousel/1.png" class="d-block w-100" alt="AMD">
+            <img src="/img/carousel/1.png" class="d-block w-100" alt="AMD">
         </div>
         <div class="carousel-item">
-            <img src="~/img/carousel/2.jpg" class="d-block w-100" alt="NVidia">
+            <img src="/img/carousel/2.jpg" class="d-block w-100" alt="NVidia">
         </div>
         <div class="carousel-item">
-            <img src="~/img/carousel/3.jpg" class="d-block w-100" alt="DDR5">
+            <img src="/img/carousel/3.jpg" class="d-block w-100" alt="DDR5">
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -44,19 +32,19 @@
 </div>
 
 <section class="container d-flex flex-column">
-    <h2>@category</h2>
+    <h2>Все товары</h2>
     <hr class="border-brown"/>
 
     <div class="container">
         <div class="row gx-3">
             @* Генерация карт товаров *@
             @{
-                if (Model.Products.Count == 0)
+                if (Model.Count == 0)
                 {
-                    <p>В данной категории товары отсутствуют</p>
+                    <p>Товары отсутствуют</p>
                     return;
                 }                
-                @foreach (var product in Model.Products)
+                @foreach (var product in Model)
                 {
                     <div class="card card-home col-3 d-flex flex-column">
                         <div class="card-image-container">
