@@ -45,7 +45,7 @@
 
 <section class="container d-flex flex-column">
     <h2>@category</h2>
-    <hr class="border-brown"/>
+    <hr class="border-brown" />
 
     <div class="container">
         <div class="row gx-3">
@@ -55,7 +55,7 @@
                 {
                     <p>В данной категории товары отсутствуют</p>
                     return;
-                }                
+                }
                 @foreach (var product in Model.Products)
                 {
                     <div class="card card-home col-3 d-flex flex-column">
@@ -91,18 +91,15 @@
                                 @shortInfo
                             </p>
 
-                            <button class="btn btn-main mt-auto btn-card-home w-100 d-flex justify-content-center align-items-center"
-                                    asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
+                            <a class="btn btn-main mt-auto btn-card-home w-100 d-flex justify-content-center align-items-center"
+                               asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
                                 <span class="bi bi-basket-fill text-white fs-3 me-2"></span>
                                 <span>В корзину</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 }
-            }            
+            }
         </div>
     </div>
 </section>
-
-
-
