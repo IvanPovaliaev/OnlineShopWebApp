@@ -25,7 +25,7 @@ namespace OnlineShopWebApp.Models
             Cost = cost;
             Description = description;
             Category = category;
-            Specifications = [];
+            Specifications = new Dictionary<string, string>(); ;
         }
 
         /// <summary>
