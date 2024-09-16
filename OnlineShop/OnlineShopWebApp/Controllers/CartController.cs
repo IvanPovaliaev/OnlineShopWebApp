@@ -16,12 +16,21 @@ namespace OnlineShopWebApp.Controllers
             _productsService = new ProductsService();
         }
 
+        /// <summary>
+        /// Get current cart for related user
+        /// </summary>
+        /// <returns>Users cart View</returns>
         public IActionResult Index()
         {
             var cart = _cartsService.Get(_userId);
             return View(cart);
         }
 
+        /// <summary>
+        /// Add product to users cart
+        /// </summary>
+        /// <returns>Users cart View</returns>
+        /// <param name="productId">Product id (guid)</param>
         public IActionResult Add(Guid productId)
         {
             var product = _productsService.Get(productId);

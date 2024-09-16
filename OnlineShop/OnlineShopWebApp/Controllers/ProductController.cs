@@ -15,7 +15,6 @@ namespace OnlineShopWebApp.Controllers
             _productsService = new ProductsService();
         }
 
-
         /// <summary>
         /// Get product by id
         /// </summary>
