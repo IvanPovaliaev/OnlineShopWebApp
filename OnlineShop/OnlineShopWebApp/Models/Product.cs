@@ -25,13 +25,13 @@ namespace OnlineShopWebApp.Models
             Cost = cost;
             Description = description;
             Category = category;
-            Specifications = new Dictionary<string, string>(); ;
+            Specifications = []; ;
         }
 
         /// <summary>
         /// Get Article for current product
         /// </summary>
-        /// <returns>positive 64-bit ineger</returns>
+        /// <returns>positive 64-bit integer</returns>
         private long GetArticle()
         {
             var bytes = Id.ToByteArray();
