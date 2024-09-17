@@ -48,7 +48,9 @@
                 {
                     <div class="card card-home col-3 d-flex flex-column">
                         <div class="card-image-container">
-                            <img class="home-card-img card-img-top" src="~/img/DefaultProductImage.png" alt="@product.Name image">
+                            <a asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
+                                <img class="home-card-img card-img-top" src="~/img/DefaultProductImage.png" alt="@product.Name image">
+                            </a>
                         </div>
 
                         <div class="card-body d-flex flex-column flex-grow-1">

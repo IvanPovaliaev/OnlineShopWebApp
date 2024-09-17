@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-9">
-                        <table class="table">
+                    <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">Наименование</th>
@@ -26,7 +26,7 @@
                             <tbody class="table-group-divider">
                                 @foreach (var position in Model.Positions)
                                 {
-                                    <tr>
+                                    <tr>                             
                                         <td>@position.Product.Name</td>
                                         <td class="text-center">@position.Quantity</td>
                                         <td class="text-center">@position.Cost</td>
