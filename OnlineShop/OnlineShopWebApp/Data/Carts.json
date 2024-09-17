@@ -59,8 +59,8 @@
             "ClockSpeed": "2500 МГц"
           }
         },
-        "Quantity": 3,
-        "Cost": 47610.0
+        "Quantity": 4,
+        "Cost": 63480.0
       },
       {
         "Product": {
@@ -78,10 +78,10 @@
             "FanSize": "120 мм"
           }
         },
-        "Quantity": 1,
-        "Cost": 8250.0
+        "Quantity": 3,
+        "Cost": 24750.0
       }
     ],
-    "TotalCost": 76970.0
+    "TotalCost": 109340.0
   }
 ]
