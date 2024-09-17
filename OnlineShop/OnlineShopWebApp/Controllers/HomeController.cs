@@ -11,11 +11,15 @@ namespace OnlineShopWebApp.Controllers
             _productsService = new ProductsService();
         }
 
+        /// <summary>
+        /// Get all product for Home Page
+        /// </summary>
+        /// <returns>Home page View</returns>
         public IActionResult Index()
         {
-            var resultCollection = _productsService.GetAll();
+            var products = _productsService.GetAll();
 
-            return Ok(string.Join("\n\n", resultCollection));
+            return View(products);
         }
     }
 }

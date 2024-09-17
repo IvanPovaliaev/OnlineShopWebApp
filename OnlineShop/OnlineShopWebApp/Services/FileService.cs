@@ -4,14 +4,32 @@ namespace OnlineShopWebApp.Services
 {
     public static class FileService
     {
-        private static void Create(string path)
+        /// <summary>
+        /// Get file content
+        /// </summary>
+        /// <returns>string if file exists; otherwise null</returns>
+        public static string? GetContent(string path)
         {
-            var dirPath = Path.GetDirectoryName(path) ?? ".";
-            var dirInfo = new DirectoryInfo(dirPath);
-            dirInfo.Create();
-            File.Create(path).Close();
+            try
+            {
+                return File.ReadAllText(path, System.Text.Encoding.Default);
+            }
+            catch
+            {
+                return null;
+            }
         }
-        public static void Replace(string path, string content)
+
+        /// <summary>
+        /// Determines whether specified file exists.
+        /// </summary>
+        /// <returns>true if the caller has the required permissions and path contains the name of an existing file; otherwise, false. This method also returns false if path is null, an invalid path, or a zero-length string. If the caller does not have sufficient permissions to read the specified file, no exception is thrown and the method returns false regardless of the existence of path.</returns>
+        public static bool Exists(string path) => File.Exists(path);
+
+        /// <summary>
+        /// Saves (writes) data to the specified file.
+        /// </summary>
+        public static void Save(string path, string data)
         {
             if (!Exists(path))
             {
@@ -20,26 +38,20 @@ namespace OnlineShopWebApp.Services
 
             using (var streamWriter = new StreamWriter(path, false, System.Text.Encoding.Default))
             {
-                streamWriter.WriteLine(content);
+                streamWriter.WriteLine(data);
             }
         }
-        public static string GetContent(string path)
-        {
-            if (!Exists(path))
-            {
-                Create(path);
-            }
 
-            return File.ReadAllText(path, System.Text.Encoding.Default);
-        }
-        public static void Clear(string path)
+        /// <summary>
+        /// Creates a file at the specified path.
+        /// </summary>
+        /// <param name="path">Path to the file</param>
+        private static void Create(string path)
         {
-            if (Exists(path))
-            {
-                File.WriteAllText(path, string.Empty);
-            }
+            var dirPath = Path.GetDirectoryName(path) ?? ".";
+            var dirInfo = new DirectoryInfo(dirPath);
+            dirInfo.Create();
+            File.Create(path).Close();
         }
-        public static bool Exists(string path) => File.Exists(path);
-        public static void Save(string path, string data) => Replace(path, data);
     }
 }

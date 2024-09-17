@@ -1,0 +1,165 @@
+$main-color: #729FD8;
+$second-color: #C9E0F2;
+$third-color: #8c6642;
+$unactive-color: #D9D9D9;
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 576px) {
+    .admin-link {
+        margin-left: auto;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.card-home {
+    padding-top: 10px;
+    border: none;
+    height: 460px;
+    overflow: hidden;
+}
+
+.card-id {
+    font-size: 12px;
+}
+
+.card-title {
+    font-size: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-home-text {
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: auto;
+}
+
+.nav-icon {
+    font-size: 28px;
+}
+
+.card-icon {
+    font-size: 1.25rem;
+}
+
+.product-page-icon {
+    font-size: 1.25rem;
+}
+
+.home-card-img {
+    height: 160px;
+    width: 160px;
+}
+
+.product-img {
+    width: 100%;
+    height: auto;
+}
+
+.card-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-main {
+    color: #fff;
+    background-color: $main-color;
+    border: none;
+}
+
+.btn-main:hover {
+    color: #fff;
+    background-color: $second-color;
+}
+
+.btn-card-home {
+    font-size: 1rem;
+    align-self: flex-end;
+    height: 20%;
+}
+
+.search-container {
+    height: 60px;
+}
+
+.btn-catalog {
+    background: $main-color;
+    border-radius: 5px;
+    width: 173px;
+    border: none;
+    font-size: 18px;
+}
+
+.btn-catalog::after {
+    display: none;
+}
+
+.border-brown {
+    border: 1px solid $third-color;
+    border-radius: 5px;
+}
+
+.fill-height {
+    height: 100%;
+}
+
+.text-blue {
+    color: $main-color;
+}
+
+.text-unactive {
+    color: $unactive-color;
+}
+
+.carousel-inner img {
+    height: 400px;
+    object-fit: cover;
+}
+
+footer {
+    background: $second-color;
+    display: flex;
+    align-content: flex-end;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+}
+
+.text-black:hover {
+    color: $third-color !important;
+}
+
+.product-cost {
+    font-size: 1.5rem;
+}
+

@@ -14,44 +14,40 @@ namespace OnlineShopWebApp.Services
 
         public ProductsService()
         {
-            UpdateProducts();
+            UploadProducts();
         }
 
+        /// <summary>
+        /// Get all products from storage
+        /// </summary>
+        /// <returns>List of all products from storage</returns>
         public List<Product> GetAll() => _products;
 
+        /// <summary>
+        /// Get all products from storage for current category
+        /// </summary>        
+        /// <returns>List of all products from storage for current category</returns>
+        /// <param name="category">Product category</param>
+        public List<Product> GetAll(ProductCategories category)
+        {
+            return _products.Where(p => p.Category == category).ToList();
+        }
+
+        /// <summary>
+        /// Get product from storage by GUID
+        /// </summary>
+        /// <returns>Product; returns null if product not found</returns>
         public Product Get(Guid id)
         {
-            return _products.FirstOrDefault(p => p.Id == id);
+            var product = _products.FirstOrDefault(p => p.Id == id);
+            return product;
         }
 
-        public bool TryGetInfo(Guid id, out string info)
-        {
-            var product = Get(id);
 
-            if (product is null)
-            {
-                info = $"Товар с ID:{id} не найден";
-                return false;
-            }
-
-            info = GetFullInfo(product);
-            return true;
-        }
-
-        private string GetFullInfo(Product product)
-        {
-            var baseInfo = $"{product.Id}\n" +
-                $"{product.Name}\n" +
-                $"{product.Cost}\n" +
-                $"{product.Description}\n" +
-                $"{product.Category}";
-
-            var specificationsInfo = product.Specifications.Select(spec => $"{spec.Key}: {spec.Value}");
-
-            return $"{baseInfo}\n\nХарактеристики:\n{string.Join("\n", specificationsInfo)}";
-        }
-
-        private void UpdateProducts()
+        /// <summary>
+        /// Upload products from storage
+        /// </summary>
+        private void UploadProducts()
         {
             if (!FileService.Exists(FilePath) || string.IsNullOrEmpty(FileService.GetContent(FilePath)))
             {
@@ -63,6 +59,10 @@ namespace OnlineShopWebApp.Services
             _products = JsonConvert.DeserializeObject<List<Product>>(productsJson);
         }
 
+
+        /// <summary>
+        /// Initializes initial products for storage
+        /// </summary>
         private void InitializeInitialProducts()
         {
             var ssd = new Product("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD);
