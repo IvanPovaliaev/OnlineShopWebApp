@@ -21,5 +21,23 @@ namespace OnlineShopWebApp.Controllers
 
             return View(products);
         }
+
+        /// <summary>
+        /// Displays the About page View.
+        /// </summary>
+        /// <returns>About page View</returns>
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Displays the Contacts page View.
+        /// </summary>
+        /// <returns>Contacts page View</returns>
+        public IActionResult Contacts()
+        {
+            return View();
+        }
     }
 }
