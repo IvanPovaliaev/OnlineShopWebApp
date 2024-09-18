@@ -24,13 +24,17 @@
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
-                                @foreach (var position in Model.Positions)
+                            @{
+                                foreach (var position in Model.Positions)
                                 {
-                                    <tr>                      
+                                    var positionUrl = Url.Action("Index", "Product", new { id = position.Product.Id });
+
+                                    <tr class="clickable-row" onclick="window.location.href='@positionUrl'">
                                         <td>@position.Product.Name</td>
                                         <td class="text-center">@position.Quantity</td>
                                         <td class="text-center">@position.Cost</td>
                                     </tr>
+                                    }
                                 }
                             </tbody>
                         </table>
@@ -57,7 +61,6 @@
                 </div>                
             </div>          
         }
-
 </section>
 
 

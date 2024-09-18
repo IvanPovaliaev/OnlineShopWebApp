@@ -160,3 +160,7 @@ footer {
 .product-cost {
   font-size: 1.5rem;
 }
+
+.clickable-row {
+  cursor: pointer;
+}
