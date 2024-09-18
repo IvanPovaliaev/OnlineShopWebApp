@@ -78,7 +78,7 @@ a {
 .home-card-img {
     height: 160px;
     width: 160px;
-    transition: transform 0.3s ease;
+    transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 .home-card-img:hover {  

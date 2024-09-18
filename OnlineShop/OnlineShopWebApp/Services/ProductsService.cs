@@ -65,20 +65,23 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         private void InitializeInitialProducts()
         {
-            var ssd = new Product("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD);
+            var ssdImageUrl = "/img/products/SSD-1Tb-Kingston-NV2.webp";
+            var ssd = new Product("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD, ssdImageUrl);
             ssd.Specifications["Manufacturer"] = "Kingston";
             ssd.Specifications["ManufacturerCode"] = "SNV2S/1000G";
             ssd.Specifications["FormFactor"] = "M.2";
             ssd.Specifications["Capacity"] = "1000 Гб";
 
-            var hdd = new Product("2Tb SATA-III Seagate Barracuda (ST2000DM008)", 7030, "Test Description for HDD", ProductCategories.HDD);
+            var hddImageUrl = "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp";
+            var hdd = new Product("2Tb SATA-III Seagate Barracuda (ST2000DM008)", 7030, "Test Description for HDD", ProductCategories.HDD, hddImageUrl);
             hdd.Specifications["Manufacturer"] = "Seagate";
             hdd.Specifications["ManufacturerCode"] = "ST2000DM008";
             hdd.Specifications["FormFactor"] = "3.5\"";
             hdd.Specifications["Interface"] = "SATA-III";
             hdd.Specifications["Capacity"] = "2000 Гб";
 
-            var ram = new Product("32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)", 11870, "Test Description for RAM", ProductCategories.RAM);
+            var ramImageUrl = "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp";
+            var ram = new Product("32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)", 11870, "Test Description for RAM", ProductCategories.RAM, ramImageUrl);
             ram.Specifications["Manufacturer"] = "Team";
             ram.Specifications["ManufacturerCode"] = "CTCED532G6000HC38ADC01";
             ram.Specifications["FormFactor"] = "DIMM";
@@ -87,7 +90,8 @@ namespace OnlineShopWebApp.Services
             ram.Specifications["ModulesCount"] = "2";
             ram.Specifications["ClockSpeed"] = "6000 МГц";
 
-            var cpu = new Product("Intel Core i5 - 12400F OEM", 15870, "Test Description for CPU", ProductCategories.Processors);
+            var cpuImageUrl = "/img/products/Intel-Core-i5-12400F-OEM.webp";
+            var cpu = new Product("Intel Core i5 - 12400F OEM", 15870, "Test Description for CPU", ProductCategories.Processors, cpuImageUrl);
             cpu.Specifications["Manufacturer"] = "Intel";
             cpu.Specifications["ManufacturerCode"] = "CM8071504555318/CM8071504650609";
             cpu.Specifications["Model"] = "Core i5 12400F";

@@ -60,8 +60,11 @@
                 {
                     <div class="card card-home col-3 d-flex flex-column">
                         <div class="card-image-container">
+                            @{
+                                var productImageUrl = product.ImageUrl ?? "/img/DefaultProductImage.png";
+                            }
                             <a asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
-                                <img class="home-card-img card-img-top" src="~/img/DefaultProductImage.png" alt="@product.Name image">
+                                <img class="home-card-img card-img-top" src="@productImageUrl" alt="@product.Name image">
                             </a>
                         </div>
 
