@@ -7,15 +7,15 @@
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
-    @* TODO: В последствии (при прохождении курса) подумать, что выводить, товар не надёт (сделать страницу "Такой страницы не существует"?*@
+    @* TODO: В последствии (при прохождении курса) подумать, что выводить, если товар не найдёт (сделать страницу "Такой страницы не существует"?*@
     <div class="carousel-inner">
-        <a class="carousel-item active" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="2bcb0c18-c7af-40bf-85d6-93c1c728180a">
+        <a class="carousel-item active" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@productId">
             <img src="~/img/carousel/1.png" class="d-block w-100" alt="AMD">
         </a>
-        <a class="carousel-item" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="2bcb0c18-c7af-40bf-85d6-93c1c728180a">
+        <a class="carousel-item" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@productId">
             <img src="~/img/carousel/2.jpg" class="d-block w-100" alt="NVidia">
         </a>
-        <a class="carousel-item" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="2bcb0c18-c7af-40bf-85d6-93c1c728180a">
+        <a class="carousel-item" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@productId">
             <img src="~/img/carousel/3.jpg" class="d-block w-100" alt="DDR5">
         </a>
     </div>
