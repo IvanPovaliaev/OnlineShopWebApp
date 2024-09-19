@@ -71,6 +71,11 @@ a {
 .home-card-img {
   height: 160px;
   width: 160px;
+  transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.home-card-img:hover {
+  transform: scale(1.1);
 }
 
 .product-img {
@@ -154,4 +159,8 @@ footer {
 
 .product-cost {
   font-size: 1.5rem;
+}
+
+.clickable-row {
+  cursor: pointer;
 }

@@ -10,22 +10,21 @@ namespace OnlineShopWebApp.Models
         public decimal Cost { get; set; }
         public string Description { get; set; }
         public ProductCategories Category { get; set; }
-        public long Article
-        {
-            get => GetArticle();
-        }
+        public string? ImageUrl { get; set; }
+        public long Article => GetArticle();
 
         //Необходимые характеристики будут определяться на фронте в зависимости от категории
         public Dictionary<string, string> Specifications { get; set; }
 
-        public Product(string name, decimal cost, string description, ProductCategories category)
+        public Product(string name, decimal cost, string description, ProductCategories category, string? imageUrl = null)
         {
             Id = Guid.NewGuid();
             Name = name;
             Cost = cost;
             Description = description;
             Category = category;
-            Specifications = []; ;
+            Specifications = new Dictionary<string, string>();
+            ImageUrl = imageUrl;
         }
 
         /// <summary>

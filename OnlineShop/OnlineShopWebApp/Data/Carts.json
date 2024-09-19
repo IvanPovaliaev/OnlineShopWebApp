@@ -1,35 +1,17 @@
 [
   {
-    "Id": "9b77aa26-841d-48ea-8c07-c14df3bb6b56",
+    "Id": "2f7ed718-6e91-4aaf-896f-0c6a176ac888",
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
     "Positions": [
       {
         "Product": {
-          "Id": "8c7dbb1a-e32d-438e-bd07-686f73c3fddc",
-          "Name": "2Tb SATA-III Seagate Barracuda (ST2000DM008)",
-          "Cost": 7030.0,
-          "Description": "Test Description for HDD",
-          "Category": 4,
-          "Article": 4868078032004168474,
-          "Specifications": {
-            "Manufacturer": "Seagate",
-            "ManufacturerCode": "ST2000DM008",
-            "FormFactor": "3.5\"",
-            "Interface": "SATA-III",
-            "Capacity": "2000 Гб"
-          }
-        },
-        "Quantity": 2,
-        "Cost": 14060.0
-      },
-      {
-        "Product": {
-          "Id": "db8e8525-253f-49e3-93e5-de874f4e623b",
+          "Id": "744042da-6826-49f7-953c-ec8589138602",
           "Name": "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
           "Cost": 7050.0,
           "Description": "Test Description for SSD",
           "Category": 3,
-          "Article": 5324140140678776101,
+          "ImageUrl": "/img/products/SSD-1Tb-Kingston-NV2.webp",
+          "Article": 5329843198384685786,
           "Specifications": {
             "Manufacturer": "Kingston",
             "ManufacturerCode": "SNV2S/1000G",
@@ -42,46 +24,27 @@
       },
       {
         "Product": {
-          "Id": "6e1ad033-261d-4f63-970a-9999f6c6e55c",
-          "Name": "Intel Core i5 - 12400F OEM",
-          "Cost": 15870.0,
-          "Description": "Test Description for CPU",
-          "Category": 1,
-          "Article": 5720457859533819955,
+          "Id": "8db595a9-3ad6-44d9-9df0-37ff5456a954",
+          "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
+          "Cost": 11870.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
+          "Article": 4961061157700212137,
           "Specifications": {
-            "Manufacturer": "Intel",
-            "ManufacturerCode": "CM8071504555318/CM8071504650609",
-            "Model": "Core i5 12400F",
-            "Socket": "LGA 1700",
-            "Architecture": "Alder Lake",
-            "CoresCount": "6",
-            "ThreadsCount": "12",
-            "ClockSpeed": "2500 МГц"
+            "Manufacturer": "Team",
+            "ManufacturerCode": "CTCED532G6000HC38ADC01",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "32 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "6000 МГц"
           }
         },
-        "Quantity": 4,
-        "Cost": 63480.0
-      },
-      {
-        "Product": {
-          "Id": "a36be0d1-9eab-4f32-aa07-1951c89688fc",
-          "Name": "750W Be Quiet System Power 10",
-          "Cost": 8250.0,
-          "Description": "Test Description for PowerSupply",
-          "Category": 6,
-          "Article": 5706798137850192081,
-          "Specifications": {
-            "Manufacturer": "Be Quiet",
-            "ManufacturerCode": "BN329",
-            "Power": "750 Вт",
-            "PFC": "активный",
-            "FanSize": "120 мм"
-          }
-        },
-        "Quantity": 3,
-        "Cost": 24750.0
+        "Quantity": 2,
+        "Cost": 23740.0
       }
     ],
-    "TotalCost": 109340.0
+    "TotalCost": 30790.0
   }
 ]
