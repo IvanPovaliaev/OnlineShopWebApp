@@ -1,12 +1,12 @@
 [
   {
-    "Id": "744042da-6826-49f7-953c-ec8589138602",
+    "Id": "7bae7153-003d-4c31-9a7f-71e87d806251",
     "Name": "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
     "Cost": 7050.0,
     "Description": "Test Description for SSD",
     "Category": 3,
     "ImageUrl": "/img/products/SSD-1Tb-Kingston-NV2.webp",
-    "Article": 5329843198384685786,
+    "Article": 5490169684809380179,
     "Specifications": {
       "Manufacturer": "Kingston",
       "ManufacturerCode": "SNV2S/1000G",
@@ -15,13 +15,13 @@
     }
   },
   {
-    "Id": "d213a0bd-edd9-4e51-b16c-484bb7544c18",
+    "Id": "bf337fb8-5d8c-4731-9e33-4c86a88edde9",
     "Name": "2Tb SATA-III Seagate Barracuda (ST2000DM008)",
     "Cost": 7030.0,
     "Description": "Test Description for HDD",
     "Category": 4,
     "ImageUrl": "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp",
-    "Article": 5643553327860129981,
+    "Article": 5129984309636333496,
     "Specifications": {
       "Manufacturer": "Seagate",
       "ManufacturerCode": "ST2000DM008",
@@ -31,13 +31,13 @@
     }
   },
   {
-    "Id": "8db595a9-3ad6-44d9-9df0-37ff5456a954",
+    "Id": "416f58a0-647c-4d24-8aaf-33e3e04e9010",
     "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
     "Cost": 11870.0,
     "Description": "Test Description for RAM",
     "Category": 5,
     "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
-    "Article": 4961061157700212137,
+    "Article": 5558678324918573216,
     "Specifications": {
       "Manufacturer": "Team",
       "ManufacturerCode": "CTCED532G6000HC38ADC01",
@@ -49,13 +49,13 @@
     }
   },
   {
-    "Id": "2bcb0c18-c7af-40bf-85d6-93c1c728180a",
+    "Id": "1329117b-96fd-43d6-80b9-fc47cc47193e",
     "Name": "Intel Core i5 - 12400F OEM",
     "Cost": 15870.0,
     "Description": "Test Description for CPU",
     "Category": 1,
     "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
-    "Article": 4665667294147054616,
+    "Article": 4888260459249602939,
     "Specifications": {
       "Manufacturer": "Intel",
       "ManufacturerCode": "CM8071504555318/CM8071504650609",
@@ -68,13 +68,13 @@
     }
   },
   {
-    "Id": "8ac50da2-1d6e-4833-9d36-98ff89f4eb49",
+    "Id": "1bc700be-2db1-4aa4-82da-578951a13b5f",
     "Name": "750W Be Quiet System Power 10",
     "Cost": 8250.0,
     "Description": "Test Description for PowerSupply",
     "Category": 6,
     "ImageUrl": null,
-    "Article": 5202534355154832802,
+    "Article": 5378474093685702846,
     "Specifications": {
       "Manufacturer": "Be Quiet",
       "ManufacturerCode": "BN329",

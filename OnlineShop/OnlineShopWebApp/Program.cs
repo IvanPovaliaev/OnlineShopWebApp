@@ -1,14 +1,19 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<ProductsService>();
-builder.Services.AddSingleton<CartsService>();
+
+builder.Services.AddSingleton<ProductsRepository>();
+builder.Services.AddTransient<ProductsService>();
+
+builder.Services.AddSingleton<CartsRepository>();
+builder.Services.AddTransient<CartsService>();
 
 var app = builder.Build();
 

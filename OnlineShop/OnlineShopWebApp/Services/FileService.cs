@@ -27,7 +27,7 @@ namespace OnlineShopWebApp.Services
         public static bool Exists(string path) => File.Exists(path);
 
         /// <summary>
-        /// Saves (writes) data to the specified file.
+        /// Saves (rewrites) data to the specified file.
         /// </summary>
         public static void Save(string path, string data)
         {

@@ -1,19 +1,17 @@
-﻿using Newtonsoft.Json;
-using OnlineShopWebApp.Models;
+﻿using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
     public class CartsService
     {
-        public const string FilePath = @".\Data\Carts.json";
-        private List<Cart> _carts;
+        private readonly CartsRepository _cartsRepository;
 
-        public CartsService()
+        public CartsService(CartsRepository cartsRepository)
         {
-            UploadCarts();
+            _cartsRepository = cartsRepository;
         }
 
         /// <summary>
@@ -23,7 +21,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">GUID user id</param>
         public Cart Get(Guid userId)
         {
-            return _carts.FirstOrDefault(cart => cart.UserId == userId);
+            return _cartsRepository.Get(userId);
         }
 
         /// <summary>
@@ -47,11 +45,12 @@ namespace OnlineShopWebApp.Services
             if (cartPosition is null)
             {
                 AddPosition(userCart, product);
+                _cartsRepository.Update(userCart);
                 return;
             }
 
             cartPosition.Quantity++;
-            Save();
+            _cartsRepository.Update(userCart);
         }
 
         /// <summary>
@@ -63,8 +62,7 @@ namespace OnlineShopWebApp.Services
         {
             var cart = new Cart(userId);
             AddPosition(cart, product);
-            _carts.Add(cart);
-            Save();
+            _cartsRepository.Create(cart);
         }
 
         /// <summary>
@@ -76,32 +74,6 @@ namespace OnlineShopWebApp.Services
         {
             var newPosition = new CartPosition(product, 1);
             cart.Positions.Add(newPosition);
-            Save();
-        }
-
-        /// <summary>
-        /// Save changes in storage
-        /// </summary>     
-        private void Save()
-        {
-            var jsonData = JsonConvert.SerializeObject(_carts, Formatting.Indented);
-            FileService.Save(FilePath, jsonData);
-        }
-
-        /// <summary>
-        /// Upload carts from storage
-        /// </summary>   
-        private void UploadCarts()
-        {
-            var cartsJson = FileService.GetContent(FilePath);
-
-            if (cartsJson is null)
-            {
-                _carts = [];
-                return;
-            }
-
-            _carts = JsonConvert.DeserializeObject<List<Cart>>(cartsJson);
         }
     }
 }
