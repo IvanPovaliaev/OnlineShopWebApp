@@ -10,9 +10,9 @@ namespace OnlineShopWebApp.Controllers
     {
         private ProductsService _productsService;
 
-        public ProductController()
+        public ProductController(ProductsService productsService)
         {
-            _productsService = new ProductsService();
+            _productsService = productsService;
         }
 
         /// <summary>
