@@ -23,7 +23,6 @@ namespace OnlineShopWebApp.Services
         /// <returns>List of all products from repository</returns>
         public List<Product> GetAll() => _productsRepository.GetAll();
 
-
         /// <summary>
         /// Get all products from repository for current category
         /// </summary>        
