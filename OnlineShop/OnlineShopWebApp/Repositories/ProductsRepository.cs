@@ -31,7 +31,7 @@ namespace OnlineShopWebApp.Repositories
             SaveChanges();
         }
 
-        public void SaveChanges()
+        private void SaveChanges()
         {
             var jsonData = JsonConvert.SerializeObject(_products, Formatting.Indented);
             FileService.Save(FilePath, jsonData);
