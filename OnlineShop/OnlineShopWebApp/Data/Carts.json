@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "Id": "98f35cb0-9c77-4f9b-9dfc-7f75e281e8b0",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Positions": [
+      {
+        "Id": "0e394146-57b4-4aec-8ffb-199539113684",
+        "Product": {
+          "Id": "416f58a0-647c-4d24-8aaf-33e3e04e9010",
+          "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
+          "Cost": 11870.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
+          "Article": 5558678324918573216,
+          "Specifications": {
+            "Manufacturer": "Team",
+            "ManufacturerCode": "CTCED532G6000HC38ADC01",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "32 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "6000 МГц"
+          }
+        },
+        "Quantity": 5,
+        "Cost": 59350.0
+      }
+    ],
+    "TotalCost": 59350.0
+  }
+]
