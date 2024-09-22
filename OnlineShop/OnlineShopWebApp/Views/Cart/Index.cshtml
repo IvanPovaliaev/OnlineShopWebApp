@@ -4,7 +4,7 @@
 }
 
 <div class="container">
-    <div class="row">
+    <div class="row position-relative">
         <div class="col-9">
             <section>
                 <div class="d-flex justify-content-between">
@@ -142,28 +142,30 @@
         </div>
 
         @* Блок с итоговой стоймостью и кнопкам *@
-        <div class="col-3 position-relative">
-            <h4 class="text-center">Ваш заказ</h4>
-            <div class="border-1 border-brown p-3 sticky-top">
-                <div class="d-flex justify-content-between">
-                    <p>Ваши товары (@Model.Positions.Sum(p => p.Quantity))</p>
-                    <span>@Model.TotalCost ₽</span>
-                </div>
-                <hr class="border-brown" />
+        <div class="col-3">
+            <div class="order-box">
+                <h4 class="text-center">Ваш заказ</h4>
+                <div class="border-1 border-brown p-3">
+                    <div class="d-flex justify-content-between">
+                        <p>Ваши товары (@Model.Positions.Sum(p => p.Quantity))</p>
+                        <span>@Model.TotalCost ₽</span>
+                    </div>
+                    <hr class="border-brown" />
 
-                <div class="d-flex justify-content-between">
-                    <p class="h5">Итого к оплате:</p>
-                    <span class="h5">@Model.TotalCost ₽</span>
-                </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="h5">Итого к оплате:</p>
+                        <span class="h5">@Model.TotalCost ₽</span>
+                    </div>
 
-                <button class="btn btn-main w-100 mb-3" type="submit" form="orderForm">
-                    Оформить заказ
-                </button>
-                <a class="btn btn-main w-100"
-                   asp-area="" asp-controller="Home" asp-action="Index" role="button">
-                    Продолжить покупки
-                </a>
-            </div>
+                    <button class="btn btn-main w-100 mb-3" type="submit" form="orderForm">
+                        Оформить заказ
+                    </button>
+                    <a class="btn btn-main w-100"
+                       asp-area="" asp-controller="Home" asp-action="Index" role="button">
+                        Продолжить покупки
+                    </a>
+                </div>
+            </div>            
         </div>
     </div>    
 </div>
