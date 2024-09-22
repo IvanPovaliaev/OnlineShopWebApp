@@ -49,7 +49,7 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            IncreaseQuantity(cart, position.Id);
+            IncreasePosition(cart, position.Id);
         }
 
         /// <summary>
@@ -57,11 +57,11 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="userId">UserId</param>
         /// <param name="positionId">Id of cart position</param>
-        public void IncreaseQuantity(Guid userId, Guid positionId)
+        public void IncreasePosition(Guid userId, Guid positionId)
         {
             var cart = Get(userId);
 
-            IncreaseQuantity(cart, positionId);
+            IncreasePosition(cart, positionId);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="cart">Target cart</param>
         /// <param name="positionId">Id of cart position</param>
-        public void IncreaseQuantity(Cart cart, Guid positionId)
+        public void IncreasePosition(Cart cart, Guid positionId)
         {
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
             if (position is null)
@@ -90,7 +90,7 @@ namespace OnlineShopWebApp.Services
         {
             var cart = Get(userId);
 
-            var position = cart.Positions.FirstOrDefault(pos => pos.Id == positionId);
+            var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
             if (position is null)
             {
                 return;
