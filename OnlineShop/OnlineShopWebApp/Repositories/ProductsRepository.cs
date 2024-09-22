@@ -10,10 +10,12 @@ namespace OnlineShopWebApp.Repositories
     public class ProductsRepository
     {
         public const string FilePath = @".\Data\Products.json";
+        private FileService _fileService;
         private List<Product> _products;
 
-        public ProductsRepository()
+        public ProductsRepository(FileService fileService)
         {
+            _fileService = fileService;
             Upload();
         }
 
@@ -49,7 +51,7 @@ namespace OnlineShopWebApp.Repositories
         private void SaveChanges()
         {
             var jsonData = JsonConvert.SerializeObject(_products, Formatting.Indented);
-            FileService.Save(FilePath, jsonData);
+            _fileService.Save(FilePath, jsonData);
         }
 
         /// <summary>
@@ -57,13 +59,13 @@ namespace OnlineShopWebApp.Repositories
         /// </summary>   
         private void Upload()
         {
-            if (!FileService.Exists(FilePath) || string.IsNullOrEmpty(FileService.GetContent(FilePath)))
+            if (!_fileService.Exists(FilePath) || string.IsNullOrEmpty(_fileService.GetContent(FilePath)))
             {
                 _products = [];
                 return;
             }
 
-            var productsJson = FileService.GetContent(FilePath);
+            var productsJson = _fileService.GetContent(FilePath);
 
             _products = JsonConvert.DeserializeObject<List<Product>>(productsJson);
         }

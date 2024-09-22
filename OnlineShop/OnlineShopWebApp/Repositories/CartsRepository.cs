@@ -10,10 +10,12 @@ namespace OnlineShopWebApp.Repositories
     public class CartsRepository
     {
         public const string FilePath = @".\Data\Carts.json";
+        private FileService _fileService;
         private List<Cart> _carts;
 
-        public CartsRepository()
+        public CartsRepository(FileService fileService)
         {
+            _fileService = fileService;
             Upload();
         }
 
@@ -58,7 +60,7 @@ namespace OnlineShopWebApp.Repositories
         private void SaveChanges()
         {
             var jsonData = JsonConvert.SerializeObject(_carts, Formatting.Indented);
-            FileService.Save(FilePath, jsonData);
+            _fileService.Save(FilePath, jsonData);
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace OnlineShopWebApp.Repositories
         /// </summary>   
         private void Upload()
         {
-            var cartsJson = FileService.GetContent(FilePath);
+            var cartsJson = _fileService.GetContent(FilePath);
 
             if (cartsJson is null)
             {

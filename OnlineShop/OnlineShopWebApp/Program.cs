@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddTransient<FileService>();
+
 builder.Services.AddSingleton<ProductsRepository>();
 builder.Services.AddTransient<ProductsService>();
 
