@@ -18,7 +18,7 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Refister user order
+        /// Register user order
         /// </summary>
         /// <returns>Register order view</returns>
         [HttpPost]
