@@ -37,5 +37,37 @@ namespace OnlineShopWebApp.Controllers
             _cartsService.Add(product, _userId);
             return RedirectToAction("Index");
         }
+
+        /// <summary>
+        /// Increase quantity of target position
+        /// </summary>
+        /// <returns>Users cart View</returns>
+        /// <param name="positionId">Position ID (GUID)</param>
+        public IActionResult Increase(Guid positionId)
+        {
+            _cartsService.IncreaseQuantity(_userId, positionId);
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Decrease quantity of target position
+        /// </summary>
+        /// <returns>Users cart View</returns>
+        /// <param name="positionId">Position ID (GUID)</param>
+        public IActionResult Decrease(Guid positionId)
+        {
+            _cartsService.DecreaseQuantity(_userId, positionId);
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Delete users cart
+        /// </summary>
+        /// <returns>Users cart View</returns>
+        public IActionResult Delete()
+        {
+            _cartsService.Delete(_userId);
+            return RedirectToAction("Index");
+        }
     }
 }

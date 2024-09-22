@@ -64,6 +64,16 @@ a {
   font-size: 1.25rem;
 }
 
+.trash-icon {
+  color: #D9D9D9;
+  font-size: 2rem;
+}
+
+.trash-icon:hover {
+  color: #8c6642;
+  cursor: pointer;
+}
+
 .product-page-icon {
   font-size: 1.25rem;
 }
@@ -163,4 +173,8 @@ footer {
 
 .clickable-row {
   cursor: pointer;
+}
+
+.w-15 {
+  width: 15%;
 }

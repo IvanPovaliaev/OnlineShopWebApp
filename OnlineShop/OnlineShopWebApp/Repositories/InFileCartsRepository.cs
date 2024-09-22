@@ -44,6 +44,19 @@ namespace OnlineShopWebApp.Repositories
             SaveChanges();
         }
 
+        public void Delete(Cart cart)
+        {
+            var repositoryCart = _carts.FirstOrDefault(c => c.Id == cart.Id);
+
+            if (repositoryCart is null)
+            {
+                return;
+            }
+
+            _carts.Remove(repositoryCart);
+            SaveChanges();
+        }
+
         /// <summary>
         /// Save changes in repository
         /// </summary>     

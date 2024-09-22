@@ -1,7 +1,10 @@
-﻿namespace OnlineShopWebApp.Models
+﻿using System;
+
+namespace OnlineShopWebApp.Models
 {
     public class CartPosition
     {
+        public Guid Id { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
         public decimal Cost
@@ -11,6 +14,7 @@
 
         public CartPosition(Product product, int quantity)
         {
+            Id = Guid.NewGuid();
             Product = product;
             Quantity = quantity;
         }
