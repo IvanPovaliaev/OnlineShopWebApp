@@ -15,7 +15,7 @@ namespace OnlineShopWebApp.Repositories
         public InFileOrdersRepository(FileService fileService)
         {
             _fileService = fileService;
-            _orders = [];
+            Upload();
         }
 
         public void Create(Order order)
@@ -31,6 +31,22 @@ namespace OnlineShopWebApp.Repositories
         {
             var jsonData = JsonConvert.SerializeObject(_orders, Formatting.Indented);
             _fileService.Save(FilePath, jsonData);
+        }
+
+        /// <summary>
+        /// Upload orders
+        /// </summary>   
+        private void Upload()
+        {
+            if (!_fileService.Exists(FilePath) || string.IsNullOrEmpty(_fileService.GetContent(FilePath)))
+            {
+                _orders = [];
+                return;
+            }
+
+            var ordersJson = _fileService.GetContent(FilePath);
+
+            _orders = JsonConvert.DeserializeObject<List<Order>>(ordersJson);
         }
     }
 }
