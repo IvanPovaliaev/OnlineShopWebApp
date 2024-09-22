@@ -3,96 +3,169 @@
     ViewData["Title"] = "Корзина";
 }
 
-<section class="container">
-    <div class="d-flex justify-content-between">
-        <div class="col-6">
-            <h1>Корзина</h1>
-        </div>
-        <span class="col-6 d-flex align-content-center justify-content-end">
-            <a class="bi bi-trash-fill trash-icon align-content-center"
-               asp-area="" asp-controller="Cart" asp-action="Delete">
-           </a>
-        </span>
-    </div>
-    
-    <hr class="border-brown" />
-        @{
-            if (Model is null)
-            {
-                <p>Корзина пуста</p>
-                return;
-            }
-            <div class="container">
-                <div class="row">
-                    <div class="col-9">
-                    <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Наименование</th>
-                                    <th scope="col" class="text-center w-15">Количество</th>
-                                    <th scope="col" class="text-center w-15">Стоимость, ₽</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider">
-                            @{
-                                foreach (var position in Model.Positions)
-                                {
-                                    var positionUrl = Url.Action("Index", "Product", new { id = position.Product.Id });
-
-                                    <tr class="clickable-row" onclick="window.location.href='@positionUrl'">
-                                        <td>@position.Product.Name</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="col-3">
-                                                    <a class="btn btn-main w-100"
-                                                       asp-area="" asp-controller="Cart" asp-action="Decrease" asp-route-positionId="@position.Id" role="button">
-                                                        -
-                                                    </a>
-                                                </div>
-                                                <span class="col text-center align-content-center">
-                                                    @position.Quantity
-                                                </span>
-                                                <div class="col-3">
-                                                    <a class="btn btn-main w-100"
-                                                       asp-area="" asp-controller="Cart" asp-action="Increase" asp-route-positionId="@position.Id" role="button">
-                                                        +
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">@position.Cost</td>
-                                    </tr>
-                                }
-                            }
-                            </tbody>
-                        </table>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <section>
+                <div class="d-flex justify-content-between">
+                    <div class="col-6">
+                        <h2>Корзина</h2>
                     </div>
-                    <div class="col-3">
-                        <h4 class="text-center">Ваш заказ</h4>
-                        <div class="border-1 border-brown p-3">
-                            <div class="d-flex justify-content-between">
-                                <p>Ваши товары (@Model.Positions.Sum(p => p.Quantity))</p>
-                            <span>@Model.TotalCost ₽</span>
-                            </div>
-                            <hr class="border-brown" />
-
-                        <div class="d-flex justify-content-between">
-                            <p class="h5">Итого к оплате:</p>
-                            <span class="h5">@Model.TotalCost ₽</span>
-                        </div>
-
-                        <button class="btn btn-main w-100 mb-3">
-                            Оформить заказ
-                        </button>
-                        <a class="btn btn-main w-100"
-                           asp-area="" asp-controller="Home" asp-action="Index" role="button">
-                            Продолжить покупки
+                    <span class="col-6 d-flex align-content-center justify-content-end">
+                        <a class="bi bi-trash-fill trash-icon align-content-center"
+                           asp-area="" asp-controller="Cart" asp-action="Delete">
                         </a>
+                    </span>
+                </div>
+
+                <hr class="border-brown" />
+                @{
+                    if (Model is null)
+                    {
+                        <p>Корзина пуста</p>
+                        return;
+                    }
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Наименование</th>
+                                            <th scope="col" class="text-center w-15">Количество</th>
+                                            <th scope="col" class="text-center w-15">Стоимость, ₽</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        @{
+                                            foreach (var position in Model.Positions)
+                                            {
+                                                var positionUrl = Url.Action("Index", "Product", new { id = position.Product.Id });
+
+                                                <tr class="clickable-row" onclick="window.location.href='@positionUrl'">
+                                                    <td>@position.Product.Name</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <div class="col-3">
+                                                                <a class="btn btn-main w-100"
+                                                                   asp-area="" asp-controller="Cart" asp-action="Decrease" asp-route-positionId="@position.Id" role="button">
+                                                                    -
+                                                                </a>
+                                                            </div>
+                                                            <span class="col text-center align-content-center">
+                                                                @position.Quantity
+                                                            </span>
+                                                            <div class="col-3">
+                                                                <a class="btn btn-main w-100"
+                                                                   asp-area="" asp-controller="Cart" asp-action="Increase" asp-route-positionId="@position.Id" role="button">
+                                                                    +
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">@position.Cost</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>                
-            </div>          
-        }
-</section>
+                }
+            </section>
+            @* Секция с оформлением заказа *@
+            <section>
+                <h2>Оформление заказа</h2>
+                <hr class="border-brown" />
+
+                <form method="post" id="orderForm" asp-controller="Order" asp-action="Register">
+                    <div class="mb-3">
+                        <label class="form-label">Город доставки</label>
+                        <input type="text" class="form-control" name="City">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Адрес доставки</label>
+                        <input type="text" class="form-control" name="Adress">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Подъезд</label>
+                        <input type="number" class="form-control" name="Entrance">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Этаж</label>
+                        <input type="number" class="form-control" name="Floor">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Квартира(офис)</label>
+                        <input type="number" class="form-control" name="Apartament">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Индекс</label>
+                        <input type="number" class="form-control" name="Index">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">ФИО</label>
+                        <input type="text" class="form-control" name="FullName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="Email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Телефон</label>
+                        <input type="text" class="form-control" name="Phone">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Телефон (дополнительный)</label>
+                        <input type="text" class="form-control" name="ReservePhone">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Дополнительная информация</label>
+                        <textarea class="form-control" rows="5"></textarea>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+        @* Блок с итоговой стоймостью и кнопкам *@
+        <div class="col-3 position-relative">
+            <h4 class="text-center">Ваш заказ</h4>
+            <div class="border-1 border-brown p-3 sticky-top">
+                <div class="d-flex justify-content-between">
+                    <p>Ваши товары (@Model.Positions.Sum(p => p.Quantity))</p>
+                    <span>@Model.TotalCost ₽</span>
+                </div>
+                <hr class="border-brown" />
+
+                <div class="d-flex justify-content-between">
+                    <p class="h5">Итого к оплате:</p>
+                    <span class="h5">@Model.TotalCost ₽</span>
+                </div>
+
+                <button class="btn btn-main w-100 mb-3" type="submit" form="orderForm">
+                    Оформить заказ
+                </button>
+                <a class="btn btn-main w-100"
+                   asp-area="" asp-controller="Home" asp-action="Index" role="button">
+                    Продолжить покупки
+                </a>
+            </div>
+        </div>
+    </div>    
+</div>
+
+
+
 
 
