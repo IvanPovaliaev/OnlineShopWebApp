@@ -18,6 +18,9 @@ builder.Services.AddTransient<ProductsService>();
 builder.Services.AddSingleton<ICartsRepository, InFileCartsRepository>();
 builder.Services.AddTransient<CartsService>();
 
+builder.Services.AddSingleton<IOrdersRepository, InFileOrdersRepository>();
+builder.Services.AddTransient<OrdersService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

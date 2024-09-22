@@ -28,7 +28,7 @@ namespace OnlineShopWebApp.Models
         }
 
         /// <summary>
-        /// Get Article for current product
+        /// Get Article
         /// </summary>
         /// <returns>positive 64-bit integer</returns>
         private long GetArticle()

@@ -5,7 +5,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-8">
+        <div class="col-9">
             <section>
                 <div class="d-flex justify-content-between">
                     <div class="col-6">
@@ -25,7 +25,7 @@
                         <p>Корзина пуста</p>
                         return;
                     }
-                    <div class="container">
+                    <div class="container p-0 m-0">
                         <div class="row">
                             <div class="col">
                                 <table class="table table-hover">
@@ -80,60 +80,61 @@
                 <hr class="border-brown" />
 
                 <form method="post" id="orderForm" asp-controller="Order" asp-action="Register">
-                    <div class="mb-3">
-                        <label class="form-label">Город доставки</label>
-                        <input type="text" class="form-control" name="City">
+                    <h5>Город доставки</h5>
+                    <div class="mb-3 col-6" >                        
+                        <input type="text" class="form-control input-field" name="City" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Адрес доставки</label>
-                        <input type="text" class="form-control" name="Adress">
+                    <h5>Адрес доставки</h5>
+                    <div class="mb-3">                        
+                        <input type="text" class="form-control input-field" name="Adress" placeholder="Адрес*" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Подъезд</label>
-                        <input type="number" class="form-control" name="Entrance">
+                    <div class="row d-flex justify-content-between gx-3 mb-3">
+                        <div class="col">
+                            <input type="number" class="form-control input-field" name="Entrance" placeholder="Подъезд">
+                        </div>
+
+                        <div class="col">
+                            <input type="number" class="form-control input-field" name="Floor" placeholder="Этаж">
+                        </div>
+
+                        <div class="col">
+                            <input type="number" class="form-control input-field" name="Apartament" placeholder="Квартира(офис)">
+                        </div>
+
+                        <div class="col">
+                            <input type="number" class="form-control input-field" name="Index" placeholder="Индекс*" required>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Этаж</label>
-                        <input type="number" class="form-control" name="Floor">
+                    <h5>Контактные данные</h5>
+                    <div class="row d-flex justify-content-between gx-3 mb-3">
+                        <div class="col">
+                            <input type="text" class="form-control input-field" name="FullName" placeholder="ФИО*" required>
+                        </div>
+
+                        <div class="col">
+                            <input type="email" class="form-control input-field" name="Email" placeholder="Email*" required>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Квартира(офис)</label>
-                        <input type="number" class="form-control" name="Apartament">
+                    <div class="row d-flex justify-content-between gx-3 mb-3">
+                        <div class="col">
+                            <input type="text" class="form-control input-field" name="Phone" placeholder="Телефон*" required>
+                        </div>
+
+                        <div class="col">
+                            <input type="text" class="form-control input-field" name="ReservePhone" placeholder="Телефон (дополнительный)">
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Индекс</label>
-                        <input type="number" class="form-control" name="Index">
+                    <h5>Дополнительная информация</h5>
+                    <div class="mb-3 border-main">
+                        <textarea class="form-control" name="AdditionalInfo" rows="5"></textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">ФИО</label>
-                        <input type="text" class="form-control" name="FullName">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="Email">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Телефон</label>
-                        <input type="text" class="form-control" name="Phone">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Телефон (дополнительный)</label>
-                        <input type="text" class="form-control" name="ReservePhone">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Дополнительная информация</label>
-                        <textarea class="form-control" rows="5"></textarea>
-                    </div>
+                    <p>Поля с * - обязательны к заполнению</p>
                 </form>
             </section>
         </div>
