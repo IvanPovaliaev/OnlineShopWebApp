@@ -21,5 +21,10 @@ namespace OnlineShopWebApp.Interfaces
         /// Update cart with identical id. If cart is not in the repository - does nothing.
         /// </summary>  
         void Update(Cart cart);
+
+        /// <summary>
+        /// Delete cart with identical id. If cart is not in the repository - does nothing.
+        /// </summary>  
+        void Delete(Cart cart);
     }
 }
