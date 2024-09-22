@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
 
@@ -11,10 +12,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<FileService>();
 
-builder.Services.AddSingleton<ProductsRepository>();
+builder.Services.AddSingleton<IProductsRepository, InFileProductsRepository>();
 builder.Services.AddTransient<ProductsService>();
 
-builder.Services.AddSingleton<CartsRepository>();
+builder.Services.AddSingleton<ICartsRepository, InFileCartsRepository>();
 builder.Services.AddTransient<CartsService>();
 
 var app = builder.Build();

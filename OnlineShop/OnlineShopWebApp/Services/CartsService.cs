@@ -1,5 +1,5 @@
-﻿using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Repositories;
+﻿using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Models;
 using System;
 using System.Linq;
 
@@ -7,9 +7,9 @@ namespace OnlineShopWebApp.Services
 {
     public class CartsService
     {
-        private readonly CartsRepository _cartsRepository;
+        private readonly ICartsRepository _cartsRepository;
 
-        public CartsService(CartsRepository cartsRepository)
+        public CartsService(ICartsRepository cartsRepository)
         {
             _cartsRepository = cartsRepository;
         }

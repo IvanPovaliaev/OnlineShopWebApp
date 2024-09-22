@@ -1,5 +1,5 @@
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ namespace OnlineShopWebApp.Services
     //Временный класс для работы с товарами
     public class ProductsService
     {
-        private ProductsRepository _productsRepository;
+        private IProductsRepository _productsRepository;
 
-        public ProductsService(ProductsRepository productsRepository)
+        public ProductsService(IProductsRepository productsRepository)
         {
             _productsRepository = productsRepository;
             InitializeProducts();
