@@ -1,0 +1,19 @@
+[
+  {
+    "Id": "80e1569b-cc97-44c2-be4d-d53eb5e44535",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-09-22T23:37:47.1802675+03:00",
+    "City": "г. Санкт-Петербург",
+    "Adress": "Гражданский проспект, д. 111",
+    "Entrance": null,
+    "Floor": null,
+    "Apartament": null,
+    "Index": 186321,
+    "FullName": "Поваляев Иван Игоревич",
+    "Email": "testEmail@test.com",
+    "Phone": "+88005553535",
+    "ReservePhone": null,
+    "AdditionalInfo": "Заберу на проходной",
+    "Article": 4954747491135346331
+  }
+]

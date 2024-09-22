@@ -26,6 +26,7 @@ namespace OnlineShopWebApp.Controllers
         {
             order.UserId = _userId;
             _cartsService.Delete(_userId);
+            _ordersService.Save(order);
             return View(order);
         }
     }
