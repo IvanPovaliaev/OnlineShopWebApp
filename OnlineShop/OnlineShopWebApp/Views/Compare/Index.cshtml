@@ -1,0 +1,18 @@
+﻿@model Lookup<ProductCategories, Product>
+@{
+    ViewData["Title"] = "Сравнение";
+    foreach (var item in Model)
+    {
+        <h2>@item.Key</h2>
+        <hr class="border-brown" />
+
+        var products = Model[item.Key].ToList();
+        @await Html.PartialAsync("_ProductCard", products);
+    }
+}
+
+
+
+
+
+
