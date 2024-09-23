@@ -27,6 +27,7 @@ namespace OnlineShopWebApp.Services
         /// Upload List of T from a json repository file at the specified path
         /// </summary>  
         /// <param name="path">Path to the repository file</param>
+        /// <returns>List of T. Returns an empty List if the file does not exist </returns>
         public List<T> Upload<T>(string path)
         {
             var dataJson = _fileService.GetContent(path);
