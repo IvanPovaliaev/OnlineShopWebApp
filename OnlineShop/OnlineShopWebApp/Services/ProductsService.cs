@@ -30,7 +30,10 @@ namespace OnlineShopWebApp.Services
         /// <param name="category">Product category</param>
         public List<Product> GetAll(ProductCategories category)
         {
-            return GetAll().Where(p => p.Category == category).ToList();
+            var products = GetAll()
+                .Where(p => p.Category == category)
+                .ToList();
+            return products;
         }
 
         /// <summary>

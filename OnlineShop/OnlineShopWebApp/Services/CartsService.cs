@@ -53,18 +53,6 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Increase quantity of cart by Id position by 1
-        /// </summary>        
-        /// <param name="userId">UserId</param>
-        /// <param name="positionId">Id of cart position</param>
-        public void IncreasePosition(Guid userId, Guid positionId)
-        {
-            var cart = Get(userId);
-
-            IncreasePosition(cart, positionId);
-        }
-
-        /// <summary>
         /// Increase quantity of target cart position by 1
         /// </summary>        
         /// <param name="cart">Target cart</param>

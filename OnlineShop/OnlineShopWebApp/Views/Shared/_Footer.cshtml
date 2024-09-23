@@ -1,0 +1,39 @@
+﻿<footer class="border-top text-muted">
+    <div class="container d-flex flex-column">
+        <div class="row">
+            @* @* Навигационня панель для footer'a *@
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
+                <div class="col-auto">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/icons/Logo.svg" alt="PC DREAM Logo" />
+                    </a>
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between col">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">О нас</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Магазины</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Доставка</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-2">
+                    <img src="~/icons/vk.svg" alt="vk" />
+                    <img src="~/icons/telegramm.svg" alt="telegramm" />
+                    <img src="~/icons/youtube.svg" alt="youtube" />
+                </div>
+            </nav>
+        </div>
+        <div class="row ps-2">
+            &copy; 2024 - PC DREAM. Все права защищены.
+        </div>
+    </div>
+</footer>

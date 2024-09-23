@@ -42,5 +42,18 @@ namespace OnlineShopWebApp.Repositories
             repositoryCart = cart;
             _jsonRepositoryService.SaveChanges(FilePath, _carts);
         }
+
+        public void Delete(Cart cart)
+        {
+            var repositoryCart = _carts.FirstOrDefault(c => c.Id == cart.Id);
+
+            if (repositoryCart is null)
+            {
+                return;
+            }
+
+            _carts.Remove(repositoryCart);
+            _jsonRepositoryService.SaveChanges(FilePath, _carts);
+        }
     }
 }

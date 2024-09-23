@@ -45,7 +45,8 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="positionId">Position ID (GUID)</param>
         public IActionResult Increase(Guid positionId)
         {
-            _cartsService.IncreasePosition(_userId, positionId);
+            var cart = _cartsService.Get(_userId);
+            _cartsService.IncreasePosition(cart, positionId);
             return RedirectToAction("Index");
         }
 
