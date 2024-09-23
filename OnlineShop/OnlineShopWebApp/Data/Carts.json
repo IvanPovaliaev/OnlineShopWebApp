@@ -1,33 +1,32 @@
 [
   {
-    "Id": "c9e21448-4e1f-4eb3-8c34-8ed878738ff2",
+    "Id": "7c8cce8c-a9de-4032-b7f1-cb39d9addfac",
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
     "Positions": [
       {
-        "Id": "8108fb7a-b9ad-4541-ba8e-fbcd7556c3d6",
+        "Id": "ff979b19-50f9-4528-b73b-f3cbd5033828",
         "Product": {
-          "Id": "1329117b-96fd-43d6-80b9-fc47cc47193e",
-          "Name": "Intel Core i5 - 12400F OEM",
-          "Cost": 15870.0,
-          "Description": "Test Description for CPU",
-          "Category": 1,
-          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
-          "Article": 4888260459249602939,
+          "Id": "416f58a0-647c-4d24-8aaf-33e3e04e9010",
+          "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
+          "Cost": 11870.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
+          "Article": 5558678324918573216,
           "Specifications": {
-            "Manufacturer": "Intel",
-            "ManufacturerCode": "CM8071504555318/CM8071504650609",
-            "Model": "Core i5 12400F",
-            "Socket": "LGA 1700",
-            "Architecture": "Alder Lake",
-            "CoresCount": "6",
-            "ThreadsCount": "12",
-            "ClockSpeed": "2500 МГц"
+            "Manufacturer": "Team",
+            "ManufacturerCode": "CTCED532G6000HC38ADC01",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "32 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "6000 МГц"
           }
         },
-        "Quantity": 1,
-        "Cost": 15870.0
+        "Quantity": 2,
+        "Cost": 23740.0
       }
     ],
-    "TotalCost": 15870.0
+    "TotalCost": 23740.0
   }
 ]
