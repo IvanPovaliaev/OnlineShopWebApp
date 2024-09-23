@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
-    //Временный класс для работы с товарами
     public class ProductsService
     {
         private IProductsRepository _productsRepository;

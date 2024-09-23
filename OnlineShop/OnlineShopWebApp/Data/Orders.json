@@ -4,10 +4,10 @@
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
     "CreationDate": "2024-09-22T23:37:47.1802675+03:00",
     "City": "г. Санкт-Петербург",
-    "Adress": "Гражданский проспект, д. 111",
+    "Address": null,
     "Entrance": null,
     "Floor": null,
-    "Apartament": null,
+    "Apartment": null,
     "Index": 186321,
     "FullName": "Поваляев Иван Игоревич",
     "Email": "testEmail@test.com",
@@ -15,5 +15,22 @@
     "ReservePhone": null,
     "AdditionalInfo": "Заберу на проходной",
     "Article": 4954747491135346331
+  },
+  {
+    "Id": "588bbec9-1335-450f-a74c-85c7fe8e575c",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-09-23T23:15:53.4944796+03:00",
+    "City": "Кудрово",
+    "Address": "улица Бассейная",
+    "Entrance": null,
+    "Floor": null,
+    "Apartment": null,
+    "Index": 222222,
+    "FullName": "Человек Рассеянный",
+    "Email": "testEmail@test.com",
+    "Phone": "88005553535",
+    "ReservePhone": null,
+    "AdditionalInfo": "Test",
+    "Article": 4976217233107435209
   }
 ]

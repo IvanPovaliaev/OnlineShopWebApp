@@ -8,10 +8,10 @@ namespace OnlineShopWebApp.Models
         public Guid UserId { get; set; }
         public DateTime CreationDate { get; set; }
         public string City { get; set; }
-        public string Adress { get; set; }
+        public string Address { get; set; }
         public int? Entrance { get; set; }
         public int? Floor { get; set; }
-        public int? Apartament { get; set; }
+        public int? Apartment { get; set; }
         public int Index { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
