@@ -1,0 +1,72 @@
+[
+  {
+    "Id": "cc1fe5c2-6d8e-4e75-af7f-9398d5857982",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Positions": [
+      {
+        "Product": {
+          "Id": "1329117b-96fd-43d6-80b9-fc47cc47193e",
+          "Name": "Intel Core i5 - 12400F OEM",
+          "Cost": 15870.0,
+          "Description": "Test Description for CPU",
+          "Category": 1,
+          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
+          "Article": 4888260459249602939,
+          "Specifications": {
+            "Manufacturer": "Intel",
+            "ManufacturerCode": "CM8071504555318/CM8071504650609",
+            "Model": "Core i5 12400F",
+            "Socket": "LGA 1700",
+            "Architecture": "Alder Lake",
+            "CoresCount": "6",
+            "ThreadsCount": "12",
+            "ClockSpeed": "2500 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 15870.0
+      },
+      {
+        "Product": {
+          "Id": "bf337fb8-5d8c-4731-9e33-4c86a88edde9",
+          "Name": "2Tb SATA-III Seagate Barracuda (ST2000DM008)",
+          "Cost": 7030.0,
+          "Description": "Test Description for HDD",
+          "Category": 4,
+          "ImageUrl": "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp",
+          "Article": 5129984309636333496,
+          "Specifications": {
+            "Manufacturer": "Seagate",
+            "ManufacturerCode": "ST2000DM008",
+            "FormFactor": "3.5\"",
+            "Interface": "SATA-III",
+            "Capacity": "2000 Гб"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 7030.0
+      },
+      {
+        "Product": {
+          "Id": "1bc700be-2db1-4aa4-82da-578951a13b5f",
+          "Name": "750W Be Quiet System Power 10",
+          "Cost": 8250.0,
+          "Description": "Test Description for PowerSupply",
+          "Category": 6,
+          "ImageUrl": null,
+          "Article": 5378474093685702846,
+          "Specifications": {
+            "Manufacturer": "Be Quiet",
+            "ManufacturerCode": "BN329",
+            "Power": "750 Вт",
+            "PFC": "активный",
+            "FanSize": "120 мм"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 8250.0
+      }
+    ],
+    "TotalCost": 31150.0
+  }
+]
