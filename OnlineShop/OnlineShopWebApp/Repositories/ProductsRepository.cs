@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using OnlineShopWebApp.Models;
+﻿using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 using System.Collections.Generic;
@@ -10,13 +9,13 @@ namespace OnlineShopWebApp.Repositories
     public class ProductsRepository
     {
         public const string FilePath = @".\Data\Products.json";
-        private FileService _fileService;
+        private JsonRepositoryService _jsonRepositoryService;
         private List<Product> _products;
 
-        public ProductsRepository(FileService fileService)
+        public ProductsRepository(JsonRepositoryService jsonService)
         {
-            _fileService = fileService;
-            Upload();
+            _jsonRepositoryService = jsonService;
+            _products = _jsonRepositoryService.Upload<Product>(FilePath);
         }
 
         /// <summary>
@@ -42,32 +41,7 @@ namespace OnlineShopWebApp.Repositories
         public void Add(List<Product> products)
         {
             _products.AddRange(products);
-            SaveChanges();
-        }
-
-        /// <summary>
-        /// Save changes to storage
-        /// </summary>
-        private void SaveChanges()
-        {
-            var jsonData = JsonConvert.SerializeObject(_products, Formatting.Indented);
-            _fileService.Save(FilePath, jsonData);
-        }
-
-        /// <summary>
-        /// Upload products
-        /// </summary>   
-        private void Upload()
-        {
-            if (!_fileService.Exists(FilePath) || string.IsNullOrEmpty(_fileService.GetContent(FilePath)))
-            {
-                _products = [];
-                return;
-            }
-
-            var productsJson = _fileService.GetContent(FilePath);
-
-            _products = JsonConvert.DeserializeObject<List<Product>>(productsJson);
+            _jsonRepositoryService.SaveChanges(FilePath, _products);
         }
     }
 }

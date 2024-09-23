@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<FileService>();
+builder.Services.AddTransient<JsonRepositoryService>();
 
 builder.Services.AddSingleton<ProductsRepository>();
 builder.Services.AddTransient<ProductsService>();

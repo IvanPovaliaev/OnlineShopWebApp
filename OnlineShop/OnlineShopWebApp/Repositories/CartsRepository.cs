@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using OnlineShopWebApp.Models;
+﻿using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 using System.Collections.Generic;
@@ -10,13 +9,13 @@ namespace OnlineShopWebApp.Repositories
     public class CartsRepository
     {
         public const string FilePath = @".\Data\Carts.json";
-        private FileService _fileService;
+        private JsonRepositoryService _jsonRepositoryService;
         private List<Cart> _carts;
 
-        public CartsRepository(FileService fileService)
+        public CartsRepository(JsonRepositoryService jsonService)
         {
-            _fileService = fileService;
-            Upload();
+            _jsonRepositoryService = jsonService;
+            _carts = _jsonRepositoryService.Upload<Cart>(FilePath);
         }
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace OnlineShopWebApp.Repositories
         public void Create(Cart cart)
         {
             _carts.Add(cart);
-            SaveChanges();
+            _jsonRepositoryService.SaveChanges(FilePath, _carts);
         }
 
         /// <summary>
@@ -51,32 +50,7 @@ namespace OnlineShopWebApp.Repositories
             }
 
             repositoryCart = cart;
-            SaveChanges();
-        }
-
-        /// <summary>
-        /// Save changes in repository
-        /// </summary>     
-        private void SaveChanges()
-        {
-            var jsonData = JsonConvert.SerializeObject(_carts, Formatting.Indented);
-            _fileService.Save(FilePath, jsonData);
-        }
-
-        /// <summary>
-        /// Upload carts
-        /// </summary>   
-        private void Upload()
-        {
-            var cartsJson = _fileService.GetContent(FilePath);
-
-            if (cartsJson is null)
-            {
-                _carts = [];
-                return;
-            }
-
-            _carts = JsonConvert.DeserializeObject<List<Cart>>(cartsJson);
+            _jsonRepositoryService.SaveChanges(FilePath, _carts);
         }
     }
 }
