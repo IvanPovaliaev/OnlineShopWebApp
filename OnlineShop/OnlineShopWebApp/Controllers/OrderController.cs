@@ -18,11 +18,11 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Register user order
+        /// Create user order
         /// </summary>
-        /// <returns>Register order view</returns>
+        /// <returns>Create order view</returns>
         [HttpPost]
-        public IActionResult Register(Order order)
+        public IActionResult Create(Order order)
         {
             order.UserId = _userId;
             _cartsService.Delete(_userId);
