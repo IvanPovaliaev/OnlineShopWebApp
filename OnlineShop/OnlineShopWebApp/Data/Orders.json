@@ -4,7 +4,7 @@
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
     "CreationDate": "2024-09-22T23:37:47.1802675+03:00",
     "City": "г. Санкт-Петербург",
-    "Address": null,
+    "Address": "Гражданский пр-п, 111",
     "Entrance": null,
     "Floor": null,
     "Apartment": null,
@@ -49,5 +49,22 @@
     "ReservePhone": null,
     "AdditionalInfo": "13323",
     "Article": 5620552895469219351
+  },
+  {
+    "Id": "ad5c909d-b02e-4efc-9d6b-b770ab5a4e00",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-09-23T23:26:29.9251751+03:00",
+    "City": "12323",
+    "Address": "Фы",
+    "Entrance": null,
+    "Floor": null,
+    "Apartment": null,
+    "Index": 222222,
+    "FullName": "Человек Рассеянный",
+    "Email": "testEmail@test.com",
+    "Phone": "88005553535",
+    "ReservePhone": null,
+    "AdditionalInfo": null,
+    "Article": 5691617743612973213
   }
 ]
