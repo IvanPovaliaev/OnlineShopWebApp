@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,62 +9,51 @@ namespace OnlineShopWebApp.Services
     //Временный класс для работы с товарами
     public class ProductsService
     {
-        public const string FilePath = @".\Data\Products.json";
-        private List<Product> _products;
+        private ProductsRepository _productsRepository;
 
-        public ProductsService()
+        public ProductsService(ProductsRepository productsRepository)
         {
-            UploadProducts();
+            _productsRepository = productsRepository;
+            InitializeProducts();
         }
 
         /// <summary>
-        /// Get all products from storage
+        /// Get all products from repository
         /// </summary>
-        /// <returns>List of all products from storage</returns>
-        public List<Product> GetAll() => _products;
+        /// <returns>List of all products from repository</returns>
+        public List<Product> GetAll() => _productsRepository.GetAll();
 
         /// <summary>
-        /// Get all products from storage for current category
+        /// Get all products from repository for current category
         /// </summary>        
-        /// <returns>List of all products from storage for current category</returns>
+        /// <returns>List of all products from repository for current category</returns>
         /// <param name="category">Product category</param>
         public List<Product> GetAll(ProductCategories category)
         {
-            return _products.Where(p => p.Category == category).ToList();
+            return GetAll().Where(p => p.Category == category).ToList();
         }
 
         /// <summary>
-        /// Get product from storage by GUID
+        /// Get product from repository by GUID
         /// </summary>
         /// <returns>Product; returns null if product not found</returns>
         public Product Get(Guid id)
         {
-            var product = _products.FirstOrDefault(p => p.Id == id);
+            var product = _productsRepository.Get(id);
             return product;
         }
 
-
         /// <summary>
-        /// Upload products from storage
+        /// Initializes initial products if repository is empty;
         /// </summary>
-        private void UploadProducts()
+        private void InitializeProducts()
         {
-            if (!FileService.Exists(FilePath) || string.IsNullOrEmpty(FileService.GetContent(FilePath)))
+            var products = _productsRepository.GetAll();
+            if (products.Count != 0)
             {
-                InitializeInitialProducts();
+                return;
             }
 
-            var productsJson = FileService.GetContent(FilePath);
-
-            _products = JsonConvert.DeserializeObject<List<Product>>(productsJson);
-        }
-
-
-        /// <summary>
-        /// Initializes initial products for storage
-        /// </summary>
-        private void InitializeInitialProducts()
-        {
             var ssdImageUrl = "/img/products/SSD-1Tb-Kingston-NV2.webp";
             var ssd = new Product("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD, ssdImageUrl);
             ssd.Specifications["Manufacturer"] = "Kingston";
@@ -108,17 +97,16 @@ namespace OnlineShopWebApp.Services
             powerSupply.Specifications["PFC"] = "активный";
             powerSupply.Specifications["FanSize"] = "120 мм";
 
-            var products = new List<Product>()
-            {
+            products =
+            [
                 ssd,
                 hdd,
                 ram,
                 cpu,
                 powerSupply
-            };
+            ];
 
-            var jsonData = JsonConvert.SerializeObject(products, Formatting.Indented);
-            FileService.Save(FilePath, jsonData);
+            _productsRepository.Add(products);
         }
     }
 }

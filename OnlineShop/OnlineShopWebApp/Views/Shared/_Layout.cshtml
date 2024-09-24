@@ -76,14 +76,50 @@
                     </button>
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item text-dark" href="~/product/Index/"> Все товары</a></li>
-                        <li><a class="dropdown-item text-dark" href="~/product/categories/@ProductCategories.GraphicCards">Видеокарты</a></li>
-                        <li><a class="dropdown-item text-dark" href="~/product/categories/@ProductCategories.Processors">Процессоры</a></li>
-                        <li><a class="dropdown-item text-dark" href="~/product/categories/@ProductCategories.Motherboards">Материнские платы</a></li>
-                        <li><a class="dropdown-item text-dark" href="~/product/categories/@ProductCategories.SSD">SSD</a></li>
-                        <li><a class="dropdown-item text-dark" href="~/product/categories/@ProductCategories.HDD">HDD</a></li>
-                        <li><a class="dropdown-item text-dark" href="~/product/categories/@ProductCategories.RAM">Оперативная память</a></li>
-                        <li><a class="dropdown-item text-dark" href="~/product/categories/@ProductCategories.PowerSupplies">Блоки питания</a></li>
+                        <li><a class="dropdown-item text-dark"
+                            asp-area="" asp-controller="Product" asp-action="All"> Все товары</a></li>
+                        <li>
+                            <a class="dropdown-item text-dark"
+                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.GraphicCards">
+                                Видеокарты
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-dark"
+                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.Processors">
+                                Процессоры
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-dark"
+                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.Motherboards">
+                                Материнские платы
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-dark"
+                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.SSD">
+                                SSD
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-dark"
+                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.HDD">
+                                HDD
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-dark"
+                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.RAM">
+                                Оперативная память
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-dark"
+                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.PowerSupplies">
+                                Блоки питания
+                            </a>
+                        </li>
                     </ul>
                 </div>
 

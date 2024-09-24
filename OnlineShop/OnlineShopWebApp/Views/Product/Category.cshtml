@@ -1,24 +1,36 @@
-﻿@model List<Product>
+﻿@model (List<Product> Products, ProductCategories)
 @{
-    ViewData["Title"] = "Все товары";
+    var category = Model.Item2 switch
+    {
+        ProductCategories.SSD => "SSD",
+        ProductCategories.HDD => "HDD",
+        ProductCategories.RAM => "Оперативная память",
+        ProductCategories.Motherboards => "Материнские платы",
+        ProductCategories.Processors => "Процессоры",
+        ProductCategories.PowerSupplies => "Блоки питания",
+        ProductCategories.GraphicCards => "Видеокарты",
+        _ => "Неизвестная категория"
+    };
+
+    ViewData["Title"] = category;
 }
 
-@await Html.PartialAsync("_Carousel");
+@await Html.PartialAsync("_Carousel")
 
 <section class="container d-flex flex-column">
-    <h2>Все товары</h2>
+    <h2>@category</h2>
     <hr class="border-brown" />
 
     <div class="container">
         <div class="row gx-3">
             @* Генерация карт товаров *@
             @{
-                if (Model.Count == 0)
+                if (Model.Products.Count == 0)
                 {
-                    <p>Товары отсутствуют</p>
+                    <p>В данной категории товары отсутствуют</p>
                     return;
                 }
-                @foreach (var product in Model)
+                @foreach (var product in Model.Products)
                 {
                     <div class="card card-home col-3 d-flex flex-column">
                         <div class="card-image-container">

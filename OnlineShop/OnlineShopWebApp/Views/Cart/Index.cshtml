@@ -27,15 +27,17 @@
                             @{
                                 foreach (var position in Model.Positions)
                                 {
-                                    var positionUrl = Url.Action("Index", "Product", new { id = position.Product.Id });
-
-                                    <tr class="clickable-row" onclick="window.location.href='@positionUrl'">
-                                        <td>@position.Product.Name</td>
+                                    <tr>
+                                        <td>
+                                            <a class="text-black cart-position-title" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@position.Product.Id">
+                                                @position.Product.Name
+                                            </a>
+                                        </td>
                                         <td class="text-center">@position.Quantity</td>
                                         <td class="text-center">@position.Cost</td>
                                     </tr>
-                                    }
                                 }
+                            }
                             </tbody>
                         </table>
                     </div>

@@ -5,14 +5,13 @@ using System;
 
 namespace OnlineShopWebApp.Controllers
 {
-    [Route("[controller]")]
     public class ProductController : Controller
     {
         private ProductsService _productsService;
 
-        public ProductController()
+        public ProductController(ProductsService productsService)
         {
-            _productsService = new ProductsService();
+            _productsService = productsService;
         }
 
         /// <summary>
@@ -20,8 +19,7 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Product page View</returns>
         /// <param name="id">Product id (guid)</param>
-        [Route("index/{id}")]
-        public IActionResult Get(Guid id)
+        public IActionResult Index(Guid id)
         {
             var product = _productsService.Get(id);
             return View(product);
@@ -31,9 +29,8 @@ namespace OnlineShopWebApp.Controllers
         /// Get all products of the target category.
         /// </summary>
         /// <returns>Page View of all products of the specified category</returns>
-        /// <param name="category">Product category</param>
-        [Route("categories/{category}")]
-        public IActionResult GetByCategory(ProductCategories category)
+        /// <param name="category">Product category</param>        
+        public IActionResult Category(ProductCategories category)
         {
             var products = _productsService.GetAll(category);
             var productsWithCategory = (products, category);
@@ -43,9 +40,8 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Get all products
         /// </summary>
-        /// <returns>Page View of all products</returns>
-        [Route("index")]
-        public IActionResult GetAll()
+        /// <returns>Page View of all products</returns>        
+        public IActionResult All()
         {
             var products = _productsService.GetAll();
             return View(products);
