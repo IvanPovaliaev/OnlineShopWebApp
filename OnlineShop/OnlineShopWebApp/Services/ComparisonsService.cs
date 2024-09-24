@@ -51,5 +51,22 @@ namespace OnlineShopWebApp.Services
         {
             _comparisonsRepository.Delete(comparisonId);
         }
+
+        /// <summary>
+        /// Delete all ComparisonProducts for related user.
+        /// </summary>        
+        /// <param name="comparisonId">User Id (GUID)</param>
+        public void DeleteAll(Guid userId)
+        {
+            var userComparisons = _comparisonsRepository
+                .GetAll()
+                .Where(c => c.UserId == userId)
+                .ToArray();
+
+            foreach (var comparison in userComparisons)
+            {
+                _comparisonsRepository.Delete(comparison.Id);
+            }
+        }
     }
 }

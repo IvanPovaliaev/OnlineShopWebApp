@@ -41,11 +41,22 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Add product to users comparisons.
         /// </summary>
-        /// <returns>Users cart View</returns>
+        /// <returns>Users comparison View</returns>
         /// <param name="comparisonId">ComparisonProduct id (GUID)</param>
         public IActionResult Delete(Guid comparisonId)
         {
             _comparisonsService.Delete(comparisonId);
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Delete all ComparisonProducts by userId
+        /// </summary>
+        /// <returns>Users comparison View</returns>
+        /// <param name="comparisonId">ComparisonProduct id (GUID)</param>
+        public IActionResult DeleteAll()
+        {
+            _comparisonsService.DeleteAll(_userId);
             return RedirectToAction("Index");
         }
     }
