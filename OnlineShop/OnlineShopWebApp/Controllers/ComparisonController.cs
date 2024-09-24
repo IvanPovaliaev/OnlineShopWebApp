@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 using System.Linq;
@@ -25,6 +26,20 @@ namespace OnlineShopWebApp.Controllers
             var groupProducts = comparisons.ToLookup(p => p.Product.Category);
 
             return View(groupProducts);
+        }
+
+        /// <summary>
+        /// Open category comparison page
+        /// </summary>
+        /// <returns>Comparison category page View</returns>
+        public IActionResult Category(ProductCategories category)
+        {
+            var comparisons = _comparisonsService.GetAll(_userId);
+            var groupProducts = comparisons.ToLookup(p => p.Product.Category);
+
+            var groupProductWithCategory = (groupProducts, category);
+
+            return View(groupProductWithCategory);
         }
 
         /// <summary>

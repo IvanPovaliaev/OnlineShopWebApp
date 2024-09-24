@@ -19,7 +19,8 @@ namespace OnlineShopWebApp.Services
 
         /// <summary>
         /// Get all Comparisons for target user by Id
-        /// </summary>        
+        /// </summary>
+        /// <returns>List of ComparisonProduct for target user</returns>
         /// <param name="userId">User Id (GUID)</param>
         public List<ComparisonProduct> GetAll(Guid userId)
         {
@@ -39,6 +40,10 @@ namespace OnlineShopWebApp.Services
         public void Create(Guid productId, Guid userId)
         {
             var product = _productsService.Get(productId);
+            if (IsProductExists(product, userId))
+            {
+                return;
+            }
             var comparison = new ComparisonProduct(userId, product);
             _comparisonsRepository.Create(comparison);
         }
@@ -55,7 +60,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete all ComparisonProducts for related user.
         /// </summary>        
-        /// <param name="comparisonId">User Id (GUID)</param>
+        /// <param name="userId">User Id (GUID)</param>
         public void DeleteAll(Guid userId)
         {
             var userComparisons = _comparisonsRepository
@@ -67,6 +72,20 @@ namespace OnlineShopWebApp.Services
             {
                 _comparisonsRepository.Delete(comparison.Id);
             }
+        }
+
+        /// <summary>
+        /// Checks if the given product exists in users comparison products;
+        /// </summary>
+        /// <returns>true if product exists; otherwise returns false</returns>
+        /// <param name="product">Target Product</param>
+        /// <param name="userId">User Id (GUID)</param>
+        private bool IsProductExists(Product product, Guid userId)
+        {
+            var result = GetAll(userId)
+                .Any(c => c.Product.Id == product.Id);
+
+            return result;
         }
     }
 }
