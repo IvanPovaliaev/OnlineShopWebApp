@@ -75,7 +75,7 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Checks if the given product exists in users comparison products;
+        /// Checks if the given product exists in users comparison products
         /// </summary>
         /// <returns>true if product exists; otherwise returns false</returns>
         /// <param name="product">Target Product</param>
