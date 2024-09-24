@@ -30,11 +30,22 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Add product to users comparisons.
         /// </summary>
-        /// <returns>Users cart View</returns>
-        /// <param name="productId">Product id (guid)</param>
+        /// <returns>Users comparison View</returns>
+        /// <param name="productId">Product id (GUID)</param>
         public IActionResult Add(Guid productId)
         {
             _comparisonsService.Create(productId, _userId);
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Add product to users comparisons.
+        /// </summary>
+        /// <returns>Users cart View</returns>
+        /// <param name="comparisonId">ComparisonProduct id (GUID)</param>
+        public IActionResult Delete(Guid comparisonId)
+        {
+            _comparisonsService.Delete(comparisonId);
             return RedirectToAction("Index");
         }
     }

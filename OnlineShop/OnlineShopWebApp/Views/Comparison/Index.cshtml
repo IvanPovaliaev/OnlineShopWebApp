@@ -6,8 +6,8 @@
         <h2>@item.Key</h2>
         <hr class="border-brown" />
 
-        var products = Model[item.Key].Select(p => p.Product);
-        @await Html.PartialAsync("_ProductCard", products);
+        var products = Model[item.Key];
+        @await Html.PartialAsync("_ComparisonCard", products);
     }
 }
 
