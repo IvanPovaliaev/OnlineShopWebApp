@@ -97,7 +97,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete target position in target cart. If positions count should become 0, deletes the cart.
         /// </summary>        
-        /// <param name="cart">Tatget cart</param>
+        /// <param name="cart">Target cart</param>
         /// <param name="position">Target position</param>
         private void DeletePosition(Cart cart, CartPosition position)
         {
@@ -113,7 +113,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete cart of target user;
         /// </summary>        
-        /// <param name="userId">Tatget userId</param>
+        /// <param name="userId">Target userId</param>
         public void Delete(Guid userId)
         {
             var cart = Get(userId);

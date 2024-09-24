@@ -1,34 +1,55 @@
 ﻿using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
     public class ComparisonsService
     {
-        private readonly IOrdersRepository _ordersRepository;
+        private readonly IComparisonRepository _comparisonsRepository;
+        private readonly ProductsService _productsService;
 
-        public ComparisonsService(IOrdersRepository ordersRepository)
+        public ComparisonsService(IComparisonRepository comparisonsRepository, ProductsService productsService)
         {
-            _ordersRepository = ordersRepository;
+            _comparisonsRepository = comparisonsRepository;
+            _productsService = productsService;
         }
 
         /// <summary>
-        /// Save Product to repository
+        /// Get all Comparisons for target user by Id
         /// </summary>        
-        public void Save(Order order)
+        /// <param name="userId">User Id (GUID)</param>
+        public List<ComparisonProduct> GetAll(Guid userId)
         {
-            _ordersRepository.Create(order);
+            var comparisons = _comparisonsRepository
+                .GetAll()
+                .Where(c => c.UserId == userId)
+                .ToList();
+
+            return comparisons;
         }
 
         /// <summary>
         /// Create a new ComparisonProduct for related user.
         /// </summary>        
-        /// <param name="product">Position product</param>
-        /// <param name="userId">GUID user id</param>
-        private void Create(Guid userId)
+        /// <param name="productId">Product Id (GUID)</param>
+        /// <param name="userId">User Id (GUID)</param>
+        public void Create(Guid productId, Guid userId)
         {
+            var product = _productsService.Get(productId);
+            var comparison = new ComparisonProduct(userId, product);
+            _comparisonsRepository.Create(comparison);
+        }
 
+        /// <summary>
+        /// Delete target ComparisonProduct by Id
+        /// </summary>        
+        /// <param name="comparisonId">ComparisonProduct Id (GUID)</param>
+        public void Delete(Guid comparisonId)
+        {
+            _comparisonsRepository.Delete(comparisonId);
         }
     }
 }

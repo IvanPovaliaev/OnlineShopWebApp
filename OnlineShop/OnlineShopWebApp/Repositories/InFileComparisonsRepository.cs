@@ -1,7 +1,9 @@
 ﻿using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineShopWebApp.Repositories
 {
@@ -17,9 +19,24 @@ namespace OnlineShopWebApp.Repositories
             _comparisons = _jsonRepositoryService.Upload<ComparisonProduct>(FilePath);
         }
 
+        public List<ComparisonProduct> GetAll() => _comparisons;
+
+        public ComparisonProduct Get(Guid comparisonId)
+        {
+            var comparison = _comparisons.FirstOrDefault(c => c.Id == comparisonId);
+            return comparison;
+        }
+
         public void Create(ComparisonProduct product)
         {
             _comparisons.Add(product);
+            _jsonRepositoryService.SaveChanges(FilePath, _comparisons);
+        }
+
+        public void Delete(Guid comparisonId)
+        {
+            var comparison = Get(comparisonId);
+            _comparisons.Remove(comparison);
             _jsonRepositoryService.SaveChanges(FilePath, _comparisons);
         }
     }

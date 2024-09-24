@@ -1,4 +1,4 @@
-﻿@model Lookup<ProductCategories, Product>
+﻿@model Lookup<ProductCategories, ComparisonProduct>
 @{
     ViewData["Title"] = "Сравнение";
     foreach (var item in Model)
@@ -6,7 +6,7 @@
         <h2>@item.Key</h2>
         <hr class="border-brown" />
 
-        var products = Model[item.Key].ToList();
+        var products = Model[item.Key].Select(p => p.Product);
         @await Html.PartialAsync("_ProductCard", products);
     }
 }
