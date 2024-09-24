@@ -1,0 +1,109 @@
+﻿@* Нижняя навигационная панель. Вынесена из header для создания эффекта "прилипания" при прокрутке*@
+<nav class="navbar sticky-top bg-body-tertiary navbar-expand-sm navbar-toggleable-sm navbar-light bg-white mb-3">
+    <div class="container d-flex align-items-center search-container">
+        <div class="row gx-3 w-100 fill-height">
+            @* Кнопка каталога *@
+            <div class="dropdown d-flex align-items-stretch col-auto fill-height">
+                <button class="btn btn-secondary dropdown-toggle d-flex align-items-center justify-content-between btn-catalog"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Каталог
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M30 2H2V6H30V2Z" fill="white" />
+                        <path d="M2 10H30V14H2V10Z" fill="white" />
+                        <path d="M30 18H2V22H30V18Z" fill="white" />
+                        <path d="M22 26H2V30H22V26Z" fill="white" />
+                    </svg>
+                </button>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li>
+                        <a class="dropdown-item text-dark"
+                           asp-area="" asp-controller="Product" asp-action="All"> Все товары</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-dark"
+                           asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.GraphicCards">
+                            Видеокарты
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-dark"
+                           asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.Processors">
+                            Процессоры
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-dark"
+                           asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.Motherboards">
+                            Материнские платы
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-dark"
+                           asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.SSD">
+                            SSD
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-dark"
+                           asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.HDD">
+                            HDD
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-dark"
+                           asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.RAM">
+                            Оперативная память
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-dark"
+                           asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.PowerSupplies">
+                            Блоки питания
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            @* Поиск *@
+            <div class="col fill-height">
+                <div class="input-group col fill-height">
+                    <input type="text"
+                           class="form-control border-brown"
+                           placeholder="Введите названние товара или ID"
+                           aria-label="Введите названние товара или ID">
+                    <button class="btn btn-outline-secondary border-brown" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            @* Иконки *@
+            <div class="col-5 d-flex align-items-center fill-height">
+
+                <a class="col-3 d-flex align-items-center flex-column fill-height" href="#">
+                    <span class="bi bi-heart-fill text-blue nav-icon"></span>
+                    <span class="text-black">Избранное</span>
+                </a>
+
+                <a class="col-3 d-flex align-items-center flex-column fill-height" href="#">
+                    <span class="bi bi-file-earmark-bar-graph-fill text-blue nav-icon"></span>
+                    <span class="text-black">Сравнение</span>
+                </a>
+
+                <a class="col-3 d-flex align-items-center flex-column fill-height"
+                   asp-area="" asp-controller="Cart" asp-action="Index">
+                    <span class="bi bi-basket-fill text-blue nav-icon"></span>
+                    <span class="text-black">Корзина</span>
+                </a>
+
+                <a class="col-3 d-flex align-items-center flex-column fill-height" href="#">
+                    <span class="bi bi-person-fill text-blue nav-icon"></span>
+                    <span class="text-black">Кабинет</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

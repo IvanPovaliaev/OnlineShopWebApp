@@ -71,6 +71,16 @@ a {
     font-size: 1.25rem;
 }
 
+.trash-icon {
+    color: $unactive-color;
+    font-size: 2rem;
+}
+
+.trash-icon:hover {
+    color: $third-color;
+    cursor: pointer;
+}
+
 .product-page-icon {
     font-size: 1.25rem;
 }
@@ -81,8 +91,8 @@ a {
     transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-.home-card-img:hover {  
-    transform: scale(1.1);
+.home-card-img:hover {
+    transform: scale(1.1);    
 }
 
 .product-img {
@@ -170,4 +180,8 @@ footer {
 
 .cart-position-title:hover {
     font-weight:bold;
+}
+
+.w-15 {
+    width: 15%;
 }
