@@ -1,1 +1,56 @@
-[]
+[
+  {
+    "Id": "dcd53fe4-2ace-439d-8f54-f2138ee44869",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Positions": [
+      {
+        "Id": "a82949f3-0e33-41bd-809e-78397bf330ef",
+        "Product": {
+          "Id": "f0979574-94bc-4f5e-83d1-bed8ba03e473",
+          "Name": "16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT)",
+          "Cost": 3970.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp",
+          "Article": 5719172116018337140,
+          "Specifications": {
+            "Manufacturer": "Netac",
+            "ManufacturerCode": "NTSWD4P32DP-16W",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR4",
+            "MemorySize": "16 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "3200 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 3970.0
+      },
+      {
+        "Id": "5ab48366-bf40-445e-b37b-4cd2863af1b5",
+        "Product": {
+          "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
+          "Name": "Intel Core i5 - 12400F OEM",
+          "Cost": 15870.0,
+          "Description": "Test Description for CPU",
+          "Category": 1,
+          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
+          "Article": 5327709582814835190,
+          "Specifications": {
+            "Manufacturer": "Intel",
+            "ManufacturerCode": "CM8071504555318/CM8071504650609",
+            "Model": "Core i5 12400F",
+            "Socket": "LGA 1700",
+            "Architecture": "Alder Lake",
+            "CoresCount": "6",
+            "ThreadsCount": "12",
+            "ClockSpeed": "2500 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 15870.0
+      }
+    ],
+    "TotalCost": 19840.0
+  }
+]

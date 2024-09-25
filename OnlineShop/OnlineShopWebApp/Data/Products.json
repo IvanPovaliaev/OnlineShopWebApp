@@ -1,12 +1,12 @@
 [
   {
-    "Id": "7bae7153-003d-4c31-9a7f-71e87d806251",
+    "Id": "03269129-85ee-4bf1-b635-85e30fd98faf",
     "Name": "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
     "Cost": 7050.0,
     "Description": "Test Description for SSD",
     "Category": 3,
     "ImageUrl": "/img/products/SSD-1Tb-Kingston-NV2.webp",
-    "Article": 5490169684809380179,
+    "Article": 5472302279533433129,
     "Specifications": {
       "Manufacturer": "Kingston",
       "ManufacturerCode": "SNV2S/1000G",
@@ -15,13 +15,13 @@
     }
   },
   {
-    "Id": "bf337fb8-5d8c-4731-9e33-4c86a88edde9",
+    "Id": "2b2f2248-77c1-43ae-b2cf-a966a8078c28",
     "Name": "2Tb SATA-III Seagate Barracuda (ST2000DM008)",
     "Cost": 7030.0,
     "Description": "Test Description for HDD",
     "Category": 4,
     "ImageUrl": "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp",
-    "Article": 5129984309636333496,
+    "Article": 4876967118025728584,
     "Specifications": {
       "Manufacturer": "Seagate",
       "ManufacturerCode": "ST2000DM008",
@@ -31,13 +31,13 @@
     }
   },
   {
-    "Id": "416f58a0-647c-4d24-8aaf-33e3e04e9010",
+    "Id": "e8325d90-fe6d-4f3a-8091-0d95722a68b3",
     "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
     "Cost": 11870.0,
     "Description": "Test Description for RAM",
     "Category": 5,
     "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
-    "Article": 5558678324918573216,
+    "Article": 5709155225646030224,
     "Specifications": {
       "Manufacturer": "Team",
       "ManufacturerCode": "CTCED532G6000HC38ADC01",
@@ -49,13 +49,85 @@
     }
   },
   {
-    "Id": "1329117b-96fd-43d6-80b9-fc47cc47193e",
+    "Id": "d63922f0-5621-4015-9c41-e8d4d0644756",
+    "Name": "32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)",
+    "Cost": 14160.0,
+    "Description": "Test Description for RAM",
+    "Category": 5,
+    "ImageUrl": "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp",
+    "Article": 4617691696266289904,
+    "Specifications": {
+      "Manufacturer": "Kingston",
+      "ManufacturerCode": "KF560C40BBK2-32",
+      "FormFactor": "DIMM",
+      "MemoryType": "DDR5",
+      "MemorySize": "32 Гб",
+      "ModulesCount": "2",
+      "ClockSpeed": "6000 МГц"
+    }
+  },
+  {
+    "Id": "f0979574-94bc-4f5e-83d1-bed8ba03e473",
+    "Name": "16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT)",
+    "Cost": 3970.0,
+    "Description": "Test Description for RAM",
+    "Category": 5,
+    "ImageUrl": "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp",
+    "Article": 5719172116018337140,
+    "Specifications": {
+      "Manufacturer": "Netac",
+      "ManufacturerCode": "NTSWD4P32DP-16W",
+      "FormFactor": "DIMM",
+      "MemoryType": "DDR4",
+      "MemorySize": "16 Гб",
+      "ModulesCount": "2",
+      "ClockSpeed": "3200 МГц"
+    }
+  },
+  {
+    "Id": "1a378939-80aa-4c06-9bdd-d7a5f6c42bec",
+    "Name": "32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)",
+    "Cost": 8450.0,
+    "Description": "Test Description for RAM",
+    "Category": 5,
+    "ImageUrl": "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT).webp",
+    "Article": 5478207464815429945,
+    "Specifications": {
+      "Manufacturer": "Patriot MemoryPatriot Memory",
+      "ManufacturerCode": "PVSR432G360C0K",
+      "FormFactor": "DIMM",
+      "MemoryType": "DDR4",
+      "MemorySize": "32 Гб",
+      "ModulesCount": "2",
+      "ClockSpeed": "3600 МГц"
+    }
+  },
+  {
+    "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+    "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+    "Cost": 20790.0,
+    "Description": "Test Description for RAM",
+    "Category": 5,
+    "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+    "Article": 5297320867569492517,
+    "Specifications": {
+      "Manufacturer": "ADATA",
+      "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+      "FormFactor": "DIMM",
+      "MemoryType": "DDR5",
+      "MemorySize": "64 Гб",
+      "ModulesCount": "2",
+      "ClockSpeed": "5600 МГц"
+    }
+  },
+  {
+    "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
     "Name": "Intel Core i5 - 12400F OEM",
     "Cost": 15870.0,
     "Description": "Test Description for CPU",
     "Category": 1,
     "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
-    "Article": 4888260459249602939,
+    "Article": 5327709582814835190,
     "Specifications": {
       "Manufacturer": "Intel",
       "ManufacturerCode": "CM8071504555318/CM8071504650609",
@@ -68,13 +140,13 @@
     }
   },
   {
-    "Id": "1bc700be-2db1-4aa4-82da-578951a13b5f",
+    "Id": "40c909df-c2d9-43f7-a997-027c85d8ec28",
     "Name": "750W Be Quiet System Power 10",
     "Cost": 8250.0,
     "Description": "Test Description for PowerSupply",
     "Category": 6,
     "ImageUrl": null,
-    "Article": 5378474093685702846,
+    "Article": 4897597358139312607,
     "Specifications": {
       "Manufacturer": "Be Quiet",
       "ManufacturerCode": "BN329",

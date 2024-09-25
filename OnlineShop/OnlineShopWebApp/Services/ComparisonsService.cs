@@ -53,10 +53,10 @@ namespace OnlineShopWebApp.Services
         public void Create(Guid productId, Guid userId)
         {
             var product = _productsService.Get(productId);
-            //if (IsProductExists(product, userId))
-            //{
-            //    return;
-            //}
+            if (IsProductExists(product, userId))
+            {
+                return;
+            }
             var comparison = new ComparisonProduct(userId, product);
             _comparisonsRepository.Create(comparison);
         }
