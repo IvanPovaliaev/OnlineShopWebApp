@@ -18,6 +18,16 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Get ComparisonProducts by Id
+        /// </summary>
+        /// <returns>Target ComparisonProduct</returns>
+        /// <param name="comparisonId">ComparisonProduct Id (guid)</param>
+        public ComparisonProduct Get(Guid comparisonId)
+        {
+            return _comparisonsRepository.Get(comparisonId);
+        }
+
+        /// <summary>
         /// Get all Comparisons for target user by Id
         /// </summary>
         /// <returns>List of ComparisonProduct for target user</returns>
@@ -33,6 +43,19 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Get all Comparisons groups for target user by Id
+        /// </summary>
+        /// <returns>ILookup object of ComparisonProducts grouping by ProductCategory </returns>
+        /// <param name="userId">User Id (GUID)</param>
+        public ILookup<ProductCategories, ComparisonProduct> GetGroups(Guid userId)
+        {
+            var comparisonsGroups = GetAll(userId)
+                .ToLookup(c => c.Product.Category);
+
+            return comparisonsGroups;
+        }
+
+        /// <summary>
         /// Create a new ComparisonProduct for related user.
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>
@@ -40,10 +63,10 @@ namespace OnlineShopWebApp.Services
         public void Create(Guid productId, Guid userId)
         {
             var product = _productsService.Get(productId);
-            if (IsProductExists(product, userId))
-            {
-                return;
-            }
+            //if (IsProductExists(product, userId))
+            //{
+            //    return;
+            //}
             var comparison = new ComparisonProduct(userId, product);
             _comparisonsRepository.Create(comparison);
         }

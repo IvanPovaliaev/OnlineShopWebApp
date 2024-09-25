@@ -2,7 +2,6 @@
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
-using System.Linq;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -17,29 +16,17 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Open comparison page
-        /// </summary>
-        /// <returns>Comparison page View</returns>
-        public IActionResult Index()
-        {
-            var comparisons = _comparisonsService.GetAll(_userId);
-            var groupProducts = comparisons.ToLookup(p => p.Product.Category);
-
-            return View(groupProducts);
-        }
-
-        /// <summary>
-        /// Open category comparison page
+        /// Open comparison page of target category. If category is null, open page for first category
         /// </summary>
         /// <returns>Comparison category page View</returns>
-        public IActionResult Category(ProductCategories category)
+        /// <param name="category">Product category</param>
+        public IActionResult Index(ProductCategories? category)
         {
-            var comparisons = _comparisonsService.GetAll(_userId);
-            var groupProducts = comparisons.ToLookup(p => p.Product.Category);
+            var comparisonsGroups = _comparisonsService.GetGroups(_userId);
 
-            var groupProductWithCategory = (groupProducts, category);
+            var comparisonsGroupsWithCategory = (comparisonsGroups, category);
 
-            return View(groupProductWithCategory);
+            return View(comparisonsGroupsWithCategory);
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
-﻿@model ILookup<ProductCategories, ComparisonProduct>
+﻿@model (ILookup<ProductCategories, ComparisonProduct>, ProductCategories?)
 @{
     ViewData["Title"] = "Сравнение";
+    var comparisonsGroups = Model.Item1;
 }
 
 <div class="d-flex justify-content-between">
@@ -16,15 +17,16 @@
 </div>
 
 @{
-    if (Model.Count == 0)
+    if (comparisonsGroups.Count == 0)
     {
         <p>В сравнении нет товаров</p>
         return;
     }
 
-    var category = Model.First().Key;
-    var products = Model[category];
-    var modelWithCategory = (Model, category);
+    var category = Model.Item2 is null ? comparisonsGroups.First().Key : (ProductCategories)Model.Item2;
+
+    var comparisons = comparisonsGroups[category];
+    var modelWithCategory = (comparisonsGroups, category);
 }
 
 @await Html.PartialAsync("_Navigation", modelWithCategory)
@@ -37,7 +39,7 @@
             <div class="itc-slider-wrapper">
                 <div class="itc-slider-items">
                     @* Генерация карт товаров *@
-                    @await Html.PartialAsync("_ComparisonCard", products)
+                    @await Html.PartialAsync("_ComparisonCards", comparisons)
                 </div>
             </div>
 

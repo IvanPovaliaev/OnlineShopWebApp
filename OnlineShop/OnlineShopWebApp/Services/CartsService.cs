@@ -8,29 +8,22 @@ namespace OnlineShopWebApp.Services
     public class CartsService
     {
         private readonly ICartsRepository _cartsRepository;
+        private readonly ProductsService _productsService;
 
-        public CartsService(ICartsRepository cartsRepository)
+        public CartsService(ICartsRepository cartsRepository, ProductsService productsService)
         {
             _cartsRepository = cartsRepository;
-        }
-
-        /// <summary>
-        /// Get cart by userId (guid)
-        /// </summary>        
-        /// <returns>Cart for related user</returns>
-        /// <param name="userId">GUID user id</param>
-        public Cart Get(Guid userId)
-        {
-            return _cartsRepository.Get(userId);
+            _productsService = productsService;
         }
 
         /// <summary>
         /// Add product to users cart.
         /// </summary>        
-        /// <param name="product">Position product</param>
-        /// <param name="userId">GUID user id</param>
-        public void Add(Product product, Guid userId)
+        /// <param name="productId">Product Id (GUID)</param>
+        /// <param name="userId">User Id (GUID)</param>
+        public void Add(Guid productId, Guid userId)
         {
+            var product = _productsService.Get(productId);
             var cart = Get(userId);
 
             if (cart is null)

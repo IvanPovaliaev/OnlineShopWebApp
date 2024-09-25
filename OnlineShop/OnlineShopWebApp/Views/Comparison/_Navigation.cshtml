@@ -9,7 +9,7 @@
         if (category == item.Key)
         {
             <li class="nav-link">
-                <a class="text-blue fs-5 fw-bold" asp-area="" asp-controller="Comparison" asp-action="Category" asp-route-category="@item.Key">
+                <a class="text-blue fs-5 fw-bold" asp-area="" asp-controller="Comparison" asp-action="Index" asp-route-category="@item.Key">
                     @item.Key (@item.Count())
                 </a>
             </li>
@@ -17,7 +17,7 @@
         }
 
         <li class="nav-link">
-            <a class="text-black fs-5" asp-area="" asp-controller="Comparison" asp-action="Category" asp-route-category="@item.Key">
+            <a class="text-black fs-5" asp-area="" asp-controller="Comparison" asp-action="Index" asp-route-category="@item.Key">
                 <span>@item.Key (@item.Count())</span>
             </a>
         </li>
