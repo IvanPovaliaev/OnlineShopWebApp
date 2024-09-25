@@ -1,0 +1,57 @@
+﻿<form method="post" id="orderForm" asp-controller="Order" asp-action="Create">
+    <h5>Город доставки</h5>
+    <div class="mb-3 col-6">
+        <input type="text" class="form-control input-field" name="City" required>
+    </div>
+
+    <h5>Адрес доставки</h5>
+    <div class="mb-3">
+        <input type="text" class="form-control input-field" name="Address" placeholder="Адрес*" required>
+    </div>
+
+    <div class="row d-flex justify-content-between gx-3 mb-3">
+        <div class="col">
+            <input type="number" class="form-control input-field" name="Entrance" placeholder="Подъезд">
+        </div>
+
+        <div class="col">
+            <input type="number" class="form-control input-field" name="Floor" placeholder="Этаж">
+        </div>
+
+        <div class="col">
+            <input type="number" class="form-control input-field" name="Apartment" placeholder="Квартира(офис)">
+        </div>
+
+        <div class="col">
+            <input type="number" class="form-control input-field" name="Index" placeholder="Индекс*" required>
+        </div>
+    </div>
+
+    <h5>Контактные данные</h5>
+    <div class="row d-flex justify-content-between gx-3 mb-3">
+        <div class="col">
+            <input type="text" class="form-control input-field" name="FullName" placeholder="ФИО*" required>
+        </div>
+
+        <div class="col">
+            <input type="email" class="form-control input-field" name="Email" placeholder="Email*" required>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-between gx-3 mb-3">
+        <div class="col">
+            <input type="text" class="form-control input-field" name="Phone" placeholder="Телефон*" required>
+        </div>
+
+        <div class="col">
+            <input type="text" class="form-control input-field" name="ReservePhone" placeholder="Телефон (дополнительный)">
+        </div>
+    </div>
+
+    <h5>Дополнительная информация</h5>
+    <div class="mb-3 border-main">
+        <textarea class="form-control" name="AdditionalInfo" rows="5"></textarea>
+    </div>
+
+    <p>Поля с * - обязательны к заполнению</p>
+</form>

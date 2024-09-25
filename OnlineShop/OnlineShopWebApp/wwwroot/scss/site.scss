@@ -139,6 +139,11 @@ a {
     display: none;
 }
 
+.border-main {
+    border: 1px solid $main-color;
+    border-radius: 5px;
+}
+
 .border-brown {
     border: 1px solid $third-color;
     border-radius: 5px;
@@ -184,4 +189,20 @@ footer {
 
 .w-15 {
     width: 15%;
+}
+
+.input-field {
+    height: 3rem;
+    border: 1px solid $main-color;
+}
+
+.order-box {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+}
+
+.order-animation-box {
+    height: 30rem;
+    width: 30rem;
 }

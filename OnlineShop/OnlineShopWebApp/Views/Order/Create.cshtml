@@ -1,0 +1,36 @@
+﻿@model Order
+@{
+    ViewData["Title"] = $"Заказ №{Model.Article}";
+    var registrationTime = $"{Model.CreationDate.TimeOfDay:hh\\:mm}";
+}
+
+<section class="container mb-3">
+    <div class="row justify-content-center">
+        <div id="animation-box" class="order-animation-box">
+        
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <span class="d-flex justify-content-center">
+            Номер Вашего заказа: @Model.Article
+        </span>
+        <span class="d-flex justify-content-center">
+            Время оформления: @registrationTime
+        </span>
+        <span class="d-flex justify-content-center">
+            Спасибо за доверие
+        </span>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script>
+    var animation = lottie.loadAnimation({
+        container: document.getElementById('animation-box'),
+        path: '/animations/OrderCreated.json',
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+    });
+</script>
