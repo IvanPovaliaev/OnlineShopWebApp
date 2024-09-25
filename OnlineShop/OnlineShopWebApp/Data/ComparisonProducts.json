@@ -1,50 +1,6 @@
 [
   {
-    "Id": "783d1069-c1d6-4a03-a080-4d6b8aebd612",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "Product": {
-      "Id": "e8325d90-fe6d-4f3a-8091-0d95722a68b3",
-      "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
-      "Cost": 11870.0,
-      "Description": "Test Description for RAM",
-      "Category": 5,
-      "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
-      "Article": 5709155225646030224,
-      "Specifications": {
-        "Manufacturer": "Team",
-        "ManufacturerCode": "CTCED532G6000HC38ADC01",
-        "FormFactor": "DIMM",
-        "MemoryType": "DDR5",
-        "MemorySize": "32 Гб",
-        "ModulesCount": "2",
-        "ClockSpeed": "6000 МГц"
-      }
-    }
-  },
-  {
-    "Id": "7ac13213-fdc9-4eec-8eba-b637a92d7ce4",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "Product": {
-      "Id": "d63922f0-5621-4015-9c41-e8d4d0644756",
-      "Name": "32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)",
-      "Cost": 14160.0,
-      "Description": "Test Description for RAM",
-      "Category": 5,
-      "ImageUrl": "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp",
-      "Article": 4617691696266289904,
-      "Specifications": {
-        "Manufacturer": "Kingston",
-        "ManufacturerCode": "KF560C40BBK2-32",
-        "FormFactor": "DIMM",
-        "MemoryType": "DDR5",
-        "MemorySize": "32 Гб",
-        "ModulesCount": "2",
-        "ClockSpeed": "6000 МГц"
-      }
-    }
-  },
-  {
-    "Id": "512dc1c6-20d0-41c0-9780-d00fac0f4b1e",
+    "Id": "0fb57ad0-aafc-46b0-a509-f4e479549b64",
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
     "Product": {
       "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
@@ -62,50 +18,6 @@
         "MemorySize": "64 Гб",
         "ModulesCount": "2",
         "ClockSpeed": "5600 МГц"
-      }
-    }
-  },
-  {
-    "Id": "a38d62df-1918-410d-b233-8a980919ed7b",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "Product": {
-      "Id": "1a378939-80aa-4c06-9bdd-d7a5f6c42bec",
-      "Name": "32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)",
-      "Cost": 8450.0,
-      "Description": "Test Description for RAM",
-      "Category": 5,
-      "ImageUrl": "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT).webp",
-      "Article": 5478207464815429945,
-      "Specifications": {
-        "Manufacturer": "Patriot MemoryPatriot Memory",
-        "ManufacturerCode": "PVSR432G360C0K",
-        "FormFactor": "DIMM",
-        "MemoryType": "DDR4",
-        "MemorySize": "32 Гб",
-        "ModulesCount": "2",
-        "ClockSpeed": "3600 МГц"
-      }
-    }
-  },
-  {
-    "Id": "1f3958fc-16b6-41e2-9020-c7067499ac7f",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "Product": {
-      "Id": "f0979574-94bc-4f5e-83d1-bed8ba03e473",
-      "Name": "16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT)",
-      "Cost": 3970.0,
-      "Description": "Test Description for RAM",
-      "Category": 5,
-      "ImageUrl": "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp",
-      "Article": 5719172116018337140,
-      "Specifications": {
-        "Manufacturer": "Netac",
-        "ManufacturerCode": "NTSWD4P32DP-16W",
-        "FormFactor": "DIMM",
-        "MemoryType": "DDR4",
-        "MemorySize": "16 Гб",
-        "ModulesCount": "2",
-        "ClockSpeed": "3200 МГц"
       }
     }
   }

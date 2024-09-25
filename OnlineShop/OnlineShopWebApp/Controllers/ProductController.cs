@@ -22,6 +22,12 @@ namespace OnlineShopWebApp.Controllers
         public IActionResult Index(Guid id)
         {
             var product = _productsService.Get(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
             return View(product);
         }
 

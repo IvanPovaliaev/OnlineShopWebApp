@@ -39,5 +39,22 @@ namespace OnlineShopWebApp.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Display Error View
+        /// </summary>
+        /// <returns>Error </returns>
+        public IActionResult Error(int? statusCode = null)
+        {
+            if (statusCode.HasValue)
+            {
+                if (statusCode == 404)
+                {
+                    return View("NotFound");
+                }
+            }
+
+            return View();
+        }
     }
 }
