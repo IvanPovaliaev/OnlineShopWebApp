@@ -23,40 +23,32 @@
     }
 
     var category = Model.First().Key;
-    var products = Model[category];    
+    var products = Model[category];
+    var modelWithCategory = (Model, category);
 }
 
-<ul class="nav">
-    @foreach (var item in Model)
-    {
-        if (category == item.Key)
-        {
-            <li class="nav-link">
-                <a class="text-blue fs-5 fw-bold" asp-area="" asp-controller="Comparison" asp-action="Category" asp-route-category="@item.Key">
-                    @item.Key (@item.Count())
-                </a>
-            </li>
-            continue;
-        }
+@await Html.PartialAsync("_Navigation", modelWithCategory)
 
-        <li class="nav-link">
-            <a class="text-black fs-5" asp-area="" asp-controller="Comparison" asp-action="Category" asp-route-category="@item.Key">
-                <span>@item.Key (@item.Count())</span>
-            </a>
-        </li>
-    }
-</ul>
-
-<hr class="border-brown" />  
+<hr class="border-brown" />
 
 @{
     <div class="container position-relative mb-3">
-        <div class="row gx-3">
-            @* Генерация карт товаров *@
-            @await Html.PartialAsync("_ComparisonCard", products)
+        <div class="itc-slider" data-slider="itc-slider" data-loop="false" data-autoplay="false" data-swipe="false">
+            <div class="itc-slider-wrapper">
+                <div class="itc-slider-items">
+                    @* Генерация карт товаров *@
+                    @await Html.PartialAsync("_ComparisonCard", products)
+                </div>
+            </div>
+
+            <!-- Кнопки для перехода к предыдущему и следующему слайду -->
+            <button class="itc-slider-btn itc-slider-btn-prev"></button>
+            <button class="itc-slider-btn itc-slider-btn-next"></button>
         </div>
     </div>
 }
+
+<script src="/lib/itc/itc-slider.js" defer></script>
 
 
 
