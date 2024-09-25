@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row gx-3">
             @* Генерация карт товаров *@
-            @await Html.PartialAsync("_ProductCard", Model.Reverse())
+            @await Html.PartialAsync("_ProductCards", Model.Reverse())
         </div>
     </div>
 </section>
@@ -27,7 +27,7 @@
     <div class="container">
         <div class="row gx-3">
             @* Генерация карт товаров *@
-            @await Html.PartialAsync("_ProductCard", Model)
+            @await Html.PartialAsync("_ProductCards", Model)
         </div>
     </div>
 </section>

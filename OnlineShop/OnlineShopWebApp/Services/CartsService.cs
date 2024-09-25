@@ -17,6 +17,16 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Get cart by userId (guid)
+        /// </summary>        
+        /// <returns>Cart for related user</returns>
+        /// <param name="userId">GUID user id</param>
+        public Cart Get(Guid userId)
+        {
+            return _cartsRepository.Get(userId);
+        }
+
+        /// <summary>
         /// Add product to users cart.
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>

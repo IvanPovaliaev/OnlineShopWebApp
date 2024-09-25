@@ -18,16 +18,6 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Get ComparisonProducts by Id
-        /// </summary>
-        /// <returns>Target ComparisonProduct</returns>
-        /// <param name="comparisonId">ComparisonProduct Id (guid)</param>
-        public ComparisonProduct Get(Guid comparisonId)
-        {
-            return _comparisonsRepository.Get(comparisonId);
-        }
-
-        /// <summary>
         /// Get all Comparisons for target user by Id
         /// </summary>
         /// <returns>List of ComparisonProduct for target user</returns>
