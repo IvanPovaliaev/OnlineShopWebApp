@@ -8,10 +8,10 @@ namespace OnlineShopWebApp.Services
 {
     public class ComparisonsService
     {
-        private readonly IComparisonRepository _comparisonsRepository;
+        private readonly IComparisonsRepository _comparisonsRepository;
         private readonly ProductsService _productsService;
 
-        public ComparisonsService(IComparisonRepository comparisonsRepository, ProductsService productsService)
+        public ComparisonsService(IComparisonsRepository comparisonsRepository, ProductsService productsService)
         {
             _comparisonsRepository = comparisonsRepository;
             _productsService = productsService;
@@ -76,15 +76,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">User Id (GUID)</param>
         public void DeleteAll(Guid userId)
         {
-            var userComparisons = _comparisonsRepository
-                .GetAll()
-                .Where(c => c.UserId == userId)
-                .ToArray();
-
-            foreach (var comparison in userComparisons)
-            {
-                _comparisonsRepository.Delete(comparison.Id);
-            }
+            _comparisonsRepository.DeleteAll(userId);
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace OnlineShopWebApp.Repositories
 {
-    public class InFileComparisonsRepository : IComparisonRepository
+    public class InFileComparisonsRepository : IComparisonsRepository
     {
         public const string FilePath = @".\Data\ComparisonProducts.json";
         private JsonRepositoryService _jsonRepositoryService;
@@ -37,6 +37,12 @@ namespace OnlineShopWebApp.Repositories
         {
             var comparison = Get(comparisonId);
             _comparisons.Remove(comparison);
+            _jsonRepositoryService.SaveChanges(FilePath, _comparisons);
+        }
+
+        public void DeleteAll(Guid userId)
+        {
+            _comparisons.RemoveAll(c => c.UserId == userId);
             _jsonRepositoryService.SaveChanges(FilePath, _comparisons);
         }
     }

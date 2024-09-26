@@ -46,12 +46,9 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Error </returns>
         public IActionResult Error(int? statusCode = null)
         {
-            if (statusCode.HasValue)
+            if (statusCode == 404)
             {
-                if (statusCode == 404)
-                {
-                    return View("NotFound");
-                }
+                return View("NotFound");
             }
 
             return View();
