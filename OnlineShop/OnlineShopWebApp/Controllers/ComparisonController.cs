@@ -41,7 +41,7 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Add product to users comparisons.
+        /// Delete ComparisonProducts from users comparisons by Id.
         /// </summary>
         /// <returns>Users comparison View</returns>
         /// <param name="comparisonId">ComparisonProduct id (GUID)</param>
@@ -52,10 +52,9 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Delete all ComparisonProducts by userId
+        /// Delete all ComparisonProducts from users comparisons
         /// </summary>
         /// <returns>Users comparison View</returns>
-        /// <param name="comparisonId">ComparisonProduct id (GUID)</param>
         public IActionResult DeleteAll()
         {
             _comparisonsService.DeleteAll(_userId);
