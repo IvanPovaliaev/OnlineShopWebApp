@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace OnlineShopWebApp.Models
 {
-    public class ComparisonProduct
+    public record class ComparisonProduct(Guid UserId, Product Product)
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; } //Для дальнейшей привязки пользователя
-        public Product Product { get; set; }
+        public Guid Id { get; init; } = new Guid();
 
-        public ComparisonProduct(Guid userId, Product product)
+        [JsonConstructor]
+        public ComparisonProduct(Guid id, Guid userId, Product product) : this(userId, product)
         {
-            Id = Guid.NewGuid();
-            UserId = userId;
-            Product = product;
+            Id = id;
         }
     }
 }
