@@ -25,6 +25,9 @@ builder.Services.AddTransient<OrdersService>();
 builder.Services.AddSingleton<IComparisonsRepository, InFileComparisonsRepository>();
 builder.Services.AddTransient<ComparisonsService>();
 
+builder.Services.AddSingleton<IFavoritesRepository, InFileFavoritesRepository>();
+builder.Services.AddTransient<FavoritesService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
