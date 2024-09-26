@@ -123,6 +123,11 @@ a {
   height: 20%;
 }
 
+.btn-favorite-row {
+  font-size: 1rem;
+  height: 100%;
+}
+
 .btn-card-comparison {
   font-size: 1rem;
   align-self: flex-end;
@@ -221,4 +226,28 @@ footer {
 .comparison-specification-cell {
   height: 3.5rem;
   border-top: 1px solid #8c6642;
+}
+
+.favorite-row {
+  height: 125px;
+  border-bottom: 1px solid #8c6642;
+}
+
+.favorite-row-text {
+  font-size: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: auto;
+}
+
+.favorite-comparicon-icon {
+  font-size: 2rem;
+}
+
+.favorite-comparicon-icon:hover {
+  color: #8c6642;
+  cursor: pointer;
 }

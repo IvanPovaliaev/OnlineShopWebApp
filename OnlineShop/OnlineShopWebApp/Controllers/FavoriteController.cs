@@ -20,7 +20,8 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Users favorites View</returns>
         public IActionResult Index()
         {
-            return View();
+            var favorites = _favoritesService.GetAll(_userId);
+            return View(favorites);
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Delete product from users favorites.
+        /// Delete product from users favorites
         /// </summary>
         /// <returns>Users comparison View</returns>
         /// <param name="favoriteId">FavoriteProduct Id (GUID)</param>

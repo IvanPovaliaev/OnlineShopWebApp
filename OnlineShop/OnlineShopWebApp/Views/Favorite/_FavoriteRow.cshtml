@@ -1,0 +1,67 @@
+﻿@model IEnumerable<FavoriteProduct>
+
+@foreach (var favorite in Model)
+{
+    var product = favorite.Product;
+
+    <div class="row favorite-row position-relative pb-3 mb-3 ">
+        <div class="col-2 d-flex justify-content-center align-content-center h-100">
+            @{
+                var productImageUrl = product.ImageUrl ?? "/img/DefaultProductImage.png";
+            }
+
+            <a asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
+                <img class="h-100" src="@productImageUrl" alt="@product.Name image">
+            </a>
+        </div>
+
+        <div class="col-6 d-flex flex-column">
+            <div class="card-text card-id">ID: @product.Article</div>
+
+            <h5 class="card-title">
+                <a class="text-black" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">@product.Name</a>
+            </h5>
+
+
+            <div class="d-flex flex-grow-1 align-items-center">
+                <p class="favorite-row-text">
+                    @{
+                        var specifications = product.Specifications.Select(spec => spec.Value);
+                        var shortInfo = string.Join(", ", specifications);
+                    }
+                    @shortInfo
+                </p>
+            </div>
+        </div>
+
+        <div class="col-4 h-100 d-flex flex-column">
+
+            <div class="row h-50">
+                <h5 class="fs-3 text-blue">@product.Cost ₽</h5>
+            </div>
+
+            <div class="row h-50 align-content-center">
+
+                <div class="col">
+                    <a class="btn btn-main mt-auto btn-favorite-row w-100 d-flex justify-content-center align-items-center"
+                       asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
+                        <span class="bi bi-basket-fill text-white fs-3 me-2"></span>
+                        <span>В корзину</span>
+                    </a>
+                </div>
+
+                <div class="col-3 d-flex justify-content-end align-items-center">
+
+                    <a class="bi bi-file-earmark-bar-graph-fill text-unactive favorite-comparicon-icon me-2"
+                       asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@product.Id">
+                    </a>
+
+                    <a class="bi bi-trash-fill trash-icon align-content-center"
+                       asp-area="" asp-controller="Favorite" asp-action="Delete" asp-route-favoriteId="@favorite.Id">
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
