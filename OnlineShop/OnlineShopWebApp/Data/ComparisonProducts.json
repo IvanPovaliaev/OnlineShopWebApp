@@ -44,50 +44,6 @@
     }
   },
   {
-    "Id": "3f7e9893-ecc7-4c74-9d13-b583fc7bbdde",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "Product": {
-      "Id": "e8325d90-fe6d-4f3a-8091-0d95722a68b3",
-      "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
-      "Cost": 11870.0,
-      "Description": "Test Description for RAM",
-      "Category": 5,
-      "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
-      "Article": 5709155225646030224,
-      "Specifications": {
-        "Manufacturer": "Team",
-        "ManufacturerCode": "CTCED532G6000HC38ADC01",
-        "FormFactor": "DIMM",
-        "MemoryType": "DDR5",
-        "MemorySize": "32 Гб",
-        "ModulesCount": "2",
-        "ClockSpeed": "6000 МГц"
-      }
-    }
-  },
-  {
-    "Id": "2732ac8c-9f31-4121-bd16-479507a32931",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "Product": {
-      "Id": "d63922f0-5621-4015-9c41-e8d4d0644756",
-      "Name": "32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)",
-      "Cost": 14160.0,
-      "Description": "Test Description for RAM",
-      "Category": 5,
-      "ImageUrl": "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp",
-      "Article": 4617691696266289904,
-      "Specifications": {
-        "Manufacturer": "Kingston",
-        "ManufacturerCode": "KF560C40BBK2-32",
-        "FormFactor": "DIMM",
-        "MemoryType": "DDR5",
-        "MemorySize": "32 Гб",
-        "ModulesCount": "2",
-        "ClockSpeed": "6000 МГц"
-      }
-    }
-  },
-  {
     "Id": "a16f71df-dd95-452a-ab15-fbaf0435a0bf",
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
     "Product": {
@@ -129,6 +85,26 @@
         "MemorySize": "16 Гб",
         "ModulesCount": "2",
         "ClockSpeed": "3200 МГц"
+      }
+    }
+  },
+  {
+    "Id": "18683101-70d7-423b-aeb9-9006751cdaec",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "2b2f2248-77c1-43ae-b2cf-a966a8078c28",
+      "Name": "2Tb SATA-III Seagate Barracuda (ST2000DM008)",
+      "Cost": 7030.0,
+      "Description": "Test Description for HDD",
+      "Category": 4,
+      "ImageUrl": "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp",
+      "Article": 4876967118025728584,
+      "Specifications": {
+        "Manufacturer": "Seagate",
+        "ManufacturerCode": "ST2000DM008",
+        "FormFactor": "3.5\"",
+        "Interface": "SATA-III",
+        "Capacity": "2000 Гб"
       }
     }
   }
