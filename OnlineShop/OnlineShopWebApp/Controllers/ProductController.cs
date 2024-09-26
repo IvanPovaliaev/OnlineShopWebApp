@@ -7,7 +7,7 @@ namespace OnlineShopWebApp.Controllers
 {
     public class ProductController : Controller
     {
-        private ProductsService _productsService;
+        private readonly ProductsService _productsService;
 
         public ProductController(ProductsService productsService)
         {
@@ -22,6 +22,12 @@ namespace OnlineShopWebApp.Controllers
         public IActionResult Index(Guid id)
         {
             var product = _productsService.Get(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
             return View(product);
         }
 

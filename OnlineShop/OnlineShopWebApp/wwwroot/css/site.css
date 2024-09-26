@@ -33,6 +33,13 @@ a {
   overflow: hidden;
 }
 
+.card-comparison {
+  padding-top: 10px;
+  border: none;
+  height: 380px;
+  overflow: hidden;
+}
+
 .card-id {
   font-size: 12px;
 }
@@ -114,6 +121,12 @@ a {
   font-size: 1rem;
   align-self: flex-end;
   height: 20%;
+}
+
+.btn-card-comparison {
+  font-size: 1rem;
+  align-self: flex-end;
+  height: 25%;
 }
 
 .search-container {
@@ -198,4 +211,14 @@ footer {
 .order-animation-box {
   height: 30rem;
   width: 30rem;
+}
+
+.itc-slider-item {
+  flex: 0 0 25%;
+  user-select: text;
+}
+
+.comparison-specification-cell {
+  height: 3.5rem;
+  border-top: 1px solid #8c6642;
 }

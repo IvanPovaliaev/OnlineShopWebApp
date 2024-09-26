@@ -22,6 +22,9 @@ builder.Services.AddTransient<CartsService>();
 builder.Services.AddSingleton<IOrdersRepository, InFileOrdersRepository>();
 builder.Services.AddTransient<OrdersService>();
 
+builder.Services.AddSingleton<IComparisonsRepository, InFileComparisonsRepository>();
+builder.Services.AddTransient<ComparisonsService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +34,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

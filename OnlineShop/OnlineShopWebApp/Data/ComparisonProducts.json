@@ -1,0 +1,90 @@
+[
+  {
+    "Id": "d999dde8-2a77-4a9c-af2c-e83e022d5e4d",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "1a378939-80aa-4c06-9bdd-d7a5f6c42bec",
+      "Name": "32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)",
+      "Cost": 8450.0,
+      "Description": "Test Description for RAM",
+      "Category": 5,
+      "ImageUrl": "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT).webp",
+      "Article": 5478207464815429945,
+      "Specifications": {
+        "Manufacturer": "Patriot MemoryPatriot Memory",
+        "ManufacturerCode": "PVSR432G360C0K",
+        "FormFactor": "DIMM",
+        "MemoryType": "DDR4",
+        "MemorySize": "32 Гб",
+        "ModulesCount": "2",
+        "ClockSpeed": "3600 МГц"
+      }
+    }
+  },
+  {
+    "Id": "97e834aa-83b9-4e51-9548-76ffb8081fb9",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+      "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+      "Cost": 20790.0,
+      "Description": "Test Description for RAM",
+      "Category": 5,
+      "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+      "Article": 5297320867569492517,
+      "Specifications": {
+        "Manufacturer": "ADATA",
+        "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+        "FormFactor": "DIMM",
+        "MemoryType": "DDR5",
+        "MemorySize": "64 Гб",
+        "ModulesCount": "2",
+        "ClockSpeed": "5600 МГц"
+      }
+    }
+  },
+  {
+    "Id": "3f7e9893-ecc7-4c74-9d13-b583fc7bbdde",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "e8325d90-fe6d-4f3a-8091-0d95722a68b3",
+      "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
+      "Cost": 11870.0,
+      "Description": "Test Description for RAM",
+      "Category": 5,
+      "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
+      "Article": 5709155225646030224,
+      "Specifications": {
+        "Manufacturer": "Team",
+        "ManufacturerCode": "CTCED532G6000HC38ADC01",
+        "FormFactor": "DIMM",
+        "MemoryType": "DDR5",
+        "MemorySize": "32 Гб",
+        "ModulesCount": "2",
+        "ClockSpeed": "6000 МГц"
+      }
+    }
+  },
+  {
+    "Id": "2732ac8c-9f31-4121-bd16-479507a32931",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "d63922f0-5621-4015-9c41-e8d4d0644756",
+      "Name": "32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)",
+      "Cost": 14160.0,
+      "Description": "Test Description for RAM",
+      "Category": 5,
+      "ImageUrl": "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp",
+      "Article": 4617691696266289904,
+      "Specifications": {
+        "Manufacturer": "Kingston",
+        "ManufacturerCode": "KF560C40BBK2-32",
+        "FormFactor": "DIMM",
+        "MemoryType": "DDR5",
+        "MemorySize": "32 Гб",
+        "ModulesCount": "2",
+        "ClockSpeed": "6000 МГц"
+      }
+    }
+  }
+]

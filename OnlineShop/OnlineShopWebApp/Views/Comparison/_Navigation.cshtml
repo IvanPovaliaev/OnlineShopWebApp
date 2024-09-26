@@ -1,0 +1,25 @@
+﻿@model (ILookup<ProductCategories, ComparisonProduct>, ProductCategories)
+@{
+    var category = Model.Item2;
+}
+
+<ul class="nav">
+    @foreach (var item in Model.Item1)
+    {
+        if (category == item.Key)
+        {
+            <li class="nav-link">
+                <a class="text-blue fs-5 fw-bold" asp-area="" asp-controller="Comparison" asp-action="Index" asp-route-category="@item.Key">
+                    @item.Key (@item.Count())
+                </a>
+            </li>
+            continue;
+        }
+
+        <li class="nav-link">
+            <a class="text-black fs-5" asp-area="" asp-controller="Comparison" asp-action="Index" asp-route-category="@item.Key">
+                <span>@item.Key (@item.Count())</span>
+            </a>
+        </li>
+    }
+</ul>

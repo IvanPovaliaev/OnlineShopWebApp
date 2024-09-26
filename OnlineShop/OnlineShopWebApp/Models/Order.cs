@@ -12,7 +12,7 @@ namespace OnlineShopWebApp.Models
         public int? Entrance { get; set; }
         public int? Floor { get; set; }
         public int? Apartment { get; set; }
-        public int Index { get; set; }
+        public int PostCode { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }

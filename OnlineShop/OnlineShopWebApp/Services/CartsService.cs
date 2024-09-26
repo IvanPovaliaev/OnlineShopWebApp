@@ -8,10 +8,12 @@ namespace OnlineShopWebApp.Services
     public class CartsService
     {
         private readonly ICartsRepository _cartsRepository;
+        private readonly ProductsService _productsService;
 
-        public CartsService(ICartsRepository cartsRepository)
+        public CartsService(ICartsRepository cartsRepository, ProductsService productsService)
         {
             _cartsRepository = cartsRepository;
+            _productsService = productsService;
         }
 
         /// <summary>
@@ -27,10 +29,11 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Add product to users cart.
         /// </summary>        
-        /// <param name="product">Position product</param>
-        /// <param name="userId">GUID user id</param>
-        public void Add(Product product, Guid userId)
+        /// <param name="productId">Product Id (GUID)</param>
+        /// <param name="userId">User Id (GUID)</param>
+        public void Add(Guid productId, Guid userId)
         {
+            var product = _productsService.Get(productId);
             var cart = Get(userId);
 
             if (cart is null)
@@ -97,7 +100,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete target position in target cart. If positions count should become 0, deletes the cart.
         /// </summary>        
-        /// <param name="cart">Tatget cart</param>
+        /// <param name="cart">Target cart</param>
         /// <param name="position">Target position</param>
         private void DeletePosition(Cart cart, CartPosition position)
         {
@@ -113,7 +116,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete cart of target user;
         /// </summary>        
-        /// <param name="userId">Tatget userId</param>
+        /// <param name="userId">Target userId</param>
         public void Delete(Guid userId)
         {
             var cart = Get(userId);

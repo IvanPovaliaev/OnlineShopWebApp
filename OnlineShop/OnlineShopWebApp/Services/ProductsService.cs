@@ -71,15 +71,55 @@ namespace OnlineShopWebApp.Services
             hdd.Specifications["Interface"] = "SATA-III";
             hdd.Specifications["Capacity"] = "2000 Гб";
 
-            var ramImageUrl = "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp";
-            var ram = new Product("32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)", 11870, "Test Description for RAM", ProductCategories.RAM, ramImageUrl);
-            ram.Specifications["Manufacturer"] = "Team";
-            ram.Specifications["ManufacturerCode"] = "CTCED532G6000HC38ADC01";
-            ram.Specifications["FormFactor"] = "DIMM";
-            ram.Specifications["MemoryType"] = "DDR5";
-            ram.Specifications["MemorySize"] = "32 Гб";
-            ram.Specifications["ModulesCount"] = "2";
-            ram.Specifications["ClockSpeed"] = "6000 МГц";
+            var firstRamImageUrl = "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp";
+            var firstRam = new Product("32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)", 11870, "Test Description for RAM", ProductCategories.RAM, firstRamImageUrl);
+            firstRam.Specifications["Manufacturer"] = "Team";
+            firstRam.Specifications["ManufacturerCode"] = "CTCED532G6000HC38ADC01";
+            firstRam.Specifications["FormFactor"] = "DIMM";
+            firstRam.Specifications["MemoryType"] = "DDR5";
+            firstRam.Specifications["MemorySize"] = "32 Гб";
+            firstRam.Specifications["ModulesCount"] = "2";
+            firstRam.Specifications["ClockSpeed"] = "6000 МГц";
+
+            var secondRamImageUrl = "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp";
+            var secondRam = new Product("32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)", 14160, "Test Description for RAM", ProductCategories.RAM, secondRamImageUrl);
+            secondRam.Specifications["Manufacturer"] = "Kingston";
+            secondRam.Specifications["ManufacturerCode"] = "KF560C40BBK2-32";
+            secondRam.Specifications["FormFactor"] = "DIMM";
+            secondRam.Specifications["MemoryType"] = "DDR5";
+            secondRam.Specifications["MemorySize"] = "32 Гб";
+            secondRam.Specifications["ModulesCount"] = "2";
+            secondRam.Specifications["ClockSpeed"] = "6000 МГц";
+
+            var thirdRamImageUrl = "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp";
+            var thirdRam = new Product("16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT)", 3970, "Test Description for RAM", ProductCategories.RAM, thirdRamImageUrl);
+            thirdRam.Specifications["Manufacturer"] = "Netac";
+            thirdRam.Specifications["ManufacturerCode"] = "NTSWD4P32DP-16W";
+            thirdRam.Specifications["FormFactor"] = "DIMM";
+            thirdRam.Specifications["MemoryType"] = "DDR4";
+            thirdRam.Specifications["MemorySize"] = "16 Гб";
+            thirdRam.Specifications["ModulesCount"] = "2";
+            thirdRam.Specifications["ClockSpeed"] = "3200 МГц";
+
+            var fourthRamImageUrl = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT).webp";
+            var fourthRam = new Product("32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)", 8450, "Test Description for RAM", ProductCategories.RAM, fourthRamImageUrl);
+            fourthRam.Specifications["Manufacturer"] = "Patriot MemoryPatriot Memory";
+            fourthRam.Specifications["ManufacturerCode"] = "PVSR432G360C0K";
+            fourthRam.Specifications["FormFactor"] = "DIMM";
+            fourthRam.Specifications["MemoryType"] = "DDR4";
+            fourthRam.Specifications["MemorySize"] = "32 Гб";
+            fourthRam.Specifications["ModulesCount"] = "2";
+            fourthRam.Specifications["ClockSpeed"] = "3600 МГц";
+
+            var fifthRamImageUrl = "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp";
+            var fifthRam = new Product("64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)", 20790, "Test Description for RAM", ProductCategories.RAM, fifthRamImageUrl);
+            fifthRam.Specifications["Manufacturer"] = "ADATA";
+            fifthRam.Specifications["ManufacturerCode"] = "AX5U5600C3632G-DCLABK";
+            fifthRam.Specifications["FormFactor"] = "DIMM";
+            fifthRam.Specifications["MemoryType"] = "DDR5";
+            fifthRam.Specifications["MemorySize"] = "64 Гб";
+            fifthRam.Specifications["ModulesCount"] = "2";
+            fifthRam.Specifications["ClockSpeed"] = "5600 МГц";
 
             var cpuImageUrl = "/img/products/Intel-Core-i5-12400F-OEM.webp";
             var cpu = new Product("Intel Core i5 - 12400F OEM", 15870, "Test Description for CPU", ProductCategories.Processors, cpuImageUrl);
@@ -103,7 +143,11 @@ namespace OnlineShopWebApp.Services
             [
                 ssd,
                 hdd,
-                ram,
+                firstRam,
+                secondRam,
+                thirdRam,
+                fourthRam,
+                fifthRam,
                 cpu,
                 powerSupply
             ];
