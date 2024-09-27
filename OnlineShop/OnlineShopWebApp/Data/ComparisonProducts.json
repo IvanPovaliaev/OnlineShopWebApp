@@ -20,5 +20,27 @@
       }
     },
     "Id": "7b271269-22fd-4a64-a2eb-467eb50f761b"
+  },
+  {
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "1a378939-80aa-4c06-9bdd-d7a5f6c42bec",
+      "Name": "32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)",
+      "Cost": 8450.0,
+      "Description": "Test Description for RAM",
+      "Category": 5,
+      "ImageUrl": "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT).webp",
+      "Article": 5478207464815429945,
+      "Specifications": {
+        "Manufacturer": "Patriot MemoryPatriot Memory",
+        "ManufacturerCode": "PVSR432G360C0K",
+        "FormFactor": "DIMM",
+        "MemoryType": "DDR4",
+        "MemorySize": "32 Гб",
+        "ModulesCount": "2",
+        "ClockSpeed": "3600 МГц"
+      }
+    },
+    "Id": "0df97c9d-2065-4916-b09d-6e155b0cc480"
   }
 ]
