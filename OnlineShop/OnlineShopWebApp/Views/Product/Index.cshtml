@@ -62,17 +62,19 @@
                 </a>
             </div>
             <div class="d-flex justify-content-between">
-                <button class="btn d-flex align-items-center">
+
                     <a class="bi bi-file-earmark-bar-graph-fill text-unactive card-icon me-2"
                     asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@Model.Id">
                         <span class="text-black">Сравнить</span>
                     </a>                    
-                </button>
 
-                <button class="btn d-flex align-items-center">
-                    <i class="bi bi-heart-fill text-unactive product-page-icon me-2"></i>
-                    В избранное
-                </button>
+
+
+                    <a class="bi bi-heart-fill text-unactive product-page-icon me-2"
+                    asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@Model.Id">
+                        <span class="text-black">В избранное</span>
+                    </a>        
+
             </div>
 
             <a class="btn btn-main w-100 justify-content-center align-items-center mt-auto"
