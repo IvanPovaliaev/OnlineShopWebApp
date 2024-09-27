@@ -89,12 +89,7 @@
                     <span class="text-black">Избранное</span>
                 </a>
 
-                <a class="col-3 d-flex align-items-center flex-column fill-height"
-                    asp-area="" asp-controller="Comparison" asp-action="Index">
-                    <span class="bi bi-file-earmark-bar-graph-fill text-blue nav-icon"></span>
-                    <span class="text-black">Сравнение</span>
-                </a>
-
+                @await Component.InvokeAsync("Comparison")
                 @await Component.InvokeAsync("Cart")
 
                 <a class="col-3 d-flex align-items-center flex-column fill-height" href="#">

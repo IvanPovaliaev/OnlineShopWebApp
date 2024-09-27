@@ -1,1 +1,56 @@
-[]
+[
+  {
+    "Id": "01f25a26-c1fb-4a16-95c0-81644710be1b",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Positions": [
+      {
+        "Id": "1ef73754-82bf-43f3-a088-debe6df985e1",
+        "Product": {
+          "Id": "1a378939-80aa-4c06-9bdd-d7a5f6c42bec",
+          "Name": "32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)",
+          "Cost": 8450.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT).webp",
+          "Article": 5478207464815429945,
+          "Specifications": {
+            "Manufacturer": "Patriot MemoryPatriot Memory",
+            "ManufacturerCode": "PVSR432G360C0K",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR4",
+            "MemorySize": "32 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "3600 МГц"
+          }
+        },
+        "Quantity": 4,
+        "Cost": 33800.0
+      },
+      {
+        "Id": "21255445-7c67-45a5-80b9-3e9016b2c0dc",
+        "Product": {
+          "Id": "e8325d90-fe6d-4f3a-8091-0d95722a68b3",
+          "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
+          "Cost": 11870.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
+          "Article": 5709155225646030224,
+          "Specifications": {
+            "Manufacturer": "Team",
+            "ManufacturerCode": "CTCED532G6000HC38ADC01",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "32 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "6000 МГц"
+          }
+        },
+        "Quantity": 4,
+        "Cost": 47480.0
+      }
+    ],
+    "TotalCost": 81280.0,
+    "TotalQuantity": 8
+  }
+]
