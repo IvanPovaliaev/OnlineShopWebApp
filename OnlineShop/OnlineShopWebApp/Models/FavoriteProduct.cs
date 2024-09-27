@@ -5,7 +5,7 @@ namespace OnlineShopWebApp.Models
 {
     public record class FavoriteProduct(Guid UserId, Product Product)
     {
-        public Guid Id { get; init; } = new Guid();
+        public Guid Id { get; init; } = Guid.NewGuid();
 
         [JsonConstructor]
         public FavoriteProduct(Guid id, Guid userId, Product product) : this(userId, product)
