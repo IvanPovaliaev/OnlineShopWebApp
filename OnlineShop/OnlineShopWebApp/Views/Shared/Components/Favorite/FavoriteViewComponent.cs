@@ -14,6 +14,10 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
             _favoritesService = favoritesService;
         }
 
+        /// <summary>
+        /// Show favorite icon component on View;
+        /// </summary>
+        /// <returns>CartViewComponent</returns>
         public IViewComponentResult Invoke()
         {
             var favoritesCount = _favoritesService

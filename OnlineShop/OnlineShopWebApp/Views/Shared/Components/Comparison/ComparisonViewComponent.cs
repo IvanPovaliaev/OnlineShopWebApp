@@ -14,6 +14,10 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
             _comparisonsService = comparisonsService;
         }
 
+        /// <summary>
+        /// Show comparison icon component on View;
+        /// </summary>
+        /// <returns>CartViewComponent</returns>
         public IViewComponentResult Invoke()
         {
             var comparisonsCount = _comparisonsService

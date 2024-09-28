@@ -14,6 +14,10 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
             _cartsService = cartsService;
         }
 
+        /// <summary>
+        /// Show cart icon component on View;
+        /// </summary>
+        /// <returns>CartViewComponent</returns>
         public IViewComponentResult Invoke()
         {
             var cart = _cartsService.Get(_userId);

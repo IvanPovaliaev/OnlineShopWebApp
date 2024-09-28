@@ -6,9 +6,18 @@
     <span class="bi bi-file-earmark-bar-graph-fill text-blue nav-icon position-relative">
         @if (Model != 0)
         {
-            <span class="position-absolute translate-middle badge rounded-pill nav-icon-badge">
-                @Model
-            </span>
+            if (Model > 99)
+            {
+                <span class="position-absolute translate-middle badge rounded-pill nav-icon-badge">
+                    99+
+                </span>
+            }
+            else
+            {
+                <span class="position-absolute translate-middle badge rounded-pill nav-icon-badge">
+                    @Model
+                </span>
+            }
         }
     </span>
 
