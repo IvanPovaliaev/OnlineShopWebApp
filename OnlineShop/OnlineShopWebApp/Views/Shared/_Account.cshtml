@@ -1,5 +1,40 @@
-﻿
-<div class="col-3 d-flex align-items-center flex-column fill-height" data-bs-toggle="modal" data-bs-target="#exampleModal">
+﻿<div class="col-3 d-flex align-items-center flex-column fill-height" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
     <span class="bi bi-person-fill text-blue nav-icon"></span>
     <span class="text-black">Кабинет</span>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered w-25">
+        <div class="modal-content account-modal">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="staticBackdropLabel">Вход</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="modal-body">
+                <form method="post" id="loginForm" asp-controller="User" asp-action="Login">
+                    <div class="mb-3">
+                        <input type="text" class="form-control input-field" name="Email" placeholder="Email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" class="form-control input-field" name="Password" placeholder="Пароль" required>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer d-flex flex-column">
+                <button class="btn btn-main btn-login-modal w-100 mb-3" type="submit" form="loginForm">
+                    Войти
+                </button>
+                <div class=" row align-content-center justify-content-center mb-3">
+                    <span class="text-blue">Забыли пароль?</span>
+                </div>
+                <div class="row align-content-center justify-content-center">
+                    <span class="text-blue">Регистрация</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
