@@ -295,3 +295,12 @@ footer {
     color: $third-color;
     cursor: pointer;
 }
+
+.nav-list {
+    list-style: none;
+}
+
+.nav-list-item {
+    height: 3rem;
+    border-bottom: 1px solid $third-color;
+}
