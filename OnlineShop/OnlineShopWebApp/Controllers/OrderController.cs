@@ -25,6 +25,9 @@ namespace OnlineShopWebApp.Controllers
         public IActionResult Create(Order order)
         {
             order.UserId = _userId;
+            order.Positions = _cartsService
+                .Get(_userId).Positions;
+
             _cartsService.Delete(_userId);
             _ordersService.Save(order);
             return View(order);
