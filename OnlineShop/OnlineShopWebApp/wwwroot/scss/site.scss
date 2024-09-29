@@ -184,6 +184,10 @@ a {
     color: $unactive-color;
 }
 
+.text-unactive:hover {
+    color: $main-color;
+}
+
 .carousel-inner img {
     height: 400px;
     object-fit: cover;
