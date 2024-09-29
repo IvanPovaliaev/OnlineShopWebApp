@@ -3,6 +3,10 @@
 
 // Write your JavaScript code.
 
-$(document).on('click', '[data-bs-target="#staticBackdrop"]', function () {
-    $('#staticBackdrop').appendTo('body');
+$(document).on('click', '[data-bs-target="#loginModal"]', function () {
+    $('#loginModal').appendTo('body');
+});
+
+$(document).on('click', '[data-bs-target="#registrationModal"]', function () {
+    $('#registrationModal').appendTo('body');
 });
