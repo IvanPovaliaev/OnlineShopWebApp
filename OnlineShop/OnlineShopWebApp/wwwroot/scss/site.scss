@@ -286,3 +286,12 @@ footer {
 .account-modal {
     border-radius: 1.25rem;
 }
+
+.modal-toggle {
+    color: $main-color;
+}
+
+.modal-toggle:hover {
+    color: $third-color;
+    cursor: pointer;
+}
