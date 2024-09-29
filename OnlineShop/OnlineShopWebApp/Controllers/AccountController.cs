@@ -3,11 +3,8 @@ using OnlineShopWebApp.Models;
 
 namespace OnlineShopWebApp.Controllers
 {
-    public class UserController : Controller
+    public class AccountController : Controller
     {
-        public UserController()
-        {
-        }
 
         /// <summary>
         /// Login as user
