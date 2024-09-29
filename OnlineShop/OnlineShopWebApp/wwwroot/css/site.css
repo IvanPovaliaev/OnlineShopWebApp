@@ -270,3 +270,7 @@ footer {
   top: 25%;
   left: 100%;
 }
+
+.modal-nav {
+  z-index: 10000;
+}
