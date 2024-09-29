@@ -11,7 +11,7 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Home page</returns>
         [HttpPost]
-        public IActionResult Login(Login login)
+        public IActionResult Login(Login login, bool keepMeLogged)
         {
             return RedirectToAction("Index", "Home");
         }
