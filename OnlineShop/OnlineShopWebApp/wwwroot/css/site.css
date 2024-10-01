@@ -317,6 +317,10 @@ footer {
   width: auto;
 }
 
+.admin-products-image:hover {
+  transform: scale(1.1);
+}
+
 .admin-product-add-image {
   height: 20rem;
   width: auto;

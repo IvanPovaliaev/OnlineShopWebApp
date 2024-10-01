@@ -37,11 +37,17 @@
                                         @{
                                             var productImageUrl = product.ImageUrl ?? "/img/DefaultProductImage.png";
                                         }
-                                        <img class="admin-products-image" src="@productImageUrl" alt="@product.Name image">
+                                        <a asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
+                                            <img class="admin-products-image" src="@productImageUrl" alt="@product.Name image">
+                                        </a>                                        
                                     </div>
 
                                 </td>
-                                <td>@product.Name</td>
+                                <td>
+                                    <a class="text-black" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
+                                        @product.Name
+                                    </a>
+                                </td>
                                 <td>@product.Description</td>
                                 <td>
                                     <div class="dropdown d-flex align-items-stretch fill-height">
