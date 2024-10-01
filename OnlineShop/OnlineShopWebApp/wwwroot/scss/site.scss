@@ -324,3 +324,15 @@ footer {
     height: 125px;
     width: auto;
 }
+
+.btn-admin-product-options {
+    background: $third-color;
+    border-radius: 5px;
+    width: auto;
+    border: none;
+    font-size: 1rem;
+}
+
+.table td {
+    word-break: break-all;
+}

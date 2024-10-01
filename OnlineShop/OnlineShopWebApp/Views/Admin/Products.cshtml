@@ -8,60 +8,17 @@
 		</div>
 
 		<div class="col">
-			<h2>Список продуктов</h2>
-			<hr class="border-brown mb-3" />
+            <div class="row">
+                <h2>Добавить товар</h2>
+                <hr class="border-brown mb-3" />
+            </div>
+            <div class="row">
+                <div>
+                    <img src="/img/DefaultProductImage.png" alt="Стандартная картинка">
+                </div>
+                
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="col-1">#</th>
-                        <th scope="col" class="col-3">Изображение</th>
-                        <th scope="col" class="col-3">Наименование</th>
-                        <th scope="col" class="col-3">Описание</th>
-                        <th scope="col" class="col-2">Опции</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Model)
-                    {
-                        <tr class="admin-products-row position-relative">
-                            <td class="flex-wrap">@product.Article</td>
-                            <td class="position-relative">
-                                <div>
-                                    <img class="admin-products-image" src="@product.ImageUrl" alt="@product.Name image">
-                                </div>
-
-                            </td>
-                            <td>@product.Name</td>
-                            <td>@product.Description</td>
-                            <td>
-                                <div class="dropdown d-flex align-items-stretch col-auto fill-height">
-                                    <button class="btn btn-secondary dropdown-toggle d-flex align-items-center justify-content-between btn-catalog"
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                        Опции
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li>
-                                            <a class="dropdown-item text-dark"
-                                               asp-area="" asp-controller="Admin" asp-action="EditProduct" asp-route-productId="@product.Id">
-                                                Редактировать
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item text-dark"
-                                               asp-area="" asp-controller="Product" asp-action="Delete" asp-route-productId="@product.Id">
-                                                Удалить
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            </div>              
 		</div>
 
 	</div>
