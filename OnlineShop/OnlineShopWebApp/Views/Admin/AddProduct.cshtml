@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Product>
-
-<section class="container flex-row">
+﻿<section class="container flex-row">
 	<div class="row">
 
 		<div class="col-3 flex-column">
@@ -21,6 +19,16 @@
                         <label for="Name" class="form-label">Наименование</label>
                         <input type="text" class="form-control input-field" name="Name" required>
                     </div>
+
+                    <div class="mb-3 col-6">
+                        <label for="Category" class="form-label"> Категория</label>
+                        <select id="category-select" class="form-select" name="Category">
+                            @foreach (var category in Enum.GetValues(typeof(ProductCategories)))
+                            {
+                                <option value="@category">@category</option>
+                            }
+                        </select>
+                    </div>
                     
                     <div class="mb-3">
                         <label for="Cost" class="form-label">Стоимость</label>
@@ -30,20 +38,11 @@
                     <div class="mb-3">
                         <label for="Description" class="form-label">Описание</label>
                         <textarea class="form-control" name="Description" rows="5"></textarea>
-                    </div>
+                    </div>                   
 
-                    <label>Category</label>
-
-                    <select id="category-select" class="form-select" name="Category">
-                        @foreach (var category in Enum.GetValues(typeof(ProductCategories)))
-                        {
-                            <option value="@category">@category</option>
-                        }
-                    </select>
-
-                    
+                    @* Блок для подгрузки характеристик *@
                     <div id="specifications-form">
-                        
+                        @await Html.PartialAsync("_NavigationPanel")
                     </div>
 
                     <button type="submit">Create Product</button>
@@ -54,17 +53,23 @@
 </section>
 
 
-
+@* TODO: Окончательно разобраться с JS и причесать этот ужас *@
 @section Scripts {
     <script>
-        // Событие на изменение категории
-        $('#category-select').change(function() {
-            var selectedCategory = $(this).val();
+        $(document).ready(function() {
+            var selectedCategory = $('#category-select').val();
 
-            // Отправка AJAX-запроса для получения формы
-            $.get('@Url.Action("GetSpecificationsForm", "Product")', { category: selectedCategory }, function (response) {
+            $.get('/Product/GetSpecificationsForm', { category: selectedCategory }, function(response) {
                 $('#specifications-form').html(response);
             });
-        });
+
+                $('#category-select').change(function() {
+                    var selectedCategory = $(this).val();
+
+                    $.get('@Url.Action("GetSpecificationsForm", "Product")', { category: selectedCategory }, function (response) {
+                        $('#specifications-form').html(response);
+                    });
+                });
+            });
     </script>
 }

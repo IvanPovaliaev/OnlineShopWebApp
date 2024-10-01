@@ -78,7 +78,7 @@ namespace OnlineShopWebApp.Controllers
             {
                 ProductCategories.GraphicCards => PartialView("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml"),
                 ProductCategories.Processors => PartialView("~/Views/Admin/SpecificationsForms/_ProcessorForm.cshtml"),
-                ProductCategories.Motherboards => PartialView("~/Views/SpecificationsForms/Admin/_MotherboardForm.cshtml"),
+                ProductCategories.Motherboards => PartialView("~/Views/Admin/SpecificationsForms/_MotherboardForm.cshtml"),
                 ProductCategories.SSD => PartialView("~/Views/Admin/SpecificationsForms/_SsdForm.cshtml"),
                 ProductCategories.HDD => PartialView("~/Views/Admin/SpecificationsForms/_HddForm.cshtml"),
                 ProductCategories.RAM => PartialView("~/Views/Admin/SpecificationsForms/_RamForm.cshtml"),
