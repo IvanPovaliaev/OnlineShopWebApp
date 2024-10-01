@@ -2,6 +2,7 @@ $main-color: #729FD8;
 $second-color: #C9E0F2;
 $third-color: #8c6642;
 $unactive-color: #D9D9D9;
+$bg-color: white;
 
 @media (min-width: 768px) {
   html {
@@ -267,4 +268,13 @@ footer {
 .favorite-comparicon-icon:hover {
     color: $third-color;
     cursor: pointer;
+}
+
+.nav-icon-badge {
+    font-size: 12px;
+    color: black;
+    background-color: $bg-color;
+    border: 1px solid $third-color;
+    top: 25%;
+    left: 100%;
 }

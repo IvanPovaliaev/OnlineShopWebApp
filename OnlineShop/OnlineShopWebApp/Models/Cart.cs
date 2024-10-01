@@ -11,7 +11,12 @@ namespace OnlineShopWebApp.Models
         public List<CartPosition> Positions { get; set; }
         public decimal TotalCost
         {
-            get => Positions.Sum(p => p.Cost);
+            get => Positions?.Sum(p => p.Cost) ?? 0;
+        }
+
+        public int TotalQuantity
+        {
+            get => Positions?.Sum(p => p.Quantity) ?? 0;
         }
 
         public Cart(Guid userId)

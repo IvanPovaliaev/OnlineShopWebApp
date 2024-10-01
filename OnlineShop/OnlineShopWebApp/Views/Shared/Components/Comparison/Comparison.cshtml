@@ -1,0 +1,25 @@
+﻿@model int
+
+<a class="col-3 d-flex align-items-center flex-column fill-height"
+   asp-area="" asp-controller="Comparison" asp-action="Index">
+
+    <span class="bi bi-file-earmark-bar-graph-fill text-blue nav-icon position-relative">
+        @if (Model != 0)
+        {
+            if (Model > 99)
+            {
+                <span class="position-absolute translate-middle badge rounded-pill nav-icon-badge">
+                    99+
+                </span>
+            }
+            else
+            {
+                <span class="position-absolute translate-middle badge rounded-pill nav-icon-badge">
+                    @Model
+                </span>
+            }
+        }
+    </span>
+
+    <span class="text-black">Сравнение</span>
+</a>
