@@ -23,5 +23,10 @@ namespace OnlineShopWebApp.Interfaces
         /// </summary>
         /// <param name="products">Products list</param>
         public void Add(List<Product> products);
+
+        /// <summary>
+        /// Delete product by GUID
+        /// </summary>
+        public void Delete(Guid id);
     }
 }

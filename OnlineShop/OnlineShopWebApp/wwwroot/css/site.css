@@ -300,3 +300,19 @@ footer {
   height: 3rem;
   border-bottom: 1px solid #8c6642;
 }
+
+.admin-products-row {
+  height: 125px;
+  border-bottom: 1px solid #8c6642;
+  vertical-align: middle;
+}
+
+.admin-products-cell {
+  height: 125px;
+  border-bottom: 1px solid #8c6642;
+}
+
+.admin-products-image {
+  height: 125px;
+  width: auto;
+}

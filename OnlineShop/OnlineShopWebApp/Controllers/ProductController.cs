@@ -52,5 +52,15 @@ namespace OnlineShopWebApp.Controllers
             var products = _productsService.GetAll();
             return View(products);
         }
+
+        /// <summary>
+        /// Delete product by Id
+        /// </summary>
+        /// <returns>Admins products View</returns>        
+        public IActionResult Delete(Guid productId)
+        {
+            _productsService.Delete(productId);
+            return RedirectToAction("Products", "Admin");
+        }
     }
 }

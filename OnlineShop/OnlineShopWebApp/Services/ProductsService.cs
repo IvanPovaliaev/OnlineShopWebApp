@@ -46,6 +46,14 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Delete product from repository by GUID
+        /// </summary>
+        public void Delete(Guid id)
+        {
+            _productsRepository.Delete(id);
+        }
+
+        /// <summary>
         /// Initializes initial products if repository is empty;
         /// </summary>
         private void InitializeProducts()
