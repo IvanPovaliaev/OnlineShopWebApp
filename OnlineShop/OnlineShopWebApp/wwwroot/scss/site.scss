@@ -158,6 +158,10 @@ a {
     display: none;
 }
 
+.btn-login-modal{
+    height: 3rem;
+}
+
 .border-main {
     border: 1px solid $main-color;
     border-radius: 5px;
@@ -277,4 +281,8 @@ footer {
     border: 1px solid $third-color;
     top: 25%;
     left: 100%;
+}
+
+.account-modal {
+    border-radius: 1.25rem;
 }

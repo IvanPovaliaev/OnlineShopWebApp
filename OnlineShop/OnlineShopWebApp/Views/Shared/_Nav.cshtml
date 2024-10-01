@@ -86,11 +86,8 @@
                 @await Component.InvokeAsync("Favorite")
                 @await Component.InvokeAsync("Comparison")
                 @await Component.InvokeAsync("Cart")
+                @await Html.PartialAsync("_Account")
 
-                <a class="col-3 d-flex align-items-center flex-column fill-height" href="#">
-                    <span class="bi bi-person-fill text-blue nav-icon"></span>
-                    <span class="text-black">Кабинет</span>
-                </a>
             </div>
         </div>
     </div>
