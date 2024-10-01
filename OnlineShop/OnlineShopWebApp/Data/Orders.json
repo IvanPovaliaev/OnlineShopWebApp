@@ -64,5 +64,48 @@
       }
     ],
     "Article": 5110437412732724769
+  },
+  {
+    "Id": "75685a7b-9015-4f3a-9f05-6651b2c6a25b",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-09-29T22:16:44.1215161+03:00",
+    "Status": 0,
+    "City": "г. Лондон",
+    "Address": "Великобритания, Англия, г. Лондон, Бейкер-стрит, 221В",
+    "Entrance": null,
+    "Floor": null,
+    "Apartment": null,
+    "PostCode": 222222,
+    "FullName": "Холмс Шерлок",
+    "Email": "holms@gmail.com",
+    "Phone": "020 7224 3688",
+    "ReservePhone": null,
+    "AdditionalInfo": null,
+    "Positions": [
+      {
+        "Id": "5fa78132-c59d-4ed2-afd1-74184e96d0d6",
+        "Product": {
+          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+          "Cost": 20790.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+          "Article": 5297320867569492517,
+          "Specifications": {
+            "Manufacturer": "ADATA",
+            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "64 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "5600 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 20790.0
+      }
+    ],
+    "Article": 5709033899484011131
   }
 ]
