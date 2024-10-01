@@ -48,6 +48,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Add product to repository
         /// </summary>
+        /// <param name="product">Target product</param>
         public void Add(Product product)
         {
             _productsRepository.Add(product);

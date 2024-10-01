@@ -53,7 +53,12 @@ namespace OnlineShopWebApp.Controllers
             return View(products);
         }
 
-        public IActionResult Create(Product product)
+        /// <summary>
+        /// Add a new product
+        /// </summary>
+        /// <returns>Admins products View</returns> 
+        /// <param name="product">Target product</param>  
+        public IActionResult Add(Product product)
         {
             _productsService.Add(product);
             return RedirectToAction("Products", "Admin");
@@ -62,20 +67,29 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Delete product by Id
         /// </summary>
-        /// <returns>Admins products View</returns>        
+        /// <returns>Admins products View</returns>
+        /// <param name="productId">Target productId</param>  
         public IActionResult Delete(Guid productId)
         {
             _productsService.Delete(productId);
             return RedirectToAction("Products", "Admin");
         }
 
+        /// <summary>
+        /// Delete product
+        /// </summary>
+        /// <returns>Admins products View</returns>      
         public IActionResult Update(Product product)
         {
             _productsService.Update(product);
             return RedirectToAction("Products", "Admin");
         }
 
-
+        /// <summary>
+        /// Get Partial View for product specifications depending on the category
+        /// </summary>
+        /// <returns>Relevant Partial View</returns>
+        /// <param name="category">Product category</param>   
         public IActionResult GetSpecificationsForm(ProductCategories category)
         {
             return category switch

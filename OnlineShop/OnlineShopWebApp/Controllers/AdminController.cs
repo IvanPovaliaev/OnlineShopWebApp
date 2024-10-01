@@ -49,11 +49,19 @@ namespace OnlineShopWebApp.Controllers
             return View(products);
         }
 
+        /// <summary>
+        /// Open Admin AddProduct Page
+        /// </summary>
+        /// <returns>Admin AddProduct View</returns>
         public IActionResult AddProduct()
         {
             return View();
         }
 
+        /// <summary>
+        /// Open Admin EditProduct Page
+        /// </summary>
+        /// <returns>Admin EditProduct View</returns>
         public IActionResult EditProduct(Guid productId)
         {
             var product = _productsService.Get(productId);
