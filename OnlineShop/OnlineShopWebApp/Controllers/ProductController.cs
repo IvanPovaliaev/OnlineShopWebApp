@@ -65,9 +65,7 @@ namespace OnlineShopWebApp.Controllers
 
         public IActionResult Create(Product product)
         {
-            //string name, decimal cost, string description, ProductCategories category
-            //var product = new Product(name, cost, description, category);
-            //_productsService.Add(product);
+            _productsService.Add(product);
             return RedirectToAction("Products", "Admin");
         }
 

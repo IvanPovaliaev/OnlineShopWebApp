@@ -87,5 +87,28 @@
       }
     },
     "Id": "650896d5-c85b-4d41-a2fd-3669b452a04a"
+  },
+  {
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "41eada9a-7f93-4fb2-8906-b98c77d11c79",
+      "Name": "Лучший процессор",
+      "Cost": 123541.0,
+      "Description": "Лучший процессор (правда-правда)",
+      "Category": 1,
+      "ImageUrl": null,
+      "Article": 5742792745293634202,
+      "Specifications": {
+        "Manufacturer": "Лучший производитель",
+        "ManufacturerCode": "88005553535",
+        "Model": "Лучшая модель",
+        "Socket": "LGA 1700",
+        "Architecture": "BestArc",
+        "CoresCount": "6",
+        "ThreadsCount": "12",
+        "ClockSpeed": "1234"
+      }
+    },
+    "Id": "e54b31f8-41f6-43ee-be65-a505cb4b9f6f"
   }
 ]

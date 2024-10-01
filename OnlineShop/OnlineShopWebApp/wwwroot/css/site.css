@@ -317,6 +317,11 @@ footer {
   width: auto;
 }
 
+.admin-product-add-image {
+  height: 20rem;
+  width: auto;
+}
+
 .btn-admin-product-options {
   background: #8c6642;
   border-radius: 5px;
