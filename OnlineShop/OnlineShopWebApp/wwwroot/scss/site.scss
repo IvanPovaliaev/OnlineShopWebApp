@@ -184,6 +184,10 @@ a {
     color: $unactive-color;
 }
 
+.text-unactive:hover {
+    color: $main-color;
+}
+
 .carousel-inner img {
     height: 400px;
     object-fit: cover;
@@ -294,4 +298,13 @@ footer {
 .modal-toggle:hover {
     color: $third-color;
     cursor: pointer;
+}
+
+.nav-list {
+    list-style: none;
+}
+
+.nav-list-item {
+    height: 3rem;
+    border-bottom: 1px solid $third-color;
 }
