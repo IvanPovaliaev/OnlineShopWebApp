@@ -14,17 +14,20 @@ namespace OnlineShopWebApp.Interfaces
 
         /// <summary>
         /// Create a new cart
-        /// </summary>   
+        /// </summary> 
+        /// <param name="cart">Target cart</param>
         void Create(Cart cart);
 
         /// <summary>
         /// Update cart with identical id. If cart is not in the repository - does nothing.
-        /// </summary>  
+        /// </summary>
+        /// <param name="cart">Target cart</param>
         void Update(Cart cart);
 
         /// <summary>
         /// Delete cart with identical id. If cart is not in the repository - does nothing.
-        /// </summary>  
+        /// </summary>
+        /// <param name="cart">Target cart</param>
         void Delete(Cart cart);
     }
 }

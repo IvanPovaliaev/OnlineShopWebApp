@@ -53,6 +53,12 @@ namespace OnlineShopWebApp.Controllers
             return View(products);
         }
 
+        public IActionResult Create(Product product)
+        {
+            _productsService.Add(product);
+            return RedirectToAction("Products", "Admin");
+        }
+
         /// <summary>
         /// Delete product by Id
         /// </summary>
@@ -63,9 +69,9 @@ namespace OnlineShopWebApp.Controllers
             return RedirectToAction("Products", "Admin");
         }
 
-        public IActionResult Create(Product product)
+        public IActionResult Update(Product product)
         {
-            _productsService.Add(product);
+            _productsService.Update(product);
             return RedirectToAction("Products", "Admin");
         }
 

@@ -1,47 +1,64 @@
-﻿<div class="row d-flex justify-content-between gx-3 mb-3">
+﻿@model Dictionary<string, string>
+
+@{
+    var tryGetValue = (string key) =>
+        {
+            try
+            {
+                var value = Model[key];
+                return value;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        };
+}
+
+<div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col">
         <label for="Manufacturer" class="form-label">Производитель</label>
-        <input type="text" class="form-control input-field" name="Specifications[Manufacturer]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Manufacturer]" value="@tryGetValue("Manufacturer")" required>
     </div>
 
     <div class="col">
         <label for="ManufacturerCode" class="form-label">Код производителя</label>
-        <input type="text" class="form-control input-field" name="Specifications[ManufacturerCode]" required>
+        <input type="text" class="form-control input-field" name="Specifications[ManufacturerCode]" value="@tryGetValue("ManufacturerCode")" required>
     </div>
 </div>
 
 <div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col-6">
         <label for="Model" class="form-label">Модель</label>
-        <input type="text" class="form-control input-field" name="Specifications[Model]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Model]" value="@tryGetValue("Model")" required>
     </div>
 
     <div class="col-6">
         <label for="Socket" class="form-label">Сокет</label>
-        <input type="text" class="form-control input-field" name="Specifications[Socket]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Socket]" value="@tryGetValue("Socket")" required>
     </div>
 </div>
 
 <div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col-6">
         <label for="Architecture" class="form-label">Архитектура</label>
-        <input type="text" class="form-control input-field" name="Specifications[Architecture]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Architecture]" value="@tryGetValue("Architecture")" required>
     </div>
 
     <div class="col-6">
         <label for="CoresCount" class="form-label">Кол-во ядер</label>
-        <input type="text" class="form-control input-field" name="Specifications[CoresCount]" required>
+        <input type="text" class="form-control input-field" name="Specifications[CoresCount]" value="@tryGetValue("CoresCount")" required>
     </div>
 </div>
 
 <div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col-6">
         <label for="ThreadsCount" class="form-label">Количество потоков</label>
-        <input type="text" class="form-control input-field" name="Specifications[ThreadsCount]" required>
+        <input type="text" class="form-control input-field" name="Specifications[ThreadsCount]" value="@tryGetValue("ThreadsCount")" required>
     </div>
 
     <div class="col-6">
         <label for="ClockSpeed" class="form-label">Тактовая частота</label>
-        <input type="text" class="form-control input-field" name="Specifications[ClockSpeed]" required>
+        <input type="text" class="form-control input-field" name="Specifications[ClockSpeed]" value="@tryGetValue("ClockSpeed")" required>
     </div>
 </div>

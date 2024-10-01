@@ -1,23 +1,40 @@
-﻿<div class="row d-flex justify-content-between gx-3 mb-3">
+﻿@model Dictionary<string, string>
+
+@{
+    var tryGetValue = (string key) =>
+        {
+            try
+            {
+                var value = Model[key];
+                return value;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        };
+}
+
+<div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col">
         <label for="Manufacturer" class="form-label">Производитель</label>
-        <input type="text" class="form-control input-field" name="Specifications[Manufacturer]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Manufacturer]" value="@tryGetValue("Manufacturer")" required>
     </div>
 
     <div class="col">
         <label for="ManufacturerCode" class="form-label">Код производителя</label>
-        <input type="text" class="form-control input-field" name="Specifications[ManufacturerCode]" required>
+        <input type="text" class="form-control input-field" name="Specifications[ManufacturerCode]" value="@tryGetValue("ManufacturerCode")" required>
     </div>
 </div>
 
 <div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col-6">
         <label for="Socket" class="form-label">Сокет</label>
-        <input type="text" class="form-control input-field" name="Specifications[Socket]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Socket]" value="@tryGetValue("Socket")" required>
     </div>
 
     <div class="col-6">
         <label for="Chipset" class="form-label">Чипсет</label>
-        <input type="text" class="form-control input-field" name="Specifications[Chipset]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Chipset]" value="@tryGetValue("Chipset")" required>
     </div>
 </div>

@@ -1,0 +1,85 @@
+﻿@using System.Globalization
+@model Product
+
+@{
+    var price = Model.Cost.ToString("F2", CultureInfo.InvariantCulture);
+}
+
+<section class="container flex-row">
+	<div class="row">
+
+		<div class="col-3 flex-column">
+			@await Html.PartialAsync("_NavigationPanel")
+		</div>
+
+		<div class="col">
+            <div class="row">
+                <h2>Добавить товар</h2>
+                <hr class="border-brown mb-3" />
+                <div class="d-flex justify-content-center">
+                    <img class="admin-product-add-image" src="/img/DefaultProductImage.png" alt="Стандартная картинка">
+                </div>
+            </div>
+            <div class="row">
+                <form method="post" id="addProductForm" asp-controller="Product" asp-action="Update">
+                    @* Общие свойства товара *@
+                    <div class="row">
+
+                        <input type="hidden" name="Id" value="@Model.Id" />
+
+                        <div class="mb-3 col-6">
+                            <label for="Name" class="form-label">Наименование</label>
+                            <input type="text" class="form-control input-field" name="Name" value="@Model.Name" required>
+                        </div>
+
+                        <div class="mb-3 col-6">
+                            <label for="Category" class="form-label"> Категория</label>
+                            <input type="text" class="form-control input-field" name="Category" value="@Model.Category" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="Cost" class="form-label">Стоимость</label>
+                        <input type="number" class="form-control input-field" name="Cost" placeholder="От 10 до 1000000 рублей" value="@price" required min="10" max="1000000">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">Описание</label>
+                        <textarea class="form-control" name="Description" rows="5">@Model.Description</textarea>
+                    </div>                   
+
+                    @{
+                        switch (Model.Category)
+                        {
+                            case ProductCategories.GraphicCards:
+                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml", Model.Specifications);
+                                break;
+                            case ProductCategories.Processors:
+                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_ProcessorForm.cshtml", Model.Specifications);
+                                break;
+                            case ProductCategories.Motherboards:
+                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml", Model.Specifications);
+                                break;
+                            case ProductCategories.SSD:
+                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_SsdForm.cshtml", Model.Specifications);
+                                break;
+                            case ProductCategories.HDD:
+                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_HddForm.cshtml", Model.Specifications);
+                                break;
+                            case ProductCategories.RAM:
+                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_RamForm.cshtml", Model.Specifications);
+                                break;
+                            case ProductCategories.PowerSupplies:
+                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_PowerSupplyForm.cshtml", Model.Specifications);
+                                break;
+                        }
+                    }
+
+                    <button class="btn btn-main mb-3" type="submit">
+                        Обновить данные
+                    </button>
+                </form>
+            </div>              
+		</div>
+	</div>
+</section>

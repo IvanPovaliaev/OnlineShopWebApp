@@ -45,5 +45,18 @@ namespace OnlineShopWebApp.Repositories
             _products.Remove(product);
             _jsonRepositoryService.SaveChanges(FilePath, _products);
         }
+
+        public void Update(Product product)
+        {
+            var repositoryProductIndex = _products.FindIndex(p => p.Id == product.Id);
+
+            if (repositoryProductIndex == -1)
+            {
+                return;
+            }
+
+            _products[repositoryProductIndex] = product;
+            _jsonRepositoryService.SaveChanges(FilePath, _products);
+        }
     }
 }

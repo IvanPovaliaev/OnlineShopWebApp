@@ -1,30 +1,47 @@
-﻿<div class="row d-flex justify-content-between gx-3 mb-3">
+﻿@model Dictionary<string, string>
+
+@{
+    var tryGetValue = (string key) =>
+        {
+            try
+            {
+                var value = Model[key];
+                return value;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        };
+}
+
+<div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col">
         <label for="Manufacturer" class="form-label">Производитель</label>
-        <input type="text" class="form-control input-field" name="Specifications[Manufacturer]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Manufacturer]" value="@tryGetValue("Manufacturer")" required>
     </div>
 
     <div class="col">
         <label for="ManufacturerCode" class="form-label">Код производителя</label>
-        <input type="text" class="form-control input-field" name="Specifications[ManufacturerCode]" required>
+        <input type="text" class="form-control input-field" name="Specifications[ManufacturerCode]" value="@tryGetValue("ManufacturerCode")" required>
     </div>
 </div>
 
 <div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col-6">
         <label for="FormFactor" class="form-label">Форм-фактор</label>
-        <input type="text" class="form-control input-field" name="Specifications[FormFactor]" required>
+        <input type="text" class="form-control input-field" name="Specifications[FormFactor]" value="@tryGetValue("FormFactor")" required>
     </div>
 
     <div class="col-6">
         <label for="Interface" class="form-label">Интерфейс</label>
-        <input type="text" class="form-control input-field" name="Specifications[Interface]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Interface]" value="@tryGetValue("Interface")" required>
     </div>
 </div>
 
 <div class="row d-flex justify-content-between gx-3 mb-3">
     <div class="col-6">
         <label for="Capacity" class="form-label">Объём накопителя</label>
-        <input type="text" class="form-control input-field" name="Specifications[Capacity]" required>
+        <input type="text" class="form-control input-field" name="Specifications[Capacity]" value="@tryGetValue("Capacity")" required>
     </div>
 </div>
