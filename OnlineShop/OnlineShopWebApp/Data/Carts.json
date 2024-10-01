@@ -1,1 +1,33 @@
-[]
+[
+  {
+    "Id": "b76f486b-0660-41ab-b059-76953a9ce014",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Positions": [
+      {
+        "Id": "9353e2c8-82c1-4004-b803-4825b95f9d45",
+        "Product": {
+          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+          "Cost": 20790.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+          "Article": 5297320867569492517,
+          "Specifications": {
+            "Manufacturer": "ADATA",
+            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "64 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "5600 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 20790.0
+      }
+    ],
+    "TotalCost": 20790.0,
+    "TotalQuantity": 1
+  }
+]

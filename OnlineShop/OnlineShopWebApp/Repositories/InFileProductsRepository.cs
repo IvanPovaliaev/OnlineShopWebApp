@@ -33,6 +33,12 @@ namespace OnlineShopWebApp.Repositories
             _jsonRepositoryService.SaveChanges(FilePath, _products);
         }
 
+        public void Add(Product product)
+        {
+            _products.Add(product);
+            _jsonRepositoryService.SaveChanges(FilePath, _products);
+        }
+
         public void Delete(Guid id)
         {
             var product = Get(id);

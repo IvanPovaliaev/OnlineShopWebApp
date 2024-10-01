@@ -62,5 +62,29 @@ namespace OnlineShopWebApp.Controllers
             _productsService.Delete(productId);
             return RedirectToAction("Products", "Admin");
         }
+
+        public IActionResult Create(Product product)
+        {
+            //string name, decimal cost, string description, ProductCategories category
+            //var product = new Product(name, cost, description, category);
+            //_productsService.Add(product);
+            return RedirectToAction("Products", "Admin");
+        }
+
+
+        public IActionResult GetSpecificationsForm(ProductCategories category)
+        {
+            return category switch
+            {
+                ProductCategories.GraphicCards => PartialView("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml"),
+                ProductCategories.Processors => PartialView("~/Views/Admin/SpecificationsForms/_ProcessorForm.cshtml"),
+                ProductCategories.Motherboards => PartialView("~/Views/SpecificationsForms/Admin/_MotherboardForm.cshtml"),
+                ProductCategories.SSD => PartialView("~/Views/Admin/SpecificationsForms/_SsdForm.cshtml"),
+                ProductCategories.HDD => PartialView("~/Views/Admin/SpecificationsForms/_HddForm.cshtml"),
+                ProductCategories.RAM => PartialView("~/Views/Admin/SpecificationsForms/_RamForm.cshtml"),
+                ProductCategories.PowerSupplies => PartialView("~/Views/Admin/SpecificationsForms/_PowerSupplyForm.cshtml"),
+                _ => Content("No form available for this category.")
+            };
+        }
     }
 }

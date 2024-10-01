@@ -16,14 +16,19 @@ namespace OnlineShopWebApp.Models
         //Необходимые характеристики будут определяться на фронте в зависимости от категории
         public Dictionary<string, string> Specifications { get; set; }
 
-        public Product(string name, decimal cost, string description, ProductCategories category, string? imageUrl = null)
+        //Без данного конструктора не принимает данные в контроллере. Комментарий удалю после ревью
+        public Product()
         {
             Id = Guid.NewGuid();
+        }
+
+        public Product(string name, decimal cost, string description, ProductCategories category, string? imageUrl = null) : this()
+        {
             Name = name;
             Cost = cost;
             Description = description;
             Category = category;
-            Specifications = new Dictionary<string, string>();
+            Specifications = [];
             ImageUrl = imageUrl;
         }
 

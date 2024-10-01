@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="row">
-                <form method="post" id="orderForm" asp-controller="Product" asp-action="Create">
+                <form method="post" id="addProductForm" asp-controller="Product" asp-action="Create">
                     <div class="mb-3 col-6">
                         <label for="Name" class="form-label">Наименование</label>
                         <input type="text" class="form-control input-field" name="Name" required>
@@ -34,25 +34,26 @@
 
                     <label>Category</label>
 
-                    <select id="category-select">
+                    <select id="category-select" class="form-select" name="Category">
                         @foreach (var category in Enum.GetValues(typeof(ProductCategories)))
                         {
                             <option value="@category">@category</option>
                         }
                     </select>
 
-                    @* Блок для подгрузки форм *@
+                    
                     <div id="specifications-form">
                         
                     </div>
 
                     <button type="submit">Create Product</button>
-
                 </form>
             </div>              
 		</div>
 	</div>
 </section>
+
+
 
 @section Scripts {
     <script>
@@ -61,7 +62,7 @@
             var selectedCategory = $(this).val();
 
             // Отправка AJAX-запроса для получения формы
-            $.get('/Product/GetSpecificationsForm', { category: selectedCategory }, function(response) {
+            $.get('@Url.Action("GetSpecificationsForm", "Product")', { category: selectedCategory }, function (response) {
                 $('#specifications-form').html(response);
             });
         });

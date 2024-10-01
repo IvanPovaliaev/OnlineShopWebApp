@@ -46,6 +46,14 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Add product to repository
+        /// </summary>
+        public void Add(Product product)
+        {
+            _productsRepository.Add(product);
+        }
+
+        /// <summary>
         /// Delete product from repository by GUID
         /// </summary>
         public void Delete(Guid id)
