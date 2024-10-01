@@ -54,6 +54,17 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
+        /// Get all products that match the search query
+        /// </summary>
+        /// <returns>Page with found products</returns>        
+        public IActionResult SearchResult(string searchQuery)
+        {
+            var products = _productsService.GetAllFromSearch(searchQuery);
+            var productsWithQuery = (products, searchQuery);
+            return View(productsWithQuery);
+        }
+
+        /// <summary>
         /// Add a new product
         /// </summary>
         /// <returns>Admins products View</returns> 

@@ -1,0 +1,25 @@
+﻿@model (List<Product>, string)
+@{
+    var products = Model.Item1;
+    var searchQuery = Model.Item2;
+    ViewData["Title"] = "Результаты поиска";
+}
+
+<section class="container d-flex flex-column">
+    <h2>Результаы поиска "@searchQuery"</h2>
+    <hr class="border-brown" />
+
+    <div class="container">
+        <div class="row gx-3">
+            @* Генерация карт товаров *@
+            @{
+                if (products.Count == 0)
+                {
+                    <p>Товары отсутствуют</p>
+                    return;
+                }
+                @await Html.PartialAsync("_ProductCards", products)
+            }
+        </div>
+    </div>
+</section>
