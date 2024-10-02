@@ -42,13 +42,18 @@ namespace OnlineShopWebApp.Services
         /// <param name="searchQuery">Search query</param>
         public List<Product> GetAllFromSearch(string searchQuery)
         {
-            var isContain = IsNameContainsString;
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                return [];
+            }
+
+            var isProductInfoContainsString = IsNameContainsString;
 
             var isNumber = long.TryParse(searchQuery, out _);
 
             if (isNumber)
             {
-                isContain = (Product product, string targetString) =>
+                isProductInfoContainsString = (Product product, string targetString) =>
                 {
                     var result = IsNameContainsString(product, targetString) || IsArticleContainsNumber(product, targetString);
                     return result;
@@ -56,7 +61,7 @@ namespace OnlineShopWebApp.Services
             }
 
             var products = GetAll()
-                .Where(p => isContain(p, searchQuery))
+                .Where(p => isProductInfoContainsString(p, searchQuery))
                 .ToList();
 
             return products;
