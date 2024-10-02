@@ -67,6 +67,5 @@ namespace OnlineShopWebApp.Controllers
             var product = _productsService.Get(productId);
             return View(product);
         }
-
     }
 }
