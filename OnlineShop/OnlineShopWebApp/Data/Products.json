@@ -183,5 +183,20 @@
       "Socket": " LGA 1700",
       "Chipset": "Intel B760"
     }
+  },
+  {
+    "Id": "588cb4c8-7655-45b5-b688-ab47d9ebc39f",
+    "Name": "НоваяПлата",
+    "Cost": 132315.0,
+    "Description": "Эта плата создана на клиенте во время теста",
+    "Category": 2,
+    "ImageUrl": null,
+    "Article": 5023051068331570376,
+    "Specifications": {
+      "Manufacturer": "ASUS",
+      "ManufacturerCode": "123Код123",
+      "Socket": " LGA 1700",
+      "Chipset": "Intel B760"
+    }
   }
 ]
