@@ -57,7 +57,8 @@ namespace OnlineShopWebApp.Controllers
         /// Add a new product
         /// </summary>
         /// <returns>Admins products View</returns> 
-        /// <param name="product">Target product</param>  
+        /// <param name="product">Target product</param>
+        [HttpPost]
         public IActionResult Add(Product product)
         {
             _productsService.Add(product);
@@ -78,7 +79,8 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Delete product
         /// </summary>
-        /// <returns>Admins products View</returns>      
+        /// <returns>Admins products View</returns>
+        [HttpPost]
         public IActionResult Update(Product product)
         {
             _productsService.Update(product);
