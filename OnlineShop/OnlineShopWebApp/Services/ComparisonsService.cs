@@ -11,10 +11,11 @@ namespace OnlineShopWebApp.Services
         private readonly IComparisonsRepository _comparisonsRepository;
         private readonly ProductsService _productsService;
 
-        public ComparisonsService(IComparisonsRepository comparisonsRepository, ProductsService productsService)
+        public ComparisonsService(IComparisonsRepository comparisonsRepository, ProductsService productsService, ProductsEventService productsEventService)
         {
             _comparisonsRepository = comparisonsRepository;
             _productsService = productsService;
+            productsEventService.ProductDeleted += DeleteAllByProductId;
         }
 
         /// <summary>
@@ -77,6 +78,15 @@ namespace OnlineShopWebApp.Services
         public void DeleteAll(Guid userId)
         {
             _comparisonsRepository.DeleteAll(userId);
+        }
+
+        /// <summary>
+        /// Delete all ComparisonProducts related to product Id.
+        /// </summary>
+        /// <param name="productId">Target product Id (guid)</param>
+        private void DeleteAllByProductId(Guid productId)
+        {
+            _comparisonsRepository.DeleteAllByProductId(productId);
         }
 
         /// <summary>

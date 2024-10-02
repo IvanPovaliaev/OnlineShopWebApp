@@ -8,11 +8,13 @@ namespace OnlineShopWebApp.Services
 {
     public class ProductsService
     {
+        private readonly ProductsEventService _productsEventService;
         private IProductsRepository _productsRepository;
 
-        public ProductsService(IProductsRepository productsRepository)
+        public ProductsService(IProductsRepository productsRepository, ProductsEventService productsEvent)
         {
             _productsRepository = productsRepository;
+            _productsEventService = productsEvent;
             InitializeProducts();
         }
 
@@ -101,6 +103,7 @@ namespace OnlineShopWebApp.Services
         public void Delete(Guid id)
         {
             _productsRepository.Delete(id);
+            _productsEventService.OnProductDeleted(id);
         }
 
 

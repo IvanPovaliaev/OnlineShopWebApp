@@ -45,5 +45,11 @@ namespace OnlineShopWebApp.Repositories
             _comparisons.RemoveAll(c => c.UserId == userId);
             _jsonRepositoryService.SaveChanges(FilePath, _comparisons);
         }
+
+        public void DeleteAllByProductId(Guid productId)
+        {
+            _comparisons.RemoveAll(c => c.Product.Id == productId);
+            _jsonRepositoryService.SaveChanges(FilePath, _comparisons);
+        }
     }
 }
