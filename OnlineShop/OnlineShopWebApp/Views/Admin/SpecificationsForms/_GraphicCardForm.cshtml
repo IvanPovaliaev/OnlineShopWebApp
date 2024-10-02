@@ -2,17 +2,12 @@
 
 @{
     var tryGetValue = (string key) =>
-        {
-            try
-            {
-                var value = Model[key];
-                return value;
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        };
+    {
+        var value = string.Empty;
+        Model?.TryGetValue(key, out value);
+
+        return value;
+    };
 }
 
 <div class="row d-flex justify-content-between gx-3 mb-3">

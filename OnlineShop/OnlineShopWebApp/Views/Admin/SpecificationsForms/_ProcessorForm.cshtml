@@ -3,15 +3,10 @@
 @{
     var tryGetValue = (string key) =>
         {
-            try
-            {
-                var value = Model[key];
-                return value;
-            }
-            catch
-            {
-                return string.Empty;
-            }
+            var value = string.Empty;
+            Model?.TryGetValue(key, out value);
+
+            return value;
         };
 }
 

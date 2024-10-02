@@ -48,14 +48,19 @@ namespace OnlineShopWebApp.Repositories
 
         public void Update(Product product)
         {
-            var repositoryProductIndex = _products.FindIndex(p => p.Id == product.Id);
+            var repositoryProduct = _products.FirstOrDefault(p => p.Id == product.Id);
 
-            if (repositoryProductIndex == -1)
+            if (repositoryProduct is null)
             {
                 return;
             }
 
-            _products[repositoryProductIndex] = product;
+            repositoryProduct.Name = product.Name;
+            repositoryProduct.Cost = product.Cost;
+            repositoryProduct.Description = product.Description;
+            repositoryProduct.ImageUrl = product.ImageUrl;
+            repositoryProduct.Specifications = product.Specifications;
+
             _jsonRepositoryService.SaveChanges(FilePath, _products);
         }
     }

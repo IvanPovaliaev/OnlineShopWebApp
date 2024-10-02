@@ -2,7 +2,8 @@
 @model Product
 
 @{
-    var price = Model.Cost.ToString("F2", CultureInfo.InvariantCulture);
+    var price = Model.Cost.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    var productImageUrl = Model.ImageUrl ?? "/img/DefaultProductImage.png";
 }
 
 <section class="container flex-row">
@@ -14,10 +15,10 @@
 
 		<div class="col">
             <div class="row">
-                <h2>Добавить товар</h2>
+                <h2>Изменить товар</h2>
                 <hr class="border-brown mb-3" />
                 <div class="d-flex justify-content-center">
-                    <img class="admin-product-add-image" src="/img/DefaultProductImage.png" alt="Стандартная картинка">
+                    <img class="admin-product-add-image" src="@productImageUrl" alt="Изображение товара">
                 </div>
             </div>
             <div class="row">
@@ -34,13 +35,15 @@
 
                         <div class="mb-3 col-6">
                             <label for="Category" class="form-label"> Категория</label>
-                            <input type="text" class="form-control input-field" name="Category" value="@Model.Category" disabled>
+                            <input type="text" class="form-control input-field" name="Category" value="@Model.Category" readonly>
                         </div>
+
+                        <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
                     </div>
                     
                     <div class="mb-3">
                         <label for="Cost" class="form-label">Стоимость</label>
-                        <input type="number" class="form-control input-field" name="Cost" placeholder="От 10 до 1000000 рублей" value="@price" required min="10" max="1000000">
+                        <input type="number" class="form-control input-field" name="Cost" placeholder="От 10 до 1000000 рублей" value="@price" required min="10" max="1000000" step="0.01">
                     </div>
 
                     <div class="mb-3">
