@@ -3,6 +3,7 @@
 
 @{
     var price = Model.Cost.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    var productImageUrl = Model.ImageUrl ?? "/img/DefaultProductImage.png";
 }
 
 <section class="container flex-row">
@@ -14,10 +15,10 @@
 
 		<div class="col">
             <div class="row">
-                <h2>Добавить товар</h2>
+                <h2>Изменить товар</h2>
                 <hr class="border-brown mb-3" />
                 <div class="d-flex justify-content-center">
-                    <img class="admin-product-add-image" src="/img/DefaultProductImage.png" alt="Стандартная картинка">
+                    <img class="admin-product-add-image" src="@productImageUrl" alt="Изображение товара">
                 </div>
             </div>
             <div class="row">
@@ -36,6 +37,8 @@
                             <label for="Category" class="form-label"> Категория</label>
                             <input type="text" class="form-control input-field" name="Category" value="@Model.Category" readonly>
                         </div>
+
+                        <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
                     </div>
                     
                     <div class="mb-3">

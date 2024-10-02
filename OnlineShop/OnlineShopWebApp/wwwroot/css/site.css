@@ -180,6 +180,10 @@ a {
   color: #729FD8;
 }
 
+.text-whitespace {
+  white-space: pre-wrap;
+}
+
 .carousel-inner img {
   height: 400px;
   object-fit: cover;
@@ -307,9 +311,10 @@ footer {
   vertical-align: middle;
 }
 
-.admin-products-cell {
+.admin-product-description {
   height: 125px;
-  border-bottom: 1px solid #8c6642;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .admin-products-image {
