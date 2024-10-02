@@ -77,7 +77,7 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Delete product
+        /// Update target product
         /// </summary>
         /// <returns>Admins products View</returns>
         [HttpPost]

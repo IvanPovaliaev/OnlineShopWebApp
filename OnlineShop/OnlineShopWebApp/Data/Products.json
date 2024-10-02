@@ -185,13 +185,13 @@
     }
   },
   {
-    "Id": "588cb4c8-7655-45b5-b688-ab47d9ebc39f",
+    "Id": "c391d60c-a097-4def-afe2-9374febf8185",
     "Name": "НоваяПлата",
-    "Cost": 132315.0,
-    "Description": "Эта плата создана на клиенте во время теста",
+    "Cost": 64999.90,
+    "Description": "Эта плата была создана и обновлена на клиенте",
     "Category": 2,
     "ImageUrl": null,
-    "Article": 5023051068331570376,
+    "Article": 5615883834035918348,
     "Specifications": {
       "Manufacturer": "ASUS",
       "ManufacturerCode": "123Код123",
