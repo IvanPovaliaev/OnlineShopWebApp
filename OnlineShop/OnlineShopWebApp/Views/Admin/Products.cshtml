@@ -21,8 +21,9 @@
                     <thead>
                         <tr>
                             <th scope="col" class="col-2">Артикул</th>
-                            <th scope="col" class="col-3">Изображение</th>
-                            <th scope="col" class="col-3">Наименование</th>
+                            <th scope="col" class="col-2">Изображение</th>
+                            <th scope="col" class="col">Наименование</th>
+                            <th scope="col" class="col-1">Цена, ₽</th>
                             <th scope="col" class="col-3">Описание</th>
                             <th scope="col" class="col-1">Опции</th>
                         </tr>
@@ -48,6 +49,7 @@
                                         @product.Name
                                     </a>
                                 </td>
+                                <td>@product.Cost</td>
                                 <td>@product.Description</td>
                                 <td>
                                     <div class="dropdown d-flex align-items-stretch fill-height">
