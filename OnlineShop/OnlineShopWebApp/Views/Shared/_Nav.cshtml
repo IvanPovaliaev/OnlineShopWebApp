@@ -68,16 +68,22 @@
             </div>
 
             @* Поиск *@
-            <div class="col fill-height">
-                <div class="input-group col fill-height">
-                    <input type="text"
-                           class="form-control border-brown"
-                           placeholder="Введите названние товара или ID"
-                           aria-label="Введите названние товара или ID">
-                    <button class="btn btn-outline-secondary border-brown" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
+            <div class="col h-100">
+                
+                    <form class="h-100" method="post" asp-controller="Product" asp-action="SearchResult">
+                        <div class="input-group col h-100">
+                            <input type="text"
+                                   class="form-control border-brown h-100"
+                                   name="searchQuery"
+                                   placeholder="Введите названние товара или ID"
+                                   aria-label="Введите названние товара или ID"
+                                   required
+                                   pattern=".*\S.*">
+                            <button class="btn btn-outline-secondary border-brown" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>                
             </div>
 
             @* Иконки *@

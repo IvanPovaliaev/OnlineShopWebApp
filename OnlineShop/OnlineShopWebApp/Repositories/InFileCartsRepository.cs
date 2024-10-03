@@ -55,5 +55,14 @@ namespace OnlineShopWebApp.Repositories
             _carts.Remove(repositoryCart);
             _jsonRepositoryService.SaveChanges(FilePath, _carts);
         }
+
+        public void DeletePositionsByProductId(Guid productId)
+        {
+            foreach (var cart in _carts)
+            {
+                cart.Positions.RemoveAll(position => position.Product.Id == productId);
+            }
+            _jsonRepositoryService.SaveChanges(FilePath, _carts);
+        }
     }
 }

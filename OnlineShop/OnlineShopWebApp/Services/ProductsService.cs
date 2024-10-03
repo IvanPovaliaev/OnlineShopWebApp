@@ -8,11 +8,13 @@ namespace OnlineShopWebApp.Services
 {
     public class ProductsService
     {
+        private readonly ProductsEventService _productsEventService;
         private IProductsRepository _productsRepository;
 
-        public ProductsService(IProductsRepository productsRepository)
+        public ProductsService(IProductsRepository productsRepository, ProductsEventService productsEvent)
         {
             _productsRepository = productsRepository;
+            _productsEventService = productsEvent;
             InitializeProducts();
         }
 
@@ -32,6 +34,38 @@ namespace OnlineShopWebApp.Services
             var products = GetAll()
                 .Where(p => p.Category == category)
                 .ToList();
+            return products;
+        }
+
+        /// <summary>
+        /// Get all products from repository that match the search query. The search is performed by name and by article (if possible);
+        /// </summary>        
+        /// <returns>List of all relevant products</returns>
+        /// <param name="searchQuery">Search query</param>
+        public List<Product> GetAllFromSearch(string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                return [];
+            }
+
+            var isProductInfoContainsString = IsNameContainsString;
+
+            var isNumber = long.TryParse(searchQuery, out _);
+
+            if (isNumber)
+            {
+                isProductInfoContainsString = (Product product, string targetString) =>
+                {
+                    var result = IsNameContainsString(product, targetString) || IsArticleContainsNumber(product, targetString);
+                    return result;
+                };
+            }
+
+            var products = GetAll()
+                .Where(p => isProductInfoContainsString(p, searchQuery))
+                .ToList();
+
             return products;
         }
 
@@ -69,6 +103,31 @@ namespace OnlineShopWebApp.Services
         public void Delete(Guid id)
         {
             _productsRepository.Delete(id);
+            _productsEventService.OnProductDeleted(id);
+        }
+
+
+        /// <summary>
+        /// Check is Product Name contains a string
+        /// </summary>
+        /// <param name="product">Target product</param>
+        /// <param name="targetString">Target string</param>
+        private bool IsNameContainsString(Product product, string targetString)
+        {
+            return product.Name.Contains(targetString);
+        }
+
+        /// <summary>
+        /// Check is Article contains a number string
+        /// </summary>
+        /// <param name="product">Target product</param>
+        /// <param name="targetNumber">Target string number</param>
+        private bool IsArticleContainsNumber(Product product, string targetNumber)
+        {
+            var result = product.Article
+                .ToString()
+                .Contains(targetNumber);
+            return result;
         }
 
         /// <summary>
