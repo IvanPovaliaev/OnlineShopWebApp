@@ -6,7 +6,8 @@ namespace OnlineShopWebApp.Interfaces
     {
         /// <summary>
         /// Create a new order
-        /// </summary>    
+        /// </summary>
+        /// <param name="order">Target order</param>
         void Create(Order order);
     }
 }

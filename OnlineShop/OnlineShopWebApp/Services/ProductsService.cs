@@ -46,6 +46,32 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Add product to repository
+        /// </summary>
+        /// <param name="product">Target product</param>
+        public void Add(Product product)
+        {
+            _productsRepository.Add(product);
+        }
+
+        /// <summary>
+        /// Update product with identical id.
+        /// </summary>
+        /// <param name="product">Target product</param>
+        public void Update(Product product)
+        {
+            _productsRepository.Update(product);
+        }
+
+        /// <summary>
+        /// Delete product from repository by GUID
+        /// </summary>
+        public void Delete(Guid id)
+        {
+            _productsRepository.Delete(id);
+        }
+
+        /// <summary>
         /// Initializes initial products if repository is empty;
         /// </summary>
         private void InitializeProducts()

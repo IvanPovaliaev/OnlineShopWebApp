@@ -1,1 +1,31 @@
-[]
+[
+  {
+    "Id": "dd970644-1533-41b0-aa18-87e0e5903be1",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Positions": [
+      {
+        "Id": "cce4df7d-872c-49fd-9bee-c715ae28a4fc",
+        "Product": {
+          "Id": "40c909df-c2d9-43f7-a997-027c85d8ec28",
+          "Name": "750W Be Quiet System Power 10",
+          "Cost": 8250.0,
+          "Description": "Test Description for PowerSupply",
+          "Category": 6,
+          "ImageUrl": null,
+          "Article": 4897597358139312607,
+          "Specifications": {
+            "Manufacturer": "Be Quiet",
+            "ManufacturerCode": "BN329",
+            "Power": "750 Вт",
+            "PFC": "активный",
+            "FanSize": "120 мм"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 8250.0
+      }
+    ],
+    "TotalCost": 8250.0,
+    "TotalQuantity": 1
+  }
+]

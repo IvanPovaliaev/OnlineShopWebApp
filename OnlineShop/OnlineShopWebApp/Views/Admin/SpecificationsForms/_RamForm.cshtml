@@ -1,0 +1,54 @@
+﻿@model Dictionary<string, string>
+
+@{
+    var tryGetValue = (string key) =>
+        {
+            var value = string.Empty;
+            Model?.TryGetValue(key, out value);
+
+            return value;
+        };
+}
+
+<div class="row d-flex justify-content-between gx-3 mb-3">
+    <div class="col">
+        <label for="Manufacturer" class="form-label">Производитель</label>
+        <input type="text" class="form-control input-field" name="Specifications[Manufacturer]" value="@tryGetValue("Manufacturer")" required>
+    </div>
+
+    <div class="col">
+        <label for="ManufacturerCode" class="form-label">Код производителя</label>
+        <input type="text" class="form-control input-field" name="Specifications[ManufacturerCode]" value="@tryGetValue("ManufacturerCode")" required>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-between gx-3 mb-3">
+    <div class="col-6">
+        <label for="FormFactor" class="form-label">Форм-фактор</label>
+        <input type="text" class="form-control input-field" name="Specifications[FormFactor]" value="@tryGetValue("FormFactor")" required>
+    </div>
+
+    <div class="col-6">
+        <label for="MemoryType" class="form-label">Тип памяти</label>
+        <input type="text" class="form-control input-field" name="Specifications[MemoryType]" value="@tryGetValue("MemoryType")" required>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-between gx-3 mb-3">
+    <div class="col-6">
+        <label for="MemorySize" class="form-label">Объём памяти</label>
+        <input type="text" class="form-control input-field" name="Specifications[MemorySize]" value="@tryGetValue("MemorySize")" required>
+    </div>
+
+    <div class="col-6">
+        <label for="ModulesCount" class="form-label">Кол-во модулей в комплекте</label>
+        <input type="text" class="form-control input-field" name="Specifications[ModulesCount]" value="@tryGetValue("ModulesCount")" required>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-between gx-3 mb-3">
+    <div class="col-6">
+        <label for="ClockSpeed" class="form-label">Тактовая частота</label>
+        <input type="text" class="form-control input-field" name="Specifications[ClockSpeed]" value="@tryGetValue("ClockSpeed")" required>
+    </div>
+</div>

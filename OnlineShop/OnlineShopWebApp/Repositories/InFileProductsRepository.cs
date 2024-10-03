@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using OnlineShopWebApp.Interfaces;
+﻿using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -31,6 +30,37 @@ namespace OnlineShopWebApp.Repositories
         public void Add(List<Product> products)
         {
             _products.AddRange(products);
+            _jsonRepositoryService.SaveChanges(FilePath, _products);
+        }
+
+        public void Add(Product product)
+        {
+            _products.Add(product);
+            _jsonRepositoryService.SaveChanges(FilePath, _products);
+        }
+
+        public void Delete(Guid id)
+        {
+            var product = Get(id);
+            _products.Remove(product);
+            _jsonRepositoryService.SaveChanges(FilePath, _products);
+        }
+
+        public void Update(Product product)
+        {
+            var repositoryProduct = _products.FirstOrDefault(p => p.Id == product.Id);
+
+            if (repositoryProduct is null)
+            {
+                return;
+            }
+
+            repositoryProduct.Name = product.Name;
+            repositoryProduct.Cost = product.Cost;
+            repositoryProduct.Description = product.Description;
+            repositoryProduct.ImageUrl = product.ImageUrl;
+            repositoryProduct.Specifications = product.Specifications;
+
             _jsonRepositoryService.SaveChanges(FilePath, _products);
         }
     }

@@ -180,6 +180,10 @@ a {
   color: #729FD8;
 }
 
+.text-whitespace {
+  white-space: pre-wrap;
+}
+
 .carousel-inner img {
   height: 400px;
   object-fit: cover;
@@ -299,4 +303,42 @@ footer {
 .nav-list-item {
   height: 3rem;
   border-bottom: 1px solid #8c6642;
+}
+
+.admin-products-row {
+  height: 125px;
+  border-bottom: 1px solid #8c6642;
+  vertical-align: middle;
+}
+
+.admin-product-description {
+  height: 125px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-products-image {
+  height: 125px;
+  width: auto;
+}
+
+.admin-products-image:hover {
+  transform: scale(1.1);
+}
+
+.admin-product-add-image {
+  height: 20rem;
+  width: auto;
+}
+
+.btn-admin-product-options {
+  background: #8c6642;
+  border-radius: 5px;
+  width: auto;
+  border: none;
+  font-size: 1rem;
+}
+
+.table td {
+  word-break: break-all;
 }
