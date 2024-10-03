@@ -42,7 +42,7 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Open Admin Products Page
         /// </summary>
-        /// <returns>Admin Producs View</returns>
+        /// <returns>Admin Products View</returns>
         public IActionResult Products()
         {
             var products = _productsService.GetAll();
