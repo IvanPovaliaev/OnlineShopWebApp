@@ -22,6 +22,16 @@ namespace OnlineShopWebApp.Controllers
         [HttpPost]
         public IActionResult Register(Register register)
         {
+            if (register.Email == register.Password)
+            {
+                ModelState.AddModelError(string.Empty, "Email и пароль не должны совпадать");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_RegistrationForm", register);
+            }
+
             return RedirectToAction("Index", "Home");
         }
     }

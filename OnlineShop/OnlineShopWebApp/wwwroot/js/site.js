@@ -10,3 +10,19 @@ $(document).on('click', '[data-bs-target="#loginModal"]', function () {
 $(document).on('click', '[data-bs-target="#registrationModal"]', function () {
     $('#registrationModal').appendTo('body');
 });
+
+$(document).ready(function () {
+    $('#registrationForm').on('submit', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (response) {
+                $('#registrationFormWrapper').html(response);
+                $.validator.unobtrusive.parse($("#registrationForm"));
+            }
+        });
+    });
+});

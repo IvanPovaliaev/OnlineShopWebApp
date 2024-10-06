@@ -1,56 +1,28 @@
 ﻿@model Login
 
 @* Форма входа *@
-<div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered w-25">
-        <div class="modal-content account-modal">
-
-            <div class="modal-header">
-                <h1 class="modal-title fs-4" id="loginModalLabel">Вход</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-            </div>
-
-            <div class="modal-body">
-                <form method="post" id="loginForm" asp-controller="Account" asp-action="Login">
-                    <div class="mb-3">
-                        <input class="form-control input-field"
-                            asp-for="Email"
-                            placeholder="Email"
-                            required>
-                        <span asp-validation-for="Email"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <input class="form-control input-field"
-                            asp-for="Password"
-                            type="password"
-                            placeholder="Пароль"
-                            required>
-                        <span asp-validation-for="Password"></span>
-                    </div>
-
-                    <div class="form-check d-flex justify-content-center">
-                        <input class="form-check-input me-2" type="checkbox" name="keepMeLogged" value="true" id="keepMeLogged">
-                        <label class="form-check-label" for="keepMeLogged">
-                            Запомнить меня?
-                        </label>
-                    </div>
-                </form>
-            </div>
-
-            <div class="modal-footer d-flex flex-column">
-                <button class="btn btn-main btn-login-modal w-100 mb-3" type="submit" form="loginForm">
-                    Войти
-                </button>
-                <div class=" row align-content-center justify-content-center mb-3">
-                    <span class="text-blue">Забыли пароль?</span>
-                </div>
-                <div class="row align-content-center justify-content-center">
-                    <span class="modal-toggle" data-bs-target="#registrationModal" data-bs-toggle="modal">
-                        Регистрация
-                    </span>                    
-                </div>
-            </div>
-        </div>
+<form method="post" id="loginForm" asp-controller="Account" asp-action="Login">
+    <div class="mb-3">
+        <input class="form-control input-field"
+            asp-for="Email"
+            placeholder="Email"
+            required>
+        <span asp-validation-for="Email"></span>
     </div>
-</div>
+
+    <div class="mb-3">
+        <input class="form-control input-field"
+            asp-for="Password"
+            type="password"
+            placeholder="Пароль"
+            required>
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div class="form-check d-flex justify-content-center">
+        <input class="form-check-input me-2" type="checkbox" name="keepMeLogged" value="true" id="keepMeLogged">
+        <label class="form-check-label" for="keepMeLogged">
+            Запомнить меня?
+        </label>
+    </div>
+</form>
