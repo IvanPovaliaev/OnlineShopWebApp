@@ -92,7 +92,7 @@
                 @await Component.InvokeAsync("Favorite")
                 @await Component.InvokeAsync("Comparison")
                 @await Component.InvokeAsync("Cart")
-                @await Html.PartialAsync("_Account")
+                @await Html.PartialAsync("_Account", (new Login(), new Register()))
 
             </div>
         </div>

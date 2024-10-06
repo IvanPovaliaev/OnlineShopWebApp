@@ -1,4 +1,6 @@
-﻿<div class="col-3 d-flex align-items-center flex-column fill-height" data-bs-toggle="modal" data-bs-target="#loginModal">
+﻿@model (Login, Register)
+
+<div class="col-3 d-flex align-items-center flex-column fill-height" data-bs-toggle="modal" data-bs-target="#loginModal">
     <span class="bi bi-person-fill text-blue nav-icon"></span>
     <span class="text-black">Кабинет</span>
 </div>
@@ -16,11 +18,20 @@
             <div class="modal-body">
                 <form method="post" id="loginForm" asp-controller="Account" asp-action="Login">
                     <div class="mb-3">
-                        <input type="email" class="form-control input-field" name="Email" placeholder="Email" required>
+                        <input class="form-control input-field"
+                            asp-for="Item1.Email"
+                            placeholder="Email"
+                            required>
+                        <span asp-validation-for="Item1.Email"></span>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" class="form-control input-field" name="Password" placeholder="Пароль" required>
+                        <input class="form-control input-field"
+                            asp-for="Item1.Password"
+                            type="password"
+                            placeholder="Пароль"
+                            required>
+                        <span asp-validation-for="Item1.Password"></span>
                     </div>
 
                     <div class="form-check d-flex justify-content-center">
@@ -62,23 +73,40 @@
             <div class="modal-body">
                 <form method="post" id="registrationForm" asp-controller="Account" asp-action="Register">
                     <div class="mb-3">
-                        <input type="email" class="form-control input-field" name="Email" placeholder="Email*" required>
+                        <input class="form-control input-field"
+                            asp-for="Item2.Email"
+                            placeholder="Email*"
+                            required>
+                        <span asp-validation-for="Item2.Email"></span>
                     </div>
 
                     <div class="mb-3">
-                        <input type="password" class="form-control input-field" name="Password" placeholder="Пароль*" required>
+                        <input type="password" class="form-control input-field"
+                            asp-for="Item2.Password"
+                            placeholder="Пароль*" required>
+                        <span asp-validation-for="Item2.Password"></span>
                     </div>
 
                     <div class="mb-3">
-                        <input type="password" class="form-control input-field" name="ConfirmPassword" placeholder="Повторите пароль*" required>
+                        <input type="password" class="form-control input-field"
+                            asp-for="Item2.ConfirmPassword"
+                            placeholder="Повторите пароль*"
+                            required>
+                        <span asp-validation-for="Item2.ConfirmPassword"></span>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" class="form-control input-field" name="Name" placeholder="Имя">
+                        <input type="text" class="form-control input-field"
+                            asp-for="Item2.Name"
+                            placeholder="Имя">
+                        <span asp-validation-for="Item2.Name"></span>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" class="form-control input-field" name="Phone" placeholder="Телефон">
+                        <input type="text" class="form-control input-field"
+                            asp-for="Item2.Phone"
+                            placeholder="Телефон">
+                        <span asp-validation-for="Item2.Phone"></span>
                     </div>
                 </form>
             </div>

@@ -16,7 +16,6 @@ namespace OnlineShopWebApp.Models
         //Необходимые характеристики будут определяться на фронте в зависимости от категории
         public Dictionary<string, string> Specifications { get; set; }
 
-        //Без данного конструктора не принимает данные в контроллере. Комментарий удалю после ревью
         public Product()
         {
             Id = Guid.NewGuid();
