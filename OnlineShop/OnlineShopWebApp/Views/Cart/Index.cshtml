@@ -81,7 +81,7 @@
                 <h2>Оформление заказа</h2>
                 <hr class="border-brown" />
 
-                @await Html.PartialAsync("_OrderForm")
+                @await Html.PartialAsync("_OrderForm", new Order())
             </section>
         </div>
 

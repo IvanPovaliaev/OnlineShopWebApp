@@ -1,56 +1,89 @@
-﻿<form method="post" id="orderForm" asp-controller="Order" asp-action="Create">
+﻿@model Order
+
+<form method="post" id="orderForm" asp-controller="Order" asp-action="Create">
     <h5>Город доставки</h5>
     <div class="mb-3 col-6">
-        <input type="text" class="form-control input-field" name="City" required>
+        <input class="form-control input-field"
+            asp-for="City"
+            required>
+        <span asp-validation-for="City" class="validation-error-message"></span>
     </div>
 
     <h5>Адрес доставки</h5>
     <div class="mb-3">
-        <input type="text" class="form-control input-field" name="Address" placeholder="Адрес*" required>
+        <input class="form-control input-field"
+            asp-for="Address"
+            placeholder="Адрес*">
+        <span asp-validation-for="Address" class="validation-error-message"></span>
     </div>
 
     <div class="row d-flex justify-content-between gx-3 mb-3">
         <div class="col">
-            <input type="number" class="form-control input-field" name="Entrance" placeholder="Подъезд">
+            <input class="form-control input-field"
+                asp-for="Entrance"
+                placeholder="Подъезд">
+            <span asp-validation-for="Entrance" class="validation-error-message"></span>
         </div>
 
         <div class="col">
-            <input type="number" class="form-control input-field" name="Floor" placeholder="Этаж">
+            <input class="form-control input-field"
+                asp-for="Floor"
+                placeholder="Этаж">
+            <span asp-validation-for="Floor" class="validation-error-message"></span>
         </div>
 
         <div class="col">
-            <input type="number" class="form-control input-field" name="Apartment" placeholder="Квартира(офис)">
+            <input class="form-control input-field"
+                asp-for="Apartment"
+                placeholder="Квартира(офис)">
+            <span asp-validation-for="Apartment" class="validation-error-message"></span>
         </div>
 
         <div class="col">
-            <input type="number" class="form-control input-field" name="PostCode" placeholder="Индекс*" required>
+            <input class="form-control input-field"
+                asp-for="PostCode"
+                placeholder="Индекс*"
+                maxlength="6">
+            <span asp-validation-for="PostCode" class="validation-error-message"></span>
         </div>
     </div>
 
     <h5>Контактные данные</h5>
     <div class="row d-flex justify-content-between gx-3 mb-3">
         <div class="col">
-            <input type="text" class="form-control input-field" name="FullName" placeholder="ФИО*" required>
+            <input class="form-control input-field"
+                asp-for="FullName"
+                placeholder="ФИО*">
+            <span asp-validation-for="FullName" class="validation-error-message"></span>
         </div>
 
         <div class="col">
-            <input type="email" class="form-control input-field" name="Email" placeholder="Email*" required>
+            <input class="form-control input-field"
+                asp-for="Email"
+                placeholder="Email*">
+            <span asp-validation-for="Email" class="validation-error-message"></span>
         </div>
     </div>
 
     <div class="row d-flex justify-content-between gx-3 mb-3">
         <div class="col">
-            <input type="text" class="form-control input-field" name="Phone" placeholder="Телефон*" required>
+            <input class="form-control input-field"
+                asp-for="Phone"
+                placeholder="Телефон*">
+            <span asp-validation-for="Phone" class="validation-error-message"></span>
         </div>
 
         <div class="col">
-            <input type="text" class="form-control input-field" name="ReservePhone" placeholder="Телефон (дополнительный)">
+            <input class="form-control input-field"
+                asp-for="ReservePhone"
+                placeholder="Телефон (дополнительный)">
+            <span asp-validation-for="ReservePhone" class="validation-error-message"></span>
         </div>
     </div>
 
     <h5>Дополнительная информация</h5>
     <div class="mb-3 border-main">
-        <textarea class="form-control" name="AdditionalInfo" rows="5"></textarea>
+        <textarea class="form-control" asp-for="AdditionalInfo" rows="5"></textarea>
     </div>
 
     <p>Поля с * - обязательны к заполнению</p>
