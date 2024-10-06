@@ -31,6 +31,8 @@ builder.Services.AddTransient<ComparisonsService>();
 builder.Services.AddSingleton<IFavoritesRepository, InFileFavoritesRepository>();
 builder.Services.AddTransient<FavoritesService>();
 
+builder.Services.AddTransient<AccountService>();
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[]

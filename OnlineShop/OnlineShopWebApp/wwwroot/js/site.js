@@ -12,7 +12,7 @@ $(document).on('click', '[data-bs-target="#registrationModal"]', function () {
 });
 
 $(document).ready(function () {
-    $('#registrationForm').on('submit', function (event) {
+    $(document).on('submit', '#registrationForm', function (event) {
         event.preventDefault();
 
         $.ajax({
@@ -20,8 +20,14 @@ $(document).ready(function () {
             url: $(this).attr('action'),
             data: $(this).serialize(),
             success: function (response) {
-                $('#registrationFormWrapper').html(response);
-                $.validator.unobtrusive.parse($("#registrationForm"));
+                if (response.redirectUrl) {
+                    // Perform the redirect
+                    window.location.href = response.redirectUrl;
+                } else {
+                    // Update the form with the response (partial view)
+                    $('#registrationFormWrapper').html(response);
+                    $.validator.unobtrusive.parse($("#registrationForm"));
+                }
             }
         });
     });
