@@ -11,6 +11,16 @@ namespace OnlineShopWebApp.Models
     {
         public string PasswordPattern { get; } = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$";
 
+        public PasswordValidationAttribute()
+        {
+            ErrorMessage = $"Пароль должен:\n" +
+            $"Cодержать как минимум одну заглавную букву;\n" +
+            $"Cодержать как минимум одну строчную букву;\n" +
+            $"Cодержать как минимум одну цифру;\n" +
+            $"Cодержать как минимум один из специальных символов \"#?!@$%^&*-\";\n" +
+            $"Быть длиной от 8 до 20 символов.";
+        }
+
         public void AddValidation(ClientModelValidationContext context)
         {
             context.Attributes.Add("data-val", "true");

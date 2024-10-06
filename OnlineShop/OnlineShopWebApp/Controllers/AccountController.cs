@@ -1,10 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Services;
 
 namespace OnlineShopWebApp.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly AccountService _accountService;
+
+        public AccountController(AccountService accountService)
+        {
+            _accountService = accountService;
+        }
+
         /// <summary>
         /// Login as user
         /// </summary>
@@ -22,12 +30,9 @@ namespace OnlineShopWebApp.Controllers
         [HttpPost]
         public IActionResult Register(Register register)
         {
-            if (register.Email == register.Password)
-            {
-                ModelState.AddModelError(string.Empty, "Email и пароль не должны совпадать");
-            }
+            var isModelValid = _accountService.IsRegisterValid(ModelState, register);
 
-            if (!ModelState.IsValid)
+            if (!isModelValid)
             {
                 return PartialView("_RegistrationForm", register);
             }

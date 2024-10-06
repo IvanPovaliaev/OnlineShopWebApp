@@ -6,16 +6,10 @@ namespace OnlineShopWebApp.Models
     {
         [Required(ErrorMessage = "Не указан Email")]
         [EmailAddress(ErrorMessage = "Неверный адрес электронной почты")]
-        [NotCompare("Password", ErrorMessage = "Email и пароль не должны совпадать")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Введите пароль")]
-        [PasswordValidation(ErrorMessage = $"Пароль должен:\n" +
-            $"Cодержать как минимум одну заглавную букву;\n" +
-            $"Cодержать как минимум одну строчную букву;\n" +
-            $"Cодержать как минимум одну цифру;\n" +
-            $"Cодержать как минимум один из специальных символов \"#?!@$%^&*-\";\n" +
-            $"Быть длиной от 8 до 20 символов.")]
+        [PasswordValidation()]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Введите пароль")]

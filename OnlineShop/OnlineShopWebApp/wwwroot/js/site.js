@@ -20,11 +20,9 @@ $(document).ready(function () {
             url: $(this).attr('action'),
             data: $(this).serialize(),
             success: function (response) {
-                if (response.redirectUrl) {
-                    // Perform the redirect
+                if (response.redirectUrl) {                    
                     window.location.href = response.redirectUrl;
-                } else {
-                    // Update the form with the response (partial view)
+                } else {                    
                     $('#registrationFormWrapper').html(response);
                     $.validator.unobtrusive.parse($("#registrationForm"));
                 }
