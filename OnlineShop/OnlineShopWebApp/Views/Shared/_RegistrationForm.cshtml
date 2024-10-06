@@ -1,0 +1,66 @@
+﻿@model Register
+ 
+<div class="modal fade" id="registrationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered w-25">
+        <div class="modal-content account-modal">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="registrationModalLabel">Регистрация</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="modal-body">
+                <form method="post" id="registrationForm" asp-controller="Account" asp-action="Register">
+                    <div class="mb-3">
+                        <input class="form-control input-field"
+                            asp-for="Email"
+                            placeholder="Email*"
+                            required>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" class="form-control input-field"
+                            asp-for="Password"
+                            placeholder="Пароль*" required>
+                        <span asp-validation-for="Password"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" class="form-control input-field"
+                            asp-for="ConfirmPassword"
+                            placeholder="Повторите пароль*"
+                            required>
+                        <span asp-validation-for="ConfirmPassword"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" class="form-control input-field"
+                            asp-for="Name"
+                            placeholder="Имя">
+                        <span asp-validation-for="Name"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" class="form-control input-field"
+                            asp-for="Phone"
+                            placeholder="Телефон">
+                        <span asp-validation-for="Phone"></span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer d-flex flex-column">
+                <button class="btn btn-main btn-login-modal w-100 mb-3" type="submit" form="registrationForm">
+                    Зарегистрироваться
+                </button>
+
+                <div class="row align-content-center justify-content-center">
+                    <span class="modal-toggle" data-bs-target="#loginModal" data-bs-toggle="modal">
+                        У Вас уже есть аккаунт?
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
