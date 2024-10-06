@@ -1,22 +1,19 @@
 ﻿@model Register
 
-<form method="post" id="registrationForm" asp-controller="Account" asp-action="Register">
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+<form method="post" id="registrationForm" asp-controller="Account" asp-action="Register">  
     <div class="mb-3">
         <input class="form-control input-field"
             asp-for="Email"
             placeholder="Email*"
             required>
-        <span asp-validation-for="Email"></span>
+        <span asp-validation-for="Email" class="validation-error-message"></span>
     </div>
 
     <div class="mb-3">
         <input type="password" class="form-control input-field"
             asp-for="Password"
             placeholder="Пароль*" required>
-        <span asp-validation-for="Password"></span>
+        <span asp-validation-for="Password" class="validation-error-message"></span>
     </div>
 
     <div class="mb-3">
@@ -24,20 +21,22 @@
             asp-for="ConfirmPassword"
             placeholder="Повторите пароль*"
             required>
-        <span asp-validation-for="ConfirmPassword"></span>
+        <span asp-validation-for="ConfirmPassword" class="validation-error-message"></span>
     </div>
 
     <div class="mb-3">
         <input type="text" class="form-control input-field"
             asp-for="Name"
             placeholder="Имя">
-        <span asp-validation-for="Name"></span>
+        <span asp-validation-for="Name" class="validation-error-message"></span>
     </div>
 
     <div class="mb-3">
         <input type="text" class="form-control input-field"
             asp-for="Phone"
             placeholder="Телефон">
-        <span asp-validation-for="Phone"></span>
+        <span asp-validation-for="Phone" class="validation-error-message"></span>
     </div>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 </form>

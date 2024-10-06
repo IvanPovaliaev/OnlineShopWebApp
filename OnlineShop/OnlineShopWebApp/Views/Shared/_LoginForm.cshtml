@@ -7,7 +7,7 @@
             asp-for="Email"
             placeholder="Email"
             required>
-        <span asp-validation-for="Email"></span>
+        <span asp-validation-for="Email" class="d-flex text-danger"></span>
     </div>
 
     <div class="mb-3">
@@ -16,7 +16,7 @@
             type="password"
             placeholder="Пароль"
             required>
-        <span asp-validation-for="Password"></span>
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
     <div class="form-check d-flex justify-content-center">
