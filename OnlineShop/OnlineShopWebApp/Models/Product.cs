@@ -1,3 +1,4 @@
+using OnlineShopWebApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,8 @@ namespace OnlineShopWebApp.Models
         public ProductCategories Category { get; set; }
         public string? ImageUrl { get; set; }
         public long Article => GetArticle();
+
+        [SpecificationsValidation]
         public Dictionary<string, string> Specifications { get; set; }
 
         public Product()
