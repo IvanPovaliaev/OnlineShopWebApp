@@ -32,10 +32,9 @@ namespace OnlineShopWebApp.Services
             if (order.Positions.Count == 0)
             {
                 modelState.AddModelError(string.Empty, "В заказе отсутствуют товары");
-                return false;
             }
 
-            return true;
+            return modelState.IsValid;
         }
     }
 }
