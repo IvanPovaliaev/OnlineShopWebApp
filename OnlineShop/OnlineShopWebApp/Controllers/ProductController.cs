@@ -99,6 +99,11 @@ namespace OnlineShopWebApp.Controllers
         [HttpPost]
         public IActionResult Update(Product product)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/EditProduct.cshtml", product);
+            }
+
             _productsService.Update(product);
             return RedirectToAction("Products", "Admin");
         }

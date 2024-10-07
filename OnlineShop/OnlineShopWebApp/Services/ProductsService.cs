@@ -118,7 +118,7 @@ namespace OnlineShopWebApp.Services
                 ProductCategories.HDD => new HDDSpecificationsRules(),
                 ProductCategories.RAM => new RAMSpecificationsRules(),
                 ProductCategories.PowerSupplies => new PowerSupplySpecificationsRules(),
-                _ => throw new NotImplementedException(), //Подумать, что возвращать по дефолту
+                _ => new GraphicCardSpecificationsRules()
             };
         }
 

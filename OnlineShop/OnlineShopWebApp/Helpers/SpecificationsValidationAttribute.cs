@@ -17,7 +17,7 @@ namespace OnlineShopWebApp.Helpers
                 return new ValidationResult("Характеристики не могут отсутствовать");
             }
 
-            var productService = validationContext.GetService<ProductsService>();
+            var productService = validationContext.GetService<ProductsService>(); //Избавиться
 
             var rules = productService
                             .GetSpecificationsRules(product.Category)
@@ -29,7 +29,7 @@ namespace OnlineShopWebApp.Helpers
             {
                 if (!product.Specifications.TryGetValue(rule.Name, out var specValue))
                 {
-                    validationErrors.Add(rule.ErrorMessage ?? $"Отстутствует необходимая характеристика: {rule.Name}");
+                    validationErrors.Add(rule.ErrorMessage ?? $"Отсутствует необходимая характеристика: {rule.Name}");
                     continue;
                 }
 

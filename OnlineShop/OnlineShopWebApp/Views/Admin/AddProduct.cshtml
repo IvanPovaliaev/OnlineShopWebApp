@@ -57,7 +57,35 @@
 
                     @* Блок для подгрузки характеристик *@
                     <div id="specifications-form">
-                        
+                        @{
+                            switch (Model?.Category)
+                            {
+                                case ProductCategories.GraphicCards:
+                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml", Model?.Specifications);
+                                    break;
+                                case ProductCategories.Processors:
+                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_ProcessorForm.cshtml", Model?.Specifications);
+                                    break;
+                                case ProductCategories.Motherboards:
+                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_MotherboardForm.cshtml", Model?.Specifications);
+                                    break;
+                                case ProductCategories.SSD:
+                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_SsdForm.cshtml", Model?.Specifications);
+                                    break;
+                                case ProductCategories.HDD:
+                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_HddForm.cshtml", Model?.Specifications);
+                                    break;
+                                case ProductCategories.RAM:
+                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_RamForm.cshtml", Model?.Specifications);
+                                    break;
+                                case ProductCategories.PowerSupplies:
+                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_PowerSupplyForm.cshtml", Model?.Specifications);
+                                    break;
+                                default:
+                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml", Model?.Specifications);
+                                    break;
+                            }
+                        }
                     </div>
 
                     <div asp-validation-summary="All" class="validation-error-message"></div>
@@ -72,23 +100,19 @@
 </section>
 
 
-@* TODO: Окончательно разобраться с JS и причесать этот ужас *@
+
 @section Scripts {
     <script>
         $(document).ready(function() {
             var selectedCategory = $('#category-select').val();
 
-            $.get('/Product/GetSpecificationsForm', { category: selectedCategory }, function(response) {
-                $('#specifications-form').html(response);
-            });
+            $('#category-select').change(function() {
+                var selectedCategory = $(this).val();
 
-                $('#category-select').change(function() {
-                    var selectedCategory = $(this).val();
-
-                    $.get('@Url.Action("GetSpecificationsForm", "Product")', { category: selectedCategory }, function (response) {
-                        $('#specifications-form').html(response);
-                    });
+                $.get('@Url.Action("GetSpecificationsForm", "Product")', { category: selectedCategory }, function (response) {
+                    $('#specifications-form').html(response);
                 });
             });
+        });
     </script>
 }
