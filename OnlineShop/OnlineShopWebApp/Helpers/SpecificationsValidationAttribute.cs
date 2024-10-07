@@ -17,7 +17,7 @@ namespace OnlineShopWebApp.Helpers
                 return new ValidationResult("Характеристики не могут отсутствовать");
             }
 
-            var productService = validationContext.GetService<ProductsService>(); //Избавиться
+            var productService = validationContext.GetService<ProductsService>();
 
             var rules = productService
                             .GetSpecificationsRules(product.Category)
