@@ -29,27 +29,39 @@
                         <input type="hidden" name="Id" value="@Model.Id" />
 
                         <div class="mb-3 col-6">
-                            <label for="Name" class="form-label">Наименование</label>
-                            <input type="text" class="form-control input-field" name="Name" value="@Model.Name" required>
+                            <label asp-for="Name" class="form-label">Наименование</label>
+                            <input class="form-control input-field"
+                                asp-for="Name">
+                            <span asp-validation-for="Name" class="validation-error-message"></span>
                         </div>
 
                         <div class="mb-3 col-6">
-                            <label for="Category" class="form-label"> Категория</label>
-                            <input type="text" class="form-control input-field" name="Category" value="@Model.Category" readonly>
+                            <label asp-for="Category" class="form-label">Категория</label>
+                            <input class="form-control input-field"
+                                asp-for="Category"
+                                readonly>
+                            <span asp-validation-for="Category" class="validation-error-message"></span>
                         </div>
 
                         <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
                     </div>
                     
                     <div class="mb-3">
-                        <label for="Cost" class="form-label">Стоимость</label>
-                        <input type="number" class="form-control input-field" name="Cost" placeholder="От 10 до 1000000 рублей" value="@price" required min="10" max="1000000" step="0.01">
+                        <label asp-for="Cost" class="form-label">Стоимость</label>
+                        <input type="number" class="form-control input-field"
+                            asp-for="Cost"
+                            placeholder="От 10 до 10000000 руб."
+                            step="0.01">
+                        <span asp-validation-for="Cost" class="validation-error-message"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label for="Description" class="form-label">Описание</label>
-                        <textarea class="form-control" name="Description" rows="5">@Model.Description</textarea>
-                    </div>                   
+                        <label asp-for="Description" class="form-label">Описание</label>
+                        <textarea class="form-control"
+                                  asp-for="Description" rows="5"></textarea>
+                    </div>          
+                    
+                    <span asp-validation-for="Description" class="validation-error-message"></span>
 
                     @{
                         switch (Model.Category)
