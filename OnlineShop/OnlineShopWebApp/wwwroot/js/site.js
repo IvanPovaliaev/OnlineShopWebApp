@@ -20,9 +20,10 @@ $(document).ready(function () {
             url: $(this).attr('action'),
             data: $(this).serialize(),
             success: function (response) {
-                if (response.redirectUrl) {                    
+                if (response.redirectUrl) {
                     window.location.href = response.redirectUrl;
-                } else {                    
+                }
+                else {                    
                     $('#registrationFormWrapper').html(response);
                     $.validator.unobtrusive.parse($("#registrationForm"));
                 }

@@ -24,9 +24,17 @@ namespace OnlineShopWebApp.Controllers
         [HttpPost]
         public IActionResult Create(Order order)
         {
-            order.UserId = _userId;
             order.Positions = _cartsService
                 .Get(_userId).Positions;
+
+            var isModelValid = _ordersService.IsCreationValid(ModelState, order);
+
+            if (!isModelValid)
+            {
+                return BadRequest();
+            }
+
+            order.UserId = _userId;
 
             _cartsService.Delete(_userId);
             _ordersService.Save(order);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopWebApp.Models
 {
@@ -9,17 +10,43 @@ namespace OnlineShopWebApp.Models
         public Guid UserId { get; set; }
         public DateTime CreationDate { get; set; }
         public OrderStatus Status { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле")]
         public string City { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле")]
         public string Address { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
         public int? Entrance { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
         public int? Floor { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Значение должно быть больше 0")]
         public int? Apartment { get; set; }
-        public int PostCode { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле")]
+        [RegularExpression(@"\d{6}", ErrorMessage = "Формат индекса: 000000")]
+        public string PostCode { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле")]
+        [RegularExpression(@"^[А-ЯЁA-Z][а-яёa-zA-Z'-]+ [А-ЯЁA-Z][а-яёa-zA-Z'-]+(\s[А-ЯЁA-Z][а-яёa-zA-Z'-]+)?$", ErrorMessage = "Введите полное имя")]
         public string FullName { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле")]
+        [EmailAddress(ErrorMessage = "Неверный адрес электронной почты")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле")]
+        [PhoneValidation()]
         public string Phone { get; set; }
+
+        [PhoneValidation()]
         public string? ReservePhone { get; set; }
-        public string AdditionalInfo { get; set; }
+
+        [StringLength(300, MinimumLength = 10, ErrorMessage = "Количество символов должно быть от 10 до 300")]
+        public string? AdditionalInfo { get; set; }
         public List<CartPosition> Positions { get; set; }
         public long Article => GetArticle();
 
@@ -28,6 +55,7 @@ namespace OnlineShopWebApp.Models
             Id = Guid.NewGuid();
             CreationDate = DateTime.Now;
             Status = OrderStatus.Created;
+            Positions = [];
         }
 
         /// <summary>
