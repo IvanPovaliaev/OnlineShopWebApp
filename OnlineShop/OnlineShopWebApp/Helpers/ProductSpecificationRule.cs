@@ -21,7 +21,6 @@ namespace OnlineShopWebApp.Helpers
         /// <returns>true if value is valid; otherwise false</returns>
         /// <param name="value">Target value</param>
         /// <param name="error">Validation error</param>
-
         public bool IsValid(string? value, out string error)
         {
             error = string.Empty;
