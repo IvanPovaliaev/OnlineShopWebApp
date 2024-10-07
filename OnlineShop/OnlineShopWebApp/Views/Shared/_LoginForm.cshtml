@@ -1,0 +1,28 @@
+﻿@model Login
+
+@* Форма входа *@
+<form method="post" id="loginForm" asp-controller="Account" asp-action="Login">
+    <div class="mb-3">
+        <input class="form-control input-field"
+            asp-for="Email"
+            placeholder="Email"
+            required>
+        <span asp-validation-for="Email" class="d-flex text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <input class="form-control input-field"
+            asp-for="Password"
+            type="password"
+            placeholder="Пароль"
+            required>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-check d-flex justify-content-center">
+        <input class="form-check-input me-2" type="checkbox" name="keepMeLogged" value="true" id="keepMeLogged">
+        <label class="form-check-label" for="keepMeLogged">
+            Запомнить меня?
+        </label>
+    </div>
+</form>

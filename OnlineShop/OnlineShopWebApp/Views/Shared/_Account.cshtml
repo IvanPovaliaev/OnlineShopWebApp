@@ -3,7 +3,7 @@
     <span class="text-black">Кабинет</span>
 </div>
 
-@* Форма входа *@
+@* Окно входа *@
 <div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered w-25">
         <div class="modal-content account-modal">
@@ -13,23 +13,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
 
-            <div class="modal-body">
-                <form method="post" id="loginForm" asp-controller="Account" asp-action="Login">
-                    <div class="mb-3">
-                        <input type="email" class="form-control input-field" name="Email" placeholder="Email" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="text" class="form-control input-field" name="Password" placeholder="Пароль" required>
-                    </div>
-
-                    <div class="form-check d-flex justify-content-center">
-                        <input class="form-check-input me-2" type="checkbox" name="keepMeLogged" value="true" id="keepMeLogged">
-                        <label class="form-check-label" for="keepMeLogged">
-                            Запомнить меня?
-                        </label>
-                    </div>
-                </form>
+            <div class="modal-body" id="loginFormWrapper">
+                @await Html.PartialAsync("_LoginForm", new Login())
             </div>
 
             <div class="modal-footer d-flex flex-column">
@@ -49,7 +34,7 @@
     </div>
 </div>
 
-@* Форма регистрации *@
+@* Окно регистрации *@
 <div class="modal fade" id="registrationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered w-25">
         <div class="modal-content account-modal">
@@ -59,28 +44,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
 
-            <div class="modal-body">
-                <form method="post" id="registrationForm" asp-controller="Account" asp-action="Register">
-                    <div class="mb-3">
-                        <input type="email" class="form-control input-field" name="Email" placeholder="Email*" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="password" class="form-control input-field" name="Password" placeholder="Пароль*" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="password" class="form-control input-field" name="ConfirmPassword" placeholder="Повторите пароль*" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="text" class="form-control input-field" name="Name" placeholder="Имя">
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="text" class="form-control input-field" name="Phone" placeholder="Телефон">
-                    </div>
-                </form>
+            <div class="modal-body" id="registrationFormWrapper">
+                @await Html.PartialAsync("_RegistrationForm", new Register())
             </div>
 
             <div class="modal-footer d-flex flex-column">

@@ -10,3 +10,23 @@ $(document).on('click', '[data-bs-target="#loginModal"]', function () {
 $(document).on('click', '[data-bs-target="#registrationModal"]', function () {
     $('#registrationModal').appendTo('body');
 });
+
+$(document).ready(function () {
+    $(document).on('submit', '#registrationForm', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.redirectUrl) {                    
+                    window.location.href = response.redirectUrl;
+                } else {                    
+                    $('#registrationFormWrapper').html(response);
+                    $.validator.unobtrusive.parse($("#registrationForm"));
+                }
+            }
+        });
+    });
+});

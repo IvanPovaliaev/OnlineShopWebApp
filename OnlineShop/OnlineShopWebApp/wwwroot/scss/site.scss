@@ -320,7 +320,7 @@ footer {
 }
 
 .admin-product-description {
-    height: 125px;
+    max-height: 125px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -349,4 +349,9 @@ footer {
 
 .table td {
     word-break: break-all;
+}
+
+.validation-error-message {
+    color: red;
+    white-space: pre-wrap;
 }
