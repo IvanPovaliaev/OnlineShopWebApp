@@ -1,0 +1,43 @@
+[
+  {
+    "Id": "ac4ea2a2-c5f6-48b2-b0e3-d0f63758d5de",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-10-07T02:44:21.7875403+03:00",
+    "Status": 0,
+    "City": "г. Норильск",
+    "Address": "ул. Комсомольская, д. 42",
+    "Entrance": 3,
+    "Floor": 3,
+    "Apartment": 9,
+    "PostCode": "663302",
+    "FullName": "O'Neill Sean Patrick",
+    "Email": "Qw!12@ya.ru",
+    "Phone": "+78005553535",
+    "ReservePhone": null,
+    "AdditionalInfo": "Тест после внесённых изменений",
+    "Positions": [
+      {
+        "Id": "cce4df7d-872c-49fd-9bee-c715ae28a4fc",
+        "Product": {
+          "Id": "40c909df-c2d9-43f7-a997-027c85d8ec28",
+          "Name": "750W Be Quiet System Power 10",
+          "Cost": 8250.0,
+          "Description": "Test Description for PowerSupply",
+          "Category": 6,
+          "ImageUrl": null,
+          "Article": 4897597358139312607,
+          "Specifications": {
+            "Manufacturer": "Be Quiet",
+            "ManufacturerCode": "BN329",
+            "Power": "750 Вт",
+            "PFC": "активный",
+            "FanSize": "120 мм"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 8250.0
+      }
+    ],
+    "Article": 5238466979828769442
+  }
+]

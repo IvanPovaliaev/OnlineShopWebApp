@@ -20,11 +20,35 @@ $(document).ready(function () {
             url: $(this).attr('action'),
             data: $(this).serialize(),
             success: function (response) {
-                if (response.redirectUrl) {                    
-                    window.location.href = response.redirectUrl;
+                if (response.startsWith("<!DOCTYPE html>")) {
+                    document.open();
+                    document.write(response);
+                    document.close();
                 } else {                    
                     $('#registrationFormWrapper').html(response);
                     $.validator.unobtrusive.parse($("#registrationForm"));
+                }
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on('submit', '#orderForm', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.startsWith("<!DOCTYPE html>")) {
+                    document.open();
+                    document.write(response);
+                    document.close();
+                } else {
+                    $('#orderFormWrapper').html(response);
+                    $.validator.unobtrusive.parse($("#orderForm"));
                 }
             }
         });

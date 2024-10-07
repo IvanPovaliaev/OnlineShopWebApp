@@ -4,23 +4,21 @@
     <div class="mb-3">
         <input class="form-control input-field"
             asp-for="Email"
-            placeholder="Email*"
-            required>
+            placeholder="Email*">
         <span asp-validation-for="Email" class="validation-error-message"></span>
     </div>
 
     <div class="mb-3">
         <input type="password" class="form-control input-field"
             asp-for="Password"
-            placeholder="Пароль*" required>
+            placeholder="Пароль*">
         <span asp-validation-for="Password" class="validation-error-message"></span>
     </div>
 
     <div class="mb-3">
         <input type="password" class="form-control input-field"
             asp-for="ConfirmPassword"
-            placeholder="Повторите пароль*"
-            required>
+            placeholder="Повторите пароль*">
         <span asp-validation-for="ConfirmPassword" class="validation-error-message"></span>
     </div>
 

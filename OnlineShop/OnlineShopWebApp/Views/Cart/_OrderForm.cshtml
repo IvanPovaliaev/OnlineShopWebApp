@@ -83,8 +83,10 @@
 
     <h5>Дополнительная информация</h5>
     <div class="mb-3 border-main">
-        <textarea class="form-control" asp-for="AdditionalInfo" rows="5"></textarea>
+        <textarea class="form-control" asp-for="AdditionalInfo" rows="5"></textarea>        
     </div>
-
+    <span asp-validation-for="AdditionalInfo" class="validation-error-message"></span>
     <p>Поля с * - обязательны к заполнению</p>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 </form>

@@ -44,6 +44,8 @@ namespace OnlineShopWebApp.Models
 
         [PhoneValidation()]
         public string? ReservePhone { get; set; }
+
+        [StringLength(300, MinimumLength = 10, ErrorMessage = "Количество символов должно быть от 10 до 300")]
         public string? AdditionalInfo { get; set; }
         public List<CartPosition> Positions { get; set; }
         public long Article => GetArticle();
@@ -53,6 +55,7 @@ namespace OnlineShopWebApp.Models
             Id = Guid.NewGuid();
             CreationDate = DateTime.Now;
             Status = OrderStatus.Created;
+            Positions = [];
         }
 
         /// <summary>
