@@ -99,7 +99,9 @@ namespace OnlineShopWebApp.Controllers
         [HttpPost]
         public IActionResult Update(Product product)
         {
-            if (!ModelState.IsValid)
+            var isModelValid = _productsService.IsUpdateValid(ModelState, product);
+
+            if (!isModelValid)
             {
                 return View("~/Views/Admin/EditProduct.cshtml", product);
             }

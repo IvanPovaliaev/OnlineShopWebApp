@@ -26,7 +26,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>true if creation model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
-        /// /// <param name="register">Target creation model</param>
+        /// <param name="order">Target creation model</param>
         public bool IsCreationValid(ModelStateDictionary modelState, Order order)
         {
             if (order.Positions.Count == 0)

@@ -15,6 +15,13 @@ namespace OnlineShopWebApp.Helpers
             ErrorMessage = errorMessage;
         }
 
+        /// <summary>
+        /// Checks the passed value for compliance with the rule.
+        /// </summary>
+        /// <returns>true if value is valid; otherwise false</returns>
+        /// <param name="value">Target value</param>
+        /// <param name="error">Validation error</param>
+
         public bool IsValid(string? value, out string error)
         {
             error = string.Empty;

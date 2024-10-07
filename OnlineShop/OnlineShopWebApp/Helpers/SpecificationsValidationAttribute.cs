@@ -12,7 +12,7 @@ namespace OnlineShopWebApp.Helpers
         {
             var product = (Product)validationContext.ObjectInstance;
 
-            if (product.Specifications == null || product.Specifications.Count == 0)
+            if (!IsSpecificationsExists(product))
             {
                 return new ValidationResult("Характеристики не могут отсутствовать");
             }
@@ -23,7 +23,39 @@ namespace OnlineShopWebApp.Helpers
                             .GetSpecificationsRules(product.Category)
                             .GetAll();
 
-            var validationErrors = new List<string>();
+            if (!IsRulesValid(product, rules, out var validationErrors))
+            {
+                return new ValidationResult(string.Join("\n", validationErrors));
+            }
+
+            return ValidationResult.Success;
+        }
+
+        /// <summary>
+        /// Checks whether the product has specifications.
+        /// </summary>
+        /// <returns>true if specifications exists; otherwise false</returns>
+        /// <param name="product">Target product</param>
+        private bool IsSpecificationsExists(Product product)
+        {
+            if (product?.Specifications == null || product?.Specifications.Count == 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks all specifications of the target product for compliance with related rules.
+        /// </summary>
+        /// <returns>true if all specifications are valid; otherwise return false</returns>
+        /// <param name="product">Target product</param>
+        /// <param name="rules">Collection of related rules</param>
+        /// <param name="validationErrors">List of validation errors</param>
+        private bool IsRulesValid(Product product, IEnumerable<ProductSpecificationRule> rules, out List<string> validationErrors)
+        {
+            validationErrors = [];
 
             foreach (var rule in rules)
             {
@@ -39,12 +71,7 @@ namespace OnlineShopWebApp.Helpers
                 }
             }
 
-            if (validationErrors.Count != 0)
-            {
-                return new ValidationResult(string.Join("\n", validationErrors));
-            }
-
-            return ValidationResult.Success;
+            return validationErrors.Count == 0;
         }
     }
 }

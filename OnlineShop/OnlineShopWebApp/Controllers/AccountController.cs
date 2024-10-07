@@ -6,11 +6,11 @@ namespace OnlineShopWebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly AccountsService _accountsService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountsService accountService)
         {
-            _accountService = accountService;
+            _accountsService = accountService;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace OnlineShopWebApp.Controllers
         [HttpPost]
         public IActionResult Register(Register register)
         {
-            var isModelValid = _accountService.IsRegisterValid(ModelState, register);
+            var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
 
             if (!isModelValid)
             {

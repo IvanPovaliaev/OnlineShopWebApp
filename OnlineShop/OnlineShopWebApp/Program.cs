@@ -31,7 +31,7 @@ builder.Services.AddTransient<ComparisonsService>();
 builder.Services.AddSingleton<IFavoritesRepository, InFileFavoritesRepository>();
 builder.Services.AddTransient<FavoritesService>();
 
-builder.Services.AddTransient<AccountService>();
+builder.Services.AddTransient<AccountsService>();
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {

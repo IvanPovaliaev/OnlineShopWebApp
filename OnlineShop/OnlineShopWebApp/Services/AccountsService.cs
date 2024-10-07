@@ -3,7 +3,7 @@ using OnlineShopWebApp.Models;
 
 namespace OnlineShopWebApp.Services
 {
-    public class AccountService
+    public class AccountsService
     {
         /// <summary>
         /// Validates the user registration model
