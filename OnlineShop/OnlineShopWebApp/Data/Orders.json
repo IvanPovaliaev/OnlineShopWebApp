@@ -39,5 +39,178 @@
       }
     ],
     "Article": 5238466979828769442
+  },
+  {
+    "Id": "863b6e68-af85-4c23-a1f1-8331e4bda735",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-10-07T03:16:25.1327748+03:00",
+    "Status": 0,
+    "City": "тут Адрес",
+    "Address": "тут Адрес",
+    "Entrance": null,
+    "Floor": null,
+    "Apartment": null,
+    "PostCode": "123512",
+    "FullName": "Фамилия Имя Отчество",
+    "Email": "email@email.com",
+    "Phone": "+79050923602",
+    "ReservePhone": null,
+    "AdditionalInfo": null,
+    "Positions": [
+      {
+        "Id": "504f8853-c17f-4abc-b1fa-760b31e0bb74",
+        "Product": {
+          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+          "Cost": 20790.0,
+          "Description": "Test Description for RAM - новая версия",
+          "Category": 5,
+          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+          "Article": 5297320867569492517,
+          "Specifications": {
+            "Manufacturer": "ADATA",
+            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "64 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "5600 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 20790.0
+      }
+    ],
+    "Article": 5486421759084949096
+  },
+  {
+    "Id": "25b6847d-ef4c-46f0-86f0-2e070230420c",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-10-07T03:25:42.1392526+03:00",
+    "Status": 0,
+    "City": "тут Адрес",
+    "Address": "тут Адрес",
+    "Entrance": null,
+    "Floor": null,
+    "Apartment": null,
+    "PostCode": "123512",
+    "FullName": "Фамилия Имя Отчество",
+    "Email": "email@email.com",
+    "Phone": "+79050923602",
+    "ReservePhone": null,
+    "AdditionalInfo": null,
+    "Positions": [
+      {
+        "Id": "d0f5a0ec-49dd-4b14-949e-12f2258ee9df",
+        "Product": {
+          "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
+          "Name": "Intel Core i5 - 12400F OEM",
+          "Cost": 15870.0,
+          "Description": "Test Description for CPU",
+          "Category": 1,
+          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
+          "Article": 5327709582814835190,
+          "Specifications": {
+            "Manufacturer": "Intel",
+            "ManufacturerCode": "CM8071504555318/CM8071504650609",
+            "Model": "Core i5 12400F",
+            "Socket": "LGA 1700",
+            "Architecture": "Alder Lake",
+            "CoresCount": "6",
+            "ThreadsCount": "12",
+            "ClockSpeed": "2500 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 15870.0
+      }
+    ],
+    "Article": 5111848687394784381
+  },
+  {
+    "Id": "0071f6f5-83e8-4ec5-b0ea-b3ab99d50c56",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-10-07T03:27:10.8491949+03:00",
+    "Status": 0,
+    "City": "тут Адрес",
+    "Address": "тут Адрес",
+    "Entrance": null,
+    "Floor": null,
+    "Apartment": null,
+    "PostCode": "123512",
+    "FullName": "Фамилия Имя Отчество",
+    "Email": "email@email.com",
+    "Phone": "+79050923602",
+    "ReservePhone": null,
+    "AdditionalInfo": null,
+    "Positions": [
+      {
+        "Id": "d5c08af2-b9db-4510-8756-615ad1e957ff",
+        "Product": {
+          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+          "Cost": 20790.0,
+          "Description": "Test Description for RAM - новая версия",
+          "Category": 5,
+          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+          "Article": 5297320867569492517,
+          "Specifications": {
+            "Manufacturer": "ADATA",
+            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "64 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "5600 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 20790.0
+      }
+    ],
+    "Article": 5676087937833498357
+  },
+  {
+    "Id": "866b744e-1d48-45a1-93c5-3450f46bdbd2",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-10-07T03:29:38.3837884+03:00",
+    "Status": 0,
+    "City": "тут Адрес",
+    "Address": "тут Адрес",
+    "Entrance": null,
+    "Floor": null,
+    "Apartment": null,
+    "PostCode": "123512",
+    "FullName": "Фамилия Имя Отчество",
+    "Email": "email@email.com",
+    "Phone": "+79050923602",
+    "ReservePhone": null,
+    "AdditionalInfo": null,
+    "Positions": [
+      {
+        "Id": "579435b5-e153-40cb-9480-2c3ac31e8b61",
+        "Product": {
+          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+          "Cost": 20790.0,
+          "Description": "Test Description for RAM - новая версия",
+          "Category": 5,
+          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+          "Article": 5297320867569492517,
+          "Specifications": {
+            "Manufacturer": "ADATA",
+            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "64 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "5600 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 20790.0
+      }
+    ],
+    "Article": 5017323657197483086
   }
 ]

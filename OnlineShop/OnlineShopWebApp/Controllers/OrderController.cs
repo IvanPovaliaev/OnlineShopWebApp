@@ -31,7 +31,7 @@ namespace OnlineShopWebApp.Controllers
 
             if (!isModelValid)
             {
-                return PartialView("~/Views/Cart/_OrderForm.cshtml", order);
+                return BadRequest();
             }
 
             order.UserId = _userId;
