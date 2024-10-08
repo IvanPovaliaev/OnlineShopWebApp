@@ -35,7 +35,7 @@
                                 <td>@order.CreationDate.Date.ToString("d")</td>
                                 <td>@order.CreationDate.ToString("t")</td>
                                 <td>
-                                    @await Html.PartialAsync("_OrderDetails", order);                                    
+                                    @await Html.PartialAsync("_OrderDetails", order)                                  
                                 </td>                                
                             </tr>                            
                         }

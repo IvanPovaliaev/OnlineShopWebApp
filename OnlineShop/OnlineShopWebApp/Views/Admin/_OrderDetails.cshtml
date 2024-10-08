@@ -19,10 +19,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
+
                 <form method="post" id="form-@Model.Article" asp-controller="Admin" asp-action="UpdateOrderStatus">
 
                     <input type="hidden" name="orderId" value="@Model.Id" />
-
                     <table class="table table-hover">
                         <tr>
                             <td class="col-6">Город</td>
@@ -85,7 +85,6 @@
                                 <select class="form-select"
                                     asp-for="@Model.Status"
                                     asp-items="@Html.GetEnumSelectList<OrderStatus>()">
-
                                 </select>
                             </td>
                         </tr>
@@ -94,7 +93,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button class="btn btn-main btn-login-modal w-100 mb-3" type="submit" form="form-@Model.Article">
+                <button class="btn btn-main btn-order-details-modal w-100" type="submit" form="form-@Model.Article">
                     Обновить статус
                 </button>
             </div>
