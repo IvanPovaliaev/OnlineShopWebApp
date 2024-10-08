@@ -8,7 +8,7 @@ namespace OnlineShopWebApp.Helpers
     public static class EnumExtensions
     {
         /// <summary>
-        /// A extensions methods that return Name value of Display attribute
+        /// A extensions method that return Name value of Display attribute
         /// </summary>
         /// <returns>DisplayAttribute Name value (string)</returns>
         /// <param name="enumValue">Target enum</param>

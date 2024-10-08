@@ -22,8 +22,9 @@ namespace OnlineShopWebApp.Services
         public List<Order> GetAll() => _ordersRepository.GetAll();
 
         /// <summary>
-        /// Create order to repository
-        /// </summary>        
+        /// Create new order in repository
+        /// </summary>
+        /// <param name="order">Target creation model</param>
         public void Create(Order order)
         {
             _ordersRepository.Create(order);
@@ -45,6 +46,12 @@ namespace OnlineShopWebApp.Services
             return modelState.IsValid;
         }
 
+        /// <summary>
+        /// Update target order status in repository if possible
+        /// </summary>
+        /// <returns>Admin Orders View</returns>
+        /// <param name="orderId">Order id (guid)</param>
+        /// <param name="newStatus">New order status</param>
         public void UpdateStatus(Guid orderId, OrderStatus newStatus)
         {
             _ordersRepository.UpdateStatus(orderId, newStatus);

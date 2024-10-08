@@ -26,7 +26,12 @@ namespace OnlineShopWebApp.Controllers
             return View(orders);
         }
 
-
+        /// <summary>
+        /// Update target order status if possible
+        /// </summary>
+        /// <returns>Admin Orders View</returns>
+        /// <param name="orderId">Order id (guid)</param>
+        /// <param name="status">New order status</param>
         public IActionResult UpdateOrderStatus(Guid orderId, OrderStatus status)
         {
             _ordersService.UpdateStatus(orderId, status);
@@ -74,6 +79,7 @@ namespace OnlineShopWebApp.Controllers
         /// Open Admin EditProduct Page
         /// </summary>
         /// <returns>Admin EditProduct View</returns>
+        /// <param name="orderId">Product id (guid)</param>
         public IActionResult EditProduct(Guid productId)
         {
             var product = _productsService.Get(productId);

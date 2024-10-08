@@ -1,46 +1,23 @@
 [
   {
-    "Id": "0c5887ca-f94c-4bb1-8cc9-a03b41848c80",
+    "Id": "29006ca2-69f9-425a-9d90-0bb635dbb09c",
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "CreationDate": "2024-10-08T19:55:39.834485+03:00",
-    "Status": 2,
-    "City": "ул. Комсомольская, д. 42",
+    "CreationDate": "2024-10-09T01:55:14.815162+03:00",
+    "Status": 4,
+    "City": "г. Норильск",
     "Address": "ул. Комсомольская, д. 42",
     "Entrance": null,
-    "Floor": null,
+    "Floor": 4,
     "Apartment": null,
     "PostCode": "663302",
-    "FullName": "O'Neill Sean Patrick",
-    "Email": "Qw!12@ya.ru",
-    "Phone": "+79000000000",
-    "ReservePhone": null,
-    "AdditionalInfo": "Заберу на улице",
+    "FullName": "Иванов Иван Иванович",
+    "Email": "testEmail@test.com",
+    "Phone": "+79217632211",
+    "ReservePhone": "+79217632212",
+    "AdditionalInfo": "Тестовая дополнительная информация большого размера и малого смысла",
     "Positions": [
       {
-        "Id": "ad5033bc-3379-4905-bda9-7e171b2f2c40",
-        "Product": {
-          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
-          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
-          "Cost": 20790.0,
-          "Description": "Test Description for RAM - новая версия",
-          "Category": 5,
-          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
-          "Article": 5297320867569492517,
-          "Specifications": {
-            "Manufacturer": "ADATA",
-            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
-            "FormFactor": "DIMM",
-            "MemoryType": "DDR5",
-            "MemorySize": "64 Гб",
-            "ModulesCount": "2",
-            "ClockSpeed": "5600 МГц"
-          }
-        },
-        "Quantity": 1,
-        "Cost": 20790.0
-      },
-      {
-        "Id": "1fab4118-d73c-4da5-83c3-328effc6039e",
+        "Id": "7e895fb5-bd25-462c-9aa5-2473476af1ea",
         "Product": {
           "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
           "Name": "Intel Core i5 - 12400F OEM",
@@ -64,141 +41,7 @@
         "Cost": 31740.0
       }
     ],
-    "Article": 5454414728742340554,
-    "TotalCost": 52530.0
-  },
-  {
-    "Id": "c161ddd6-59a0-40b4-953d-dfb877a1deeb",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "CreationDate": "2024-10-08T21:39:49.4112341+03:00",
-    "Status": 0,
-    "City": "ул. Комсомольская, д. 42",
-    "Address": "ул. Комсомольская, д. 42",
-    "Entrance": null,
-    "Floor": null,
-    "Apartment": null,
-    "PostCode": "663302",
-    "FullName": "O'Neill Sean Patrick",
-    "Email": "testEmail@test.com",
-    "Phone": "+79217632211",
-    "ReservePhone": null,
-    "AdditionalInfo": "Это другой заказа",
-    "Positions": [
-      {
-        "Id": "d38085d9-40d4-43f9-bf0d-2364c0d99688",
-        "Product": {
-          "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
-          "Name": "Intel Core i5 - 12400F OEM",
-          "Cost": 15870.0,
-          "Description": "Test Description for CPU",
-          "Category": 1,
-          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
-          "Article": 5327709582814835190,
-          "Specifications": {
-            "Manufacturer": "Intel",
-            "ManufacturerCode": "CM8071504555318/CM8071504650609",
-            "Model": "Core i5 12400F",
-            "Socket": "LGA 1700",
-            "Architecture": "Alder Lake",
-            "CoresCount": "6",
-            "ThreadsCount": "12",
-            "ClockSpeed": "2500 МГц"
-          }
-        },
-        "Quantity": 1,
-        "Cost": 15870.0
-      }
-    ],
-    "Article": 4662450061209361878,
-    "TotalCost": 15870.0
-  },
-  {
-    "Id": "7e92a06f-bca7-4ccc-ba7d-7bc54180b9a9",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "CreationDate": "2024-10-08T22:00:28.4321072+03:00",
-    "Status": 3,
-    "City": "г. Норильск",
-    "Address": "ул. Комсомольская, д. 42",
-    "Entrance": null,
-    "Floor": null,
-    "Apartment": null,
-    "PostCode": "663302",
-    "FullName": "O'Neill Sean Patrick",
-    "Email": "testEmail@test.com",
-    "Phone": "+79217632211",
-    "ReservePhone": null,
-    "AdditionalInfo": "В этом сообщений специально очень много текста. I'm blue, da ba dee da ba di\r\n",
-    "Positions": [
-      {
-        "Id": "691e1b65-33c5-43bc-b184-3a31a90658eb",
-        "Product": {
-          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
-          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
-          "Cost": 20790.0,
-          "Description": "Test Description for RAM - новая версия",
-          "Category": 5,
-          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
-          "Article": 5297320867569492517,
-          "Specifications": {
-            "Manufacturer": "ADATA",
-            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
-            "FormFactor": "DIMM",
-            "MemoryType": "DDR5",
-            "MemorySize": "64 Гб",
-            "ModulesCount": "2",
-            "ClockSpeed": "5600 МГц"
-          }
-        },
-        "Quantity": 1,
-        "Cost": 20790.0
-      }
-    ],
-    "Article": 5534005469700595823,
-    "TotalCost": 20790.0
-  },
-  {
-    "Id": "b842c727-3a52-4ecf-9a22-ecb2a4b933cc",
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "CreationDate": "2024-10-08T22:44:25.4782489+03:00",
-    "Status": 4,
-    "City": "г. Норильск",
-    "Address": "ул. Комсомольская, д. 42",
-    "Entrance": null,
-    "Floor": null,
-    "Apartment": null,
-    "PostCode": "663302",
-    "FullName": "Иванова Иван Иванович",
-    "Email": "testEmail@test.com",
-    "Phone": "+79217632211",
-    "ReservePhone": "+79217632212",
-    "AdditionalInfo": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    "Positions": [
-      {
-        "Id": "20aa326d-d961-4b71-b878-fefc0a700094",
-        "Product": {
-          "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
-          "Name": "Intel Core i5 - 12400F OEM",
-          "Cost": 15870.0,
-          "Description": "Test Description for CPU",
-          "Category": 1,
-          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
-          "Article": 5327709582814835190,
-          "Specifications": {
-            "Manufacturer": "Intel",
-            "ManufacturerCode": "CM8071504555318/CM8071504650609",
-            "Model": "Core i5 12400F",
-            "Socket": "LGA 1700",
-            "Architecture": "Alder Lake",
-            "CoresCount": "6",
-            "ThreadsCount": "12",
-            "ClockSpeed": "2500 МГц"
-          }
-        },
-        "Quantity": 1,
-        "Cost": 15870.0
-      }
-    ],
-    "Article": 5678821782090598183,
-    "TotalCost": 15870.0
+    "Article": 4781250473262869666,
+    "TotalCost": 31740.0
   }
 ]
