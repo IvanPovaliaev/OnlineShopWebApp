@@ -1,0 +1,103 @@
+﻿@model Order
+
+@{
+    var getMessageIfNull = (object value) =>
+            {
+                return value is null ? "-" : value;
+            };
+}
+
+<button type="button" class="btn btn-main" data-bs-toggle="modal" data-bs-target="#modal-@Model.Article">
+    Детали заказа
+</button>
+
+<div class="modal fade" id="modal-@Model.Article" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-@Model.Article-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal-@Model.Article-label">Заказ №@Model.Article</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="form-@Model.Article" asp-controller="Admin" asp-action="UpdateOrderStatus">
+
+                    <input type="hidden" name="orderId" value="@Model.Id" />
+
+                    <table class="table table-hover">
+                        <tr>
+                            <td class="col-6">Город</td>
+                            <td class="col">@Model.City</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Адрес</td>
+                            <td class=col>@Model.Address</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Подъезд</td>
+                            <td class=col>@getMessageIfNull(Model.Entrance)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Город</td>
+                            <td class=col>@getMessageIfNull(Model.Floor)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Индекс</td>
+                            <td class=col>@Model.PostCode</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">ФИО</td>
+                            <td class=col>@Model.FullName</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Email</td>
+                            <td class=col>@Model.Email</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Телефон</td>
+                            <td class=col>@Model.Phone</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Телефон(дополнительный)</td>
+                            <td class=col>@getMessageIfNull(Model.ReservePhone)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Дополнительная информация</td>
+                            <td class=col>@getMessageIfNull(Model.AdditionalInfo)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Стоимость, ₽</td>
+                            <td class=col>@Model.TotalCost</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Статус</td>
+                            <td class=col>
+                                <select class="form-select"
+                                    asp-for="@Model.Status"
+                                    asp-items="@Html.GetEnumSelectList<OrderStatus>()">
+
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-main btn-login-modal w-100 mb-3" type="submit" form="form-@Model.Article">
+                    Обновить статус
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

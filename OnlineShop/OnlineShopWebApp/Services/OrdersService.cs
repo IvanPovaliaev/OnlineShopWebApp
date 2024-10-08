@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using System;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Services
@@ -21,9 +22,9 @@ namespace OnlineShopWebApp.Services
         public List<Order> GetAll() => _ordersRepository.GetAll();
 
         /// <summary>
-        /// Save order to repository
+        /// Create order to repository
         /// </summary>        
-        public void Save(Order order)
+        public void Create(Order order)
         {
             _ordersRepository.Create(order);
         }
@@ -42,6 +43,11 @@ namespace OnlineShopWebApp.Services
             }
 
             return modelState.IsValid;
+        }
+
+        public void UpdateStatus(Guid orderId, OrderStatus newStatus)
+        {
+            _ordersRepository.UpdateStatus(orderId, newStatus);
         }
     }
 }

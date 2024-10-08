@@ -21,7 +21,8 @@
                             <th scope="col" class="col-2">Стоимость, ₽</th>
                             <th scope="col" class="col">Статус</th>
                             <th scope="col" class="col-2">Дата</th>
-                            <th scope="col" class="col-3">Время</th>
+                            <th scope="col" class="col-2">Время</th>
+                            <th scope="col" class="col-2">Детали</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,8 +33,11 @@
                                 <td>@order.TotalCost</td>
                                 <td>@order.Status</td>
                                 <td>@order.CreationDate.Date.ToString("d")</td>
-                                <td>@order.CreationDate.Date.ToString("t")</td>
-                            </tr>
+                                <td>@order.CreationDate.ToString("t")</td>
+                                <td>
+                                    @await Html.PartialAsync("_OrderDetails", order);                                    
+                                </td>                                
+                            </tr>                            
                         }
                     </tbody>
                 </table>

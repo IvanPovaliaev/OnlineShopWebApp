@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 
@@ -23,6 +24,13 @@ namespace OnlineShopWebApp.Controllers
         {
             var orders = _ordersService.GetAll();
             return View(orders);
+        }
+
+
+        public IActionResult UpdateOrderStatus(Guid orderId, OrderStatus status)
+        {
+            _ordersService.UpdateStatus(orderId, status);
+            return RedirectToAction("Orders");
         }
 
         /// <summary>

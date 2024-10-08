@@ -48,7 +48,7 @@ namespace OnlineShopWebApp.Repositories
 
         public void Update(Product product)
         {
-            var repositoryProduct = _products.FirstOrDefault(p => p.Id == product.Id);
+            var repositoryProduct = Get(product.Id);
 
             if (repositoryProduct is null)
             {

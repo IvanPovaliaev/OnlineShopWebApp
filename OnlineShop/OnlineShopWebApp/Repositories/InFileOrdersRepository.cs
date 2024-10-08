@@ -1,7 +1,9 @@
 ﻿using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineShopWebApp.Repositories
 {
@@ -16,11 +18,32 @@ namespace OnlineShopWebApp.Repositories
             _jsonRepositoryService = jsonService;
             _orders = _jsonRepositoryService.Upload<Order>(FilePath);
         }
+
         public List<Order> GetAll() => _orders;
+
+        public Order Get(Guid id)
+        {
+            var order = _orders.FirstOrDefault(o => o.Id == id);
+            return order;
+        }
 
         public void Create(Order order)
         {
             _orders.Add(order);
+            _jsonRepositoryService.SaveChanges(FilePath, _orders);
+        }
+
+        public void UpdateStatus(Guid id, OrderStatus newStatus)
+        {
+            var repositoryOrder = Get(id);
+
+            if (repositoryOrder is null)
+            {
+                return;
+            }
+
+            repositoryOrder.Status = newStatus;
+
             _jsonRepositoryService.SaveChanges(FilePath, _orders);
         }
     }
