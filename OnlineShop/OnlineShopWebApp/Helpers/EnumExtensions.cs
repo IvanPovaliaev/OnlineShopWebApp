@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
@@ -7,16 +8,17 @@ namespace OnlineShopWebApp.Helpers
     public static class EnumExtensions
     {
         /// <summary>
-        ///     A generic extension method that aids in reflecting 
-        ///     and retrieving any attribute that is applied to an `Enum`.
+        /// A extensions methods that return Name value of Display attribute
         /// </summary>
-        public static TAttribute GetAttribute<TAttribute>(this Enum enumValue)
-                where TAttribute : Attribute
+        /// <returns>DisplayAttribute Name value (string)</returns>
+        /// <param name="enumValue">Target enum</param>
+        public static string GetDisplayAttributeName(this Enum enumValue)
         {
             return enumValue.GetType()
-                            .GetMember(enumValue.ToString())
-                            .First()
-                            .GetCustomAttribute<TAttribute>();
+                .GetMember(enumValue.ToString())
+                .First()
+                .GetCustomAttribute<DisplayAttribute>()
+                .GetName();
         }
     }
 }

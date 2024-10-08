@@ -25,43 +25,43 @@
                     <li>
                         <a class="dropdown-item text-dark"
                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.GraphicCards">
-                            Видеокарты
+                            @ProductCategories.GraphicCards.GetDisplayAttributeName()
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item text-dark"
                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.Processors">
-                            Процессоры
+                            @ProductCategories.Processors.GetDisplayAttributeName()
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item text-dark"
                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.Motherboards">
-                            Материнские платы
+                            @ProductCategories.Motherboards.GetDisplayAttributeName()
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item text-dark"
                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.SSD">
-                            SSD
+                            @ProductCategories.SSD.GetDisplayAttributeName()
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item text-dark"
                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.HDD">
-                            HDD
+                            @ProductCategories.HDD.GetDisplayAttributeName()
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item text-dark"
                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.RAM">
-                            Оперативная память
+                            @ProductCategories.RAM.GetDisplayAttributeName()
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item text-dark"
                            asp-area="" asp-controller="Product" asp-action="Category" asp-route-category="@ProductCategories.PowerSupplies">
-                            Блоки питания
+                            @ProductCategories.PowerSupplies.GetDisplayAttributeName()
                         </a>
                     </li>
                 </ul>
