@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineShopWebApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -31,7 +32,7 @@ namespace OnlineShopWebApp.Models
         public string PostCode { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле")]
-        [RegularExpression(@"^[А-ЯЁA-Z][а-яёa-zA-Z'-]+ [А-ЯЁA-Z][а-яёa-zA-Z'-]+(\s[А-ЯЁA-Z][а-яёa-zA-Z'-]+)?$", ErrorMessage = "Введите полное имя")]
+        [RegularExpression(@"^[А-ЯЁA-Z][а-яёa-zA-Z'-]+ [А-ЯЁA-Z][а-яёa-zA-Z'-]+(\s[А-ЯЁA-Z][а-яёa-zA-Z'-]+)?$", ErrorMessage = "Введите полное имя в виде: Фамилия Имя Отчество (при наличии)")]
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле")]

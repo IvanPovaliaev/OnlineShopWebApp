@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Helpers.SpecificationsRules;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -106,6 +108,43 @@ namespace OnlineShopWebApp.Services
             _productsEventService.OnProductDeleted(id);
         }
 
+        /// <summary>
+        /// Validates the product update model
+        /// </summary>        
+        /// <returns>true if model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="product">Target product model</param>
+        public bool IsUpdateValid(ModelStateDictionary modelState, Product product)
+        {
+            var repositoryProduct = Get(product.Id);
+
+            if (repositoryProduct.Category != product.Category)
+            {
+                modelState.AddModelError(string.Empty, "Изменена категория продукта.");
+            }
+
+            return modelState.IsValid;
+        }
+
+        /// <summary>
+        /// Get the IProductSpecificationsRules implementation according to the target category
+        /// </summary>        
+        /// <returns>Related IProductSpecificationsRules representation</returns>
+        /// <param name="category">ProductCategories</param>
+        public IProductSpecificationsRules GetSpecificationsRules(ProductCategories category)
+        {
+            return category switch
+            {
+                ProductCategories.GraphicCards => new GraphicCardSpecificationsRules(),
+                ProductCategories.Processors => new ProcessorSpecificationsRules(),
+                ProductCategories.Motherboards => new MotherboardSpecificationsRules(),
+                ProductCategories.SSD => new SSDSpecificationsRules(),
+                ProductCategories.HDD => new HDDSpecificationsRules(),
+                ProductCategories.RAM => new RAMSpecificationsRules(),
+                ProductCategories.PowerSupplies => new PowerSupplySpecificationsRules(),
+                _ => new GraphicCardSpecificationsRules()
+            };
+        }
 
         /// <summary>
         /// Check is Product Name contains a string
