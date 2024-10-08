@@ -1,10 +1,10 @@
-﻿@model Product
+﻿@model Dictionary<string, string>
 
 @{
     var tryGetValue = (string key) =>
         {
             var value = string.Empty;
-            Model?.Specifications.TryGetValue(key, out value);
+            Model?.TryGetValue(key, out value);
 
             return value;
         };
