@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Order>
+﻿@using OnlineShopWebApp.Helpers
+@using System.ComponentModel.DataAnnotations
+@model IEnumerable<Order>
 
 <section class="container flex-row">
 	<div class="row">
@@ -28,10 +30,12 @@
                     <tbody>
                         @foreach (var order in Model)
                         {
+                            var status = order.Status.GetAttribute<DisplayAttribute>().Name;
+
                             <tr class="">
                                 <td>@order.Article</td>
                                 <td>@order.TotalCost</td>
-                                <td>@order.Status</td>
+                                <td>@status</td>
                                 <td>@order.CreationDate.Date.ToString("d")</td>
                                 <td>@order.CreationDate.ToString("t")</td>
                                 <td>
