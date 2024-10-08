@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OnlineShopWebApp.Models
 {
@@ -50,6 +51,10 @@ namespace OnlineShopWebApp.Models
         public string? AdditionalInfo { get; set; }
         public List<CartPosition> Positions { get; set; }
         public long Article => GetArticle();
+        public decimal TotalCost
+        {
+            get => Positions?.Sum(p => p.Cost) ?? 0;
+        }
 
         public Order()
         {

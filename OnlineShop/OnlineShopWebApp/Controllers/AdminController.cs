@@ -7,18 +7,22 @@ namespace OnlineShopWebApp.Controllers
     public class AdminController : Controller
     {
         private readonly ProductsService _productsService;
+        private readonly OrdersService _ordersService;
 
-        public AdminController(ProductsService productsService)
+        public AdminController(ProductsService productsService, OrdersService ordersService)
         {
             _productsService = productsService;
+            _ordersService = ordersService;
         }
+
         /// <summary>
         /// Open Admin Orders Page
         /// </summary>
         /// <returns>Admin Orders View</returns>
         public IActionResult Orders()
         {
-            return View();
+            var orders = _ordersService.GetAll();
+            return View(orders);
         }
 
         /// <summary>

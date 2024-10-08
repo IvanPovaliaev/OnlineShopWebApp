@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Services
 {
@@ -12,6 +13,12 @@ namespace OnlineShopWebApp.Services
         {
             _ordersRepository = ordersRepository;
         }
+
+        /// <summary>
+        /// Get all orders from repository
+        /// </summary>
+        /// <returns>List of all orders from repository</returns>
+        public List<Order> GetAll() => _ordersRepository.GetAll();
 
         /// <summary>
         /// Save order to repository

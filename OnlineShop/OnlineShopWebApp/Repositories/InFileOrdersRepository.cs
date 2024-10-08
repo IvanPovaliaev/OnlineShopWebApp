@@ -16,6 +16,7 @@ namespace OnlineShopWebApp.Repositories
             _jsonRepositoryService = jsonService;
             _orders = _jsonRepositoryService.Upload<Order>(FilePath);
         }
+        public List<Order> GetAll() => _orders;
 
         public void Create(Order order)
         {

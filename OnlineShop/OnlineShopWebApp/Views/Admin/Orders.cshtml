@@ -1,4 +1,6 @@
-﻿<section class="container flex-row">
+﻿@model IEnumerable<Order>
+
+<section class="container flex-row">
 	<div class="row">
 
 		<div class="col-3 flex-column">
@@ -6,8 +8,36 @@
 		</div>
 
 		<div class="col">
-			<h2>Список заказов</h2>
-			<hr class="border-brown mb-3" />
+            <div class="row">
+                <h2>Список заказов</h2>
+                <hr class="border-brown mb-3" />
+            </div>
+
+            <div class="row">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-2">Номер</th>
+                            <th scope="col" class="col-2">Стоимость, ₽</th>
+                            <th scope="col" class="col">Статус</th>
+                            <th scope="col" class="col-2">Дата</th>
+                            <th scope="col" class="col-3">Время</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr class="">
+                                <td>@order.Article</td>
+                                <td>@order.TotalCost</td>
+                                <td>@order.Status</td>
+                                <td>@order.CreationDate.Date.ToString("d")</td>
+                                <td>@order.CreationDate.Date.ToString("t")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 		</div>
-	</div>
+    </div>
 </section>

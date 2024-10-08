@@ -1,0 +1,69 @@
+[
+  {
+    "Id": "0c5887ca-f94c-4bb1-8cc9-a03b41848c80",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "CreationDate": "2024-10-08T19:55:39.834485+03:00",
+    "Status": 0,
+    "City": "ул. Комсомольская, д. 42",
+    "Address": "ул. Комсомольская, д. 42",
+    "Entrance": null,
+    "Floor": null,
+    "Apartment": null,
+    "PostCode": "663302",
+    "FullName": "O'Neill Sean Patrick",
+    "Email": "Qw!12@ya.ru",
+    "Phone": "+79000000000",
+    "ReservePhone": null,
+    "AdditionalInfo": "Заберу на улице",
+    "Positions": [
+      {
+        "Id": "ad5033bc-3379-4905-bda9-7e171b2f2c40",
+        "Product": {
+          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+          "Cost": 20790.0,
+          "Description": "Test Description for RAM - новая версия",
+          "Category": 5,
+          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+          "Article": 5297320867569492517,
+          "Specifications": {
+            "Manufacturer": "ADATA",
+            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "64 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "5600 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 20790.0
+      },
+      {
+        "Id": "1fab4118-d73c-4da5-83c3-328effc6039e",
+        "Product": {
+          "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
+          "Name": "Intel Core i5 - 12400F OEM",
+          "Cost": 15870.0,
+          "Description": "Test Description for CPU",
+          "Category": 1,
+          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
+          "Article": 5327709582814835190,
+          "Specifications": {
+            "Manufacturer": "Intel",
+            "ManufacturerCode": "CM8071504555318/CM8071504650609",
+            "Model": "Core i5 12400F",
+            "Socket": "LGA 1700",
+            "Architecture": "Alder Lake",
+            "CoresCount": "6",
+            "ThreadsCount": "12",
+            "ClockSpeed": "2500 МГц"
+          }
+        },
+        "Quantity": 2,
+        "Cost": 31740.0
+      }
+    ],
+    "Article": 5454414728742340554
+  }
+]
