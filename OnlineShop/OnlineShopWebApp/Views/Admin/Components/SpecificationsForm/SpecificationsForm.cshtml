@@ -30,9 +30,19 @@
                 <input type="text" class="form-control input-field"
                        name="Specifications[@rule.Name]"
                        value="@tryGetValue(rule.Name)"
-                       required>
+                       data-val="true"
+                       data-val-required="Обязательное поле"
+                       required
+                       @if (!string.IsNullOrEmpty(rule.ValidationPattern))
+                       {
+                           <text>
+                               data-val-regex="@(rule.ErrorMessage ?? $"Поле {rule.Name} имеет неверный формат.")"
+                               data-val-regex-pattern="@rule.ValidationPattern"
+                           </text>
+                       }>
+
+                <span class="validation-error-message field-validation-valid" data-valmsg-for="Specifications[@rule.Name]" data-valmsg-replace="true"></span>
             </div>
         }
-
     </div>
 }

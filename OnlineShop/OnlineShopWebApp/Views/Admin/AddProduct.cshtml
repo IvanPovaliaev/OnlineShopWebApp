@@ -88,6 +88,11 @@
                     data: { category: selectedCategory },
                     success: function (response) {
                         $('#specifications-form').html(response);
+
+                        var form = $("#addProductForm");
+                        form.removeData("validator");  // удаляем кэш валидатора
+                        form.removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse(form);
                     }
                 });
             });
