@@ -96,7 +96,7 @@ namespace OnlineShopWebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("~/Views/Admin/AddProduct.cshtml", product);
+                return View("AddProduct", product);
             }
 
             _productsService.Add(product);
@@ -125,7 +125,7 @@ namespace OnlineShopWebApp.Controllers
 
             if (!isModelValid)
             {
-                return View("~/Views/Admin/EditProduct.cshtml", product);
+                return View("EditProduct", product);
             }
 
             _productsService.Update(product);
