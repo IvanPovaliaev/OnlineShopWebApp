@@ -10,11 +10,13 @@ namespace OnlineShopWebApp.Controllers
     {
         private readonly ProductsService _productsService;
         private readonly OrdersService _ordersService;
+        private readonly RolesService _rolesService;
 
-        public AdminController(ProductsService productsService, OrdersService ordersService)
+        public AdminController(ProductsService productsService, OrdersService ordersService, RolesService rolesService)
         {
             _productsService = productsService;
             _ordersService = ordersService;
+            _rolesService = rolesService;
         }
 
         /// <summary>
@@ -54,7 +56,40 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Admin Roles View</returns>
         public IActionResult Roles()
         {
-            return View();
+            var roles = _rolesService.GetAll();
+            return View(roles);
+        }
+
+        /// <summary>
+        /// Add new role
+        /// </summary>
+        /// <returns>Admin Roles View</returns>
+        [HttpPost]
+        public IActionResult AddRole(Role role)
+        {
+            var isModelValid = _rolesService.IsNewValid(ModelState, role);
+
+            if (!isModelValid)
+            {
+                return PartialView("_AddRoleForm", role);
+            }
+
+            _rolesService.Add(role);
+
+            var redirectUrl = Url.Action("Roles");
+
+            return Json(new { redirectUrl });
+        }
+
+        /// <summary>
+        /// Delete role by Id
+        /// </summary>
+        /// <returns>Admins roles View</returns>
+        /// <param name="roleId">Target roleId</param>  
+        public IActionResult DeleteRole(Guid roleId)
+        {
+            _rolesService.Delete(roleId);
+            return RedirectToAction("Roles");
         }
 
         /// <summary>

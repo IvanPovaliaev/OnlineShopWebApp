@@ -1,7 +1,9 @@
-﻿using OnlineShopWebApp.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
@@ -27,6 +29,24 @@ namespace OnlineShopWebApp.Services
         /// <returns>Role; returns null if role not found</returns>
         /// <param name="id">Target role id (GUID)</param>
         public Role Get(Guid id) => _rolesRepository.Get(id);
+
+        /// <summary>
+        /// Validates the new role model
+        /// </summary>        
+        /// <returns>true if model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="role">Target role model</param>
+        public bool IsNewValid(ModelStateDictionary modelState, Role role)
+        {
+            var repositoryRoles = GetAll();
+
+            if (repositoryRoles.Any(r => r.Name == role.Name))
+            {
+                modelState.AddModelError(string.Empty, "Роль с таким именем уже существует!");
+            }
+
+            return modelState.IsValid;
+        }
 
         /// <summary>
         /// Add role to repository
