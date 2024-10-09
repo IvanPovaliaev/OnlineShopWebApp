@@ -134,9 +134,9 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Get Partial View for product specifications depending on the category
+        /// Get ViewComponent SpecificationsForm for product specifications depending on the category
         /// </summary>
-        /// <returns>Relevant Partial View</returns>
+        /// <returns>Relevant SpecificationsFormViewComponent</returns>
         /// <param name="category">Product category</param>   
         public IActionResult GetSpecificationsForm(ProductCategories category)
         {

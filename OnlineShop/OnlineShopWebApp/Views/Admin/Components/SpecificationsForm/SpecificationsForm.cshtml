@@ -21,15 +21,15 @@
 {
     <div class="row d-flex justify-content-between gx-3 mb-3">
 
-        @foreach (var rule in rulesGroup)
+        @foreach (var ruleWithIndex in rulesGroup)
         {
-            var RealRule = rule.rule;
+            var rule = ruleWithIndex.rule;
 
             <div class="col-6">
-                <label for="Specifications[@RealRule.Name]" class="form-label">@RealRule.Name</label>
+                <label for="Specifications[@rule.Name]" class="form-label">@rule.Name</label>
                 <input type="text" class="form-control input-field"
-                       name="Specifications[@RealRule.Name]"
-                       value="@tryGetValue(RealRule.Name)"
+                       name="Specifications[@rule.Name]"
+                       value="@tryGetValue(rule.Name)"
                        required>
             </div>
         }

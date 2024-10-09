@@ -14,6 +14,11 @@ namespace OnlineShopWebApp.Views.Admin.Components.SpecificationsForm
             _productsService = productsService;
         }
 
+        /// <summary>
+        /// Show SpecificationsForm component on View;
+        /// </summary>
+        /// <returns>SpecificationsFormViewComponent</returns>
+        /// <param name="specificationsWithCategory">Tuple with specifications and category</param> 
         public IViewComponentResult Invoke((Dictionary<string, string>, ProductCategories category) specificationsWithCategory)
         {
             var specifications = specificationsWithCategory.Item1;
