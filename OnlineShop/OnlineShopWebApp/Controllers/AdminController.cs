@@ -2,6 +2,7 @@
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
+using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -132,5 +133,16 @@ namespace OnlineShopWebApp.Controllers
             return RedirectToAction("Products");
         }
 
+        /// <summary>
+        /// Get Partial View for product specifications depending on the category
+        /// </summary>
+        /// <returns>Relevant Partial View</returns>
+        /// <param name="category">Product category</param>   
+        public IActionResult GetSpecificationsForm(ProductCategories category)
+        {
+            var emptySpecifications = new Dictionary<string, string>();
+            var specificationsWithCategory = (emptySpecifications, category);
+            return ViewComponent("SpecificationsForm", specificationsWithCategory);
+        }
     }
 }

@@ -56,38 +56,15 @@
                     @* Блок для подгрузки характеристик *@
                     <div id="specifications-form">
                         @{
-                            switch (Model?.Category)
-                            {
-                                case ProductCategories.GraphicCards:
-                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml", Model?.Specifications);
-                                    break;
-                                case ProductCategories.Processors:
-                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_ProcessorForm.cshtml", Model?.Specifications);
-                                    break;
-                                case ProductCategories.Motherboards:
-                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_MotherboardForm.cshtml", Model?.Specifications);
-                                    break;
-                                case ProductCategories.SSD:
-                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_SsdForm.cshtml", Model?.Specifications);
-                                    break;
-                                case ProductCategories.HDD:
-                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_HddForm.cshtml", Model?.Specifications);
-                                    break;
-                                case ProductCategories.RAM:
-                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_RamForm.cshtml", Model?.Specifications);
-                                    break;
-                                case ProductCategories.PowerSupplies:
-                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_PowerSupplyForm.cshtml", Model?.Specifications);
-                                    break;
-                                default:
-                                    @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml", Model?.Specifications);
-                                    break;
-                            }
+                            var specificationsWithCategory = Model is null ? (null, ProductCategories.GraphicCards) : (Model.Specifications, Model.Category);
+                            @await Component.InvokeAsync("SpecificationsForm", specificationsWithCategory)
                         }
+
+                        <div class="mb-3">
+                            <span asp-validation-for="Specifications" class="validation-error-message"></span>
+                        </div>                        
                     </div>
-                    <div class="mb-3">
-                        <span asp-validation-for="Specifications" class="validation-error-message"></span>
-                    </div>
+
                     <div asp-validation-summary="ModelOnly" class="validation-error-message"></div>
 
                     <button class="btn btn-main mb-3" type="submit">
@@ -99,19 +76,20 @@
 	</div>
 </section>
 
-
-
 @section Scripts {
     <script>
-        $(document).ready(function() {
-            var selectedCategory = $('#category-select').val();
-
-            $('#category-select').change(function() {
+        $(document).ready(function () {
+            $('#category-select').change(function () {
                 var selectedCategory = $(this).val();
 
-                $.get('@Url.Action("GetSpecificationsForm", "Product")', { category: selectedCategory }, function (response) {
-                    $('#specifications-form').html(response);
-                });                
+                $.ajax({
+                    url: '@Url.Action("GetSpecificationsForm", "Admin")',
+                    type: 'GET',
+                    data: { category: selectedCategory },
+                    success: function (response) {
+                        $('#specifications-form').html(response);
+                    }
+                });
             });
         });
     </script>

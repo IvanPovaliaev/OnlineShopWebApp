@@ -1,0 +1,38 @@
+﻿@using OnlineShopWebApp.Interfaces
+@model (Dictionary<string, string>, IProductSpecificationsRules)
+
+@{
+    var specifications = Model.Item1;
+    var rules = Model.Item2.GetAll();
+    var rulesGroups = rules
+            .Select((rule, index) => new { rule, index })
+            .GroupBy(x => x.index / 2);
+
+    var tryGetValue = (string key) =>
+        {
+            var value = string.Empty;
+            specifications?.TryGetValue(key, out value);
+
+            return value;
+        };
+}
+
+@foreach (var rulesGroup in rulesGroups)
+{
+    <div class="row d-flex justify-content-between gx-3 mb-3">
+
+        @foreach (var rule in rulesGroup)
+        {
+            var RealRule = rule.rule;
+
+            <div class="col-6">
+                <label for="Specifications[@RealRule.Name]" class="form-label">@RealRule.Name</label>
+                <input type="text" class="form-control input-field"
+                       name="Specifications[@RealRule.Name]"
+                       value="@tryGetValue(RealRule.Name)"
+                       required>
+            </div>
+        }
+
+    </div>
+}
