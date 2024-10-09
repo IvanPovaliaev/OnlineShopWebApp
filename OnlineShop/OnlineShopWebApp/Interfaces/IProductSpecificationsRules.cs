@@ -9,6 +9,6 @@ namespace OnlineShopWebApp.Interfaces
         /// Get all ProductSpecificationRules
         /// </summary>
         /// <returns>List of all specification rules</returns>
-        public List<ProductSpecificationRule> GetAll();
+        List<ProductSpecificationRule> GetAll();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 
@@ -7,18 +8,34 @@ namespace OnlineShopWebApp.Controllers
     public class AdminController : Controller
     {
         private readonly ProductsService _productsService;
+        private readonly OrdersService _ordersService;
 
-        public AdminController(ProductsService productsService)
+        public AdminController(ProductsService productsService, OrdersService ordersService)
         {
             _productsService = productsService;
+            _ordersService = ordersService;
         }
+
         /// <summary>
         /// Open Admin Orders Page
         /// </summary>
         /// <returns>Admin Orders View</returns>
         public IActionResult Orders()
         {
-            return View();
+            var orders = _ordersService.GetAll();
+            return View(orders);
+        }
+
+        /// <summary>
+        /// Update target order status if possible
+        /// </summary>
+        /// <returns>Admin Orders View</returns>
+        /// <param name="orderId">Order id (guid)</param>
+        /// <param name="status">New order status</param>
+        public IActionResult UpdateOrderStatus(Guid orderId, OrderStatus status)
+        {
+            _ordersService.UpdateStatus(orderId, status);
+            return RedirectToAction("Orders");
         }
 
         /// <summary>
@@ -62,6 +79,7 @@ namespace OnlineShopWebApp.Controllers
         /// Open Admin EditProduct Page
         /// </summary>
         /// <returns>Admin EditProduct View</returns>
+        /// <param name="orderId">Product id (guid)</param>
         public IActionResult EditProduct(Guid productId)
         {
             var product = _productsService.Get(productId);

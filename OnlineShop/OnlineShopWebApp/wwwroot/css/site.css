@@ -154,6 +154,10 @@ a {
   height: 3rem;
 }
 
+.btn-order-details-modal {
+  height: 3rem;
+}
+
 .border-main {
   border: 1px solid #729FD8;
   border-radius: 5px;
