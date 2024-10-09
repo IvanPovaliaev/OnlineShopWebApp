@@ -10,7 +10,7 @@
 	<div class="row">
 
 		<div class="col-3 flex-column">
-            @await Html.PartialAsync("~/Views/Admin/_NavigationPanel.cshtml")
+            @await Html.PartialAsync("_NavigationPanel")
 		</div>
 
 		<div class="col">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="row">
-                <form method="post" id="addProductForm" asp-controller="Product" asp-action="Update">
+                <form method="post" id="addProductForm" asp-controller="Admin" asp-action="Update">
                     @* Общие свойства товара *@
                     <div class="row">
 

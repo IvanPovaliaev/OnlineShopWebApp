@@ -65,52 +65,6 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Add a new product
-        /// </summary>
-        /// <returns>Admins products View</returns> 
-        /// <param name="product">Target product</param>
-        [HttpPost]
-        public IActionResult Add(Product product)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("~/Views/Admin/AddProduct.cshtml", product);
-            }
-
-            _productsService.Add(product);
-            return RedirectToAction("Products", "Admin");
-        }
-
-        /// <summary>
-        /// Delete product by Id
-        /// </summary>
-        /// <returns>Admins products View</returns>
-        /// <param name="productId">Target productId</param>  
-        public IActionResult Delete(Guid productId)
-        {
-            _productsService.Delete(productId);
-            return RedirectToAction("Products", "Admin");
-        }
-
-        /// <summary>
-        /// Update target product
-        /// </summary>
-        /// <returns>Admins products View</returns>
-        [HttpPost]
-        public IActionResult Update(Product product)
-        {
-            var isModelValid = _productsService.IsUpdateValid(ModelState, product);
-
-            if (!isModelValid)
-            {
-                return View("~/Views/Admin/EditProduct.cshtml", product);
-            }
-
-            _productsService.Update(product);
-            return RedirectToAction("Products", "Admin");
-        }
-
-        /// <summary>
         /// Get Partial View for product specifications depending on the category
         /// </summary>
         /// <returns>Relevant Partial View</returns>
