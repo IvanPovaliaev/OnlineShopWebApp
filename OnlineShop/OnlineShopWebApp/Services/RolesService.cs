@@ -40,7 +40,7 @@ namespace OnlineShopWebApp.Services
         {
             var repositoryRoles = GetAll();
 
-            if (repositoryRoles.Any(r => r.Name == role.Name))
+            if (repositoryRoles.Any(r => r.Name.ToLower() == role.Name.ToLower()))
             {
                 modelState.AddModelError(string.Empty, "Роль с таким именем уже существует!");
             }
