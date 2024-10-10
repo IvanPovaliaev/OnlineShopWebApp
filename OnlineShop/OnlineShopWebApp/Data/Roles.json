@@ -1,0 +1,14 @@
+[
+  {
+    "Id": "4e31f793-4a77-43d2-8db2-76786db00c00",
+    "Name": "Admin"
+  },
+  {
+    "Id": "b86a9e8e-7f02-423d-abac-bf660fae3ca2",
+    "Name": "User"
+  },
+  {
+    "Id": "010bf786-d7de-4e1e-98ce-dfd4fcf6a72c",
+    "Name": "TestRole"
+  }
+]

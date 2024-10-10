@@ -2,6 +2,7 @@
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
+using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -9,11 +10,13 @@ namespace OnlineShopWebApp.Controllers
     {
         private readonly ProductsService _productsService;
         private readonly OrdersService _ordersService;
+        private readonly RolesService _rolesService;
 
-        public AdminController(ProductsService productsService, OrdersService ordersService)
+        public AdminController(ProductsService productsService, OrdersService ordersService, RolesService rolesService)
         {
             _productsService = productsService;
             _ordersService = ordersService;
+            _rolesService = rolesService;
         }
 
         /// <summary>
@@ -53,7 +56,40 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Admin Roles View</returns>
         public IActionResult Roles()
         {
-            return View();
+            var roles = _rolesService.GetAll();
+            return View(roles);
+        }
+
+        /// <summary>
+        /// Add new role
+        /// </summary>
+        /// <returns>Admin Roles View</returns>
+        [HttpPost]
+        public IActionResult AddRole(Role role)
+        {
+            var isModelValid = _rolesService.IsNewValid(ModelState, role);
+
+            if (!isModelValid)
+            {
+                return PartialView("_AddRoleForm", role);
+            }
+
+            _rolesService.Add(role);
+
+            var redirectUrl = Url.Action("Roles");
+
+            return Json(new { redirectUrl });
+        }
+
+        /// <summary>
+        /// Delete role by Id
+        /// </summary>
+        /// <returns>Admins roles View</returns>
+        /// <param name="roleId">Target roleId</param>  
+        public IActionResult DeleteRole(Guid roleId)
+        {
+            _rolesService.Delete(roleId);
+            return RedirectToAction("Roles");
         }
 
         /// <summary>
@@ -84,6 +120,64 @@ namespace OnlineShopWebApp.Controllers
         {
             var product = _productsService.Get(productId);
             return View(product);
+        }
+
+        /// <summary>
+        /// Add a new product
+        /// </summary>
+        /// <returns>Admins products View</returns> 
+        /// <param name="product">Target product</param>
+        [HttpPost]
+        public IActionResult Add(Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("AddProduct", product);
+            }
+
+            _productsService.Add(product);
+            return RedirectToAction("Products");
+        }
+
+        /// <summary>
+        /// Delete product by Id
+        /// </summary>
+        /// <returns>Admins products View</returns>
+        /// <param name="productId">Target productId</param>  
+        public IActionResult Delete(Guid productId)
+        {
+            _productsService.Delete(productId);
+            return RedirectToAction("Products");
+        }
+
+        /// <summary>
+        /// Update target product
+        /// </summary>
+        /// <returns>Admins products View</returns>
+        [HttpPost]
+        public IActionResult Update(Product product)
+        {
+            var isModelValid = _productsService.IsUpdateValid(ModelState, product);
+
+            if (!isModelValid)
+            {
+                return View("EditProduct", product);
+            }
+
+            _productsService.Update(product);
+            return RedirectToAction("Products");
+        }
+
+        /// <summary>
+        /// Get ViewComponent SpecificationsForm for product specifications depending on the category
+        /// </summary>
+        /// <returns>Relevant SpecificationsFormViewComponent</returns>
+        /// <param name="category">Product category</param>   
+        public IActionResult GetSpecificationsForm(ProductCategories category)
+        {
+            var emptySpecifications = new Dictionary<string, string>();
+            var specificationsWithCategory = (emptySpecifications, category);
+            return ViewComponent("SpecificationsForm", specificationsWithCategory);
         }
     }
 }

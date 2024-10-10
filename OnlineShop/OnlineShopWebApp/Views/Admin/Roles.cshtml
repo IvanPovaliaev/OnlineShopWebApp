@@ -1,4 +1,6 @@
-﻿<section class="container flex-row">
+﻿@model List<Role>
+
+<section class="container flex-row">
 	<div class="row">
 
 		<div class="col-3 flex-column">
@@ -6,8 +8,80 @@
 		</div>
 
 		<div class="col">
-			<h2>Список ролей</h2>
-			<hr class="border-brown mb-3" />
+            <div class="row">
+                <h2>Список ролей</h2>
+                <hr class="border-brown mb-3" />
+
+                <button type="button" class="btn btn-main" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                    Добавить роль
+                </button>
+
+                <div class="modal fade" id="addRoleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="addRoleModalLabel">Добавление роли</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                            </div>
+
+                            <div class="modal-body" id="addRoleFormWrapper">
+                                   @await Html.PartialAsync("_AddRoleForm", new Role())
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-main w-100" type="submit" form="addRoleForm">
+                                    Добавить роль
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (@Model.Count != 0)
+            {
+                <div class="row">
+                    <table class="table table-hover text-center  align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-1">#</th>
+                                <th scope="col" class="col">Роль</th>
+                                <th scope="col" class="col text-end">Опции</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                var role = Model[i];
+                                var position = i + 1;
+
+                                <tr>
+                                    <td>
+                                        @position
+                                    </td>
+                                    <td>@role.Name</td>
+                                    <td>
+                                        <span class="d-flex align-content-center justify-content-end">
+                                            @if (role.Name == "Admin" || role.Name == "User")
+                                            {
+                                                <i class="bi bi-trash-fill trash-icon align-content-center"></i>
+                                            }
+                                            else
+                                            {
+                                                <a class="bi bi-trash-fill trash-icon align-content-center"
+                                                   asp-area="" asp-controller="Admin" asp-action="DeleteRole" asp-route-roleId="@role.Id">
+                                                </a>
+                                            }
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
 		</div>
 
 	</div>

@@ -10,7 +10,7 @@
 	<div class="row">
 
 		<div class="col-3 flex-column">
-            @await Html.PartialAsync("~/Views/Admin/_NavigationPanel.cshtml")
+            @await Html.PartialAsync("_NavigationPanel")
 		</div>
 
 		<div class="col">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="row">
-                <form method="post" id="addProductForm" asp-controller="Product" asp-action="Update">
+                <form method="post" id="addProductForm" asp-controller="Admin" asp-action="Update">
                     @* Общие свойства товара *@
                     <div class="row">
 
@@ -63,35 +63,8 @@
                     
                     <span asp-validation-for="Description" class="validation-error-message"></span>
 
-                    @{
-                        switch (Model?.Category)
-                        {
-                            case ProductCategories.GraphicCards:
-                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml", Model?.Specifications);
-                                break;
-                            case ProductCategories.Processors:
-                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_ProcessorForm.cshtml", Model?.Specifications);
-                                break;
-                            case ProductCategories.Motherboards:
-                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_MotherboardForm.cshtml", Model?.Specifications);
-                                break;
-                            case ProductCategories.SSD:
-                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_SsdForm.cshtml", Model?.Specifications);
-                                break;
-                            case ProductCategories.HDD:
-                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_HddForm.cshtml", Model?.Specifications);
-                                break;
-                            case ProductCategories.RAM:
-                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_RamForm.cshtml", Model?.Specifications);
-                                break;
-                            case ProductCategories.PowerSupplies:
-                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_PowerSupplyForm.cshtml", Model?.Specifications);
-                                break;
-                            default:
-                                @await Html.PartialAsync("~/Views/Admin/SpecificationsForms/_GraphicCardForm.cshtml", Model?.Specifications);
-                                break;
-                        }
-                    }
+                    @await Component.InvokeAsync("SpecificationsForm", (Model.Specifications, Model.Category))
+
                     <div class="mb-3">
                         <span asp-validation-for="Specifications" class="validation-error-message"></span>
                     </div>

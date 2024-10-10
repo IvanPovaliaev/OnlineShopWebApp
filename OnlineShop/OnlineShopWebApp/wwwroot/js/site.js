@@ -31,3 +31,24 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function () {
+    $(document).on('submit', '#addRoleForm', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.redirectUrl) {
+                    window.location.href = response.redirectUrl;
+                }
+                else {
+                    $('#addRoleFormWrapper').html(response);
+                    $.validator.unobtrusive.parse($("#addRoleForm"));
+                }
+            }
+        });
+    });
+});
