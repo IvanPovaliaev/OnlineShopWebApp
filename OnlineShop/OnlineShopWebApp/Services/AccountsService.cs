@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,7 +32,7 @@ namespace OnlineShopWebApp.Services
         /// /// <param name="login">Target login model</param>
         public bool IsLoginValid(ModelStateDictionary modelState, Login login)
         {
-            var user = _usersRepository.GetUserByEmail(login.Email);
+            var user = _usersRepository.GetByEmail(login.Email);
 
             if (user is null)
             {
@@ -85,6 +86,12 @@ namespace OnlineShopWebApp.Services
 
             _usersRepository.Add(user);
         }
+
+        /// <summary>
+        /// Delete user from repository by id
+        /// </summary>
+        /// <param name="id">Target user id (GUID)</param>
+        public void Delete(Guid id) => _usersRepository.Delete(id);
 
         /// <summary>
         /// Checks if a user with the given address exists.

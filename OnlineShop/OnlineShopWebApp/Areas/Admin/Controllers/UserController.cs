@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
+using System;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
 {
@@ -20,6 +21,17 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             var users = _accountsService.GetAll();
             return View(users);
+        }
+
+        /// <summary>
+        /// Delete user by Id
+        /// </summary>
+        /// <returns>Admins users View</returns>
+        /// <param name="id">Target user Id</param>  
+        public IActionResult Delete(Guid id)
+        {
+            _accountsService.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }
