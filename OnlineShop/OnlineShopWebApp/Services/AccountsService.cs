@@ -8,10 +8,12 @@ namespace OnlineShopWebApp.Services
     public class AccountsService
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly HashService _hashService;
 
-        public AccountsService(IUsersRepository usersRepository)
+        public AccountsService(IUsersRepository usersRepository, HashService hashService)
         {
             _usersRepository = usersRepository;
+            _hashService = hashService;
         }
 
         /// <summary>
@@ -24,11 +26,18 @@ namespace OnlineShopWebApp.Services
         {
             var user = _usersRepository.GetUserByEmail(login.Email);
 
-            if (user is null || user.Password != login.Password)
+            if (user is null)
+            {
+                modelState.AddModelError(string.Empty, "Неверный логин или пароль");
+                return modelState.IsValid;
+            }
+
+            var isPasswordsEquals = _hashService.IsEquals(login.Password, user.Password);
+
+            if (!isPasswordsEquals)
             {
                 modelState.AddModelError(string.Empty, "Неверный логин или пароль");
             }
-
             return modelState.IsValid;
         }
 
@@ -62,7 +71,7 @@ namespace OnlineShopWebApp.Services
             var user = new User
             {
                 Email = register.Email,
-                Password = register.Password,
+                Password = _hashService.GenerateHash(register.Password),
                 Name = register.Name,
                 Phone = register.Phone
             };

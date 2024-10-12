@@ -1,37 +1,16 @@
 [
   {
-    "Id": "c4428fb7-749d-4968-9b2b-ff3f7bef0e59",
+    "Id": "bd38d2a6-5dde-4b4f-af4c-c5af1d71f4e0",
     "Email": "test@test.ru",
-    "Password": "Qwerty123!",
+    "Password": "An5daiVPQ3mmxdSv9JP+rNG3YC/2BzvC16DhZBbnWv8=:ecTUCjWIeafC4jjAmq9LlQ==",
     "Name": null,
     "Phone": null
   },
   {
-    "Id": "a00f3583-1ebb-43ce-9052-1a1827b9d989",
+    "Id": "5ca4f8bd-0645-419e-b7fd-3aead486c24c",
     "Email": "test2@test.ru",
-    "Password": "Qwerty123!",
+    "Password": "Dr/855i+a3ofdLPe1T27Hu76IDbhy9cjWv6ujNd9Re8=:xlovqBbUqNLgyWO/eQFrlA==",
     "Name": null,
-    "Phone": null
-  },
-  {
-    "Id": "abaf8bb0-5ab3-45a3-8442-894e3cbd8b3a",
-    "Email": "test3@test.ru",
-    "Password": "Qwerty123!",
-    "Name": "Assas",
-    "Phone": "+79000000000"
-  },
-  {
-    "Id": "6faaee1a-3601-4652-955d-64b8e1a368eb",
-    "Email": "test4@test.ru",
-    "Password": "Qwerty123!",
-    "Name": "Test",
-    "Phone": "+7(900)000-36-00"
-  },
-  {
-    "Id": "e1e34242-d051-404d-84c4-f53395a27eea",
-    "Email": "test6@test.ru",
-    "Password": "Qwerty123!",
-    "Name": "ASsadasd",
     "Phone": null
   }
 ]
