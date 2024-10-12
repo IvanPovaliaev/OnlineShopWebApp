@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
@@ -15,6 +16,12 @@ namespace OnlineShopWebApp.Services
             _usersRepository = usersRepository;
             _hashService = hashService;
         }
+
+        /// <summary>
+        /// Get all users from repository
+        /// </summary>
+        /// <returns>List of all users from repository</returns>
+        public List<User> GetAll() => _usersRepository.GetAll();
 
         /// <summary>
         /// Validates the user login model

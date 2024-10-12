@@ -1,15 +1,92 @@
-﻿<section class="container flex-row">
-	<div class="row">
+﻿@model List<User>
 
-		<div class="col-3 flex-column">
-			@await Html.PartialAsync("_NavigationPanel")
-		</div>
+<section class="container flex-row">
+    <div class="row">
 
-		<div class="col">
-			<h2>Список пользователей</h2>
-			<hr class="border-brown mb-3" />
-		</div>
+        <div class="col-3 flex-column">
+            @await Html.PartialAsync("_NavigationPanel")
+        </div>
 
-	</div>
+        <div class="col">
+            <div class="row">
+                <h2>Список пользователей</h2>
+                <hr class="border-brown mb-3" />
+
+                <button type="button" class="btn btn-main">
+                    Добавить пользователя
+                </button>
+            </div>
+
+            @if (@Model.Count != 0)
+            {
+                <div class="row">
+                    <table class="table table-hover text-center  align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-1">#</th>
+                                <th scope="col" class="col">Email</th>
+                                <th scope="col" class="col">Имя</th>
+                                <th scope="col" class="col">Телефон</th>
+                                <th scope="col" class="col-1">Опции</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                var user = Model[i];
+                                var position = i + 1;
+
+                                <tr>
+                                    <td>
+                                        @position
+                                    </td>
+                                    <td>@user.Email</td>
+                                    <td>@user.Name</td>
+                                    <td>@user.Phone</td>
+                                    <td>
+                                        <button class="btn btn-secondary dropdown-toggle d-flex align-items-center justify-content-between"
+                                                type="button"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            Опции
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <a class="dropdown-item text-dark"
+                                                   asp-area="Admin" asp-controller="User" asp-action="ChangePassword" asp-route-id="@user.Id">
+                                                    Смена пароля
+                                                </a>  
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-dark"
+                                                   asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
+                                                    Редактировать
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item text-dark"
+                                                   asp-area="Admin" asp-controller="User" asp-action="ChangeRole" asp-route-id="@user.Id">
+                                                    Права доступа
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item text-dark"
+                                                   asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">
+                                                    Удалить
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
+    </div>
 
 </section>
