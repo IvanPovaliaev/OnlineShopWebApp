@@ -20,7 +20,7 @@
             </div>
             <div class="modal-body">
 
-                <form method="post" id="form-@Model.Article" asp-controller="Admin" asp-action="UpdateOrderStatus">
+                <form method="post" id="form-@Model.Article" asp-controller="Order" asp-action="UpdateStatus">
 
                     <input type="hidden" name="orderId" value="@Model.Id" />
                     <table class="table table-hover">

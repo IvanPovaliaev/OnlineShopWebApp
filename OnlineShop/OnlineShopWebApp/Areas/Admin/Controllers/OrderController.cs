@@ -36,7 +36,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         public IActionResult UpdateStatus(Guid orderId, OrderStatus status)
         {
             _ordersService.UpdateStatus(orderId, status);
-            return RedirectToAction("Orders");
+            return RedirectToAction("Index");
         }
     }
 }
