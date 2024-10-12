@@ -4,99 +4,23 @@ using OnlineShopWebApp.Services;
 using System;
 using System.Collections.Generic;
 
-namespace OnlineShopWebApp.Controllers
+namespace OnlineShopWebApp.Areas.Admin.Controllers
 {
-    public class AdminController : Controller
+    [Area("Admin")]
+    public class ProductController : Controller
     {
         private readonly ProductsService _productsService;
-        private readonly OrdersService _ordersService;
-        private readonly RolesService _rolesService;
 
-        public AdminController(ProductsService productsService, OrdersService ordersService, RolesService rolesService)
+        public ProductController(ProductsService productsService)
         {
             _productsService = productsService;
-            _ordersService = ordersService;
-            _rolesService = rolesService;
-        }
-
-        /// <summary>
-        /// Open Admin Orders Page
-        /// </summary>
-        /// <returns>Admin Orders View</returns>
-        public IActionResult Orders()
-        {
-            var orders = _ordersService.GetAll();
-            return View(orders);
-        }
-
-        /// <summary>
-        /// Update target order status if possible
-        /// </summary>
-        /// <returns>Admin Orders View</returns>
-        /// <param name="orderId">Order id (guid)</param>
-        /// <param name="status">New order status</param>
-        public IActionResult UpdateOrderStatus(Guid orderId, OrderStatus status)
-        {
-            _ordersService.UpdateStatus(orderId, status);
-            return RedirectToAction("Orders");
-        }
-
-        /// <summary>
-        /// Open Admin Users Page
-        /// </summary>
-        /// <returns>Admin Users View</returns>
-        public IActionResult Users()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Open Admin Roles Page
-        /// </summary>
-        /// <returns>Admin Roles View</returns>
-        public IActionResult Roles()
-        {
-            var roles = _rolesService.GetAll();
-            return View(roles);
-        }
-
-        /// <summary>
-        /// Add new role
-        /// </summary>
-        /// <returns>Admin Roles View</returns>
-        [HttpPost]
-        public IActionResult AddRole(Role role)
-        {
-            var isModelValid = _rolesService.IsNewValid(ModelState, role);
-
-            if (!isModelValid)
-            {
-                return PartialView("_AddRoleForm", role);
-            }
-
-            _rolesService.Add(role);
-
-            var redirectUrl = Url.Action("Roles");
-
-            return Json(new { redirectUrl });
-        }
-
-        /// <summary>
-        /// Delete role by Id
-        /// </summary>
-        /// <returns>Admins roles View</returns>
-        /// <param name="roleId">Target roleId</param>  
-        public IActionResult DeleteRole(Guid roleId)
-        {
-            _rolesService.Delete(roleId);
-            return RedirectToAction("Roles");
         }
 
         /// <summary>
         /// Open Admin Products Page
         /// </summary>
         /// <returns>Admin Products View</returns>
-        public IActionResult Products()
+        public IActionResult Index()
         {
             var products = _productsService.GetAll();
             return View(products);
@@ -136,7 +60,7 @@ namespace OnlineShopWebApp.Controllers
             }
 
             _productsService.Add(product);
-            return RedirectToAction("Products");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -147,7 +71,7 @@ namespace OnlineShopWebApp.Controllers
         public IActionResult Delete(Guid productId)
         {
             _productsService.Delete(productId);
-            return RedirectToAction("Products");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -165,7 +89,7 @@ namespace OnlineShopWebApp.Controllers
             }
 
             _productsService.Update(product);
-            return RedirectToAction("Products");
+            return RedirectToAction("Index");
         }
 
         /// <summary>

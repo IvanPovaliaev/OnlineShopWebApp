@@ -1,6 +1,6 @@
 ﻿@model Role
 
-<form method="post" id="addRoleForm" asp-controller="Admin" asp-action="AddRole">
+<form method="post" id="addRoleForm" asp-area="Admin" asp-controller="Role" asp-action="AddRole">
     <div class="mb-3">
         <input class="form-control input-field"
                 asp-for="Name"
