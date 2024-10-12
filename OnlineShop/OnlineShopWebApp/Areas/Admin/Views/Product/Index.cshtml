@@ -12,7 +12,7 @@
                 <h2>Список продуктов</h2>
                 <hr class="border-brown mb-3" />
                 <a class="btn btn-main mt-auto btn-favorite-row w-100 d-flex justify-content-center align-items-center"
-                   asp-area="" asp-controller="Admin" asp-action="AddProduct">
+                   asp-area="Admin" asp-controller="Product" asp-action="AddProduct">
                     <span>Добавить товар</span>
                 </a>
             </div>
@@ -66,13 +66,13 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <li>
                                                 <a class="dropdown-item text-dark"
-                                                   asp-area="" asp-controller="Admin" asp-action="EditProduct" asp-route-productId="@product.Id">
+                                                   asp-area="Admin" asp-controller="Product" asp-action="EditProduct" asp-route-productId="@product.Id">
                                                     Редактировать
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item text-dark"
-                                                   asp-area="" asp-controller="Admin" asp-action="Delete" asp-route-productId="@product.Id">
+                                                   asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-productId="@product.Id">
                                                     Удалить
                                                 </a>
                                             </li>

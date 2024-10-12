@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="row">
-                <form method="post" id="addProductForm" asp-controller="Admin" asp-action="Add">                    
+                <form method="post" id="addProductForm" asp-area="Admin" asp-controller="Product" asp-action="Add">                    
                     @* Общие свойства товара *@
                     <div class="row">
                         <div class="mb-3 col-6">
@@ -83,7 +83,7 @@
                 var selectedCategory = $(this).val();
 
                 $.ajax({
-                    url: '@Url.Action("GetSpecificationsForm", "Admin")',
+                    url: '@Url.Action("GetSpecificationsForm", "Product")',
                     type: 'GET',
                     data: { category: selectedCategory },
                     success: function (response) {
