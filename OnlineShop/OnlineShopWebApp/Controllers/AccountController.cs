@@ -20,7 +20,16 @@ namespace OnlineShopWebApp.Controllers
         [HttpPost]
         public IActionResult Login(Login login, bool keepMeLogged)
         {
-            return RedirectToAction("Index", "Home");
+            var isModelValid = _accountsService.IsLoginValid(ModelState, login);
+
+            if (!isModelValid)
+            {
+                return PartialView("_LoginForm", login);
+            }
+
+            var redirectUrl = Url.Action("Index", "Home");
+
+            return Json(new { redirectUrl });
         }
 
         /// <summary>

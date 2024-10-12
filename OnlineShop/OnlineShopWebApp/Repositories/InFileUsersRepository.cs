@@ -2,6 +2,7 @@
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineShopWebApp.Repositories
 {
@@ -18,6 +19,13 @@ namespace OnlineShopWebApp.Repositories
         }
 
         public List<User> GetAll() => _users;
+
+        public User GetUserByEmail(string email)
+        {
+            var user = GetAll().
+                        FirstOrDefault(u => u.Email == email);
+            return user;
+        }
 
         public void Add(User user)
         {

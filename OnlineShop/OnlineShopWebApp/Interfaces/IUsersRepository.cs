@@ -12,6 +12,13 @@ namespace OnlineShopWebApp.Interfaces
         List<User> GetAll();
 
         /// <summary>
+        /// Get user by email
+        /// </summary>
+        /// <returns>User; returns null if user not found</returns>
+        /// <param name="email">Target email</param>
+        User GetUserByEmail(string email);
+
+        /// <summary>
         /// Add a new user
         /// </summary>
         /// <param name="user">Target user</param>

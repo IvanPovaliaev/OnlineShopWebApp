@@ -26,5 +26,12 @@
     "Password": "Qwerty123!",
     "Name": "Test",
     "Phone": "+7(900)000-36-00"
+  },
+  {
+    "Id": "e1e34242-d051-404d-84c4-f53395a27eea",
+    "Email": "test6@test.ru",
+    "Password": "Qwerty123!",
+    "Name": "ASsadasd",
+    "Phone": null
   }
 ]

@@ -15,6 +15,24 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Validates the user login model
+        /// </summary>        
+        /// <returns>true if login model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// /// <param name="login">Target login model</param>
+        public bool IsLoginValid(ModelStateDictionary modelState, Login login)
+        {
+            var user = _usersRepository.GetUserByEmail(login.Email);
+
+            if (user is null || user.Password != login.Password)
+            {
+                modelState.AddModelError(string.Empty, "Неверный логин или пароль");
+            }
+
+            return modelState.IsValid;
+        }
+
+        /// <summary>
         /// Validates the user registration model
         /// </summary>        
         /// <returns>true if registration model is valid; otherwise false</returns>
