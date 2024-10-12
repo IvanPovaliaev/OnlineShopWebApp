@@ -1,7 +1,7 @@
 ﻿@model Login
 
 @* Форма входа *@
-<form method="post" id="loginForm" asp-controller="Account" asp-action="Login">
+<form method="post" id="loginForm" asp-area="" asp-controller="Account" asp-action="Login">
     <div class="mb-3">
         <input class="form-control input-field"
             asp-for="Email"

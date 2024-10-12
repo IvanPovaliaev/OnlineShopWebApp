@@ -37,6 +37,8 @@ namespace OnlineShopWebApp.Controllers
                 return PartialView("_RegistrationForm", register);
             }
 
+            _accountsService.Add(register);
+
             var redirectUrl = Url.Action("Index", "Home");
 
             return Json(new { redirectUrl });

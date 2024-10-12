@@ -1,0 +1,30 @@
+[
+  {
+    "Id": "c4428fb7-749d-4968-9b2b-ff3f7bef0e59",
+    "Email": "test@test.ru",
+    "Password": "Qwerty123!",
+    "Name": null,
+    "Phone": null
+  },
+  {
+    "Id": "a00f3583-1ebb-43ce-9052-1a1827b9d989",
+    "Email": "test2@test.ru",
+    "Password": "Qwerty123!",
+    "Name": null,
+    "Phone": null
+  },
+  {
+    "Id": "abaf8bb0-5ab3-45a3-8442-894e3cbd8b3a",
+    "Email": "test3@test.ru",
+    "Password": "Qwerty123!",
+    "Name": "Assas",
+    "Phone": "+79000000000"
+  },
+  {
+    "Id": "6faaee1a-3601-4652-955d-64b8e1a368eb",
+    "Email": "test4@test.ru",
+    "Password": "Qwerty123!",
+    "Name": "Test",
+    "Phone": "+7(900)000-36-00"
+  }
+]

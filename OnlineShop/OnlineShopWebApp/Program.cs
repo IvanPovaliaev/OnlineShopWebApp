@@ -39,6 +39,7 @@ builder.Services.AddTransient<FavoritesService>();
 builder.Services.AddSingleton<IRolesRepository, InFileRolesRepository>();
 builder.Services.AddTransient<RolesService>();
 
+builder.Services.AddSingleton<IUsersRepository, InFileUsersRepository>();
 builder.Services.AddTransient<AccountsService>();
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
