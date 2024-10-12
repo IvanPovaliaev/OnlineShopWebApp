@@ -8,12 +8,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     [Area("Admin")]
     public class OrderController : Controller
     {
-        private readonly CartsService _cartsService;
         private readonly OrdersService _ordersService;
 
-        public OrderController(CartsService cartsService, OrdersService ordersService)
+        public OrderController(OrdersService ordersService)
         {
-            _cartsService = cartsService;
             _ordersService = ordersService;
         }
 
@@ -31,11 +29,11 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Update target order status if possible
         /// </summary>
         /// <returns>Admin Orders View</returns>
-        /// <param name="orderId">Order id (guid)</param>
+        /// <param name="id">Order id (guid)</param>
         /// <param name="status">New order status</param>
-        public IActionResult UpdateStatus(Guid orderId, OrderStatus status)
+        public IActionResult UpdateStatus(Guid id, OrderStatus status)
         {
-            _ordersService.UpdateStatus(orderId, status);
+            _ordersService.UpdateStatus(id, status);
             return RedirectToAction("Index");
         }
     }

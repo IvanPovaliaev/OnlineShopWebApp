@@ -29,14 +29,15 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Add new role
         /// </summary>
         /// <returns>Admin Roles View</returns>
+        /// <param name="role">Target role</param>  
         [HttpPost]
-        public IActionResult AddRole(Role role)
+        public IActionResult Add(Role role)
         {
             var isModelValid = _rolesService.IsNewValid(ModelState, role);
 
             if (!isModelValid)
             {
-                return PartialView("_AddRoleForm", role);
+                return PartialView("_AddForm", role);
             }
 
             _rolesService.Add(role);
@@ -50,10 +51,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Delete role by Id
         /// </summary>
         /// <returns>Admins roles View</returns>
-        /// <param name="roleId">Target roleId</param>  
-        public IActionResult DeleteRole(Guid roleId)
+        /// <param name="id">Target role Id</param>  
+        public IActionResult Delete(Guid id)
         {
-            _rolesService.Delete(roleId);
+            _rolesService.Delete(id);
             return RedirectToAction("Index");
         }
     }

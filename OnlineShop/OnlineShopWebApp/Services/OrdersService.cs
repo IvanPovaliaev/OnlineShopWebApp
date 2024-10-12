@@ -50,11 +50,11 @@ namespace OnlineShopWebApp.Services
         /// Update target order status in repository if possible
         /// </summary>
         /// <returns>Admin Orders View</returns>
-        /// <param name="orderId">Order id (guid)</param>
+        /// <param name="id">Order id (guid)</param>
         /// <param name="newStatus">New order status</param>
-        public void UpdateStatus(Guid orderId, OrderStatus newStatus)
+        public void UpdateStatus(Guid id, OrderStatus newStatus)
         {
-            _ordersRepository.UpdateStatus(orderId, newStatus);
+            _ordersRepository.UpdateStatus(id, newStatus);
         }
     }
 }

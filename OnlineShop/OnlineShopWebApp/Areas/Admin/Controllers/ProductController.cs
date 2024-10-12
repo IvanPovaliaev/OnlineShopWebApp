@@ -30,7 +30,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Open Admin AddProduct Page
         /// </summary>
         /// <returns>Admin AddProduct View</returns>
-        public IActionResult AddProduct()
+        public IActionResult Add()
         {
             return View();
         }
@@ -39,10 +39,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Open Admin EditProduct Page
         /// </summary>
         /// <returns>Admin EditProduct View</returns>
-        /// <param name="orderId">Product id (guid)</param>
-        public IActionResult EditProduct(Guid productId)
+        /// <param name="id">Order id (guid)</param>
+        public IActionResult Edit(Guid id)
         {
-            var product = _productsService.Get(productId);
+            var product = _productsService.Get(id);
             return View(product);
         }
 
@@ -67,10 +67,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Delete product by Id
         /// </summary>
         /// <returns>Admins products View</returns>
-        /// <param name="productId">Target productId</param>  
-        public IActionResult Delete(Guid productId)
+        /// <param name="id">Target productId</param>  
+        public IActionResult Delete(Guid id)
         {
-            _productsService.Delete(productId);
+            _productsService.Delete(id);
             return RedirectToAction("Index");
         }
 
