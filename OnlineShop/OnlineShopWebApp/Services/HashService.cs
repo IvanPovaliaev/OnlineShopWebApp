@@ -1,5 +1,6 @@
 ﻿using Konscious.Security.Cryptography;
 using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace OnlineShopWebApp.Services
@@ -65,11 +66,7 @@ namespace OnlineShopWebApp.Services
         private static byte[] GenerateSalt(int size)
         {
             var salt = new byte[size];
-            using (var rng = new System.Security.Cryptography.RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(salt);
-            }
-
+            RandomNumberGenerator.Fill(salt);
             return salt;
         }
     }
