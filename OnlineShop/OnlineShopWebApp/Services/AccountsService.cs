@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
@@ -23,7 +24,12 @@ namespace OnlineShopWebApp.Services
         {
             if (register.Email == register.Password)
             {
-                modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать");
+                modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать!");
+            }
+
+            if (IsEmailExist(register.Email))
+            {
+                modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
             return modelState.IsValid;
@@ -44,6 +50,23 @@ namespace OnlineShopWebApp.Services
             };
 
             _usersRepository.Add(user);
+        }
+
+        /// <summary>
+        /// Checks if a user with the given address exists.
+        /// </summary>        
+        /// <returns>true if user with target email already exists; otherwise false</returns>
+        /// <param name="email">Target email</param>
+        private bool IsEmailExist(string email)
+        {
+            var users = _usersRepository.GetAll();
+
+            if (users.Any(users => users.Email == email))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
