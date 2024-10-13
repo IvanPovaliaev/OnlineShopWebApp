@@ -26,6 +26,34 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         }
 
         /// <summary>
+        /// Open Admin AddUser Page
+        /// </summary>
+        /// <returns>Admin AddUser View</returns>
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Add a new user
+        /// </summary>
+        /// <returns>Admins users View</returns> 
+        /// <param name="register">Target register user model</param>
+        [HttpPost]
+        public IActionResult Add(Register register)
+        {
+            var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
+
+            if (!isModelValid)
+            {
+                return View("Add", register);
+            }
+
+            _accountsService.Add(register);
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
         /// Open Admin User Details Page
         /// </summary>
         /// <returns>Admin Users View</returns>

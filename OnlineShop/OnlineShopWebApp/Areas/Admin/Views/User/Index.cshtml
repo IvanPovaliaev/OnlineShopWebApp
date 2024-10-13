@@ -12,9 +12,10 @@
                 <h2>Список пользователей</h2>
                 <hr class="border-brown mb-3" />
 
-                <button type="button" class="btn btn-main">
-                    Добавить пользователя
-                </button>
+                <a class="btn btn-main mt-auto w-100 d-flex justify-content-center align-items-center"
+                   asp-area="Admin" asp-controller="User" asp-action="Add">
+                    <span>Добавить пользователя</span>
+                </a>
             </div>
 
             @if (@Model.Count != 0)
