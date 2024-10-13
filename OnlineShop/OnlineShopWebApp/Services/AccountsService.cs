@@ -78,6 +78,22 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Validates the user edit model
+        /// </summary>        
+        /// <returns>true if edit model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="editUser">Target edit model</param>
+        public bool IsEditUserValid(ModelStateDictionary modelState, EditUser editUser)
+        {
+            if (IsEmailExist(editUser.Email))
+            {
+                modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
+            }
+
+            return modelState.IsValid;
+        }
+
+        /// <summary>
         /// Add a new user to repository based on register info
         /// </summary>        
         /// <param name="register">Target register model</param>
@@ -109,6 +125,27 @@ namespace OnlineShopWebApp.Services
             }
 
             user.Password = _hashService.GenerateHash(changePassword.Password);
+
+            _usersRepository.Update(user);
+        }
+
+        /// <summary>
+        /// Update info for related user if user exist
+        /// </summary>        
+        /// <param name="editUser">Target editUser model</param>
+        public void UpdateInfo(EditUser editUser)
+        {
+            var userId = editUser.UserId;
+            var user = Get(userId);
+
+            if (user is null)
+            {
+                return;
+            }
+
+            user.Email = editUser.Email;
+            user.Phone = editUser.Phone;
+            user.Name = editUser.Name;
 
             _usersRepository.Update(user);
         }

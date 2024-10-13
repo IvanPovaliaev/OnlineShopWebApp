@@ -5,6 +5,14 @@
             {
                 UserId = Model.Id
             };
+
+    var editUserModel = new EditUser()
+            {
+                UserId = Model.Id,
+                Email = Model.Email,
+                Name = Model.Name,
+                Phone = Model.Phone
+            };
 }
 
 <section class="container flex-row">
@@ -54,10 +62,17 @@
                             @await Html.PartialAsync("_ChangePasswordModal", changePasswordModel)
                         </li>
                         <li>
-                            <a class="dropdown-item text-dark"
-                               asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id">
-                                Редактировать
-                            </a>
+                            <form method="post" asp-area="Admin" asp-controller="User" asp-action="Edit">
+
+                                <input type="hidden" name="UserId" value="@Model.Id"/>
+                                <input type="hidden" name="Email" value="@Model.Email"/>
+                                <input type="hidden" name="Name" value="@Model.Name"/>
+                                <input type="hidden" name="Phone" value="@Model.Phone"/>
+
+                                <button class="dropdown-item text-dark" type="submit">
+                                    Редактировать
+                                </button>
+                            </form>
                         </li>
 
                         <li>

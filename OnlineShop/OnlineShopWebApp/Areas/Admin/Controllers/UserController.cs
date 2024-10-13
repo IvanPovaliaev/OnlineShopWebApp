@@ -33,6 +33,11 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         public IActionResult Details(Guid id)
         {
             var user = _accountsService.Get(id);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
             return View(user);
         }
 
@@ -56,32 +61,33 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             return Json(new { redirectUrl });
         }
 
-        /*
+        /// <summary>
+        /// Open Edit User Page
+        /// </summary>
+        /// <returns>Admin Edit User View</returns>
+        /// <param name="editUser">Target EditUser model</param> 
+        public IActionResult Edit(EditUser editUser) => View(editUser);
 
+        /// <summary>
+        /// Update target user
+        /// </summary>
+        /// <returns>User Details Page if success; otherwise Edit User View</returns>
+        /// <param name="editUser">Target EditUser model</param>  
+        [HttpPost]
+        public IActionResult Update(EditUser editUser)
+        {
+            var isModelValid = _accountsService.IsEditUserValid(ModelState, editUser);
 
-                /// <summary>
-                /// Open Edit User Page
-                /// </summary>
-                /// <returns>Admin Edit User View</returns>
-                /// <param name="id">Target user Id</param>
-                public IActionResult Edit(Guid id)
-                {
-                    var user = _accountsService.Get(id);
-                    return View(user);
-                }
+            if (!isModelValid)
+            {
+                return View("Edit", editUser);
+            }
 
-                /// <summary>
-                /// Update target user
-                /// </summary>
-                /// <returns>Admin Users View if success; otherwise Edit User View</returns>
-                [HttpPost]
-                public IActionResult Update(User user)
-                {
-                    return RedirectToAction("Index");
-                }
+            _accountsService.UpdateInfo(editUser);
 
+            return RedirectToAction("Details", new { id = editUser.UserId });
+        }
 
-        */
         /// <summary>
         /// Delete user by Id
         /// </summary>
