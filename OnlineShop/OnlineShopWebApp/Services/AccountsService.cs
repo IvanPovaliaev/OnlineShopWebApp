@@ -85,7 +85,9 @@ namespace OnlineShopWebApp.Services
         /// <param name="editUser">Target edit model</param>
         public bool IsEditUserValid(ModelStateDictionary modelState, EditUser editUser)
         {
-            if (IsEmailExist(editUser.Email))
+            var repositoryUser = Get(editUser.UserId);
+
+            if (repositoryUser.Email != editUser.Email & IsEmailExist(editUser.Email))
             {
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
