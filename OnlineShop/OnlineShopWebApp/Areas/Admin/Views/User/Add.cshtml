@@ -16,6 +16,7 @@
                 <form method="post" asp-area="Admin" asp-controller="User" asp-action="Add">
 
                     <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email</label>
                         <input class="form-control input-field"
                                asp-for="Email"
                                placeholder="Email*">
@@ -23,6 +24,7 @@
                     </div>
 
                     <div class="mb-3">
+                        <label asp-for="Password" class="form-label">Пароль</label>
                         <input type="password" class="form-control input-field"
                                asp-for="Password"
                                placeholder="Пароль*">
@@ -30,6 +32,7 @@
                     </div>
 
                     <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label">Повторите пароль</label>
                         <input type="password" class="form-control input-field"
                                asp-for="ConfirmPassword"
                                placeholder="Повторите пароль*">
@@ -37,6 +40,7 @@
                     </div>
 
                     <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Имя</label>
                         <input type="text" class="form-control input-field"
                                asp-for="Name"
                                placeholder="Имя">
@@ -44,6 +48,7 @@
                     </div>
 
                     <div class="mb-3">
+                        <label asp-for="Phone" class="form-label">Телефон</label>
                         <input type="text" class="form-control input-field"
                                asp-for="Phone"
                                placeholder="Телефон">
@@ -51,6 +56,7 @@
                     </div>
 
                     <div class="mb-3 col-6">
+                        <label asp-for="RoleId" class="form-label">Роль</label>
                         <select class="form-select input-field" asp-for="RoleId">
                             @await Component.InvokeAsync("RolesSelection")
                         </select>
@@ -60,7 +66,7 @@
                     <div asp-validation-summary="ModelOnly" class="validation-error-message"></div>
 
                     <button class="btn btn-main mb-3" type="submit">
-                       Добавить пользователя
+                        Добавить пользователя
                     </button>
                 </form>
             </div>

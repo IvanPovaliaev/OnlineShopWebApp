@@ -8,5 +8,10 @@
     "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
     "Name": "User",
     "CanBeDeleted": false
+  },
+  {
+    "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+    "Name": "TestRole",
+    "CanBeDeleted": true
   }
 ]

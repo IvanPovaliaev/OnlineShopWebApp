@@ -134,6 +134,14 @@ a {
   height: 25%;
 }
 
+.btn-admin-product-options {
+  background: #8c6642;
+  border-radius: 5px;
+  width: auto;
+  border: none;
+  font-size: 1rem;
+}
+
 .search-container {
   height: 60px;
 }
@@ -333,14 +341,6 @@ footer {
 .admin-product-add-image {
   height: 20rem;
   width: auto;
-}
-
-.btn-admin-product-options {
-  background: #8c6642;
-  border-radius: 5px;
-  width: auto;
-  border: none;
-  font-size: 1rem;
 }
 
 .table td {
