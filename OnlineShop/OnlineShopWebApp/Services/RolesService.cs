@@ -53,18 +53,26 @@ namespace OnlineShopWebApp.Services
         /// Add role to repository
         /// </summary>
         /// <param name="role">Target role</param>
-        public void Add(Role role)
-        {
-            _rolesRepository.Add(role);
-        }
+        public void Add(Role role) => _rolesRepository.Add(role);
 
         /// <summary>
-        /// Delete role from repository by id
+        /// Delete role from repository by id if it can be deleted
         /// </summary>
         /// <param name="id">Target role id (GUID)</param>
         public void Delete(Guid id)
         {
+            if (!CanBeDeleted(id))
+            {
+                return;
+            }
+
             _rolesRepository.Delete(id);
+        }
+
+        private bool CanBeDeleted(Guid id)
+        {
+            var role = _rolesRepository.Get(id);
+            return role.CanBeDeleted;
         }
 
         /// <summary>
@@ -80,8 +88,14 @@ namespace OnlineShopWebApp.Services
 
             roles =
             [
-                new(Constants.AdminRoleName),
+                new(Constants.AdminRoleName)
+                {
+                    CanBeDeleted = false
+                },
                 new(Constants.UserRoleName)
+                {
+                    CanBeDeleted = false
+                }
             ];
 
             _rolesRepository.Add(roles);
