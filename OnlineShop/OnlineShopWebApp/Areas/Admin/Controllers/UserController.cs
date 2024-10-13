@@ -40,7 +40,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Change password for user
         /// </summary>
         /// <returns>User Details Page</returns>
-        /// <param name="role">Target role</param>  
+        /// <param name="changePassword">Target changePassword model</param>  
         [HttpPost]
         public IActionResult ChangePassword(ChangePassword changePassword)
         {
@@ -49,32 +49,39 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
                 return PartialView("_ChangePasswordForm", changePassword);
             }
 
+            _accountsService.ChangePassword(changePassword);
+
             var redirectUrl = Url.Action("Details", new { id = changePassword.UserId });
 
             return Json(new { redirectUrl });
         }
 
-        /// <summary>
-        /// Open Edit User Page
-        /// </summary>
-        /// <returns>Admin Edit User View</returns>
-        /// <param name="id">Target user Id</param>
-        public IActionResult Edit(Guid id)
-        {
-            var user = _accountsService.Get(id);
-            return View(user);
-        }
+        /*
 
-        /// <summary>
-        /// Update target user
-        /// </summary>
-        /// <returns>Admin Users View if success; otherwise Edit User View</returns>
-        [HttpPost]
-        public IActionResult Update(User user)
-        {
-            return RedirectToAction("Index");
-        }
 
+                /// <summary>
+                /// Open Edit User Page
+                /// </summary>
+                /// <returns>Admin Edit User View</returns>
+                /// <param name="id">Target user Id</param>
+                public IActionResult Edit(Guid id)
+                {
+                    var user = _accountsService.Get(id);
+                    return View(user);
+                }
+
+                /// <summary>
+                /// Update target user
+                /// </summary>
+                /// <returns>Admin Users View if success; otherwise Edit User View</returns>
+                [HttpPost]
+                public IActionResult Update(User user)
+                {
+                    return RedirectToAction("Index");
+                }
+
+
+        */
         /// <summary>
         /// Delete user by Id
         /// </summary>

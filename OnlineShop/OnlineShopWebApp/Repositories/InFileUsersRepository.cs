@@ -40,6 +40,23 @@ namespace OnlineShopWebApp.Repositories
             _jsonRepositoryService.SaveChanges(FilePath, _users);
         }
 
+        public void Update(User user)
+        {
+            var repositoryUser = Get(user.Id);
+
+            if (repositoryUser is null)
+            {
+                return;
+            }
+
+            repositoryUser.Email = user.Email;
+            repositoryUser.Password = user.Password;
+            repositoryUser.Name = user.Name;
+            repositoryUser.Phone = user.Phone;
+
+            _jsonRepositoryService.SaveChanges(FilePath, _users);
+        }
+
         public void Delete(Guid id)
         {
             var user = Get(id);

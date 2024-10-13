@@ -95,6 +95,25 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Change password for related user if user exist
+        /// </summary>        
+        /// <param name="changePassword">Target ChangePassword model</param>
+        public void ChangePassword(ChangePassword changePassword)
+        {
+            var userId = changePassword.UserId;
+            var user = Get(userId);
+
+            if (user is null)
+            {
+                return;
+            }
+
+            user.Password = _hashService.GenerateHash(changePassword.Password);
+
+            _usersRepository.Update(user);
+        }
+
+        /// <summary>
         /// Delete user from repository by id
         /// </summary>
         /// <param name="id">Target user id (GUID)</param>

@@ -33,6 +33,12 @@ namespace OnlineShopWebApp.Interfaces
         void Add(User user);
 
         /// <summary>
+        /// Update user with identical id. If user is not in the repository - does nothing.
+        /// </summary>
+        /// <param name="user">Target user</param>
+        void Update(User user);
+
+        /// <summary>
         /// Delete user by GUID
         /// </summary>
         /// <param name="id">User Id (GUID)</param>
