@@ -26,9 +26,38 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// Open Edit Users Page
+        /// Open Admin User Details Page
         /// </summary>
         /// <returns>Admin Users View</returns>
+        /// <param name="id">Target user Id</param>
+        public IActionResult Details(Guid id)
+        {
+            var user = _accountsService.Get(id);
+            return View(user);
+        }
+
+        /// <summary>
+        /// Change password for user
+        /// </summary>
+        /// <returns>User Details Page</returns>
+        /// <param name="role">Target role</param>  
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePassword changePassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_ChangePasswordForm", changePassword);
+            }
+
+            var redirectUrl = Url.Action("Details", new { id = changePassword.UserId });
+
+            return Json(new { redirectUrl });
+        }
+
+        /// <summary>
+        /// Open Edit User Page
+        /// </summary>
+        /// <returns>Admin Edit User View</returns>
         /// <param name="id">Target user Id</param>
         public IActionResult Edit(Guid id)
         {

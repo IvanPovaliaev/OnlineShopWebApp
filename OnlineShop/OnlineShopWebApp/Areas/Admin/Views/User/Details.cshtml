@@ -1,0 +1,88 @@
+﻿@model User
+
+@{
+    var changePasswordModel = new ChangePassword()
+            {
+                UserId = Model.Id
+            };
+}
+
+<section class="container flex-row">
+    <div class="row">
+
+        <div class="col-3 flex-column">
+            @await Html.PartialAsync("_NavigationPanel")
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <h2>Пользователь @Model.Email</h2>
+                <hr class="border-brown mb-3" />
+            </div>
+            <div class="row">
+                <table class="table table-hover align-middle">
+                    <tbody>
+                            <tr>
+                                <th class="col-4">Идентификатор</th>
+                                <td class="col-8">@Model.Id</td>
+                            </tr>
+                            <tr>
+                                <th class="col-4">Email</th>
+                                <td class="col-8">@Model.Email</td>
+                            </tr>
+                            <tr>
+                                <th class="col-4">Имя</th>
+                                <td class="col-8">@Model.Name</td>
+                            </tr>
+                            <tr>
+                                <th class="col-4">Телефон</th>
+                                <td class="col-8">@Model.Phone</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="dropdown d-flex align-items-stretch fill-height col-3">
+                    <button class="btn btn-secondary dropdown-toggle d-flex align-items-center justify-content-between"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Опции
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            @await Html.PartialAsync("_ChangePasswordModal", changePasswordModel)
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-dark"
+                               asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id">
+                                Редактировать
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-dark"
+                               asp-area="Admin" asp-controller="User" asp-action="ChangeRole" asp-route-id="@Model.Id">
+                                Права доступа
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-dark"
+                               asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-id="@Model.Id">
+                                Удалить
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-3">
+                    <a class="btn btn-main d-flex justify-content-center align-items-center"
+                       asp-area="Admin" asp-controller="User" asp-action="Index">
+                        Вернуться
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

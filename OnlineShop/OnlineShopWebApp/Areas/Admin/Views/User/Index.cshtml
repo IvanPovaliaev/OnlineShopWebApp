@@ -27,7 +27,7 @@
                                 <th scope="col" class="col">Email</th>
                                 <th scope="col" class="col">Имя</th>
                                 <th scope="col" class="col">Телефон</th>
-                                <th scope="col" class="col-1">Опции</th>
+                                <th scope="col" class="col-2">Подробнее</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,40 +44,10 @@
                                     <td>@user.Name</td>
                                     <td>@user.Phone</td>
                                     <td>
-                                        <button class="btn btn-secondary dropdown-toggle d-flex align-items-center justify-content-between"
-                                                type="button"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                            Опции
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <li>
-                                                <a class="dropdown-item text-dark"
-                                                   asp-area="Admin" asp-controller="User" asp-action="ChangePassword" asp-route-id="@user.Id">
-                                                    Смена пароля
-                                                </a>  
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-dark"
-                                                   asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
-                                                    Редактировать
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a class="dropdown-item text-dark"
-                                                   asp-area="Admin" asp-controller="User" asp-action="ChangeRole" asp-route-id="@user.Id">
-                                                    Права доступа
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a class="dropdown-item text-dark"
-                                                   asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">
-                                                    Удалить
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        <a class="btn btn-main w-100 justify-content-center align-items-center mt-auto"
+                                           asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@user.Id" role="button">
+                                            Подробнее
+                                        </a>
                                     </td>
                                 </tr>
                             }
