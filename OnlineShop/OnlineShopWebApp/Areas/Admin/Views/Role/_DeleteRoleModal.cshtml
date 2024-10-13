@@ -1,0 +1,32 @@
+﻿@model Role
+
+<div class="modal fade" id="Role-@Model.Id-delete-modal"
+     tabindex="-1" aria-labelledby="Role-@Model.Id-delete-modalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title fs-5" id="Role-@Model.Id-delete-modalLabel">Подтвердите удаление</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>
+                    Вы уверены, что хотите удалить роль <span class="fw-bold">@Model.Name?</span><br />
+                    Это действие нельзя отменить
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <a class="btn btn-main"
+                   asp-area="Admin" asp-controller="Role" asp-action="Delete" asp-route-id="@Model.Id">
+                    Удалить
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
