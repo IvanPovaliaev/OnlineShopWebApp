@@ -53,6 +53,28 @@ namespace OnlineShopWebApp.Repositories
             repositoryUser.Password = user.Password;
             repositoryUser.Name = user.Name;
             repositoryUser.Phone = user.Phone;
+            repositoryUser.Role = user.Role;
+
+            _jsonRepositoryService.SaveChanges(FilePath, _users);
+        }
+
+        public void UpdateAll(IEnumerable<User> users)
+        {
+            foreach (var user in users)
+            {
+                var repositoryUser = Get(user.Id);
+
+                if (repositoryUser is null)
+                {
+                    continue;
+                }
+
+                repositoryUser.Email = user.Email;
+                repositoryUser.Password = user.Password;
+                repositoryUser.Name = user.Name;
+                repositoryUser.Phone = user.Phone;
+                repositoryUser.Role = user.Role;
+            }
 
             _jsonRepositoryService.SaveChanges(FilePath, _users);
         }

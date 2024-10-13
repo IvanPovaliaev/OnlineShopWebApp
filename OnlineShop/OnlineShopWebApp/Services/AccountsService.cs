@@ -5,6 +5,7 @@ using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
@@ -15,11 +16,12 @@ namespace OnlineShopWebApp.Services
         private readonly RolesService _rolesService;
         private readonly HashService _hashService;
 
-        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, HashService hashService)
+        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, RolesEventService rolesEventService, HashService hashService)
         {
             _usersRepository = usersRepository;
             _rolesService = rolesService;
             _hashService = hashService;
+            rolesEventService.RoleDeleted += ChangeRolesToUser;
         }
 
         /// <summary>
@@ -240,6 +242,26 @@ namespace OnlineShopWebApp.Services
             var role = _rolesService.Get(roleId);
 
             return role != null;
+        }
+
+        /// <summary>
+        /// Change all users role related to role Id to user Role.
+        /// </summary>
+        /// <param name="roleId">Target role Id (guid)</param>
+        private void ChangeRolesToUser(Guid roleId)
+        {
+            var targetUsers = GetAll().Where(u => u.Role.Id == roleId)
+                                      .ToArray();
+
+            var newRole = _rolesService.GetAll()
+                                       .FirstOrDefault(r => r.Name == Constants.UserRoleName);
+
+            foreach (var user in targetUsers)
+            {
+                user.Role = newRole;
+            }
+
+            _usersRepository.UpdateAll(targetUsers);
         }
     }
 }

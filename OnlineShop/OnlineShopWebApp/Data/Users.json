@@ -42,9 +42,21 @@
     "Name": "Aбырвалг",
     "Phone": "+7(900)000-00-03",
     "Role": {
-      "Id": "4efa523d-12a8-4994-976f-abeeafa05679",
-      "Name": "TestRole",
-      "CanBeDeleted": true
+      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Name": "User",
+      "CanBeDeleted": false
+    }
+  },
+  {
+    "Id": "ef066ecf-872d-4959-b2dc-94bb1bff6f62",
+    "Email": "test10@test.ru",
+    "Password": "zlgCQYYGtlFB51e2ereRXmDdShbSSCEffQV12sKP57M=:rxZ81I8YA2aNJxpvVrdmTw==",
+    "Name": "Nicolas",
+    "Phone": "+7(900)000-00-02",
+    "Role": {
+      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Name": "User",
+      "CanBeDeleted": false
     }
   }
 ]

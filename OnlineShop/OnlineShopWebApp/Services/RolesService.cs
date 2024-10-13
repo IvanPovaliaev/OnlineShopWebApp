@@ -11,10 +11,11 @@ namespace OnlineShopWebApp.Services
     public class RolesService
     {
         private readonly IRolesRepository _rolesRepository;
-
-        public RolesService(IRolesRepository rolesRepository)
+        private readonly RolesEventService _rolesEventService;
+        public RolesService(IRolesRepository rolesRepository, RolesEventService rolesEventService)
         {
             _rolesRepository = rolesRepository;
+            _rolesEventService = rolesEventService;
             InitializeRoles();
         }
 
@@ -66,6 +67,7 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
+            _rolesEventService.OnRoleDeleted(id);
             _rolesRepository.Delete(id);
         }
 
