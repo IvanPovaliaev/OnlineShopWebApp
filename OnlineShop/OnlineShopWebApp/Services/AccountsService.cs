@@ -179,15 +179,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="register">Target adminRegister model</param>
         public bool IsAdminRegisterValid(ModelStateDictionary modelState, AdminRegister register)
         {
-            if (register.Email == register.Password)
-            {
-                modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать!");
-            }
-
-            if (IsEmailExist(register.Email))
-            {
-                modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
-            }
+            IsRegisterValid(modelState, register);
 
             if (!IsRoleExist(register.RoleId))
             {
