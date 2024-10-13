@@ -6,7 +6,7 @@
                 UserId = Model.Id
             };
 
-    var editUserModel = new EditUser()
+    var editUserModel = new AdminEditUser()
             {
                 UserId = Model.Id,
                 Email = Model.Email,
@@ -46,6 +46,10 @@
                                 <th class="col-4">Телефон</th>
                                 <td class="col-8">@Model.Phone</td>
                             </tr>
+                        <tr>
+                            <th class="col-4">Роль</th>
+                            <td class="col-8">@Model.Role.Name</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -68,6 +72,7 @@
                                 <input type="hidden" name="Email" value="@Model.Email"/>
                                 <input type="hidden" name="Name" value="@Model.Name"/>
                                 <input type="hidden" name="Phone" value="@Model.Phone"/>
+                                <input type="hidden" name="RoleId" value="@Model.Role.Id"/>
 
                                 <button class="dropdown-item text-dark" type="submit">
                                     Редактировать

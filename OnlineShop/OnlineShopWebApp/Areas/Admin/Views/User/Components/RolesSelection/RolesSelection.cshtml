@@ -1,0 +1,12 @@
+﻿@model (List<Role>, Guid)
+
+
+@foreach (var role in Model.Item1)
+{
+    if (role.Id == Model.Item2)
+    {
+        <option value="@role.Id" selected>@role.Name</option>
+        continue;
+    }
+    <option value="@role.Id")>@role.Name</option>
+}

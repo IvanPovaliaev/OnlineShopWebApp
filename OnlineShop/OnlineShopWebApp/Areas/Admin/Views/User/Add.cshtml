@@ -1,4 +1,4 @@
-﻿@model Register
+﻿@model AdminRegister
 
 <section class="container flex-row">
     <div class="row">
@@ -48,6 +48,13 @@
                                asp-for="Phone"
                                placeholder="Телефон">
                         <span asp-validation-for="Phone" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <select class="form-select input-field" asp-for="RoleId">
+                            @await Component.InvokeAsync("RolesSelection")
+                        </select>
+                        <span asp-validation-for="RoleId" class="validation-error-message"></span>
                     </div>
 
                     <div asp-validation-summary="ModelOnly" class="validation-error-message"></div>

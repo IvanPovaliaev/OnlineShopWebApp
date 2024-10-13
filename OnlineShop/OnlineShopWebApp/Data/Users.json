@@ -1,0 +1,50 @@
+[
+  {
+    "Id": "36c2d705-90ba-4478-a0a1-c99645a9e763",
+    "Email": "test1@test.ru",
+    "Password": "6+EbDVkG/fSviHkM4w1qOrhch9869BJ3kZj7W+XGr7c=:d2w7KqsyHWH/RPRUdpYElQ==",
+    "Name": null,
+    "Phone": "+7(900)000-00-00",
+    "Role": {
+      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Name": "User",
+      "CanBeDeleted": false
+    }
+  },
+  {
+    "Id": "1667175b-55b9-4427-b0b4-ec4c2bada72f",
+    "Email": "test2@test.ru",
+    "Password": "hRUu3vj8Cw8lcQBvq2tjo4lK+Kf34HraVRHht9I8XqI=:Tp2TuoOf9ubsE1K8g7Rb2w==",
+    "Name": "Gekk",
+    "Phone": null,
+    "Role": {
+      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Name": "User",
+      "CanBeDeleted": false
+    }
+  },
+  {
+    "Id": "cc9cdf4f-9365-4d8a-81d4-2091fd19670d",
+    "Email": "test4@test.ru",
+    "Password": "myAXBQbwcv2JiSDdIiTtkCbhKU/i5jCPu00fZLS3a2A=:nndHv6rtgYll13sSmSZY4g==",
+    "Name": "David",
+    "Phone": "+7(900)000-00-02",
+    "Role": {
+      "Id": "fad8286b-cadb-425b-903e-631941c0b011",
+      "Name": "Admin",
+      "CanBeDeleted": false
+    }
+  },
+  {
+    "Id": "9eb9074d-83b9-4784-941c-c0f3bf95b920",
+    "Email": "test8@test.ru",
+    "Password": "D4ftwrvHpsWI6m3+Fwd04tvPGU6tjY6UtYOd2t+6+AQ=:N0JHcUGowEXnFQ1qjdEElg==",
+    "Name": "Aбырвалг",
+    "Phone": "+7(900)000-00-03",
+    "Role": {
+      "Id": "4efa523d-12a8-4994-976f-abeeafa05679",
+      "Name": "TestRole",
+      "CanBeDeleted": true
+    }
+  }
+]

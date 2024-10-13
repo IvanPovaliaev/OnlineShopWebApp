@@ -28,6 +28,7 @@
                                 <th scope="col" class="col">Email</th>
                                 <th scope="col" class="col">Имя</th>
                                 <th scope="col" class="col">Телефон</th>
+                                <th scope="col" class="col">Роль</th>
                                 <th scope="col" class="col-2">Подробнее</th>
                             </tr>
                         </thead>
@@ -44,6 +45,7 @@
                                     <td>@user.Email</td>
                                     <td>@user.Name</td>
                                     <td>@user.Phone</td>
+                                    <td>@user.Role.Name</td>
                                     <td>
                                         <a class="btn btn-main w-100 justify-content-center align-items-center mt-auto"
                                            asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@user.Id" role="button">

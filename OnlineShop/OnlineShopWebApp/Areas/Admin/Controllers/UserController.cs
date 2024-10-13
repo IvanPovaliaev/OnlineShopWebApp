@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -40,9 +41,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admins users View</returns> 
         /// <param name="register">Target register user model</param>
         [HttpPost]
-        public IActionResult Add(Register register)
+        public IActionResult Add(AdminRegister register)
         {
-            var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
+            var isModelValid = _accountsService.IsAdminRegisterValid(ModelState, register);
 
             if (!isModelValid)
             {
@@ -94,7 +95,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admin Edit User View</returns>
         /// <param name="editUser">Target EditUser model</param> 
-        public IActionResult Edit(EditUser editUser) => View(editUser);
+        public IActionResult Edit(AdminEditUser editUser) => View(editUser);
 
         /// <summary>
         /// Update target user
@@ -102,7 +103,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>User Details Page if success; otherwise Edit User View</returns>
         /// <param name="editUser">Target EditUser model</param>  
         [HttpPost]
-        public IActionResult Update(EditUser editUser)
+        public IActionResult Update(AdminEditUser editUser)
         {
             var isModelValid = _accountsService.IsEditUserValid(ModelState, editUser);
 

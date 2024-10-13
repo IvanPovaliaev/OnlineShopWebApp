@@ -2,9 +2,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShopWebApp.Models
+namespace OnlineShopWebApp.Areas.Admin.Models
 {
-    public class EditUser
+    public class AdminEditUser
     {
         public Guid UserId { get; set; }
 
@@ -15,5 +15,8 @@ namespace OnlineShopWebApp.Models
 
         [PhoneValidation()]
         public string? Phone { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле")]
+        public Guid RoleId { get; set; }
     }
 }

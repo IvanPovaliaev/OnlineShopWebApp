@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
@@ -33,6 +34,94 @@ namespace OnlineShopWebApp.Services
         /// <returns>Product; returns null if product not found</returns>
         /// <param name="id">Target user id (GUID)</param>
         public User Get(Guid id) => _usersRepository.Get(id);
+
+        /// <summary>
+        /// Add a new user to repository based on register info
+        /// </summary>        
+        /// <param name="register">Target register model</param>
+        public void Add(Register register)
+        {
+            var role = _rolesService.GetAll()
+                                    .FirstOrDefault(r => r.Name == Constants.UserRoleName);
+            var user = new User
+            {
+                Email = register.Email,
+                Password = _hashService.GenerateHash(register.Password),
+                Name = register.Name,
+                Phone = register.Phone,
+                Role = role
+            };
+
+            _usersRepository.Add(user);
+        }
+
+        /// <summary>
+        /// Add a new user to repository based on admin register info
+        /// </summary>        
+        /// <param name="register">Target adminRegister model</param>
+        public void Add(AdminRegister register)
+        {
+            var role = _rolesService.Get(register.RoleId);
+            var user = new User
+            {
+                Email = register.Email,
+                Password = _hashService.GenerateHash(register.Password),
+                Name = register.Name,
+                Phone = register.Phone,
+                Role = role
+            };
+
+            _usersRepository.Add(user);
+        }
+
+        /// <summary>
+        /// Change password for related user if user exist
+        /// </summary>        
+        /// <param name="changePassword">Target ChangePassword model</param>
+        public void ChangePassword(ChangePassword changePassword)
+        {
+            var userId = changePassword.UserId;
+            var user = Get(userId);
+
+            if (user is null)
+            {
+                return;
+            }
+
+            user.Password = _hashService.GenerateHash(changePassword.Password);
+
+            _usersRepository.Update(user);
+        }
+
+        /// <summary>
+        /// Update info for related user if user exist
+        /// </summary>        
+        /// <param name="editUser">Target editUser model</param>
+        public void UpdateInfo(AdminEditUser editUser)
+        {
+            var userId = editUser.UserId;
+            var user = Get(userId);
+
+            if (user is null)
+            {
+                return;
+            }
+
+            var role = _rolesService.Get(editUser.RoleId);
+
+            user.Email = editUser.Email;
+            user.Phone = editUser.Phone;
+            user.Name = editUser.Name;
+            user.Role = role;
+
+            _usersRepository.Update(user);
+        }
+
+        /// <summary>
+        /// Delete user from repository by id
+        /// </summary>
+        /// <param name="id">Target user id (GUID)</param>
+        public void Delete(Guid id) => _usersRepository.Delete(id);
 
         /// <summary>
         /// Validates the user login model
@@ -81,12 +170,38 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Validates the admin registration model
+        /// </summary>        
+        /// <returns>true if registration model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="register">Target adminRegister model</param>
+        public bool IsAdminRegisterValid(ModelStateDictionary modelState, AdminRegister register)
+        {
+            if (register.Email == register.Password)
+            {
+                modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать!");
+            }
+
+            if (IsEmailExist(register.Email))
+            {
+                modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
+            }
+
+            if (!IsRoleExist(register.RoleId))
+            {
+                modelState.AddModelError(string.Empty, "Роль не существует!");
+            }
+
+            return modelState.IsValid;
+        }
+
+        /// <summary>
         /// Validates the user edit model
         /// </summary>        
         /// <returns>true if edit model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="editUser">Target edit model</param>
-        public bool IsEditUserValid(ModelStateDictionary modelState, EditUser editUser)
+        public bool IsEditUserValid(ModelStateDictionary modelState, AdminEditUser editUser)
         {
             var repositoryUser = Get(editUser.UserId);
 
@@ -95,74 +210,13 @@ namespace OnlineShopWebApp.Services
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
+            if (!IsRoleExist(editUser.RoleId))
+            {
+                modelState.AddModelError(string.Empty, "Роль не существует!");
+            }
+
             return modelState.IsValid;
         }
-
-        /// <summary>
-        /// Add a new user to repository based on register info
-        /// </summary>        
-        /// <param name="register">Target register model</param>
-        public void Add(Register register)
-        {
-            var role = _rolesService.GetAll()
-                                    .FirstOrDefault(r => r.Name == Constants.UserRoleName);
-            var user = new User
-            {
-                Email = register.Email,
-                Password = _hashService.GenerateHash(register.Password),
-                Name = register.Name,
-                Phone = register.Phone,
-                Role = role
-            };
-
-            _usersRepository.Add(user);
-        }
-
-        /// <summary>
-        /// Change password for related user if user exist
-        /// </summary>        
-        /// <param name="changePassword">Target ChangePassword model</param>
-        public void ChangePassword(ChangePassword changePassword)
-        {
-            var userId = changePassword.UserId;
-            var user = Get(userId);
-
-            if (user is null)
-            {
-                return;
-            }
-
-            user.Password = _hashService.GenerateHash(changePassword.Password);
-
-            _usersRepository.Update(user);
-        }
-
-        /// <summary>
-        /// Update info for related user if user exist
-        /// </summary>        
-        /// <param name="editUser">Target editUser model</param>
-        public void UpdateInfo(EditUser editUser)
-        {
-            var userId = editUser.UserId;
-            var user = Get(userId);
-
-            if (user is null)
-            {
-                return;
-            }
-
-            user.Email = editUser.Email;
-            user.Phone = editUser.Phone;
-            user.Name = editUser.Name;
-
-            _usersRepository.Update(user);
-        }
-
-        /// <summary>
-        /// Delete user from repository by id
-        /// </summary>
-        /// <param name="id">Target user id (GUID)</param>
-        public void Delete(Guid id) => _usersRepository.Delete(id);
 
         /// <summary>
         /// Checks if a user with the given address exists.
@@ -173,12 +227,19 @@ namespace OnlineShopWebApp.Services
         {
             var users = _usersRepository.GetAll();
 
-            if (users.Any(users => users.Email == email))
-            {
-                return true;
-            }
+            return users.Any(users => users.Email == email);
+        }
 
-            return false;
+        /// <summary>
+        /// Checks if a role with the given id exists.
+        /// </summary>        
+        /// <returns>true if exists; otherwise false</returns>
+        /// <param name="roleId">Target role id (GUID)</param>
+        private bool IsRoleExist(Guid roleId)
+        {
+            var role = _rolesService.Get(roleId);
+
+            return role != null;
         }
     }
 }
