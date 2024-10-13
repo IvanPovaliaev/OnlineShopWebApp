@@ -25,11 +25,18 @@ namespace OnlineShopWebApp.Services
         public List<User> GetAll() => _usersRepository.GetAll();
 
         /// <summary>
+        /// Get user from repository by GUID
+        /// </summary>
+        /// <returns>Product; returns null if product not found</returns>
+        /// <param name="id">Target user id (GUID)</param>
+        public User Get(Guid id) => _usersRepository.Get(id);
+
+        /// <summary>
         /// Validates the user login model
         /// </summary>        
         /// <returns>true if login model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
-        /// /// <param name="login">Target login model</param>
+        /// <param name="login">Target login model</param>
         public bool IsLoginValid(ModelStateDictionary modelState, Login login)
         {
             var user = _usersRepository.GetByEmail(login.Email);
@@ -54,7 +61,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>true if registration model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
-        /// /// <param name="register">Target register model</param>
+        /// <param name="register">Target register model</param>
         public bool IsRegisterValid(ModelStateDictionary modelState, Register register)
         {
             if (register.Email == register.Password)
