@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -10,11 +11,13 @@ namespace OnlineShopWebApp.Services
     public class AccountsService
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly RolesService _rolesService;
         private readonly HashService _hashService;
 
-        public AccountsService(IUsersRepository usersRepository, HashService hashService)
+        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, HashService hashService)
         {
             _usersRepository = usersRepository;
+            _rolesService = rolesService;
             _hashService = hashService;
         }
 
@@ -101,12 +104,15 @@ namespace OnlineShopWebApp.Services
         /// <param name="register">Target register model</param>
         public void Add(Register register)
         {
+            var role = _rolesService.GetAll()
+                                    .FirstOrDefault(r => r.Name == Constants.UserRoleName);
             var user = new User
             {
                 Email = register.Email,
                 Password = _hashService.GenerateHash(register.Password),
                 Name = register.Name,
-                Phone = register.Phone
+                Phone = register.Phone,
+                Role = role
             };
 
             _usersRepository.Add(user);

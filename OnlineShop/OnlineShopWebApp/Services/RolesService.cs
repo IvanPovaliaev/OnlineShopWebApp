@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -79,8 +80,8 @@ namespace OnlineShopWebApp.Services
 
             roles =
             [
-                new("Admin"),
-                new("User")
+                new(Constants.AdminRoleName),
+                new(Constants.UserRoleName)
             ];
 
             _rolesRepository.Add(roles);
