@@ -56,7 +56,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("AddProduct", product);
+                return View("Add", product);
             }
 
             _productsService.Add(product);
@@ -85,7 +85,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
             if (!isModelValid)
             {
-                return View("EditProduct", product);
+                return View("Edit", product);
             }
 
             _productsService.Update(product);
