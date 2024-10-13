@@ -58,5 +58,29 @@
       "Name": "TestRole",
       "CanBeDeleted": true
     }
+  },
+  {
+    "Id": "498d67b1-e796-4263-978b-291cd151bfe3",
+    "Email": "test11@test.ru",
+    "Password": "19biBww2aIcis/bEBI6MKZ22h4hBB5jqkOYqd7NMMp4=:SpGMyOaJcKxRqvuHn2y8EA==",
+    "Name": "Друг",
+    "Phone": null,
+    "Role": {
+      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+      "Name": "TestRole",
+      "CanBeDeleted": true
+    }
+  },
+  {
+    "Id": "a8f36762-5fce-4580-aaf0-18d8ea2dfe6e",
+    "Email": "test12@test.ru",
+    "Password": "WZB9HZSUCkcQKFmYw4Iux4GjDFQDhC2O3RsxQMMWihk=:4/XqMqouJdFTN2s8K9ZKSw==",
+    "Name": "Goliah",
+    "Phone": null,
+    "Role": {
+      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Name": "User",
+      "CanBeDeleted": false
+    }
   }
 ]
