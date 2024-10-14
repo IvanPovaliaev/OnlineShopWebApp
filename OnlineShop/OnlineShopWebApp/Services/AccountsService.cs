@@ -253,7 +253,7 @@ namespace OnlineShopWebApp.Services
                 user.Role = newRole;
             }
 
-            _usersRepository.UpdateAll(targetUsers);
+            _usersRepository.ChangeRolesToUser(targetUsers);
         }
     }
 }

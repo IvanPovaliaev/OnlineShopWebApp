@@ -39,10 +39,10 @@ namespace OnlineShopWebApp.Interfaces
         void Update(User user);
 
         /// <summary>
-        /// Update target users collection. If user in is not in the repository - does nothing.
+        /// Change roles of every user in target collection to User.
         /// </summary>
         /// <param name="users">Target users collection</param>
-        void UpdateAll(IEnumerable<User> users);
+        void ChangeRolesToUser(IEnumerable<User> users);
 
         /// <summary>
         /// Delete user by GUID

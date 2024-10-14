@@ -58,7 +58,7 @@ namespace OnlineShopWebApp.Repositories
             _jsonRepositoryService.SaveChanges(FilePath, _users);
         }
 
-        public void UpdateAll(IEnumerable<User> users)
+        public void ChangeRolesToUser(IEnumerable<User> users)
         {
             foreach (var user in users)
             {
@@ -69,10 +69,6 @@ namespace OnlineShopWebApp.Repositories
                     continue;
                 }
 
-                repositoryUser.Email = user.Email;
-                repositoryUser.Password = user.Password;
-                repositoryUser.Name = user.Name;
-                repositoryUser.Phone = user.Phone;
                 repositoryUser.Role = user.Role;
             }
 

@@ -58,6 +58,8 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 var app = builder.Build();
 
+app.Services.GetRequiredService<AccountsService>();
+
 app.UseRequestLocalization();
 
 if (!app.Environment.IsDevelopment())
