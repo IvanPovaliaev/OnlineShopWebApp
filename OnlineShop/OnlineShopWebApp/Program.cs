@@ -5,9 +5,15 @@ using Microsoft.Extensions.Hosting;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
+using Serilog;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) => configuration
+            .ReadFrom.Configuration(context.Configuration)
+            .Enrich.FromLogContext()
+            .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
 builder.Services.AddControllersWithViews();
 
@@ -55,6 +61,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
