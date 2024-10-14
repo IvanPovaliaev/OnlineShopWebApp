@@ -1,4 +1,4 @@
-﻿using OnlineShopWebApp.Models;
+﻿using OnlineShopWebApp.Models.Abstractions;
 using System;
 using System.ComponentModel.DataAnnotations;
 

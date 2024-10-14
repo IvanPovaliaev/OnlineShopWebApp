@@ -3,6 +3,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Models.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -43,27 +44,8 @@ namespace OnlineShopWebApp.Services
         /// <param name="register">Target register model</param>
         public void Add(Register register)
         {
-            var role = _rolesService.GetAll()
-                                    .FirstOrDefault(r => r.Name == Constants.UserRoleName);
-            var user = new User
-            {
-                Email = register.Email,
-                Password = _hashService.GenerateHash(register.Password),
-                Name = register.Name,
-                Phone = register.Phone,
-                Role = role
-            };
+            var role = GetRegisterRole(register);
 
-            _usersRepository.Add(user);
-        }
-
-        /// <summary>
-        /// Add a new user to repository based on admin register info
-        /// </summary>        
-        /// <param name="register">Target adminRegister model</param>
-        public void Add(AdminRegister register)
-        {
-            var role = _rolesService.Get(register.RoleId);
             var user = new User
             {
                 Email = register.Email,
@@ -151,7 +133,7 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Validates the user registration model
+        /// Validates the registration model
         /// </summary>        
         /// <returns>true if registration model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
@@ -210,6 +192,21 @@ namespace OnlineShopWebApp.Services
             }
 
             return modelState.IsValid;
+        }
+
+        /// <summary>
+        /// Get a role fot new user based on register model
+        /// </summary>        
+        /// <returns>Associated Role; Return Role User as default</returns>
+        /// <param name="register">Target register model</param>
+        private Role GetRegisterRole(Register register)
+        {
+            return register switch
+            {
+                AdminRegister adminRegister => _rolesService.Get(adminRegister.RoleId),
+                _ => _rolesService.GetAll()
+                                  .First(r => r.Name == Constants.UserRoleName),
+            };
         }
 
         /// <summary>

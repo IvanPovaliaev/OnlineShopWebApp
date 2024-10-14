@@ -82,5 +82,29 @@
       "Name": "User",
       "CanBeDeleted": false
     }
+  },
+  {
+    "Id": "68a7a202-0490-48e0-aa14-c6d8e3804da5",
+    "Email": "test20@test.ru",
+    "Password": "GMWGMF9aRIo7CgD3OwTaPNcbJFVmoPNUt/A4MMs1wmY=:bVTDk7BZXS/mPXfb0QslLA==",
+    "Name": "NewUserAfterChanges",
+    "Phone": null,
+    "Role": {
+      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+      "Name": "TestRole",
+      "CanBeDeleted": true
+    }
+  },
+  {
+    "Id": "3346e1d9-1858-4264-a3ab-c82b295cf55d",
+    "Email": "Test21@test.ru",
+    "Password": "QseGPvU5fnBiHMXGBTMP1ItwEth4+x1OWwL6ZJ0s2C8=:8M1ChsV5cYSv+S0dbimQ+Q==",
+    "Name": "NewAdminUserAfterChanges",
+    "Phone": null,
+    "Role": {
+      "Id": "fad8286b-cadb-425b-903e-631941c0b011",
+      "Name": "Admin",
+      "CanBeDeleted": false
+    }
   }
 ]
