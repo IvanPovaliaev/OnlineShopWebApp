@@ -43,7 +43,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add(AdminRegister register)
         {
-            var isModelValid = _accountsService.IsAdminRegisterValid(ModelState, register);
+            var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
 
             if (!isModelValid)
             {

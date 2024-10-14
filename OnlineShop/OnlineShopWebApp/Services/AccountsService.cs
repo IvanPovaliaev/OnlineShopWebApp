@@ -150,20 +150,7 @@ namespace OnlineShopWebApp.Services
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
-            return modelState.IsValid;
-        }
-
-        /// <summary>
-        /// Validates the admin registration model
-        /// </summary>        
-        /// <returns>true if registration model is valid; otherwise false</returns>
-        /// <param name="modelState">Current model state</param>
-        /// <param name="register">Target adminRegister model</param>
-        public bool IsAdminRegisterValid(ModelStateDictionary modelState, AdminRegister register)
-        {
-            IsRegisterValid(modelState, register);
-
-            if (!IsRoleExist(register.RoleId))
+            if (register is AdminRegister { RoleId: var roleId } && !IsRoleExist(roleId))
             {
                 modelState.AddModelError(string.Empty, "Роль не существует!");
             }
