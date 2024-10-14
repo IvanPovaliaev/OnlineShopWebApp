@@ -56,7 +56,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Open Admin EditProduct Page
         /// </summary>
         /// <returns>Admin EditProduct View</returns>
-        /// <param name="id">Order id (guid)</param>
+        /// <param name="id">Target productId</param>
         public IActionResult Edit(Guid id)
         {
             var product = _productsService.Get(id);
