@@ -1,0 +1,16 @@
+[
+  {
+    "Id": "bd38d2a6-5dde-4b4f-af4c-c5af1d71f4e0",
+    "Email": "test@test.ru",
+    "Password": "An5daiVPQ3mmxdSv9JP+rNG3YC/2BzvC16DhZBbnWv8=:ecTUCjWIeafC4jjAmq9LlQ==",
+    "Name": null,
+    "Phone": null
+  },
+  {
+    "Id": "5ca4f8bd-0645-419e-b7fd-3aead486c24c",
+    "Email": "test2@test.ru",
+    "Password": "Dr/855i+a3ofdLPe1T27Hu76IDbhy9cjWv6ujNd9Re8=:xlovqBbUqNLgyWO/eQFrlA==",
+    "Name": null,
+    "Phone": null
+  }
+]

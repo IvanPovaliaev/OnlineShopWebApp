@@ -1,10 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
     public class AccountsService
     {
+        private readonly IUsersRepository _usersRepository;
+        private readonly HashService _hashService;
+
+        public AccountsService(IUsersRepository usersRepository, HashService hashService)
+        {
+            _usersRepository = usersRepository;
+            _hashService = hashService;
+        }
+
+        /// <summary>
+        /// Validates the user login model
+        /// </summary>        
+        /// <returns>true if login model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// /// <param name="login">Target login model</param>
+        public bool IsLoginValid(ModelStateDictionary modelState, Login login)
+        {
+            var user = _usersRepository.GetUserByEmail(login.Email);
+
+            if (user is null)
+            {
+                modelState.AddModelError(string.Empty, "Неверный логин или пароль");
+                return modelState.IsValid;
+            }
+
+            var isPasswordsEquals = _hashService.IsEquals(login.Password, user.Password);
+
+            if (!isPasswordsEquals)
+            {
+                modelState.AddModelError(string.Empty, "Неверный логин или пароль");
+            }
+            return modelState.IsValid;
+        }
+
         /// <summary>
         /// Validates the user registration model
         /// </summary>        
@@ -15,10 +51,49 @@ namespace OnlineShopWebApp.Services
         {
             if (register.Email == register.Password)
             {
-                modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать");
+                modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать!");
+            }
+
+            if (IsEmailExist(register.Email))
+            {
+                modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
             return modelState.IsValid;
+        }
+
+        /// <summary>
+        /// Add a new user to repository based on register info
+        /// </summary>        
+        /// <param name="register">Target register model</param>
+        public void Add(Register register)
+        {
+            var user = new User
+            {
+                Email = register.Email,
+                Password = _hashService.GenerateHash(register.Password),
+                Name = register.Name,
+                Phone = register.Phone
+            };
+
+            _usersRepository.Add(user);
+        }
+
+        /// <summary>
+        /// Checks if a user with the given address exists.
+        /// </summary>        
+        /// <returns>true if user with target email already exists; otherwise false</returns>
+        /// <param name="email">Target email</param>
+        private bool IsEmailExist(string email)
+        {
+            var users = _usersRepository.GetAll();
+
+            if (users.Any(users => users.Email == email))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
