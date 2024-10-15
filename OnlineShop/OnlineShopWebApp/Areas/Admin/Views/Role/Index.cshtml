@@ -66,13 +66,18 @@
                                         <span class="d-flex align-content-center justify-content-end">
                                             @if (role.CanBeDeleted)
                                             {
-                                                <a class="bi bi-trash-fill trash-icon align-content-center"
-                                                   asp-area="Admin" asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id">
-                                                </a>
+                                                <i class="bi bi-trash-fill trash-icon align-content-center"
+                                                        data-bs-toggle="modal" data-bs-target="#Role-@role.Id-delete-modal">                                                    
+                                                </i>
                                             }
                                         </span>
                                     </td>
                                 </tr>
+
+                                @if (role.CanBeDeleted)
+                                {
+                                    @await Html.PartialAsync("_DeleteRoleModal", role);
+                                }                                
                             }
                         </tbody>
                     </table>

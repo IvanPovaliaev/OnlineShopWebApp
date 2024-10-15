@@ -71,15 +71,16 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item text-dark"
-                                                   asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id">
+                                                <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#@product.Id-delete-modal">
                                                     Удалить
-                                                </a>
+                                                </button>                                                
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
                             </tr>
+
+                            @await Html.PartialAsync("_DeleteProductModal", product)
                         }
                     </tbody>
                 </table>
