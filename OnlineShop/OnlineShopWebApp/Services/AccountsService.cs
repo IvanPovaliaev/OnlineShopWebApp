@@ -234,7 +234,7 @@ namespace OnlineShopWebApp.Services
 
             foreach (var user in targetUsers)
             {
-                user.Role = newRole;
+                user.Role = newRole!;
             }
 
             _usersRepository.ChangeRolesToUser(targetUsers);

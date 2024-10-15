@@ -119,14 +119,19 @@ $(document).ready(function () {
     });
 });
 
+
+//Скрипт для работы с модальным окном удаления
 $(document).ready(function () {
     $('#deleteModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Кнопка, которая вызвала модальное окно
-        var itemName = button.data('name'); // Получаем имя элемента, который удаляем
-        var url = button.data('url'); // Получаем URL для удаления
+        var button = $(event.relatedTarget);
 
+        //Получение данных
+        var itemName = button.data('name');
+        var url = button.data('url');
+
+        //Установка данных
         var modal = $(this);
-        modal.find('.modal-body #itemName').text(itemName); // Устанавливаем имя элемента в текст модального окна
-        modal.find('.modal-footer #confirmDeleteBtn').attr('href', url); // Устанавливаем URL для кнопки удаления
+        modal.find('.modal-body #itemName').text(itemName);
+        modal.find('.modal-footer #confirmDeleteBtn').attr('href', url);
     });
 });
