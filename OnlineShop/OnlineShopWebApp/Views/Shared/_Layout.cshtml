@@ -18,9 +18,11 @@
     <div class="container mb-3">
         <main role="main" class="pb-3">
             @RenderBody()
-        </main>
+        </main>                
     </div>
 
+    @await Html.PartialAsync("~/Views/Shared/Toasts/_LoginSuccessToast.cshtml")
+    @await Html.PartialAsync("~/Views/Shared/Toasts/_RegisterSuccessToast.cshtml")
     @await Html.PartialAsync("_Footer")
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
