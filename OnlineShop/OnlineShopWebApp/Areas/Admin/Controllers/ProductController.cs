@@ -36,17 +36,6 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// Open Admin EditProduct Page
-        /// </summary>
-        /// <returns>Admin EditProduct View</returns>
-        /// <param name="id">Order id (guid)</param>
-        public IActionResult Edit(Guid id)
-        {
-            var product = _productsService.Get(id);
-            return View(product);
-        }
-
-        /// <summary>
         /// Add a new product
         /// </summary>
         /// <returns>Admins products View</returns> 
@@ -64,14 +53,14 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// Delete product by Id
+        /// Open Admin EditProduct Page
         /// </summary>
-        /// <returns>Admins products View</returns>
-        /// <param name="id">Target productId</param>  
-        public IActionResult Delete(Guid id)
+        /// <returns>Admin EditProduct View</returns>
+        /// <param name="id">Target productId</param>
+        public IActionResult Edit(Guid id)
         {
-            _productsService.Delete(id);
-            return RedirectToAction("Index");
+            var product = _productsService.Get(id);
+            return View(product);
         }
 
         /// <summary>
@@ -89,6 +78,17 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             }
 
             _productsService.Update(product);
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Delete product by Id
+        /// </summary>
+        /// <returns>Admins products View</returns>
+        /// <param name="id">Target productId</param>  
+        public IActionResult Delete(Guid id)
+        {
+            _productsService.Delete(id);
             return RedirectToAction("Index");
         }
 

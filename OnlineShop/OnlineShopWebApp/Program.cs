@@ -36,6 +36,7 @@ builder.Services.AddTransient<ComparisonsService>();
 builder.Services.AddSingleton<IFavoritesRepository, InFileFavoritesRepository>();
 builder.Services.AddTransient<FavoritesService>();
 
+builder.Services.AddSingleton<RolesEventService>();
 builder.Services.AddSingleton<IRolesRepository, InFileRolesRepository>();
 builder.Services.AddTransient<RolesService>();
 
@@ -56,6 +57,8 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 var app = builder.Build();
+
+app.Services.GetRequiredService<AccountsService>();
 
 app.UseRequestLocalization();
 

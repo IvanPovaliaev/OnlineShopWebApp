@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -10,10 +11,11 @@ namespace OnlineShopWebApp.Services
     public class RolesService
     {
         private readonly IRolesRepository _rolesRepository;
-
-        public RolesService(IRolesRepository rolesRepository)
+        private readonly RolesEventService _rolesEventService;
+        public RolesService(IRolesRepository rolesRepository, RolesEventService rolesEventService)
         {
             _rolesRepository = rolesRepository;
+            _rolesEventService = rolesEventService;
             InitializeRoles();
         }
 
@@ -52,18 +54,27 @@ namespace OnlineShopWebApp.Services
         /// Add role to repository
         /// </summary>
         /// <param name="role">Target role</param>
-        public void Add(Role role)
-        {
-            _rolesRepository.Add(role);
-        }
+        public void Add(Role role) => _rolesRepository.Add(role);
 
         /// <summary>
-        /// Delete role from repository by id
+        /// Delete role from repository by id if it can be deleted
         /// </summary>
         /// <param name="id">Target role id (GUID)</param>
         public void Delete(Guid id)
         {
+            if (!CanBeDeleted(id))
+            {
+                return;
+            }
+
+            _rolesEventService.OnRoleDeleted(id);
             _rolesRepository.Delete(id);
+        }
+
+        private bool CanBeDeleted(Guid id)
+        {
+            var role = _rolesRepository.Get(id);
+            return role.CanBeDeleted;
         }
 
         /// <summary>
@@ -79,8 +90,14 @@ namespace OnlineShopWebApp.Services
 
             roles =
             [
-                new("Admin"),
-                new("User")
+                new(Constants.AdminRoleName)
+                {
+                    CanBeDeleted = false
+                },
+                new(Constants.UserRoleName)
+                {
+                    CanBeDeleted = false
+                }
             ];
 
             _rolesRepository.Add(roles);

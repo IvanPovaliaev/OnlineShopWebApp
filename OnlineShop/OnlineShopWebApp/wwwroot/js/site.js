@@ -11,6 +11,10 @@ $(document).on('click', '[data-bs-target="#registrationModal"]', function () {
     $('#registrationModal').appendTo('body');
 });
 
+$(document).on('click', '[data-bs-target="#changePasswordModal"]', function () {
+    $('#changePasswordModal').appendTo('body');
+});
+
 $(document).ready(function () {
     $(document).on('submit', '#registrationForm', function (event) {
         event.preventDefault();
@@ -68,6 +72,27 @@ $(document).ready(function () {
                 else {
                     $('#addRoleFormWrapper').html(response);
                     $.validator.unobtrusive.parse($("#addRoleForm"));
+                }
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on('submit', '#changePasswordForm', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.redirectUrl) {
+                    window.location.href = response.redirectUrl;
+                }
+                else {
+                    $('#changePasswordFormWrapper').html(response);
+                    $.validator.unobtrusive.parse($("#changePasswordForm"));
                 }
             }
         });

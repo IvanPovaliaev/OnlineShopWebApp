@@ -1,9 +1,9 @@
 ﻿using OnlineShopWebApp.Helpers;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShopWebApp.Models
+namespace OnlineShopWebApp.Models.Abstractions
 {
-    public class Register
+    public abstract class Register
     {
         [Required(ErrorMessage = "Не указан Email")]
         [EmailAddress(ErrorMessage = "Неверный адрес электронной почты")]

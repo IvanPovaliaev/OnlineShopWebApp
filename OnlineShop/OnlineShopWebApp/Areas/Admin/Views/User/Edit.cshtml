@@ -1,0 +1,67 @@
+﻿@model AdminEditUser
+
+<section class="container flex-row">
+    <div class="row">    
+        
+        <div class="col-3 flex-column">
+            @await Html.PartialAsync("_NavigationPanel")
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <h2>Пользователь @Model.Email</h2>
+                <hr class="border-brown mb-3" />
+            </div>
+            <div class="row">
+                <form method="post" id="AdminUpdateUserForm" asp-area="Admin" asp-controller="User" asp-action="Update">
+
+                    <input type="hidden" asp-for="UserId" value="@Model.UserId" />                
+
+                    <div class="mb-3 col">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input class="form-control input-field"
+                                asp-for="Email">
+                        <span asp-validation-for="Email" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3 col">
+                        <label asp-for="Name" class="form-label">Имя</label>
+                        <input class="form-control input-field"
+                               asp-for="Name">
+                        <span asp-validation-for="Name" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3 col">
+                        <label asp-for="Phone" class="form-label">Телефон</label>
+                        <input class="form-control input-field"
+                               asp-for="Phone">
+                        <span asp-validation-for="Phone" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <label asp-for="RoleId" class="form-label">Роль</label>
+                        <select class="form-select input-field" asp-for="RoleId">
+                            @await Component.InvokeAsync("RolesSelection", Model.RoleId)
+                        </select>
+                        <span asp-validation-for="RoleId" class="validation-error-message"></span>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly" class="validation-error-message"></div>
+
+                </form>
+            </div>
+            <div class="d-flex">
+                <button class="btn btn-main mb-3 me-3" type="submit" form="AdminUpdateUserForm">
+                    Обновить данные
+                </button>
+                <div>
+                    <a class="btn btn-main d-flex justify-content-center align-items-center"
+                       asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@Model.UserId">
+                        Вернуться
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

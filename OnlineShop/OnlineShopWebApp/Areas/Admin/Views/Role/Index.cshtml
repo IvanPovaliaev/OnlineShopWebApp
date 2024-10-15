@@ -64,11 +64,7 @@
                                     <td>@role.Name</td>
                                     <td>
                                         <span class="d-flex align-content-center justify-content-end">
-                                            @if (role.Name == "Admin" || role.Name == "User")
-                                            {
-                                                <i class="bi bi-trash-fill trash-icon align-content-center"></i>
-                                            }
-                                            else
+                                            @if (role.CanBeDeleted)
                                             {
                                                 <a class="bi bi-trash-fill trash-icon align-content-center"
                                                    asp-area="Admin" asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id">

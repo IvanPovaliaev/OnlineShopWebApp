@@ -1,16 +1,110 @@
 [
   {
-    "Id": "bd38d2a6-5dde-4b4f-af4c-c5af1d71f4e0",
-    "Email": "test@test.ru",
-    "Password": "An5daiVPQ3mmxdSv9JP+rNG3YC/2BzvC16DhZBbnWv8=:ecTUCjWIeafC4jjAmq9LlQ==",
+    "Id": "36c2d705-90ba-4478-a0a1-c99645a9e763",
+    "Email": "test1@test.ru",
+    "Password": "6+EbDVkG/fSviHkM4w1qOrhch9869BJ3kZj7W+XGr7c=:d2w7KqsyHWH/RPRUdpYElQ==",
     "Name": null,
-    "Phone": null
+    "Phone": "+7(900)000-00-00",
+    "Role": {
+      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Name": "User",
+      "CanBeDeleted": false
+    }
   },
   {
-    "Id": "5ca4f8bd-0645-419e-b7fd-3aead486c24c",
+    "Id": "1667175b-55b9-4427-b0b4-ec4c2bada72f",
     "Email": "test2@test.ru",
-    "Password": "Dr/855i+a3ofdLPe1T27Hu76IDbhy9cjWv6ujNd9Re8=:xlovqBbUqNLgyWO/eQFrlA==",
-    "Name": null,
-    "Phone": null
+    "Password": "hRUu3vj8Cw8lcQBvq2tjo4lK+Kf34HraVRHht9I8XqI=:Tp2TuoOf9ubsE1K8g7Rb2w==",
+    "Name": "Gekk",
+    "Phone": null,
+    "Role": {
+      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Name": "User",
+      "CanBeDeleted": false
+    }
+  },
+  {
+    "Id": "cc9cdf4f-9365-4d8a-81d4-2091fd19670d",
+    "Email": "test4@test.ru",
+    "Password": "myAXBQbwcv2JiSDdIiTtkCbhKU/i5jCPu00fZLS3a2A=:nndHv6rtgYll13sSmSZY4g==",
+    "Name": "David",
+    "Phone": "+7(900)000-00-02",
+    "Role": {
+      "Id": "fad8286b-cadb-425b-903e-631941c0b011",
+      "Name": "Admin",
+      "CanBeDeleted": false
+    }
+  },
+  {
+    "Id": "9eb9074d-83b9-4784-941c-c0f3bf95b920",
+    "Email": "test8@test.ru",
+    "Password": "D4ftwrvHpsWI6m3+Fwd04tvPGU6tjY6UtYOd2t+6+AQ=:N0JHcUGowEXnFQ1qjdEElg==",
+    "Name": "Aбырвалг",
+    "Phone": "+7(900)000-00-03",
+    "Role": {
+      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+      "Name": "TestRole",
+      "CanBeDeleted": true
+    }
+  },
+  {
+    "Id": "ef066ecf-872d-4959-b2dc-94bb1bff6f62",
+    "Email": "test10@test.ru",
+    "Password": "zlgCQYYGtlFB51e2ereRXmDdShbSSCEffQV12sKP57M=:rxZ81I8YA2aNJxpvVrdmTw==",
+    "Name": "Nicolas",
+    "Phone": "+7(900)000-00-02",
+    "Role": {
+      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+      "Name": "TestRole",
+      "CanBeDeleted": true
+    }
+  },
+  {
+    "Id": "498d67b1-e796-4263-978b-291cd151bfe3",
+    "Email": "test11@test.ru",
+    "Password": "19biBww2aIcis/bEBI6MKZ22h4hBB5jqkOYqd7NMMp4=:SpGMyOaJcKxRqvuHn2y8EA==",
+    "Name": "Друг",
+    "Phone": null,
+    "Role": {
+      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+      "Name": "TestRole",
+      "CanBeDeleted": true
+    }
+  },
+  {
+    "Id": "a8f36762-5fce-4580-aaf0-18d8ea2dfe6e",
+    "Email": "test12@test.ru",
+    "Password": "WZB9HZSUCkcQKFmYw4Iux4GjDFQDhC2O3RsxQMMWihk=:4/XqMqouJdFTN2s8K9ZKSw==",
+    "Name": "Goliah",
+    "Phone": null,
+    "Role": {
+      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Name": "User",
+      "CanBeDeleted": false
+    }
+  },
+  {
+    "Id": "68a7a202-0490-48e0-aa14-c6d8e3804da5",
+    "Email": "test20@test.ru",
+    "Password": "GMWGMF9aRIo7CgD3OwTaPNcbJFVmoPNUt/A4MMs1wmY=:bVTDk7BZXS/mPXfb0QslLA==",
+    "Name": "NewUserAfterChanges",
+    "Phone": null,
+    "Role": {
+      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+      "Name": "TestRole",
+      "CanBeDeleted": true
+    }
+  },
+  {
+    "Id": "3346e1d9-1858-4264-a3ab-c82b295cf55d",
+    "Email": "Test21@test.ru",
+    "Password": "QseGPvU5fnBiHMXGBTMP1ItwEth4+x1OWwL6ZJ0s2C8=:8M1ChsV5cYSv+S0dbimQ+Q==",
+    "Name": "NewAdminUserAfterChanges",
+    "Phone": null,
+    "Role": {
+      "Id": "fad8286b-cadb-425b-903e-631941c0b011",
+      "Name": "Admin",
+      "CanBeDeleted": false
+    }
   }
 ]

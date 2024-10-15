@@ -37,7 +37,7 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Home page</returns>
         [HttpPost]
-        public IActionResult Register(Register register)
+        public IActionResult Register(UserRegister register)
         {
             var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
 

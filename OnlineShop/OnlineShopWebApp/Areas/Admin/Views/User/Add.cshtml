@@ -1,0 +1,84 @@
+﻿@model AdminRegister
+
+<section class="container flex-row">
+    <div class="row">
+
+        <div class="col-3 flex-column">
+            @await Html.PartialAsync("_NavigationPanel")
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <h2>Добавление пользователя</h2>
+                <hr class="border-brown mb-3" />
+            </div>
+            <div class="row">
+                <form method="post" asp-area="Admin" asp-controller="User" asp-action="Add">
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input class="form-control input-field"
+                               asp-for="Email"
+                               placeholder="Email*">
+                        <span asp-validation-for="Email" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">Пароль</label>
+                        <input type="password" class="form-control input-field"
+                               asp-for="Password"
+                               placeholder="Пароль*">
+                        <span asp-validation-for="Password" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label">Повторите пароль</label>
+                        <input type="password" class="form-control input-field"
+                               asp-for="ConfirmPassword"
+                               placeholder="Повторите пароль*">
+                        <span asp-validation-for="ConfirmPassword" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Имя</label>
+                        <input type="text" class="form-control input-field"
+                               asp-for="Name"
+                               placeholder="Имя">
+                        <span asp-validation-for="Name" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label">Телефон</label>
+                        <input type="text" class="form-control input-field"
+                               asp-for="Phone"
+                               placeholder="Телефон">
+                        <span asp-validation-for="Phone" class="validation-error-message"></span>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <label asp-for="RoleId" class="form-label">Роль</label>
+                        <select class="form-select input-field" asp-for="RoleId">
+                            @await Component.InvokeAsync("RolesSelection")
+                        </select>
+                        <span asp-validation-for="RoleId" class="validation-error-message"></span>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly" class="validation-error-message"></div>
+
+                    <button class="btn btn-main mb-3" type="submit">
+                        Добавить пользователя
+                    </button>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <a class="btn btn-main d-flex justify-content-center align-items-center"
+                       asp-area="Admin" asp-controller="User" asp-action="Index">
+                        Вернуться
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

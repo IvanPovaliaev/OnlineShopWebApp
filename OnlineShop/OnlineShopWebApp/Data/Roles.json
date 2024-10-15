@@ -1,10 +1,17 @@
 [
   {
-    "Id": "4e31f793-4a77-43d2-8db2-76786db00c00",
-    "Name": "Admin"
+    "Id": "fad8286b-cadb-425b-903e-631941c0b011",
+    "Name": "Admin",
+    "CanBeDeleted": false
   },
   {
-    "Id": "b86a9e8e-7f02-423d-abac-bf660fae3ca2",
-    "Name": "User"
+    "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+    "Name": "User",
+    "CanBeDeleted": false
+  },
+  {
+    "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+    "Name": "TestRole",
+    "CanBeDeleted": true
   }
 ]

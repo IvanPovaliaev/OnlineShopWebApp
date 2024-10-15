@@ -3,7 +3,7 @@ using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System.Collections.Generic;
 
-namespace OnlineShopWebApp.Views.Admin.Components.SpecificationsForm
+namespace OnlineShopWebApp.Areas.Admin.Views.Product.Components.SpecificationsForm
 {
     public class SpecificationsFormViewComponent : ViewComponent
     {
