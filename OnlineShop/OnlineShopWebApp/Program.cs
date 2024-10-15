@@ -1,12 +1,16 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Models.Handlers;
+using OnlineShopWebApp.Models.Notifications;
 using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
 using Serilog;
 using System.Globalization;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +21,13 @@ builder.Host.UseSerilog((context, configuration) => configuration
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddTransient<INotificationHandler<ProductDeletedNotification>, ProductDeletedHandler>();
+builder.Services.AddTransient<INotificationHandler<RoleDeletedNotification>, RoleDeletedHandler>();
+
 builder.Services.AddTransient<FileService>();
 builder.Services.AddTransient<JsonRepositoryService>();
 
-builder.Services.AddSingleton<ProductsEventService>();
 builder.Services.AddSingleton<IProductsRepository, InFileProductsRepository>();
 builder.Services.AddTransient<ProductsService>();
 
@@ -36,7 +43,6 @@ builder.Services.AddTransient<ComparisonsService>();
 builder.Services.AddSingleton<IFavoritesRepository, InFileFavoritesRepository>();
 builder.Services.AddTransient<FavoritesService>();
 
-builder.Services.AddSingleton<RolesEventService>();
 builder.Services.AddSingleton<IRolesRepository, InFileRolesRepository>();
 builder.Services.AddTransient<RolesService>();
 
@@ -57,8 +63,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 var app = builder.Build();
-
-app.Services.GetRequiredService<AccountsService>();
 
 app.UseRequestLocalization();
 

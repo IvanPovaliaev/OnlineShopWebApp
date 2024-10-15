@@ -17,12 +17,11 @@ namespace OnlineShopWebApp.Services
         private readonly RolesService _rolesService;
         private readonly HashService _hashService;
 
-        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, RolesEventService rolesEventService, HashService hashService)
+        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, HashService hashService)
         {
             _usersRepository = usersRepository;
             _rolesService = rolesService;
             _hashService = hashService;
-            rolesEventService.RoleDeleted += ChangeRolesToUser;
         }
 
         /// <summary>
@@ -224,7 +223,7 @@ namespace OnlineShopWebApp.Services
         /// Change all users role related to role Id to user Role.
         /// </summary>
         /// <param name="roleId">Target role Id (guid)</param>
-        private void ChangeRolesToUser(Guid roleId)
+        public void ChangeRolesToUser(Guid roleId)
         {
             var targetUsers = GetAll().Where(u => u.Role.Id == roleId)
                                       .ToArray();

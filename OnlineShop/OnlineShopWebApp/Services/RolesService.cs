@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Models.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +13,12 @@ namespace OnlineShopWebApp.Services
     public class RolesService
     {
         private readonly IRolesRepository _rolesRepository;
-        private readonly RolesEventService _rolesEventService;
-        public RolesService(IRolesRepository rolesRepository, RolesEventService rolesEventService)
+        private readonly IMediator _mediator;
+
+        public RolesService(IRolesRepository rolesRepository, IMediator mediator)
         {
             _rolesRepository = rolesRepository;
-            _rolesEventService = rolesEventService;
+            _mediator = mediator;
             InitializeRoles();
         }
 
@@ -67,7 +70,7 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            _rolesEventService.OnRoleDeleted(id);
+            _mediator.Publish(new RoleDeletedNotification(id));
             _rolesRepository.Delete(id);
         }
 

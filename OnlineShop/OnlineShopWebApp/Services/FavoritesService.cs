@@ -11,11 +11,10 @@ namespace OnlineShopWebApp.Services
         private readonly IFavoritesRepository _favoritesRepository;
         private readonly ProductsService _productsService;
 
-        public FavoritesService(IFavoritesRepository favoritesRepository, ProductsService productsService, ProductsEventService productsEventService)
+        public FavoritesService(IFavoritesRepository favoritesRepository, ProductsService productsService)
         {
             _favoritesRepository = favoritesRepository;
             _productsService = productsService;
-            productsEventService.ProductDeleted += DeleteAllByProductId;
         }
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace OnlineShopWebApp.Services
         /// Delete all FavoriteProducts related to product Id.
         /// </summary>
         /// <param name="productId">Target product Id (guid)</param>
-        private void DeleteAllByProductId(Guid productId)
+        public void DeleteAllByProductId(Guid productId)
         {
             _favoritesRepository.DeleteAllByProductId(productId);
         }

@@ -1,7 +1,9 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Helpers.SpecificationsRules;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Models.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +12,13 @@ namespace OnlineShopWebApp.Services
 {
     public class ProductsService
     {
-        private readonly ProductsEventService _productsEventService;
         private IProductsRepository _productsRepository;
+        private readonly IMediator _mediator;
 
-        public ProductsService(IProductsRepository productsRepository, ProductsEventService productsEvent)
+        public ProductsService(IProductsRepository productsRepository, IMediator mediator)
         {
             _productsRepository = productsRepository;
-            _productsEventService = productsEvent;
+            _mediator = mediator;
             InitializeProducts();
         }
 
@@ -105,7 +107,7 @@ namespace OnlineShopWebApp.Services
         public void Delete(Guid id)
         {
             _productsRepository.Delete(id);
-            _productsEventService.OnProductDeleted(id);
+            _mediator.Publish(new ProductDeletedNotification(id));
         }
 
         /// <summary>

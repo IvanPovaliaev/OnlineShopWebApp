@@ -10,11 +10,10 @@ namespace OnlineShopWebApp.Services
         private readonly ICartsRepository _cartsRepository;
         private readonly ProductsService _productsService;
 
-        public CartsService(ICartsRepository cartsRepository, ProductsService productsService, ProductsEventService productsEventService)
+        public CartsService(ICartsRepository cartsRepository, ProductsService productsService)
         {
             _cartsRepository = cartsRepository;
             _productsService = productsService;
-            productsEventService.ProductDeleted += DeletePositionsByProductId;
         }
 
         /// <summary>
@@ -119,7 +118,7 @@ namespace OnlineShopWebApp.Services
         /// Delete all CartPositions related to product Id.
         /// </summary>
         /// <param name="productId">Target product Id (guid)</param>
-        private void DeletePositionsByProductId(Guid productId)
+        public void DeletePositionsByProductId(Guid productId)
         {
             _cartsRepository.DeletePositionsByProductId(productId);
         }
