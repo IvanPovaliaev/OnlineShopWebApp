@@ -119,7 +119,6 @@ $(document).ready(function () {
     });
 });
 
-
 //Скрипт для работы с модальным окном удаления
 $(document).ready(function () {
     $('#deleteModal').on('show.bs.modal', function (event) {
