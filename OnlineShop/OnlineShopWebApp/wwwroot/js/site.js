@@ -25,7 +25,12 @@ $(document).ready(function () {
             data: $(this).serialize(),
             success: function (response) {
                 if (response.redirectUrl) {
-                    window.location.href = response.redirectUrl;
+
+                    showRegisterSuccessToast();
+
+                    setTimeout(function () {
+                        window.location.href = response.redirectUrl;
+                    }, 3000);  // Задержка в 3 секунды перед переходом
                 }
                 else {                    
                     $('#registrationFormWrapper').html(response);
@@ -34,6 +39,11 @@ $(document).ready(function () {
             }
         });
     });
+
+    function showRegisterSuccessToast() {
+        var toastElement = new bootstrap.Toast(document.getElementById('registerSuccessToast'));
+        toastElement.show();
+    }
 });
 
 $(document).ready(function () {
@@ -46,7 +56,12 @@ $(document).ready(function () {
             data: $(this).serialize(),
             success: function (response) {
                 if (response.redirectUrl) {
-                    window.location.href = response.redirectUrl;
+                                        
+                    showLoginSuccessToast();
+
+                    setTimeout(function () {
+                        window.location.href = response.redirectUrl;
+                    }, 3000);  // Задержка в 3 секунды перед переходом
                 }
                 else {
                     $('#loginFormWrapper').html(response);
@@ -55,6 +70,11 @@ $(document).ready(function () {
             }
         });
     });
+
+    function showLoginSuccessToast() {
+        var toastElement = new bootstrap.Toast(document.getElementById('loginSuccessToast'));
+        toastElement.show();
+    }
 });
 
 $(document).ready(function () {
@@ -96,5 +116,21 @@ $(document).ready(function () {
                 }
             }
         });
+    });
+});
+
+//Скрипт для работы с модальным окном удаления
+$(document).ready(function () {
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+
+        //Получение данных
+        var itemName = button.data('name');
+        var url = button.data('url');
+
+        //Установка данных
+        var modal = $(this);
+        modal.find('.modal-body #itemName').text(itemName);
+        modal.find('.modal-footer #confirmDeleteBtn').attr('href', url);
     });
 });

@@ -351,3 +351,7 @@ footer {
   color: red;
   white-space: pre-wrap;
 }
+
+.success-toast {
+  background-color: #729FD8;
+}

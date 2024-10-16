@@ -71,16 +71,18 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#@product.Id-delete-modal">
+                                                <button class="dropdown-item text-dark"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal"
+                                                        data-url="@Url.Action("Delete", "Product", new { id = product.Id })"
+                                                        data-name="@product.Name">
                                                     Удалить
-                                                </button>                                                
+                                                </button>                                        
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
                             </tr>
-
-                            @await Html.PartialAsync("_DeleteProductModal", product)
                         }
                     </tbody>
                 </table>
@@ -88,5 +90,7 @@
 		</div>
 
 	</div>
+
+    @await Html.PartialAsync("_DeleteModal")
 
 </section>

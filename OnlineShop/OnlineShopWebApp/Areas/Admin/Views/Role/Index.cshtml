@@ -66,18 +66,16 @@
                                         <span class="d-flex align-content-center justify-content-end">
                                             @if (role.CanBeDeleted)
                                             {
-                                                <i class="bi bi-trash-fill trash-icon align-content-center"
-                                                        data-bs-toggle="modal" data-bs-target="#Role-@role.Id-delete-modal">                                                    
+                                                <i type="button" class="bi bi-trash-fill trash-icon align-content-center"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal"
+                                                        data-url="@Url.Action("Delete", "Role", new { id = role.Id })"
+                                                        data-name="@role.Name">                                                    
                                                 </i>
                                             }
                                         </span>
                                     </td>
-                                </tr>
-
-                                @if (role.CanBeDeleted)
-                                {
-                                    @await Html.PartialAsync("_DeleteRoleModal", role);
-                                }                                
+                                </tr>                           
                             }
                         </tbody>
                     </table>
@@ -86,5 +84,7 @@
 		</div>
 
 	</div>
+
+    @await Html.PartialAsync("_DeleteModal")
 
 </section>

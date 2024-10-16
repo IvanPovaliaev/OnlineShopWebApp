@@ -64,13 +64,14 @@ namespace OnlineShopWebApp.Services
         public void IncreasePosition(Cart cart, Guid positionId)
         {
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
+
             if (position is null)
             {
                 return;
             }
 
             position.Quantity++;
-            _cartsRepository.Update(cart);
+            _cartsRepository.Update(cart!);
         }
 
         /// <summary>
@@ -90,12 +91,12 @@ namespace OnlineShopWebApp.Services
 
             if (position.Quantity == 1)
             {
-                DeletePosition(cart, position);
+                DeletePosition(cart!, position);
                 return;
             }
 
             position.Quantity--;
-            _cartsRepository.Update(cart);
+            _cartsRepository.Update(cart!);
         }
 
         /// <summary>
