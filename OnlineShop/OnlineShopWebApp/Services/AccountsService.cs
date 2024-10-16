@@ -181,6 +181,26 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Change all users role related to role Id to user Role.
+        /// </summary>
+        /// <param name="roleId">Target role Id (guid)</param>
+        public void ChangeRolesToUser(Guid roleId)
+        {
+            var targetUsers = GetAll().Where(u => u.Role.Id == roleId)
+                                      .ToArray();
+
+            var newRole = _rolesService.GetAll()
+                                       .FirstOrDefault(r => r.Name == Constants.UserRoleName);
+
+            foreach (var user in targetUsers)
+            {
+                user.Role = newRole!;
+            }
+
+            _usersRepository.ChangeRolesToUser(targetUsers);
+        }
+
+        /// <summary>
         /// Get a role fot new user based on register model
         /// </summary>        
         /// <returns>Associated Role; Return Role User as default</returns>
@@ -217,26 +237,6 @@ namespace OnlineShopWebApp.Services
             var role = _rolesService.Get(roleId);
 
             return role != null;
-        }
-
-        /// <summary>
-        /// Change all users role related to role Id to user Role.
-        /// </summary>
-        /// <param name="roleId">Target role Id (guid)</param>
-        public void ChangeRolesToUser(Guid roleId)
-        {
-            var targetUsers = GetAll().Where(u => u.Role.Id == roleId)
-                                      .ToArray();
-
-            var newRole = _rolesService.GetAll()
-                                       .FirstOrDefault(r => r.Name == Constants.UserRoleName);
-
-            foreach (var user in targetUsers)
-            {
-                user.Role = newRole!;
-            }
-
-            _usersRepository.ChangeRolesToUser(targetUsers);
         }
     }
 }

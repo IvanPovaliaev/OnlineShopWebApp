@@ -53,10 +53,10 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete target FavoriteProduct by Id
         /// </summary>        
-        /// <param name="favoriteProductId">FavoriteProduct Id (GUID)</param>
-        public void Delete(Guid favoriteProductId)
+        /// <param name="id">FavoriteProduct Id (GUID)</param>
+        public void Delete(Guid id)
         {
-            _favoritesRepository.Delete(favoriteProductId);
+            _favoritesRepository.Delete(id);
         }
 
         /// <summary>
