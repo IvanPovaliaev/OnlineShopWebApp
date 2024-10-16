@@ -1,11 +1,8 @@
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Models.Handlers;
-using OnlineShopWebApp.Models.Notifications;
 using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
 using Serilog;
@@ -22,8 +19,6 @@ builder.Host.UseSerilog((context, configuration) => configuration
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-builder.Services.AddTransient<INotificationHandler<ProductDeletedNotification>, ProductDeletedHandler>();
-builder.Services.AddTransient<INotificationHandler<RoleDeletedNotification>, RoleDeletedHandler>();
 
 builder.Services.AddTransient<FileService>();
 builder.Services.AddTransient<JsonRepositoryService>();

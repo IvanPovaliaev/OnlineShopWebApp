@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Models.Handlers
 {
-    public class RoleDeletedHandler : INotificationHandler<RoleDeletedNotification>
+    public class UsersOnRoleDeletedHandler(AccountsService accountsService) : INotificationHandler<RoleDeletedNotification>
     {
-        private readonly AccountsService _accountsService;
-
-        public RoleDeletedHandler(AccountsService accountsService)
-        {
-            _accountsService = accountsService;
-        }
+        private readonly AccountsService _accountsService = accountsService;
 
         public async Task Handle(RoleDeletedNotification notification, CancellationToken cancellationToken)
         {
