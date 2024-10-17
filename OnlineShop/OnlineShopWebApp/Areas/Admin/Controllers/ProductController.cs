@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -12,12 +11,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly ProductsService _productsService;
-        private readonly IExcelService _excelService;
 
-        public ProductController(ProductsService productsService, IExcelService excelService)
+        public ProductController(ProductsService productsService)
         {
             _productsService = productsService;
-            _excelService = excelService;
         }
 
         /// <summary>
@@ -114,10 +111,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Excel file with products info</returns>
         public IActionResult ExportToExcel()
         {
-            var products = _productsService.GetAll();
-            var excelStream = _excelService.ExportProducts(products);
+            var stream = _productsService.ExportAllToExcel();
 
-            var downloadFileStream = new FileStreamResult(excelStream, Constants.ExcelFileContentType)
+            var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
             {
                 FileDownloadName = "Products.xlsx"
             };

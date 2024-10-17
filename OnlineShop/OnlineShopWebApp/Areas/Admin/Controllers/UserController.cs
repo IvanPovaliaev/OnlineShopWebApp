@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -12,12 +11,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly AccountsService _accountsService;
-        private readonly IExcelService _excelService;
 
-        public UserController(AccountsService accountsService, IExcelService excelService)
+        public UserController(AccountsService accountsService)
         {
             _accountsService = accountsService;
-            _excelService = excelService;
         }
 
         /// <summary>
@@ -138,10 +135,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Excel file with users info</returns>
         public IActionResult ExportToExcel()
         {
-            var users = _accountsService.GetAll();
-            var excelStream = _excelService.ExportUsers(users);
+            var stream = _accountsService.ExportAllToExcel();
 
-            var downloadFileStream = new FileStreamResult(excelStream, Constants.ExcelFileContentType)
+            var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
             {
                 FileDownloadName = "Users.xlsx"
             };

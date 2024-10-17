@@ -7,6 +7,7 @@ using OnlineShopWebApp.Models.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
@@ -16,12 +17,15 @@ namespace OnlineShopWebApp.Services
         private readonly IUsersRepository _usersRepository;
         private readonly RolesService _rolesService;
         private readonly HashService _hashService;
+        private readonly IExcelService _excelService;
 
-        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, HashService hashService)
+        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, HashService hashService, IExcelService excelService)
         {
             _usersRepository = usersRepository;
             _rolesService = rolesService;
             _hashService = hashService;
+            _excelService = excelService;
+
         }
 
         /// <summary>
@@ -198,6 +202,16 @@ namespace OnlineShopWebApp.Services
             }
 
             _usersRepository.ChangeRolesToUser(targetUsers);
+        }
+
+        /// <summary>
+        /// Get MemoryStream for all users export to Excel 
+        /// </summary>
+        /// <returns>MemoryStream Excel file with users info</returns>
+        public MemoryStream ExportAllToExcel()
+        {
+            var users = GetAll();
+            return _excelService.ExportUsers(users);
         }
 
         /// <summary>

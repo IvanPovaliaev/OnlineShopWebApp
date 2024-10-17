@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -11,12 +10,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     public class RoleController : Controller
     {
         private readonly RolesService _rolesService;
-        private readonly IExcelService _excelService;
 
-        public RoleController(RolesService rolesService, IExcelService excelService)
+        public RoleController(RolesService rolesService)
         {
             _rolesService = rolesService;
-            _excelService = excelService;
         }
 
         /// <summary>
@@ -68,10 +65,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Excel file with roles info</returns>
         public IActionResult ExportToExcel()
         {
-            var roles = _rolesService.GetAll();
-            var excelStream = _excelService.ExportRoles(roles);
+            var stream = _rolesService.ExportAllToExcel();
 
-            var downloadFileStream = new FileStreamResult(excelStream, Constants.ExcelFileContentType)
+            var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
             {
                 FileDownloadName = "Roles.xlsx"
             };

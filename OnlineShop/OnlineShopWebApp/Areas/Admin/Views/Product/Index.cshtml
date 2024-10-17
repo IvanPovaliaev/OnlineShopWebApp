@@ -11,15 +11,23 @@
             <div class="row">
                 <h2>Список продуктов</h2>
                 <hr class="border-brown mb-3" />
-                <a class="btn btn-main mt-auto btn-favorite-row w-100 d-flex justify-content-center align-items-center"
-                   asp-area="Admin" asp-controller="Product" asp-action="Add">
-                    <span>Добавить товар</span>
-                </a>
 
-                <a class="btn btn-main mt-auto w-100 d-flex justify-content-center align-items-center"
-                   asp-area="Admin" asp-controller="Product" asp-action="ExportToExcel">
-                    <span>Выгрузить в Excel</span>
-                </a>
+                <div class="d-flex">
+                    <div class="col-6 me-3">
+                        <a class="btn btn-main mt-auto btn-favorite-row w-100 d-flex justify-content-center align-items-center"
+                           asp-area="Admin" asp-controller="Product" asp-action="Add">
+                            <span>Добавить товар</span>
+                        </a>
+                    </div>
+
+                    <div class="col-6">
+                        <a class="btn btn-main mt-auto w-100 d-flex justify-content-center align-items-center"
+                           asp-area="Admin" asp-controller="Product" asp-action="ExportToExcel">
+                            <span>Выгрузить в Excel</span>
+                        </a>
+                    </div>
+                </div>
+
             </div>
             <div class="row">
                 <table class="table">

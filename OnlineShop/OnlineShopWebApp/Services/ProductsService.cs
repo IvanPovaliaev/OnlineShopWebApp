@@ -6,6 +6,7 @@ using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
@@ -14,11 +15,13 @@ namespace OnlineShopWebApp.Services
     {
         private IProductsRepository _productsRepository;
         private readonly IMediator _mediator;
+        private readonly IExcelService _excelService;
 
-        public ProductsService(IProductsRepository productsRepository, IMediator mediator)
+        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IExcelService excelService)
         {
             _productsRepository = productsRepository;
             _mediator = mediator;
+            _excelService = excelService;
             InitializeProducts();
         }
 
@@ -146,6 +149,16 @@ namespace OnlineShopWebApp.Services
                 ProductCategories.PowerSupplies => new PowerSupplySpecificationsRules(),
                 _ => new GraphicCardSpecificationsRules()
             };
+        }
+
+        /// <summary>
+        /// Get MemoryStream for all products export to Excel 
+        /// </summary>
+        /// <returns>MemoryStream Excel file with products info</returns>
+        public MemoryStream ExportAllToExcel()
+        {
+            var products = GetAll();
+            return _excelService.ExportProducts(products);
         }
 
         /// <summary>

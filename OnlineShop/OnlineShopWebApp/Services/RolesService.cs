@@ -6,6 +6,7 @@ using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
@@ -14,11 +15,13 @@ namespace OnlineShopWebApp.Services
     {
         private readonly IRolesRepository _rolesRepository;
         private readonly IMediator _mediator;
+        private readonly IExcelService _excelService;
 
-        public RolesService(IRolesRepository rolesRepository, IMediator mediator)
+        public RolesService(IRolesRepository rolesRepository, IMediator mediator, IExcelService excelService)
         {
             _rolesRepository = rolesRepository;
             _mediator = mediator;
+            _excelService = excelService;
             InitializeRoles();
         }
 
@@ -72,6 +75,16 @@ namespace OnlineShopWebApp.Services
 
             _mediator.Publish(new RoleDeletedNotification(id));
             _rolesRepository.Delete(id);
+        }
+
+        /// <summary>
+        /// Get MemoryStream for all roles export to Excel 
+        /// </summary>
+        /// <returns>MemoryStream Excel file with roles info</returns>
+        public MemoryStream ExportAllToExcel()
+        {
+            var roles = GetAll();
+            return _excelService.ExportRoles(roles);
         }
 
         private bool CanBeDeleted(Guid id)
