@@ -9,6 +9,8 @@ namespace OnlineShopWebApp.Services
 {
     public class ClosedXMLExcelService : IExcelService
     {
+        private string _entityValuesSeparator = @"........";
+
         public MemoryStream ExportUsers(IEnumerable<User> users)
         {
             var stream = new MemoryStream();
@@ -22,6 +24,8 @@ namespace OnlineShopWebApp.Services
                 worksheet.Cell(1, 4).Value = "Phone";
                 worksheet.Cell(1, 5).Value = "Role";
 
+                worksheet.Row(1).Style.Font.Bold = true;
+
                 var rowNumber = 2;
                 foreach (var user in users)
                 {
@@ -34,6 +38,7 @@ namespace OnlineShopWebApp.Services
                 }
 
                 worksheet.Columns().AdjustToContents();
+                worksheet.RangeUsed()!.SetAutoFilter();
 
                 workbook.SaveAs(stream);
             }
@@ -67,6 +72,8 @@ namespace OnlineShopWebApp.Services
                 worksheet.Cell(1, 16).Value = "Positions";
                 worksheet.Cell(1, 17).Value = "TotalCost, rub";
 
+                worksheet.Row(1).Style.Font.Bold = true;
+
                 var rowNumber = 2;
                 foreach (var order in orders)
                 {
@@ -86,7 +93,7 @@ namespace OnlineShopWebApp.Services
                     worksheet.Cell(rowNumber, 14).Value = order.ReservePhone;
                     worksheet.Cell(rowNumber, 15).Value = order.AdditionalInfo;
 
-                    var formattedPositions = order.Positions.Select(p => $"{p.Product.Name}........{p.Quantity}........{p.Cost}");
+                    var formattedPositions = order.Positions.Select(p => $"{p.Product.Name}{_entityValuesSeparator}{p.Quantity}{_entityValuesSeparator}{p.Cost}");
                     worksheet.Cell(rowNumber, 16).Value = string.Join("\n", formattedPositions);
 
                     worksheet.Cell(rowNumber, 17).Value = order.TotalCost;
@@ -95,6 +102,7 @@ namespace OnlineShopWebApp.Services
                 }
 
                 worksheet.Columns().AdjustToContents();
+                worksheet.RangeUsed()!.SetAutoFilter();
 
                 workbook.SaveAs(stream);
             }
@@ -119,6 +127,8 @@ namespace OnlineShopWebApp.Services
                 worksheet.Cell(1, 7).Value = "ImageUrl";
                 worksheet.Cell(1, 8).Value = "Specifications";
 
+                worksheet.Row(1).Style.Font.Bold = true;
+
                 var rowNumber = 2;
                 foreach (var product in products)
                 {
@@ -130,13 +140,14 @@ namespace OnlineShopWebApp.Services
                     worksheet.Cell(rowNumber, 6).Value = product.Description;
                     worksheet.Cell(rowNumber, 7).Value = product.ImageUrl;
 
-                    var formattedSpecifications = product.Specifications.Select(s => $"{s.Key} ........ {s.Value}");
+                    var formattedSpecifications = product.Specifications.Select(s => $"{s.Key}{_entityValuesSeparator}{s.Value}");
                     worksheet.Cell(rowNumber, 8).Value = string.Join("\n", formattedSpecifications);
 
                     rowNumber++;
                 }
 
                 worksheet.Columns().AdjustToContents();
+                worksheet.RangeUsed()!.SetAutoFilter();
 
                 workbook.SaveAs(stream);
             }
@@ -156,6 +167,8 @@ namespace OnlineShopWebApp.Services
                 worksheet.Cell(1, 2).Value = "Name";
                 worksheet.Cell(1, 3).Value = "CanBeDeleted";
 
+                worksheet.Row(1).Style.Font.Bold = true;
+
                 var rowNumber = 2;
                 foreach (var role in roles)
                 {
@@ -166,6 +179,7 @@ namespace OnlineShopWebApp.Services
                 }
 
                 worksheet.Columns().AdjustToContents();
+                worksheet.RangeUsed()!.SetAutoFilter();
 
                 workbook.SaveAs(stream);
             }

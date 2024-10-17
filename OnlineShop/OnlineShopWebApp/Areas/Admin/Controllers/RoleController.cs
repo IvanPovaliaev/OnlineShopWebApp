@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
@@ -61,11 +62,21 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Export all roles info to excel
+        /// </summary>
+        /// <returns>Excel file with roles info</returns>
         public IActionResult ExportToExcel()
         {
             var roles = _rolesService.GetAll();
             var excelStream = _excelService.ExportRoles(roles);
-            return File(excelStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Roles.xlsx");
+
+            var downloadFileStream = new FileStreamResult(excelStream, Constants.ExcelFileContentType)
+            {
+                FileDownloadName = "Roles.xlsx"
+            };
+
+            return downloadFileStream;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
@@ -107,11 +108,21 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             return ViewComponent("SpecificationsForm", specificationsWithCategory);
         }
 
+        /// <summary>
+        /// Export all products info to excel
+        /// </summary>
+        /// <returns>Excel file with products info</returns>
         public IActionResult ExportToExcel()
         {
             var products = _productsService.GetAll();
             var excelStream = _excelService.ExportProducts(products);
-            return File(excelStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Products.xlsx");
+
+            var downloadFileStream = new FileStreamResult(excelStream, Constants.ExcelFileContentType)
+            {
+                FileDownloadName = "Products.xlsx"
+            };
+
+            return downloadFileStream;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
@@ -131,11 +132,21 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Export all users info to excel
+        /// </summary>
+        /// <returns>Excel file with users info</returns>
         public IActionResult ExportToExcel()
         {
             var users = _accountsService.GetAll();
             var excelStream = _excelService.ExportUsers(users);
-            return File(excelStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Users.xlsx");
+
+            var downloadFileStream = new FileStreamResult(excelStream, Constants.ExcelFileContentType)
+            {
+                FileDownloadName = "Users.xlsx"
+            };
+
+            return downloadFileStream;
         }
     }
 }
