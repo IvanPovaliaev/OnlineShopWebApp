@@ -16,6 +16,11 @@
                     Добавить роль
                 </button>
 
+                <a class="btn btn-main mt-auto w-100 d-flex justify-content-center align-items-center"
+                   asp-area="Admin" asp-controller="Role" asp-action="ExportToExcel">
+                    <span>Выгрузить в Excel</span>
+                </a>
+
                 <div class="modal fade" id="addRoleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">

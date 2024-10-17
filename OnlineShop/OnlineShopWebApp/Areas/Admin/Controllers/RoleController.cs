@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -9,10 +10,12 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     public class RoleController : Controller
     {
         private readonly RolesService _rolesService;
+        private readonly IExcelService _excelService;
 
-        public RoleController(RolesService rolesService)
+        public RoleController(RolesService rolesService, IExcelService excelService)
         {
             _rolesService = rolesService;
+            _excelService = excelService;
         }
 
         /// <summary>
@@ -56,6 +59,13 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             _rolesService.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult ExportToExcel()
+        {
+            var roles = _rolesService.GetAll();
+            var excelStream = _excelService.ExportRoles(roles);
+            return File(excelStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Roles.xlsx");
         }
     }
 }

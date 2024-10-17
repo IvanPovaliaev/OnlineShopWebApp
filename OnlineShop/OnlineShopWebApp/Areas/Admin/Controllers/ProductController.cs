@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -10,10 +11,12 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly ProductsService _productsService;
+        private readonly IExcelService _excelService;
 
-        public ProductController(ProductsService productsService)
+        public ProductController(ProductsService productsService, IExcelService excelService)
         {
             _productsService = productsService;
+            _excelService = excelService;
         }
 
         /// <summary>
@@ -102,6 +105,13 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             var emptySpecifications = new Dictionary<string, string>();
             var specificationsWithCategory = (emptySpecifications, category);
             return ViewComponent("SpecificationsForm", specificationsWithCategory);
+        }
+
+        public IActionResult ExportToExcel()
+        {
+            var products = _productsService.GetAll();
+            var excelStream = _excelService.ExportProducts(products);
+            return File(excelStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Products.xlsx");
         }
     }
 }

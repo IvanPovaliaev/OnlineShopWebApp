@@ -1,7 +1,7 @@
 ﻿@model List<FavoriteProduct>
 @{
     ViewData["Title"] = "Избранное";
-    var isFavoritesExists = Model is not null & Model!.Count > 0;
+    var isFavoritesExists = Model is not null && Model!.Count > 0;
 }
 
 <div class="d-flex justify-content-between">

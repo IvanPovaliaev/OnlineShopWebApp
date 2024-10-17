@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -10,10 +11,12 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly AccountsService _accountsService;
+        private readonly IExcelService _excelService;
 
-        public UserController(AccountsService accountsService)
+        public UserController(AccountsService accountsService, IExcelService excelService)
         {
             _accountsService = accountsService;
+            _excelService = excelService;
         }
 
         /// <summary>
@@ -126,6 +129,13 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             _accountsService.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult ExportToExcel()
+        {
+            var users = _accountsService.GetAll();
+            var excelStream = _excelService.ExportUsers(users);
+            return File(excelStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Users.xlsx");
         }
     }
 }

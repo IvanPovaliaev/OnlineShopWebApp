@@ -46,6 +46,8 @@ builder.Services.AddTransient<AccountsService>();
 
 builder.Services.AddTransient<HashService>();
 
+builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[]

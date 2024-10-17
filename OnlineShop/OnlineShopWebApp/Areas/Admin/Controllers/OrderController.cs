@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -9,10 +10,12 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly OrdersService _ordersService;
+        private readonly IExcelService _excelService;
 
-        public OrderController(OrdersService ordersService)
+        public OrderController(OrdersService ordersService, IExcelService excelService)
         {
             _ordersService = ordersService;
+            _excelService = excelService;
         }
 
         /// <summary>
@@ -35,6 +38,13 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             _ordersService.UpdateStatus(id, status);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult ExportToExcel()
+        {
+            var orders = _ordersService.GetAll();
+            var excelStream = _excelService.ExportOrders(orders);
+            return File(excelStream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Orders.xlsx");
         }
     }
 }
