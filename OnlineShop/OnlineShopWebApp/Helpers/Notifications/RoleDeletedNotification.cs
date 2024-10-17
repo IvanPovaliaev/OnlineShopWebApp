@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace OnlineShopWebApp.Models.Notifications
+namespace OnlineShopWebApp.Helpers.Notifications
 {
     public class RoleDeletedNotification : INotification
     {

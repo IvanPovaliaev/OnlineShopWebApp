@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Helpers.SpecificationsRules;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Models.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;

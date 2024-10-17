@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Сравнение";
     var comparisonsGroups = Model.Item1;
+    var isComparisonsExists = comparisonsGroups is not null & comparisonsGroups!.Count > 0;
 }
 
 <div class="d-flex justify-content-between">
@@ -9,15 +10,23 @@
         <h2>Сравнение</h2>
     </div>
 
-    <span class="col-6 d-flex align-content-center justify-content-end">
-        <a class="bi bi-trash-fill trash-icon align-content-center"
-            asp-area="" asp-controller="Comparison" asp-action="DeleteAll">
-        </a>
-    </span>
+    @if (isComparisonsExists)
+    {
+        <span class="col-6 d-flex align-content-center justify-content-end">
+
+            <i type="button" class="bi bi-trash-fill trash-icon align-content-center"
+               data-bs-toggle="modal"
+               data-bs-target="#deleteModal"
+               data-url="@Url.Action("DeleteAll", "Comparison")"
+               data-name="все товары в сравнении">
+            </i>
+
+        </span>
+    }
 </div>
 
 @{
-    if (comparisonsGroups.Count == 0)
+    if (!isComparisonsExists)
     {
         <p>В сравнении нет товаров</p>
         return;
@@ -49,5 +58,7 @@
         </div>
     </div>
 }
+
+@await Html.PartialAsync("_DeleteModal")
 
 <script src="/lib/itc/itc-slider.js" defer></script>
