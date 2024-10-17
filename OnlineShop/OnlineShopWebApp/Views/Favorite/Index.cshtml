@@ -10,13 +10,15 @@
     </div>
     @if (isFavoritesExists)
     {
+        var message = $"Вы уверены, что хотите <span class=\"fw-bold\">очистить избранное</span>?<br /> Это действие нельзя отменить.";
+
         <span class="col-6 d-flex align-content-center justify-content-end">
 
             <i type="button" class="bi bi-trash-fill trash-icon align-content-center"
                data-bs-toggle="modal"
                data-bs-target="#deleteModal"
                data-url="@Url.Action("DeleteAll", "Favorite")"
-               data-name="все товары в избранном">
+               data-message="@message">
             </i>
 
         </span>

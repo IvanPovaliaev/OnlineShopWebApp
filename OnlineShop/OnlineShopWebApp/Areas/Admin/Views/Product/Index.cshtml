@@ -84,11 +84,15 @@
                                                 </a>
                                             </li>
                                             <li>
+                                                @{
+                                                    var message = $"Вы уверены, что хотите удалить <span class=\"fw-bold\">{product.Name}</span>?<br /> Это действие нельзя отменить";
+                                                }
+
                                                 <button class="dropdown-item text-dark"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal"
                                                         data-url="@Url.Action("Delete", "Product", new { id = product.Id })"
-                                                        data-name="@product.Name">
+                                                        data-message="@message">
                                                     Удалить
                                                 </button>                                        
                                             </li>

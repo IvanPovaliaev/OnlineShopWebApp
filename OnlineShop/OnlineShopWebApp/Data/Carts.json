@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "Id": "37c6eb47-783e-4165-ba03-79080d904729",
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Positions": [
+      {
+        "Id": "1fe79f05-9a7d-4746-a503-141524827c3a",
+        "Product": {
+          "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
+          "Name": "Intel Core i5 - 12400F OEM",
+          "Cost": 15870.0,
+          "Description": "Test Description for CPU",
+          "Category": 1,
+          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
+          "Article": 5327709582814835190,
+          "Specifications": {
+            "Manufacturer": "Intel",
+            "ManufacturerCode": "CM8071504555318/CM8071504650609",
+            "Model": "Core i5 12400F",
+            "Socket": "LGA 1700",
+            "Architecture": "Alder Lake",
+            "CoresCount": "6",
+            "ThreadsCount": "12",
+            "ClockSpeed": "2500 МГц"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 15870.0
+      }
+    ],
+    "TotalCost": 15870.0,
+    "TotalQuantity": 1
+  }
+]
