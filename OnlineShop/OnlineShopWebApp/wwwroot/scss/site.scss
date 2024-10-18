@@ -1,7 +1,7 @@
 $main-color: #729FD8;
 $second-color: #C9E0F2;
 $third-color: #8c6642;
-$unactive-color: #D9D9D9;
+$inactive-color: #D9D9D9;
 $bg-color: white;
 
 @media (min-width: 768px) {
@@ -80,7 +80,7 @@ a {
 }
 
 .trash-icon {
-    color: $unactive-color;
+    color: $inactive-color;
     font-size: 2rem;
 }
 
@@ -192,11 +192,11 @@ a {
     color: $main-color;
 }
 
-.text-unactive {
-    color: $unactive-color;
+.text-inactive {
+    color: $inactive-color;
 }
 
-.text-unactive:hover {
+.text-inactive:hover {
     color: $main-color;
 }
 
@@ -285,11 +285,11 @@ footer {
     transform: scale(1.1);
 }
 
-.favorite-comparicon-icon {
+.favorite-comparison-icon {
     font-size: 2rem;
 }
 
-.favorite-comparicon-icon:hover {
+.favorite-comparison-icon:hover {
     color: $third-color;
     cursor: pointer;
 }
