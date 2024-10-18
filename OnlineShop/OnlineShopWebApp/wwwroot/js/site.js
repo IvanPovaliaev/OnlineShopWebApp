@@ -125,12 +125,12 @@ $(document).ready(function () {
         var button = $(event.relatedTarget);
 
         //Получение данных
-        var itemName = button.data('name');
+        var message = button.data('message');
         var url = button.data('url');
 
         //Установка данных
         var modal = $(this);
-        modal.find('.modal-body #itemName').text(itemName);
+        modal.find('.modal-body #message').html(message);
         modal.find('.modal-footer #confirmDeleteBtn').attr('href', url);
     });
 });

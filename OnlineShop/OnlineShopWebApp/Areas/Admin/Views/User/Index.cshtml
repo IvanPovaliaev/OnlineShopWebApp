@@ -12,10 +12,22 @@
                 <h2>Список пользователей</h2>
                 <hr class="border-brown mb-3" />
 
-                <a class="btn btn-main mt-auto w-100 d-flex justify-content-center align-items-center"
-                   asp-area="Admin" asp-controller="User" asp-action="Add">
-                    <span>Добавить пользователя</span>
-                </a>
+                <div class="d-flex">
+                    <div class="col-6 me-3">
+                        <a class="btn btn-main mt-auto w-100 d-flex justify-content-center align-items-center"
+                           asp-area="Admin" asp-controller="User" asp-action="Add">
+                            <span>Добавить пользователя</span>
+                        </a>
+                    </div>
+
+                    <div class="col-6">
+                        <a class="btn btn-main mt-auto w-100 d-flex justify-content-center align-items-center"
+                           asp-area="Admin" asp-controller="User" asp-action="ExportToExcel">
+                            <span>Выгрузить в Excel</span>
+                        </a>
+                    </div>
+                </div>
+
             </div>
 
             @if (@Model.Count != 0)

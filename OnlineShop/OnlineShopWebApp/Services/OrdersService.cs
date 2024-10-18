@@ -3,16 +3,19 @@ using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace OnlineShopWebApp.Services
 {
     public class OrdersService
     {
         private readonly IOrdersRepository _ordersRepository;
+        private readonly IExcelService _excelService;
 
-        public OrdersService(IOrdersRepository ordersRepository)
+        public OrdersService(IOrdersRepository ordersRepository, IExcelService excelService)
         {
             _ordersRepository = ordersRepository;
+            _excelService = excelService;
         }
 
         /// <summary>
@@ -55,6 +58,16 @@ namespace OnlineShopWebApp.Services
         public void UpdateStatus(Guid id, OrderStatus newStatus)
         {
             _ordersRepository.UpdateStatus(id, newStatus);
+        }
+
+        /// <summary>
+        /// Get MemoryStream for all orders export to Excel 
+        /// </summary>
+        /// <returns>MemoryStream Excel file with users info</returns>
+        public MemoryStream ExportAllToExcel()
+        {
+            var orders = GetAll();
+            return _excelService.ExportOrders(orders);
         }
     }
 }

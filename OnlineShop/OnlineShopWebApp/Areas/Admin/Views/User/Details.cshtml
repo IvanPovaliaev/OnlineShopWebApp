@@ -73,11 +73,15 @@
                         </li>
 
                         <li>
+                            @{
+                                var message = $"Вы уверены, что хотите удалить пользователя <span class=\"fw-bold\">{Model.Name}</span>?<br /> Это действие нельзя отменить";
+                            }
+
                             <button class="dropdown-item text-dark"
                                     data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
                                     data-url="@Url.Action("Delete", "User", new {id = Model.Id})"
-                                    data-name="@Model.Email">
+                                    data-message="@message">
                                 Удалить
                             </button>                    
                         </li>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -56,6 +57,22 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             _rolesService.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Export all roles info to excel
+        /// </summary>
+        /// <returns>Excel file with roles info</returns>
+        public IActionResult ExportToExcel()
+        {
+            var stream = _rolesService.ExportAllToExcel();
+
+            var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
+            {
+                FileDownloadName = "Roles.xlsx"
+            };
+
+            return downloadFileStream;
         }
     }
 }

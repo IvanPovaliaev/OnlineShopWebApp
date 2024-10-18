@@ -1,22 +1,27 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Helpers.SpecificationsRules;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
 {
     public class ProductsService
     {
-        private readonly ProductsEventService _productsEventService;
         private IProductsRepository _productsRepository;
+        private readonly IMediator _mediator;
+        private readonly IExcelService _excelService;
 
-        public ProductsService(IProductsRepository productsRepository, ProductsEventService productsEvent)
+        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IExcelService excelService)
         {
             _productsRepository = productsRepository;
-            _productsEventService = productsEvent;
+            _mediator = mediator;
+            _excelService = excelService;
             InitializeProducts();
         }
 
@@ -105,7 +110,7 @@ namespace OnlineShopWebApp.Services
         public void Delete(Guid id)
         {
             _productsRepository.Delete(id);
-            _productsEventService.OnProductDeleted(id);
+            _mediator.Publish(new ProductDeletedNotification(id));
         }
 
         /// <summary>
@@ -144,6 +149,16 @@ namespace OnlineShopWebApp.Services
                 ProductCategories.PowerSupplies => new PowerSupplySpecificationsRules(),
                 _ => new GraphicCardSpecificationsRules()
             };
+        }
+
+        /// <summary>
+        /// Get MemoryStream for all products export to Excel 
+        /// </summary>
+        /// <returns>MemoryStream Excel file with products info</returns>
+        public MemoryStream ExportAllToExcel()
+        {
+            var products = GetAll();
+            return _excelService.ExportProducts(products);
         }
 
         /// <summary>

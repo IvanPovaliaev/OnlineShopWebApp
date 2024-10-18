@@ -7,6 +7,7 @@ using OnlineShopWebApp.Models.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
@@ -16,13 +17,15 @@ namespace OnlineShopWebApp.Services
         private readonly IUsersRepository _usersRepository;
         private readonly RolesService _rolesService;
         private readonly HashService _hashService;
+        private readonly IExcelService _excelService;
 
-        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, RolesEventService rolesEventService, HashService hashService)
+        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, HashService hashService, IExcelService excelService)
         {
             _usersRepository = usersRepository;
             _rolesService = rolesService;
             _hashService = hashService;
-            rolesEventService.RoleDeleted += ChangeRolesToUser;
+            _excelService = excelService;
+
         }
 
         /// <summary>
@@ -182,6 +185,36 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Change all users role related to role Id to user Role.
+        /// </summary>
+        /// <param name="roleId">Target role Id (guid)</param>
+        public void ChangeRolesToUser(Guid roleId)
+        {
+            var targetUsers = GetAll().Where(u => u.Role.Id == roleId)
+                                      .ToArray();
+
+            var newRole = _rolesService.GetAll()
+                                       .FirstOrDefault(r => r.Name == Constants.UserRoleName);
+
+            foreach (var user in targetUsers)
+            {
+                user.Role = newRole!;
+            }
+
+            _usersRepository.ChangeRolesToUser(targetUsers);
+        }
+
+        /// <summary>
+        /// Get MemoryStream for all users export to Excel 
+        /// </summary>
+        /// <returns>MemoryStream Excel file with users info</returns>
+        public MemoryStream ExportAllToExcel()
+        {
+            var users = GetAll();
+            return _excelService.ExportUsers(users);
+        }
+
+        /// <summary>
         /// Get a role fot new user based on register model
         /// </summary>        
         /// <returns>Associated Role; Return Role User as default</returns>
@@ -218,26 +251,6 @@ namespace OnlineShopWebApp.Services
             var role = _rolesService.Get(roleId);
 
             return role != null;
-        }
-
-        /// <summary>
-        /// Change all users role related to role Id to user Role.
-        /// </summary>
-        /// <param name="roleId">Target role Id (guid)</param>
-        private void ChangeRolesToUser(Guid roleId)
-        {
-            var targetUsers = GetAll().Where(u => u.Role.Id == roleId)
-                                      .ToArray();
-
-            var newRole = _rolesService.GetAll()
-                                       .FirstOrDefault(r => r.Name == Constants.UserRoleName);
-
-            foreach (var user in targetUsers)
-            {
-                user.Role = newRole!;
-            }
-
-            _usersRepository.ChangeRolesToUser(targetUsers);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@model Cart
 @{
     ViewData["Title"] = "Корзина";
+    var isCartExist = Model is not null;
 }
 
 <div class="container">
@@ -11,16 +12,26 @@
                     <div class="col-6">
                         <h2>Корзина</h2>
                     </div>
-                    <span class="col-6 d-flex align-content-center justify-content-end">
-                        <a class="bi bi-trash-fill trash-icon align-content-center"
-                           asp-area="" asp-controller="Cart" asp-action="Delete">
-                        </a>
-                    </span>
+                    @if (isCartExist)
+                    {
+                        var message = $"Вы уверены, что хотите <span class=\"fw-bold\">очистить корзину</span>?<br /> Это действие нельзя отменить.";
+
+                        <span class="col-6 d-flex align-content-center justify-content-end">
+
+                                <i type="button" class="bi bi-trash-fill trash-icon align-content-center"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#deleteModal"
+                                   data-url="@Url.Action("Delete", "Cart")"
+                                       data-message="@message">
+                                </i>
+                        
+                        </span>
+                    }
                 </div>
 
                 <hr class="border-brown" />
                 @{
-                    if (Model is null)
+                    if (!isCartExist)
                     {
                         <p>Корзина пуста</p>
                         return;
@@ -38,7 +49,7 @@
                                     </thead>
                                     <tbody class="table-group-divider">
                                         @{
-                                            foreach (var position in Model.Positions)
+                                            foreach (var position in Model!.Positions)
                                             {
                                                 <tr>
                                                     <td>
@@ -117,6 +128,7 @@
     </div>    
 </div>
 
+@await Html.PartialAsync("_DeleteModal")
 
 
 

@@ -184,11 +184,11 @@ a {
   color: #729FD8;
 }
 
-.text-unactive {
+.text-inactive {
   color: #D9D9D9;
 }
 
-.text-unactive:hover {
+.text-inactive:hover {
   color: #729FD8;
 }
 
@@ -277,11 +277,11 @@ footer {
   transform: scale(1.1);
 }
 
-.favorite-comparicon-icon {
+.favorite-comparison-icon {
   font-size: 2rem;
 }
 
-.favorite-comparicon-icon:hover {
+.favorite-comparison-icon:hover {
   color: #8c6642;
   cursor: pointer;
 }

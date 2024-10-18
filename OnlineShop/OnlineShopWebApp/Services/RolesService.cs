@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Helpers;
+using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace OnlineShopWebApp.Services
@@ -11,11 +14,14 @@ namespace OnlineShopWebApp.Services
     public class RolesService
     {
         private readonly IRolesRepository _rolesRepository;
-        private readonly RolesEventService _rolesEventService;
-        public RolesService(IRolesRepository rolesRepository, RolesEventService rolesEventService)
+        private readonly IMediator _mediator;
+        private readonly IExcelService _excelService;
+
+        public RolesService(IRolesRepository rolesRepository, IMediator mediator, IExcelService excelService)
         {
             _rolesRepository = rolesRepository;
-            _rolesEventService = rolesEventService;
+            _mediator = mediator;
+            _excelService = excelService;
             InitializeRoles();
         }
 
@@ -67,8 +73,18 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            _rolesEventService.OnRoleDeleted(id);
+            _mediator.Publish(new RoleDeletedNotification(id));
             _rolesRepository.Delete(id);
+        }
+
+        /// <summary>
+        /// Get MemoryStream for all roles export to Excel 
+        /// </summary>
+        /// <returns>MemoryStream Excel file with roles info</returns>
+        public MemoryStream ExportAllToExcel()
+        {
+            var roles = GetAll();
+            return _excelService.ExportRoles(roles);
         }
 
         private bool CanBeDeleted(Guid id)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -102,6 +103,22 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             var emptySpecifications = new Dictionary<string, string>();
             var specificationsWithCategory = (emptySpecifications, category);
             return ViewComponent("SpecificationsForm", specificationsWithCategory);
+        }
+
+        /// <summary>
+        /// Export all products info to excel
+        /// </summary>
+        /// <returns>Excel file with products info</returns>
+        public IActionResult ExportToExcel()
+        {
+            var stream = _productsService.ExportAllToExcel();
+
+            var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
+            {
+                FileDownloadName = "Products.xlsx"
+            };
+
+            return downloadFileStream;
         }
     }
 }

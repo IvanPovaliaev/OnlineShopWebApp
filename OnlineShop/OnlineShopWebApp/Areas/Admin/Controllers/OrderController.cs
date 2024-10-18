@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
@@ -35,6 +36,22 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             _ordersService.UpdateStatus(id, status);
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Export all roles info to excel
+        /// </summary>
+        /// <returns>Excel file with roles info</returns>
+        public IActionResult ExportToExcel()
+        {
+            var stream = _ordersService.ExportAllToExcel();
+
+            var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
+            {
+                FileDownloadName = "Orders.xlsx"
+            };
+
+            return downloadFileStream;
         }
     }
 }

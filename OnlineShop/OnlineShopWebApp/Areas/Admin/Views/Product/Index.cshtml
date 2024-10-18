@@ -11,10 +11,23 @@
             <div class="row">
                 <h2>Список продуктов</h2>
                 <hr class="border-brown mb-3" />
-                <a class="btn btn-main mt-auto btn-favorite-row w-100 d-flex justify-content-center align-items-center"
-                   asp-area="Admin" asp-controller="Product" asp-action="Add">
-                    <span>Добавить товар</span>
-                </a>
+
+                <div class="d-flex">
+                    <div class="col-6 me-3">
+                        <a class="btn btn-main mt-auto btn-favorite-row w-100 d-flex justify-content-center align-items-center"
+                           asp-area="Admin" asp-controller="Product" asp-action="Add">
+                            <span>Добавить товар</span>
+                        </a>
+                    </div>
+
+                    <div class="col-6">
+                        <a class="btn btn-main mt-auto w-100 d-flex justify-content-center align-items-center"
+                           asp-area="Admin" asp-controller="Product" asp-action="ExportToExcel">
+                            <span>Выгрузить в Excel</span>
+                        </a>
+                    </div>
+                </div>
+
             </div>
             <div class="row">
                 <table class="table">
@@ -71,11 +84,15 @@
                                                 </a>
                                             </li>
                                             <li>
+                                                @{
+                                                    var message = $"Вы уверены, что хотите удалить <span class=\"fw-bold\">{product.Name}</span>?<br /> Это действие нельзя отменить";
+                                                }
+
                                                 <button class="dropdown-item text-dark"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal"
                                                         data-url="@Url.Action("Delete", "Product", new { id = product.Id })"
-                                                        data-name="@product.Name">
+                                                        data-message="@message">
                                                     Удалить
                                                 </button>                                        
                                             </li>
