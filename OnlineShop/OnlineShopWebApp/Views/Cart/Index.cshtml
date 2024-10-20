@@ -1,7 +1,7 @@
 ﻿@model Cart
 @{
     ViewData["Title"] = "Корзина";
-    var isCartExist = Model is not null;
+    var isCartExist = Model is not null && Model.Positions.Count != 0;
 }
 
 <div class="container">
@@ -22,7 +22,7 @@
                                    data-bs-toggle="modal"
                                    data-bs-target="#deleteModal"
                                    data-url="@Url.Action("Delete", "Cart")"
-                                       data-message="@message">
+                                   data-message="@message">
                                 </i>
                         
                         </span>
@@ -30,62 +30,19 @@
                 </div>
 
                 <hr class="border-brown" />
-                @{
-                    if (!isCartExist)
+                    @if (!isCartExist)
                     {
                         <p>Корзина пуста</p>
                         return;
                     }
                     <div class="container p-0 m-0">
-                        <div class="row">
-                            <div class="col">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Наименование</th>
-                                            <th scope="col" class="text-center w-15">Количество</th>
-                                            <th scope="col" class="text-center w-15">Стоимость, ₽</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        @{
-                                            foreach (var position in Model!.Positions)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        <a class="text-black cart-position-title" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@position.Product.Id">
-                                                            @position.Product.Name
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex">
-                                                            <div class="col-3">
-                                                                <a class="btn btn-main w-100"
-                                                                   asp-area="" asp-controller="Cart" asp-action="Decrease" asp-route-positionId="@position.Id" role="button">
-                                                                    -
-                                                                </a>
-                                                            </div>
-                                                            <span class="col text-center align-content-center">
-                                                                @position.Quantity
-                                                            </span>
-                                                            <div class="col-3">
-                                                                <a class="btn btn-main w-100"
-                                                                   asp-area="" asp-controller="Cart" asp-action="Increase" asp-route-positionId="@position.Id" role="button">
-                                                                    +
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">@position.Cost</td>
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="col">
+
+                            @await Html.PartialAsync("_PositionsRows", Model!.Positions)                                
+
                         </div>
                     </div>
-                }
+                
             </section>
             @* Секция с оформлением заказа *@
             <section>

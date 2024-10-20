@@ -9,7 +9,7 @@ namespace OnlineShopWebApp.Controllers
         private Guid _userId = new Guid("74f1f6b5-083a-4677-8f68-8255caa77965"); //Временный guid для тестирования
         private readonly CartsService _cartsService;
 
-        public CartController(CartsService cartsService, ProductsService productsService)
+        public CartController(CartsService cartsService)
         {
             _cartsService = cartsService;
         }
@@ -65,6 +65,17 @@ namespace OnlineShopWebApp.Controllers
         public IActionResult Delete()
         {
             _cartsService.Delete(_userId);
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Delete target position by Id
+        /// </summary>
+        /// <returns>Users cart View</returns>
+        /// <param name="positionId">Position ID (GUID)</param>
+        public IActionResult DeletePosition(Guid positionId)
+        {
+            _cartsService.DeletePosition(_userId, positionId);
             return RedirectToAction("Index");
         }
     }

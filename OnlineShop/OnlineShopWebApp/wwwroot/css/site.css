@@ -222,6 +222,15 @@ footer {
   font-weight: bold;
 }
 
+.cart-position-icon {
+  font-size: 1.75rem;
+}
+
+.cart-position-icon:hover {
+  color: #8c6642;
+  cursor: pointer;
+}
+
 .w-15 {
   width: 15%;
 }

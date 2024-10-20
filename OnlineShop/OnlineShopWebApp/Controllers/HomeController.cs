@@ -6,6 +6,7 @@ namespace OnlineShopWebApp.Controllers
     public class HomeController : Controller
     {
         private ProductsService _productsService;
+
         public HomeController(ProductsService productsService)
         {
             _productsService = productsService;

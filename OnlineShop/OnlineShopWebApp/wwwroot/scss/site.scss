@@ -230,6 +230,15 @@ footer {
     font-weight:bold;
 }
 
+.cart-position-icon {
+    font-size: 1.75rem;
+}
+
+.cart-position-icon:hover {
+    color: $third-color;
+    cursor: pointer;
+}
+
 .w-15 {
     width: 15%;
 }

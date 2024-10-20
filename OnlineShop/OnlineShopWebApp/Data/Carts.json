@@ -1,34 +1,53 @@
 [
   {
-    "Id": "37c6eb47-783e-4165-ba03-79080d904729",
+    "Id": "cac97f8e-5e91-43d1-964e-aa8513da6995",
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
     "Positions": [
       {
-        "Id": "1fe79f05-9a7d-4746-a503-141524827c3a",
+        "Id": "f6681678-0781-46ec-9a0b-69a6a8c5cec2",
         "Product": {
-          "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
-          "Name": "Intel Core i5 - 12400F OEM",
-          "Cost": 15870.0,
-          "Description": "Test Description for CPU",
-          "Category": 1,
-          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
-          "Article": 5327709582814835190,
+          "Id": "1a378939-80aa-4c06-9bdd-d7a5f6c42bec",
+          "Name": "32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)",
+          "Cost": 8450.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT).webp",
+          "Article": 5478207464815429945,
           "Specifications": {
-            "Manufacturer": "Intel",
-            "ManufacturerCode": "CM8071504555318/CM8071504650609",
-            "Model": "Core i5 12400F",
-            "Socket": "LGA 1700",
-            "Architecture": "Alder Lake",
-            "CoresCount": "6",
-            "ThreadsCount": "12",
-            "ClockSpeed": "2500 МГц"
+            "Manufacturer": "Patriot MemoryPatriot Memory",
+            "ManufacturerCode": "PVSR432G360C0K",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR4",
+            "MemorySize": "32 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "3600 МГц"
+          }
+        },
+        "Quantity": 102,
+        "Cost": 861900.0
+      },
+      {
+        "Id": "1f4fc585-bc23-4492-aea8-b45bfaceb808",
+        "Product": {
+          "Id": "03269129-85ee-4bf1-b635-85e30fd98faf",
+          "Name": "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
+          "Cost": 7050.0,
+          "Description": "Test Description for SSD",
+          "Category": 3,
+          "ImageUrl": "/img/products/SSD-1Tb-Kingston-NV2.webp",
+          "Article": 5472302279533433129,
+          "Specifications": {
+            "Manufacturer": "Kingston",
+            "ManufacturerCode": "SNV2S/1000G",
+            "FormFactor": "M.2",
+            "Capacity": "1000 Гб"
           }
         },
         "Quantity": 1,
-        "Cost": 15870.0
+        "Cost": 7050.0
       }
     ],
-    "TotalCost": 15870.0,
-    "TotalQuantity": 1
+    "TotalCost": 868950.0,
+    "TotalQuantity": 103
   }
 ]

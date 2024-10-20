@@ -44,5 +44,27 @@
       }
     },
     "Id": "44361805-dfbc-4918-96cc-57957869a056"
+  },
+  {
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "d63922f0-5621-4015-9c41-e8d4d0644756",
+      "Name": "32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)",
+      "Cost": 14160.0,
+      "Description": "Test Description for RAM",
+      "Category": 5,
+      "ImageUrl": "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp",
+      "Article": 4617691696266289904,
+      "Specifications": {
+        "Manufacturer": "Kingston",
+        "ManufacturerCode": "KF560C40BBK2-32",
+        "FormFactor": "DIMM",
+        "MemoryType": "DDR5",
+        "MemorySize": "32 Гб",
+        "ModulesCount": "2",
+        "ClockSpeed": "6000 МГц"
+      }
+    },
+    "Id": "7ecb5060-98fb-46e0-b8d6-18705cf3b39e"
   }
 ]
