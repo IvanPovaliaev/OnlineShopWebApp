@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OnlineShopWebApp.Helpers.SpecificationsRules;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
@@ -49,13 +48,11 @@ builder.Services.AddTransient<HashService>();
 
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 
-builder.Services.AddTransient<IProductSpecificationsRules, GraphicCardSpecificationsRules>();
-builder.Services.AddTransient<IProductSpecificationsRules, HDDSpecificationsRules>();
-builder.Services.AddTransient<IProductSpecificationsRules, MotherboardSpecificationsRules>();
-builder.Services.AddTransient<IProductSpecificationsRules, PowerSupplySpecificationsRules>();
-builder.Services.AddTransient<IProductSpecificationsRules, ProcessorSpecificationsRules>();
-builder.Services.AddTransient<IProductSpecificationsRules, RAMSpecificationsRules>();
-builder.Services.AddTransient<IProductSpecificationsRules, SSDSpecificationsRules>();
+builder.Services.Scan(scan => scan
+                .FromAssemblyOf<IProductSpecificationsRules>()
+                .AddClasses(classes => classes.AssignableTo<IProductSpecificationsRules>())
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
