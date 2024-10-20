@@ -32,12 +32,12 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Add product to users comparisons.
         /// </summary>
-        /// <returns>Users comparison View</returns>
+        /// <returns>_NavUserIcons PartialView</returns>
         /// <param name="productId">Product id (GUID)</param>
         public IActionResult Add(Guid productId)
         {
             _comparisonsService.Create(productId, _userId);
-            return RedirectToAction("Index");
+            return PartialView("_NavUserIcons");
         }
 
         /// <summary>

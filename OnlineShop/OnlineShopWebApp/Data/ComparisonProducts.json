@@ -20,51 +20,6 @@
         "ClockSpeed": "2500 МГц"
       }
     },
-    "Id": "6042b5f8-35c4-434e-b142-dfe03b7ed2b5"
-  },
-  {
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "Product": {
-      "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
-      "Name": "Intel Core i5 - 12400F OEM",
-      "Cost": 15870.0,
-      "Description": "Test Description for CPU",
-      "Category": 1,
-      "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
-      "Article": 5327709582814835190,
-      "Specifications": {
-        "Manufacturer": "Intel",
-        "ManufacturerCode": "CM8071504555318/CM8071504650609",
-        "Model": "Core i5 12400F",
-        "Socket": "LGA 1700",
-        "Architecture": "Alder Lake",
-        "CoresCount": "6",
-        "ThreadsCount": "12",
-        "ClockSpeed": "2500 МГц"
-      }
-    },
-    "Id": "44361805-dfbc-4918-96cc-57957869a056"
-  },
-  {
-    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
-    "Product": {
-      "Id": "d63922f0-5621-4015-9c41-e8d4d0644756",
-      "Name": "32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)",
-      "Cost": 14160.0,
-      "Description": "Test Description for RAM",
-      "Category": 5,
-      "ImageUrl": "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp",
-      "Article": 4617691696266289904,
-      "Specifications": {
-        "Manufacturer": "Kingston",
-        "ManufacturerCode": "KF560C40BBK2-32",
-        "FormFactor": "DIMM",
-        "MemoryType": "DDR5",
-        "MemorySize": "32 Гб",
-        "ModulesCount": "2",
-        "ClockSpeed": "6000 МГц"
-      }
-    },
-    "Id": "7ecb5060-98fb-46e0-b8d6-18705cf3b39e"
+    "Id": "8f6eafc9-a6cb-49ef-b650-6a1d8197e436"
   }
 ]

@@ -20,11 +20,11 @@
                 </div>
                 <div class="col d-flex justify-content-end align-items-center">
 
-                    <a class="bi bi-file-earmark-bar-graph-fill text-inactive card-icon me-2"
+                    <a class="bi bi-file-earmark-bar-graph-fill text-inactive card-icon me-2 addToComparisons"
                        asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@product.Id">
                    </a>
 
-                    <a class="bi bi-heart-fill text-inactive card-icon me-2"
+                    <a class="bi bi-heart-fill text-inactive card-icon me-2 addToFavorites"
                        asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@product.Id">
                     </a>
                 </div>
@@ -46,7 +46,7 @@
                 @shortInfo
             </p>
 
-            <a class="btn btn-main mt-auto btn-card-home w-100 d-flex justify-content-center align-items-center"
+            <a class="btn btn-main mt-auto btn-card-home w-100 d-flex justify-content-center align-items-center addToCart"
                asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
                 <span class="bi bi-basket-fill text-white fs-3 me-2"></span>
                 <span>В корзину</span>

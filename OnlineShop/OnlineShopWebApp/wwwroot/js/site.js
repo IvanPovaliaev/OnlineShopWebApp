@@ -134,3 +134,18 @@ $(document).ready(function () {
         modal.find('.modal-footer #confirmDeleteBtn').attr('href', url);
     });
 });
+
+$(document).ready(function () {
+    $(document).on('click', '.addToCart, .addToFavorites, .addToComparisons', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('href'),
+
+            success: function (response) {
+                $('#navUserIcons').html(response);
+            }
+        });
+    });
+});

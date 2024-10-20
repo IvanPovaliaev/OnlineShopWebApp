@@ -87,12 +87,9 @@
             </div>
 
             @* Иконки *@
-            <div class="col-5 d-flex align-items-center fill-height">
+            <div class="col-5 d-flex align-items-center fill-height" id="navUserIcons">
 
-                @await Component.InvokeAsync("Favorite")
-                @await Component.InvokeAsync("Comparison")
-                @await Component.InvokeAsync("Cart")
-                @await Html.PartialAsync("_Account")
+                @await Html.PartialAsync("_NavUserIcons");
 
             </div>
         </div>

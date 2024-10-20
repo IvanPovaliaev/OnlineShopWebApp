@@ -1,10 +1,99 @@
 [
   {
-    "Id": "cac97f8e-5e91-43d1-964e-aa8513da6995",
+    "Id": "3740639c-3c88-4790-89e6-ae52767f07aa",
     "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
     "Positions": [
       {
-        "Id": "f6681678-0781-46ec-9a0b-69a6a8c5cec2",
+        "Id": "04de0fca-f826-4d05-b750-4ed920e5e636",
+        "Product": {
+          "Id": "40c909df-c2d9-43f7-a997-027c85d8ec28",
+          "Name": "750W Be Quiet System Power 10",
+          "Cost": 8250.0,
+          "Description": "Test Description for PowerSupply",
+          "Category": 6,
+          "ImageUrl": null,
+          "Article": 4897597358139312607,
+          "Specifications": {
+            "Manufacturer": "Be Quiet",
+            "ManufacturerCode": "BN329",
+            "Power": "750 Вт",
+            "PFC": "активный",
+            "FanSize": "120 мм"
+          }
+        },
+        "Quantity": 2,
+        "Cost": 16500.0
+      },
+      {
+        "Id": "ecc48181-77f3-4c82-89b8-96f35c880e12",
+        "Product": {
+          "Id": "e9f77b10-d323-45d1-bd45-5af0dd8462f7",
+          "Name": "Intel Core i5 - 13400F OEM",
+          "Cost": 18730.0,
+          "Description": "Процессор Intel Core i5-13400F OEM - это мощное устройство, созданное для тех, кто ценит высокую производительность и качество. Продукт из линейки Core i5 обеспечивает невероятную скорость работы и плавность выполнения любых задач.\r\n\r\nМодель 13400F имеет современную архитектуру Raptor Lake, что делает его идеальным выбором для геймеров, видеоблогеров, дизайнеров и других профессионалов, работающих с тяжелыми мультимедийными приложениями.\r\n\r\nПроцессор совместим с сокетом LGA 1700 и оснащен 10 ядрами и 16 потоками. Из них 6 высокопроизводительных ядер и 4 энергоэффективных, что обеспечивает оптимальное сочетание мощности и энергоэффективности.\r\n\r\nЧастота шины DMI 4.0 составляет 16 ГТ/с, обеспечивая быструю передачу данных между процессором и другими компонентами системы. Объем кэш-памяти L2 составляет 9.5 Мб, а L3 - 20 Мб, что обеспечивает быстрый доступ к данным и повышает общую производительность системы.\r\n\r\nТехнологический процесс процессора составляет 10 нм, что гарантирует эффективное использование энергии и минимизацию тепловыделения. Дата релиза данной модели - Q1 2023, что говорит о ее современности и актуальности на рынке.\r\n\r\nПроцессор поставляется в формате OEM, что позволяет сэкономить на упаковке и получить именно тот продукт, который нужен, без лишних аксессуаров. Это отличный выбор для тех, кто стремится к идеальному соотношению цены и качества.\r\n\r\nIntel Core i5-13400F OEM - это надежное и мощное устройство, которое станет незаменимым помощником в решении самых сложных задач. Благодаря высокой производительности и современным технологиям, этот процессор обеспечит плавную работу и удовлетворит даже самых требовательных пользователей.",
+          "Category": 1,
+          "ImageUrl": null,
+          "Article": 5031034409952181008,
+          "Specifications": {
+            "Manufacturer": "Intel",
+            "ManufacturerCode": "CM8071504821107/CM8071505093005",
+            "Model": "13400F",
+            "Socket": "LGA 1700",
+            "Architecture": "Raptor Lake",
+            "CoresCount": "10",
+            "ThreadsCount": "16",
+            "ClockSpeed": "2500 МГц"
+          }
+        },
+        "Quantity": 5,
+        "Cost": 93650.0
+      },
+      {
+        "Id": "cfdb83ff-87b8-47ff-b96c-f2aa0cd843da",
+        "Product": {
+          "Id": "bdffb7ac-0111-445e-b587-872c7929c5ed",
+          "Name": "SD 1Tb ADATA Legend 800 (ALEG-800-1000GCS)",
+          "Cost": 8440.0,
+          "Description": "Накопитель SSD 1Tb ADATA Legend 800 (ALEG-800-1000GCS) - это надежное и быстрое устройство, которое станет отличным выбором для тех, кто ищет высокую производительность и большой объем памяти. Этот SSD обладает объемом 1 терабайт, что позволяет хранить большое количество данных, игр, фотографий и видео.\r\n\r\nЭтот накопитель имеет форм-фактор M.2 и размер 2280, что делает его идеальным для установки в ноутбуки и мини-ПК. Благодаря технологии TLC флэш-памяти, этот SSD обеспечивает высокую скорость чтения и записи данных, что позволяет быстро загружать приложения, запускать игры и переносить файлы.\r\n\r\nНакопитель SSD ADATA Legend 800 обладает высокой надежностью и долговечностью, что делает его отличным выбором для использования в качестве основного накопителя. Он также поддерживает технологию NVMe, что обеспечивает более быструю передачу данных и улучшенную производительность.\r\n\r\nЭтот SSD легко устанавливается и настраивается, что делает его идеальным выбором для тех, кто хочет повысить производительность своего компьютера или ноутбука. Благодаря большому объему памяти, вы сможете хранить все необходимые данные и файлы, не беспокоясь о нехватке места.\r\n\r\nНакопитель SSD 1Tb ADATA Legend 800 (ALEG-800-1000GCS) - это отличное решение для тех, кто ценит скорость работы и надежность устройства. Приобретите его прямо сейчас и ощутите всю мощь современных технологий!",
+          "Category": 3,
+          "ImageUrl": null,
+          "Article": 4926376218103625644,
+          "Specifications": {
+            "Manufacturer": "ADATA",
+            "ManufacturerCode": " ALEG-800-1000GCS",
+            "FormFactor": "M.2 2280",
+            "Capacity": "1000 Гб"
+          }
+        },
+        "Quantity": 1,
+        "Cost": 8440.0
+      },
+      {
+        "Id": "f2446bfe-4e19-4e94-8220-c574cb9dbeb8",
+        "Product": {
+          "Id": "5e1f71f6-d3a3-49ef-9127-78ac0b31527c",
+          "Name": "Intel Core i5 - 12400F OEM",
+          "Cost": 15870.0,
+          "Description": "Test Description for CPU",
+          "Category": 1,
+          "ImageUrl": "/img/products/Intel-Core-i5-12400F-OEM.webp",
+          "Article": 5327709582814835190,
+          "Specifications": {
+            "Manufacturer": "Intel",
+            "ManufacturerCode": "CM8071504555318/CM8071504650609",
+            "Model": "Core i5 12400F",
+            "Socket": "LGA 1700",
+            "Architecture": "Alder Lake",
+            "CoresCount": "6",
+            "ThreadsCount": "12",
+            "ClockSpeed": "2500 МГц"
+          }
+        },
+        "Quantity": 6,
+        "Cost": 95220.0
+      },
+      {
+        "Id": "30cf00f6-fa96-4077-b168-097b26ee2b5b",
         "Product": {
           "Id": "1a378939-80aa-4c06-9bdd-d7a5f6c42bec",
           "Name": "32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)",
@@ -23,31 +112,103 @@
             "ClockSpeed": "3600 МГц"
           }
         },
-        "Quantity": 102,
-        "Cost": 861900.0
+        "Quantity": 46,
+        "Cost": 388700.0
       },
       {
-        "Id": "1f4fc585-bc23-4492-aea8-b45bfaceb808",
+        "Id": "85bde0b3-9c22-4786-8d5b-9e59bf11244b",
         "Product": {
-          "Id": "03269129-85ee-4bf1-b635-85e30fd98faf",
-          "Name": "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
-          "Cost": 7050.0,
-          "Description": "Test Description for SSD",
-          "Category": 3,
-          "ImageUrl": "/img/products/SSD-1Tb-Kingston-NV2.webp",
-          "Article": 5472302279533433129,
+          "Id": "f0979574-94bc-4f5e-83d1-bed8ba03e473",
+          "Name": "16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT)",
+          "Cost": 3970.0,
+          "Description": "Оперативная память Netac Shadow II (NTSWD4P32DP-16W) представляет собой высококачественный и надежный комплект из двух модулей по 8 Гб каждый, общим объемом 16 Гб. Этот комплект идеально подходит для апгрейда вашего компьютера, обеспечивая ему стабильную и быструю работу.\r\n\r\nОперативная память выполнена в форм-факторе DIMM и использует технологию DDR4, что обеспечивает высокую скорость передачи данных и энергоэффективность. Тактовая частота модулей составляет 3200 МГц, что позволяет им работать на максимальной производительности. Пропускная способность оперативной памяти составляет 25600 Мб/с, что гарантирует быструю передачу данных и отличную отзывчивость системы.\r\n\r\nХарактеристики оперативной памяти Netac Shadow II включают в себя следующие параметры: CAS Latency (CL) - 16, RAS to CAS Delay (tRCD) - 20, Row Precharge Delay (tRP) - 20, Activate to Precharge Delay (tRAS) - 40. Эти параметры обеспечивают стабильную и эффективную работу оперативной памяти, что в свою очередь повышает производительность вашего компьютера.\r\n\r\nКроме того, оперативная память Netac Shadow II оснащена радиатором для passivной системы охлаждения, который помогает поддерживать низкую температуру модулей во время работы. Это позволяет избежать перегрева и обеспечивает долгий срок службы оперативной памяти.\r\n\r\nОбщий объем памяти 16 Гб позволяет запускать множество приложений одновременно, обеспечивая плавную и быструю работу вашего компьютера. Благодаря высокой производительности и надежности, оперативная память Netac Shadow II является идеальным выбором для тех, кто ценит качество и эффективность.\r\n\r\nПриобретите оперативную память Netac Shadow II (NTSWD4P32DP-16W) и наслаждайтесь быстрой и стабильной работой вашего компьютера без каких-либо задержек и сбоев. Этот комплект станет надежным партнером в вашем повседневном использовании компьютера и поможет вам достичь максимальной производительности.",
+          "Category": 5,
+          "ImageUrl": "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp",
+          "Article": 5719172116018337140,
+          "Specifications": {
+            "Manufacturer": "Netac",
+            "ManufacturerCode": "NTSWD4P32DP-16W",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR4",
+            "MemorySize": "16 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "3200 МГц"
+          }
+        },
+        "Quantity": 4,
+        "Cost": 15880.0
+      },
+      {
+        "Id": "dd67f220-572d-4a01-acb0-884d0e1d4b2b",
+        "Product": {
+          "Id": "d63922f0-5621-4015-9c41-e8d4d0644756",
+          "Name": "32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)",
+          "Cost": 14160.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp",
+          "Article": 4617691696266289904,
           "Specifications": {
             "Manufacturer": "Kingston",
-            "ManufacturerCode": "SNV2S/1000G",
-            "FormFactor": "M.2",
-            "Capacity": "1000 Гб"
+            "ManufacturerCode": "KF560C40BBK2-32",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "32 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "6000 МГц"
+          }
+        },
+        "Quantity": 5,
+        "Cost": 70800.0
+      },
+      {
+        "Id": "c87e5894-9ffb-4c3d-b8c3-8e46745a72d5",
+        "Product": {
+          "Id": "3cbe6225-dd43-4983-8bdf-9f3e2a691abf",
+          "Name": "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)",
+          "Cost": 20790.0,
+          "Description": "Test Description for RAM - новая версия",
+          "Category": 5,
+          "ImageUrl": "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp",
+          "Article": 5297320867569492517,
+          "Specifications": {
+            "Manufacturer": "ADATA",
+            "ManufacturerCode": "AX5U5600C3632G-DCLABK",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "64 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "5600 МГц"
           }
         },
         "Quantity": 1,
-        "Cost": 7050.0
+        "Cost": 20790.0
+      },
+      {
+        "Id": "6d305e77-4ff0-4a03-8e3c-5885417fae2b",
+        "Product": {
+          "Id": "e8325d90-fe6d-4f3a-8091-0d95722a68b3",
+          "Name": "32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)",
+          "Cost": 11870.0,
+          "Description": "Test Description for RAM",
+          "Category": 5,
+          "ImageUrl": "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp",
+          "Article": 5709155225646030224,
+          "Specifications": {
+            "Manufacturer": "Team",
+            "ManufacturerCode": "CTCED532G6000HC38ADC01",
+            "FormFactor": "DIMM",
+            "MemoryType": "DDR5",
+            "MemorySize": "32 Гб",
+            "ModulesCount": "2",
+            "ClockSpeed": "6000 МГц"
+          }
+        },
+        "Quantity": 2,
+        "Cost": 23740.0
       }
     ],
-    "TotalCost": 868950.0,
-    "TotalQuantity": 103
+    "TotalCost": 733720.0,
+    "TotalQuantity": 72
   }
 ]

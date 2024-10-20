@@ -74,11 +74,11 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Decrease quantity of cart by Id position by 1. If quantity should become 0, deletes this position.
+        /// Decrease position quantity in users cart by 1. If quantity should become 0, deletes this position.
         /// </summary>        
         /// <param name="userId">UserId</param>
         /// <param name="positionId">Id of cart position</param>
-        public void DecreaseQuantity(Guid userId, Guid positionId)
+        public void DecreasePosition(Guid userId, Guid positionId)
         {
             var cart = Get(userId);
 

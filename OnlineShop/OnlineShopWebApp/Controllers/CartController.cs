@@ -27,12 +27,12 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Add product to users cart
         /// </summary>
-        /// <returns>Users cart View</returns>
+        /// <returns>_NavUserIcons PartialView</returns>
         /// <param name="productId">Product id (guid)</param>
         public IActionResult Add(Guid productId)
         {
             _cartsService.Add(productId, _userId);
-            return RedirectToAction("Index");
+            return PartialView("_NavUserIcons");
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="positionId">Position ID (GUID)</param>
         public IActionResult Decrease(Guid positionId)
         {
-            _cartsService.DecreaseQuantity(_userId, positionId);
+            _cartsService.DecreasePosition(_userId, positionId);
             return RedirectToAction("Index");
         }
 

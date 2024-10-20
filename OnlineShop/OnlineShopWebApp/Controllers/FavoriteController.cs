@@ -27,12 +27,12 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Add product to users favorites.
         /// </summary>
-        /// <returns>Users favorites View</returns>
+        /// <returns>_NavUserIcons PartialView</returns>
         /// <param name="productId">Product id (GUID)</param>
         public IActionResult Add(Guid productId)
         {
             _favoritesService.Create(productId, _userId);
-            return RedirectToAction("Index");
+            return PartialView("_NavUserIcons");
         }
 
         /// <summary>

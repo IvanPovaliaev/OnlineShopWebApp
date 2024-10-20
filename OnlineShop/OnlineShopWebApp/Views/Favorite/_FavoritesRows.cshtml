@@ -43,7 +43,7 @@
             <div class="row h-50 align-content-center">
 
                 <div class="col">
-                    <a class="btn btn-main mt-auto btn-favorite-row w-100 d-flex justify-content-center align-items-center"
+                    <a class="btn btn-main mt-auto btn-favorite-row w-100 d-flex justify-content-center align-items-center addToCart"
                        asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
                         <span class="bi bi-basket-fill text-white fs-3 me-2"></span>
                         <span>В корзину</span>
@@ -52,7 +52,7 @@
 
                 <div class="col-3 d-flex justify-content-end align-items-center">
 
-                    <a class="bi bi-file-earmark-bar-graph-fill text-inactive favorite-comparison-icon me-2"
+                    <a class="bi bi-file-earmark-bar-graph-fill text-inactive favorite-comparison-icon me-2 addToComparisons"
                        asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@product.Id">
                     </a>
 
