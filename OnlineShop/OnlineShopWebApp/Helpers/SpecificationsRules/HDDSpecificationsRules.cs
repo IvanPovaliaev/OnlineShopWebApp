@@ -1,10 +1,13 @@
 ﻿using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Models;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Helpers.SpecificationsRules
 {
     public class HDDSpecificationsRules : IProductSpecificationsRules
     {
+        public ProductCategories Category => ProductCategories.HDD;
+
         public List<ProductSpecificationRule> GetAll()
         {
             var formFactorPattern = @"^(1\.8""|2\.5""|3\.5"")$";
