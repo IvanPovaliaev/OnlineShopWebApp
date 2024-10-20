@@ -42,6 +42,15 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
+        /// Displays the Delivery page View.
+        /// </summary>
+        /// <returns>Delivery page View</returns>
+        public IActionResult Delivery()
+        {
+            return View();
+        }
+
+        /// <summary>
         /// Display Error View
         /// </summary>
         /// <returns>Error </returns>
