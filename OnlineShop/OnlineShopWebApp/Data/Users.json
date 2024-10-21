@@ -106,5 +106,17 @@
       "Name": "Admin",
       "CanBeDeleted": false
     }
+  },
+  {
+    "Id": "6eed253f-9273-4118-b00e-d6d88ddd1f0b",
+    "Email": "test4221@test.com",
+    "Password": "slL5map6saBNhJuo4Y55oRJ5vs/U0NrDR1VxpNDxkbE=:9fWXk7zGPkQlF8d9EbNFGQ==",
+    "Name": "Test",
+    "Phone": null,
+    "Role": {
+      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
+      "Name": "TestRole",
+      "CanBeDeleted": true
+    }
   }
 ]
