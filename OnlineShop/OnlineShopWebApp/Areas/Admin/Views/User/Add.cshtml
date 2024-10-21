@@ -13,7 +13,7 @@
                 <hr class="border-brown mb-3" />
             </div>
             <div class="row">
-                <form method="post" asp-area="Admin" asp-controller="User" asp-action="Add">
+                <form id="adminAddUserForm" method="post" asp-area="Admin" asp-controller="User" asp-action="Add" class="p-3">
 
                     <div class="mb-3">
                         <label asp-for="Email" class="form-label">Email</label>
@@ -64,18 +64,21 @@
                     </div>
 
                     <div asp-validation-summary="ModelOnly" class="validation-error-message"></div>
-
-                    <button class="btn btn-main mb-3" type="submit">
-                        Добавить пользователя
-                    </button>
                 </form>
             </div>
             <div class="row">
-                <div class="col-3">
-                    <a class="btn btn-main d-flex justify-content-center align-items-center"
-                       asp-area="Admin" asp-controller="User" asp-action="Index">
-                        Вернуться
-                    </a>
+                <div class="col-3 ms-3">
+                    <div class="row">
+                        <button class="btn btn-main mb-3" type="submit" form="adminAddUserForm">
+                            Добавить пользователя
+                        </button>
+                    </div>
+                    <div class="row">
+                        <a class="btn btn-main d-flex justify-content-center align-items-center"
+                           asp-area="Admin" asp-controller="User" asp-action="Index">
+                            Вернуться
+                        </a>
+                    </div>
                 </div>
 
             </div>
