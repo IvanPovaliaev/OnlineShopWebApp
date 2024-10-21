@@ -26,6 +26,15 @@ a {
   text-decoration: none;
 }
 
+footer {
+  background: #C9E0F2;
+  display: flex;
+  align-content: flex-end;
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+}
+
 .card-home {
   padding-top: 10px;
   border: none;
@@ -61,18 +70,6 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: auto;
-}
-
-.nav-icon {
-  font-size: 28px;
-}
-
-.card-icon {
-  font-size: 1.25rem;
-}
-
-.product-page-icon {
-  font-size: 1.25rem;
 }
 
 .home-card-img {
@@ -187,15 +184,6 @@ a {
   object-fit: cover;
 }
 
-footer {
-  background: #C9E0F2;
-  display: flex;
-  align-content: flex-end;
-  position: absolute;
-  bottom: 0%;
-  width: 100%;
-}
-
 .text-black:hover {
   color: #8c6642 !important;
   cursor: pointer;
@@ -262,15 +250,6 @@ footer {
 
 .favorite-row-image:hover {
   transform: scale(1.1);
-}
-
-.favorite-comparison-icon {
-  font-size: 2rem;
-}
-
-.favorite-comparison-icon:hover {
-  color: #8c6642;
-  cursor: pointer;
 }
 
 .nav-icon-badge {
@@ -447,16 +426,16 @@ footer {
   cursor: pointer;
 }
 
-.nav-icon-temp {
+.nav-icon {
   fill: #729FD8;
   height: 2rem;
   width: 2rem;
 }
-.nav-icon-temp:hover {
+.nav-icon:hover {
   fill: #8c6642;
   cursor: pointer;
 }
-.nav-icon-temp--comparison {
+.nav-icon--comparison {
   width: 3rem;
   object-fit: fill;
 }
