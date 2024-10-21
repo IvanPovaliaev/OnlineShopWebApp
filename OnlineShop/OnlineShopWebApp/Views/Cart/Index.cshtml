@@ -18,12 +18,16 @@
 
                         <span class="col-6 d-flex align-content-center justify-content-end">
 
-                                <i type="button" class="bi bi-trash-fill trash-icon align-content-center"
+                                <a class="align-content-center"
                                    data-bs-toggle="modal"
                                    data-bs-target="#deleteModal"
                                    data-url="@Url.Action("Delete", "Cart")"
                                    data-message="@message">
-                                </i>
+
+                                    <svg class="icon-inactive heading-icon">
+                                        <use href="/icons/TrashIcon.svg#trash-icon" />
+                                    </svg>
+                                </a>
                         
                         </span>
                     }

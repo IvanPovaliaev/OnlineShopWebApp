@@ -12,9 +12,14 @@
                     var productImageUrl = product.ImageUrl ?? "/img/DefaultProductImage.png";
                 }
 
-                @* Иконка корзины *@
-                <a class="bi bi-trash-fill trash-icon align-content-center position-absolute top-0 end-0 p-2"
+                @* Иконка удаления *@
+                <a class="align-content-center position-absolute top-0 end-0 p-3"
                    asp-area="" asp-controller="Comparison" asp-action="Delete" asp-route-comparisonId="@comparison.Id">
+
+                    <svg class="icon-inactive product-card-icon">
+                        <use href="/icons/TrashIcon.svg#trash-icon" />
+                    </svg>
+
                 </a>
 
                 <a asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
@@ -31,8 +36,13 @@
                     </div>
 
                     <div class="col d-flex justify-content-end align-items-center">
-                        <a class="bi bi-heart-fill text-inactive card-icon addToFavorites"
+                        <a class="me-2 addToFavorites"
                            asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@product.Id">
+
+                            <svg class="icon-inactive product-card-icon--favorite">
+                                <use href="/icons/Favorite.svg#favorite-icon" />
+                            </svg>
+
                         </a>
                     </div>
 
@@ -48,7 +58,9 @@
 
                 <a class="btn btn-main mt-auto btn-card-comparison w-100 d-flex justify-content-center align-items-center addToCart"
                    asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
-                    <span class="bi bi-basket-fill text-white fs-3 me-2"></span>
+                    <svg class="btn-cart-icon me-2">
+                        <use href="/icons/CartIcon.svg#cart-icon" />
+                    </svg>
                     <span>В корзину</span>
                 </a>
             </div>

@@ -1,8 +1,13 @@
 ﻿@model int
 
-<a class="col-3 d-flex align-items-center flex-column fill-height"
+<a class="col-3 d-flex align-items-center justify-content-end flex-column h-100"
    asp-area="" asp-controller="Cart" asp-action="Index">
-    <span class="bi bi-basket-fill text-blue nav-icon position-relative">
+    <span class="position-relative">
+
+        <svg class="nav-icon-temp">
+            <use href="/icons/CartIcon.svg#cart-icon" />
+        </svg>
+
         @if (Model != 0)
         {
             if (Model > 99)

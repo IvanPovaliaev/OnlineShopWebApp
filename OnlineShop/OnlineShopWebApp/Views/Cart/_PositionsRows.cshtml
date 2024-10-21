@@ -65,16 +65,31 @@
 
                 <div class="col d-flex justify-content-end align-items-center">
 
-                    <a class="bi bi-heart-fill text-inactive cart-position-icon me-2 addToFavorites"
+                    <a class="me-2 addToFavorites"
                        asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@product.Id">
+
+                        <svg class="icon-inactive cart-position-icon">
+                            <use href="/icons/Favorite.svg#favorite-icon" />
+                        </svg>
+
                     </a>
 
-                    <a class="bi bi-file-earmark-bar-graph-fill text-inactive cart-position-icon me-2 addToComparisons"
+                    <a class="me-2 addToComparisons"
                        asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@product.Id">
+
+                        <svg class="icon-inactive cart-position-icon cart-position-icon--comparison">
+                            <use href="/icons/ComparisonIcon.svg#comparison-icon" />
+                        </svg>
+
                     </a>
 
-                    <a class="bi bi-trash-fill trash-icon align-content-center cart-position-icon me-2"
+                    <a class="me-2"
                        asp-area="" asp-controller="Cart" asp-action="DeletePosition" asp-route-positionId="@position.Id">
+
+                        <svg class="icon-inactive cart-position-icon">
+                            <use href="/icons/TrashIcon.svg#trash-icon" />
+                        </svg>
+
                     </a>
                 </div>
 

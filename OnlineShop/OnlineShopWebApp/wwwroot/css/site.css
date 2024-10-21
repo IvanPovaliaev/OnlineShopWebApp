@@ -71,16 +71,6 @@ a {
   font-size: 1.25rem;
 }
 
-.trash-icon {
-  color: #D9D9D9;
-  font-size: 2rem;
-}
-
-.trash-icon:hover {
-  color: #8c6642;
-  cursor: pointer;
-}
-
 .product-page-icon {
   font-size: 1.25rem;
 }
@@ -176,10 +166,6 @@ a {
   border-radius: 5px;
 }
 
-.fill-height {
-  height: 100%;
-}
-
 .text-blue {
   color: #729FD8;
 }
@@ -212,6 +198,7 @@ footer {
 
 .text-black:hover {
   color: #8c6642 !important;
+  cursor: pointer;
 }
 
 .product-cost {
@@ -220,15 +207,6 @@ footer {
 
 .cart-position-title:hover {
   font-weight: bold;
-}
-
-.cart-position-icon {
-  font-size: 1.75rem;
-}
-
-.cart-position-icon:hover {
-  color: #8c6642;
-  cursor: pointer;
 }
 
 .w-15 {
@@ -363,4 +341,128 @@ footer {
 
 .success-toast {
   background-color: #729FD8;
+}
+
+.icon-inactive {
+  fill: #D9D9D9;
+}
+
+.icon-main {
+  fill: #729FD8;
+}
+
+.favorite-icon {
+  height: 1.25em;
+  width: 1.25em;
+}
+
+.comparison-icon {
+  height: 1.75em;
+  width: 1.75em;
+}
+
+.product-card-icon {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+.product-card-icon:hover {
+  fill: #729FD8;
+  cursor: pointer;
+}
+.product-card-icon--favorite {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+.product-card-icon--favorite:hover {
+  fill: #729FD8;
+  cursor: pointer;
+}
+.product-card-icon--comparison {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+.product-card-icon--comparison:hover {
+  fill: #729FD8;
+  cursor: pointer;
+}
+
+.heading-icon {
+  height: 2rem;
+  width: 2rem;
+}
+.heading-icon:hover {
+  fill: #8c6642;
+  cursor: pointer;
+}
+
+.product-icon--favorite {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.product-icon--favorite:hover {
+  fill: #729FD8;
+  cursor: pointer;
+}
+.product-icon--comparison {
+  height: 2rem;
+  width: 2rem;
+}
+.product-icon--comparison:hover {
+  fill: #729FD8;
+  cursor: pointer;
+}
+
+.cart-position-icon {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+.cart-position-icon--comparison {
+  height: 2.25rem;
+  width: 2.25rem;
+}
+.cart-position-icon:hover {
+  fill: #8c6642;
+  cursor: pointer;
+}
+
+.favorite-row-icon {
+  height: 2rem;
+  width: 2rem;
+}
+.favorite-row-icon--comparison {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+.favorite-row-icon:hover {
+  fill: #8c6642;
+  cursor: pointer;
+}
+
+.role-delete-icon {
+  height: 2rem;
+  width: 2rem;
+}
+.role-delete-icon:hover {
+  fill: #8c6642;
+  cursor: pointer;
+}
+
+.nav-icon-temp {
+  fill: #729FD8;
+  height: 2rem;
+  width: 2rem;
+}
+.nav-icon-temp:hover {
+  fill: #8c6642;
+  cursor: pointer;
+}
+.nav-icon-temp--comparison {
+  width: 3rem;
+  object-fit: fill;
+}
+
+.btn-cart-icon {
+  height: 1.75rem;
+  width: 1.75rem;
+  fill: white;
 }

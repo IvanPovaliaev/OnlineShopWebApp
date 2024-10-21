@@ -57,21 +57,33 @@
             <div class="mb-3">
                 <a class="btn btn-main w-100 d-flex justify-content-center align-items-center addToCart"
                    asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@Model.Id">
-                    <span class="bi bi-basket-fill text-white fs-3 me-2"></span>
-                    В корзину
+                    <svg class="btn-cart-icon me-2">
+                        <use href="/icons/CartIcon.svg#cart-icon" />
+                    </svg>
+                    <span>
+                        В корзину
+                    </span>                    
                 </a>
             </div>
             <div class="d-flex justify-content-between">
 
-                <a class="bi bi-file-earmark-bar-graph-fill text-inactive card-icon me-2 addToComparisons"
+                <a class="d-flex align-items-center me-2 addToComparisons"
                     asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@Model.Id">
+
+                    <svg class="icon-inactive product-icon--comparison me-2">
+                        <use href="/icons/ComparisonIcon.svg#comparison-icon" />
+                    </svg>
+
                     <span class="text-black">Сравнить</span>
                 </a>
 
-
-
-                <a class="bi bi-heart-fill text-inactive product-page-icon me-2 addToFavorites"
+                <a class="d-flex align-items-center me-2 addToFavorites"
                     asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@Model.Id">
+
+                    <svg class="icon-inactive product-icon--favorite me-2">
+                        <use href="/icons/Favorite.svg#favorite-icon" />
+                    </svg>
+
                     <span class="text-black">В избранное</span>
                 </a>        
 

@@ -1,9 +1,14 @@
 ﻿@model int
 
-<a class="col-3 d-flex align-items-center flex-column fill-height"
+<a class="col-3 d-flex align-items-center justify-content-end flex-column h-100"
    asp-area="" asp-controller="Comparison" asp-action="Index">
 
-    <span class="bi bi-file-earmark-bar-graph-fill text-blue nav-icon position-relative">
+    <span class="position-relative">
+
+        <svg class="nav-icon-temp nav-icon-temp--comparison">
+            <use href="/icons/ComparisonIcon.svg#comparison-icon" />
+        </svg>
+
         @if (Model != 0)
         {
             if (Model > 99)
