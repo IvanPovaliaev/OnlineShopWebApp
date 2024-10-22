@@ -1,4 +1,5 @@
-﻿using OnlineShopWebApp.Interfaces;
+﻿using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
