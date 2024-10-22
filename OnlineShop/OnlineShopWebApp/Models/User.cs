@@ -1,4 +1,5 @@
 ﻿using System;
+using OnlineShopWebApp.Areas.Admin.Models;
 
 namespace OnlineShopWebApp.Models
 {
