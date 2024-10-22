@@ -4,6 +4,16 @@ $third-color: #8c6642;
 $inactive-color: #D9D9D9;
 $bg-color: white;
 
+@mixin icons-main-hover {
+    fill: $main-color;
+    cursor: pointer;
+}
+
+@mixin icons-third-hover {
+    fill: $third-color;
+    cursor: pointer;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -23,7 +33,7 @@ $bg-color: white;
 html {
     position: relative;
     min-height: 100%;
-    font-size: 14px;
+    font-size: 14px;    
 }
 
 body {
@@ -32,6 +42,15 @@ body {
 
 a {
     text-decoration: none;
+}
+
+footer {
+    background: $second-color;
+    display: flex;
+    align-content: flex-end;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
 }
 
 .card-home {
@@ -69,28 +88,6 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: auto;
-}
-
-.nav-icon {
-    font-size: 28px;
-}
-
-.card-icon {
-    font-size: 1.25rem;
-}
-
-.trash-icon {
-    color: $inactive-color;
-    font-size: 2rem;
-}
-
-.trash-icon:hover {
-    color: $third-color;
-    cursor: pointer;
-}
-
-.product-page-icon {
-    font-size: 1.25rem;
 }
 
 .home-card-img {
@@ -184,10 +181,6 @@ a {
     border-radius: 5px;
 }
 
-.fill-height {
-    height: 100%;
-}
-
 .text-blue {
     color: $main-color;
 }
@@ -209,17 +202,9 @@ a {
     object-fit: cover;
 }
 
-footer {
-    background: $second-color;
-    display: flex;
-    align-content: flex-end;
-    position: absolute;
-    bottom: 0%;
-    width: 100%;
-}
-
 .text-black:hover {
     color: $third-color !important;
+    cursor: pointer;
 }
 
 .product-cost {
@@ -283,15 +268,6 @@ footer {
 
 .favorite-row-image:hover {
     transform: scale(1.1);
-}
-
-.favorite-comparison-icon {
-    font-size: 2rem;
-}
-
-.favorite-comparison-icon:hover {
-    color: $third-color;
-    cursor: pointer;
 }
 
 .nav-icon-badge {
@@ -362,4 +338,149 @@ footer {
 
 .success-toast {
     background-color: $main-color;
+}
+
+.addToCart {
+
+}
+
+.addToFavorites {
+
+}
+
+.addToComparisons {
+
+}
+
+.icon-inactive {
+    fill: $inactive-color;
+}
+
+.icon-main {
+    fill: $main-color;
+}
+
+.favorite-icon {
+    height: 1.25em;
+    width: 1.25em;
+}
+
+.comparison-icon {
+    height: 1.75em;
+    width: 1.75em;
+}
+
+.product-card-icon {
+    height: 1.75rem;
+    width: 1.75rem;
+
+    &:hover {
+        @include icons-main-hover;
+    }
+
+    &--favorite {
+        height: 1.25rem;
+        width: 1.25rem;
+
+        &:hover {
+            @include icons-main-hover;
+        }
+    }
+
+    &--comparison {
+        height: 1.75rem;
+        width: 1.75rem;
+
+        &:hover {
+            @include icons-main-hover;
+        }
+    }
+}
+
+.heading-icon {
+    height: 2rem;
+    width: 2rem;
+
+    &:hover {
+        @include icons-third-hover;
+    }
+}
+
+.product-icon {
+
+    &--favorite {
+        height: 1.5rem;
+        width: 1.5rem;
+
+        &:hover {
+            @include icons-main-hover;
+        }
+    }
+
+    &--comparison {
+        height: 2rem;
+        width: 2rem;
+
+        &:hover {
+            @include icons-main-hover;
+        }
+    }
+}
+
+.cart-position-icon {
+    height: 1.75rem;
+    width: 1.75rem;
+
+    &--comparison {
+        height: 2.25rem;
+        width: 2.25rem;
+    }
+
+    &:hover {
+        @include icons-third-hover;
+    }
+}
+
+.favorite-row-icon {
+    height: 2rem;
+    width: 2rem;
+
+    &--comparison {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+
+    &:hover {
+        @include icons-third-hover;
+    }
+}
+
+.role-delete-icon {
+    height: 2rem;
+    width: 2rem;
+
+    &:hover {
+        @include icons-third-hover;
+    }
+}
+
+.nav-icon {
+    fill: $main-color;
+    height: 2rem;
+    width: 2rem;
+
+    &:hover {
+        @include icons-third-hover;
+    }
+
+    &--comparison {        
+        width: 3rem;
+        object-fit:fill;
+    }
+}
+
+.btn-cart-icon {
+    height: 1.75rem;
+    width: 1.75rem;
+    fill: white;
 }

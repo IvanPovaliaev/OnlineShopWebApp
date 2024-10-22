@@ -10,7 +10,7 @@
         {
             <li class="nav-link">
                 <a class="text-blue fs-5 fw-bold" asp-area="" asp-controller="Comparison" asp-action="Index" asp-route-category="@item.Key">
-                    @item.Key (@item.Count())
+                    @item.Key.GetDisplayAttributeName() (@item.Count())
                 </a>
             </li>
             continue;
@@ -18,7 +18,7 @@
 
         <li class="nav-link">
             <a class="text-black fs-5" asp-area="" asp-controller="Comparison" asp-action="Index" asp-route-category="@item.Key">
-                <span>@item.Key (@item.Count())</span>
+                <span>@item.Key.GetDisplayAttributeName() (@item.Count())</span>
             </a>
         </li>
     }

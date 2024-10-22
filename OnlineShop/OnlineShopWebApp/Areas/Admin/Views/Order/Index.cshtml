@@ -37,7 +37,7 @@
                             {
                                 <tr>
                                     <td>@order.Article</td>
-                                    <td>@order.TotalCost</td>
+                                    <td>@order.TotalCost.ToString("0.##")</td>
                                     <td>@order.Status.GetDisplayAttributeName()</td>
                                     <td>@order.CreationDate.Date.ToString("d")</td>
                                     <td>@order.CreationDate.ToString("t")</td>

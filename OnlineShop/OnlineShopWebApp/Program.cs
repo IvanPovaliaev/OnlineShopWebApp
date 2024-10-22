@@ -48,6 +48,12 @@ builder.Services.AddTransient<HashService>();
 
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 
+builder.Services.Scan(scan => scan
+                .FromAssemblyOf<IProductSpecificationsRules>()
+                .AddClasses(classes => classes.AssignableTo<IProductSpecificationsRules>())
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[]

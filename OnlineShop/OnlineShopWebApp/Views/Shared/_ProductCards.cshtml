@@ -16,16 +16,26 @@
             @* Цена и иконки *@
             <div class="row mb-2">
                 <div class="col-7">
-                    <h5 class="card-text text-blue">@product.Cost ₽</h5>
+                    <h5 class="card-text text-blue">@product.Cost.ToString("0.##") ₽</h5>
                 </div>
                 <div class="col d-flex justify-content-end align-items-center">
 
-                    <a class="bi bi-file-earmark-bar-graph-fill text-inactive card-icon me-2"
+                    <a class="me-2 addToComparisons"
                        asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@product.Id">
+
+                        <svg class="icon-inactive product-card-icon--comparison">
+                            <use href="/icons/ComparisonIcon.svg#comparison-icon" />
+                        </svg>
+
                    </a>
 
-                    <a class="bi bi-heart-fill text-inactive card-icon me-2"
+                    <a class="me-2 addToFavorites"
                        asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@product.Id">
+
+                        <svg class="icon-inactive product-card-icon--favorite">
+                            <use href="/icons/Favorite.svg#favorite-icon" />
+                        </svg>
+
                     </a>
                 </div>
             </div>
@@ -46,9 +56,13 @@
                 @shortInfo
             </p>
 
-            <a class="btn btn-main mt-auto btn-card-home w-100 d-flex justify-content-center align-items-center"
+            <a class="btn btn-main mt-auto btn-card-home w-100 d-flex justify-content-center align-items-center addToCart"
                asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
-                <span class="bi bi-basket-fill text-white fs-3 me-2"></span>
+
+                 <svg class="btn-cart-icon me-2">
+                    <use href="/icons/CartIcon.svg#cart-icon" />
+                </svg>
+
                 <span>В корзину</span>
             </a>
         </div>

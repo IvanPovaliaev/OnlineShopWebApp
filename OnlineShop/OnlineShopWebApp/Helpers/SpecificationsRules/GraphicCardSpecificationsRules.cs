@@ -1,10 +1,13 @@
 ﻿using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Models;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Helpers.SpecificationsRules
 {
     public class GraphicCardSpecificationsRules : IProductSpecificationsRules
     {
+        public ProductCategories Category => ProductCategories.GraphicCards;
+
         public List<ProductSpecificationRule> GetAll()
         {
             var interfacePattern = @"^(PCIe (2.0|3.0|4.0))$";

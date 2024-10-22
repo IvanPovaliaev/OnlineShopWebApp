@@ -74,11 +74,11 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Decrease quantity of cart by Id position by 1. If quantity should become 0, deletes this position.
+        /// Decrease position quantity in users cart by 1. If quantity should become 0, deletes this position.
         /// </summary>        
         /// <param name="userId">UserId</param>
         /// <param name="positionId">Id of cart position</param>
-        public void DecreaseQuantity(Guid userId, Guid positionId)
+        public void DecreasePosition(Guid userId, Guid positionId)
         {
             var cart = Get(userId);
 
@@ -99,22 +99,6 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Delete target position in target cart. If positions count should become 0, deletes the cart.
-        /// </summary>        
-        /// <param name="cart">Target cart</param>
-        /// <param name="position">Target position</param>
-        private void DeletePosition(Cart cart, CartPosition position)
-        {
-            cart.Positions.Remove(position);
-
-            if (cart.Positions.Count == 0)
-            {
-                _cartsRepository.Delete(cart);
-            }
-            _cartsRepository.Update(cart);
-        }
-
-        /// <summary>
         /// Delete all CartPositions related to product Id.
         /// </summary>
         /// <param name="productId">Target product Id (guid)</param>
@@ -131,6 +115,41 @@ namespace OnlineShopWebApp.Services
         {
             var cart = Get(userId);
             _cartsRepository.Delete(cart);
+        }
+
+        /// <summary>
+        /// Delete target position in users cart. If positions count should become 0, deletes the cart.
+        /// </summary>        
+        /// <param name="userId">Target UserId</param>
+        /// <param name="positionId">Target positionId</param>
+        public void DeletePosition(Guid userId, Guid positionId)
+        {
+            var cart = Get(userId);
+            var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
+
+            if (position is null)
+            {
+                return;
+            }
+
+            DeletePosition(cart!, position);
+        }
+
+        /// <summary>
+        /// Delete target position in target cart. If positions count should become 0, deletes the cart.
+        /// </summary>        
+        /// <param name="cart">Target cart</param>
+        /// <param name="position">Target position</param>
+        private void DeletePosition(Cart cart, CartPosition position)
+        {
+            cart.Positions.Remove(position);
+
+            if (cart.Positions.Count == 0)
+            {
+                _cartsRepository.Delete(cart);
+            }
+
+            _cartsRepository.Update(cart);
         }
 
         /// <summary>

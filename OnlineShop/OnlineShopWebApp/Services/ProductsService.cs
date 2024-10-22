@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShopWebApp.Helpers.Notifications;
-using OnlineShopWebApp.Helpers.SpecificationsRules;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -16,12 +15,14 @@ namespace OnlineShopWebApp.Services
         private IProductsRepository _productsRepository;
         private readonly IMediator _mediator;
         private readonly IExcelService _excelService;
+        private readonly IEnumerable<IProductSpecificationsRules> _specificationsRules;
 
-        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IExcelService excelService)
+        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules)
         {
             _productsRepository = productsRepository;
             _mediator = mediator;
             _excelService = excelService;
+            _specificationsRules = specificationsRules;
             InitializeProducts();
         }
 
@@ -138,17 +139,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="category">ProductCategories</param>
         public IProductSpecificationsRules GetSpecificationsRules(ProductCategories category)
         {
-            return category switch
-            {
-                ProductCategories.GraphicCards => new GraphicCardSpecificationsRules(),
-                ProductCategories.Processors => new ProcessorSpecificationsRules(),
-                ProductCategories.Motherboards => new MotherboardSpecificationsRules(),
-                ProductCategories.SSD => new SSDSpecificationsRules(),
-                ProductCategories.HDD => new HDDSpecificationsRules(),
-                ProductCategories.RAM => new RAMSpecificationsRules(),
-                ProductCategories.PowerSupplies => new PowerSupplySpecificationsRules(),
-                _ => new GraphicCardSpecificationsRules()
-            };
+            return _specificationsRules.FirstOrDefault(s => s.Category == category)!;
         }
 
         /// <summary>

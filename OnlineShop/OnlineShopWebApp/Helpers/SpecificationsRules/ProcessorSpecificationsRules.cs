@@ -1,10 +1,13 @@
 ﻿using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Models;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Helpers.SpecificationsRules
 {
     public class ProcessorSpecificationsRules : IProductSpecificationsRules
     {
+        public ProductCategories Category => ProductCategories.Processors;
+
         public List<ProductSpecificationRule> GetAll()
         {
             var manufacturerPattern = @"^(AMD|Intel)$";

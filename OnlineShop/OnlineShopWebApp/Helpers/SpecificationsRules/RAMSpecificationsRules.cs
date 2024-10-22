@@ -1,10 +1,13 @@
 ﻿using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Models;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Helpers.SpecificationsRules
 {
     public class RAMSpecificationsRules : IProductSpecificationsRules
     {
+        public ProductCategories Category => ProductCategories.RAM;
+
         public List<ProductSpecificationRule> GetAll()
         {
             var formFactorPattern = @"^(DIMM|SO-DIMM)$";

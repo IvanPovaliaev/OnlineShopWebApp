@@ -21,8 +21,8 @@
                     <div class="row">
                         <div class="mb-3 col-6">
                             <label asp-for="Name" class="form-label">Наименование</label>
-                            <input class="form-control input-field" 
-                                asp-for="Name">
+                            <input class="form-control input-field"
+                                   asp-for="Name">
                             <span asp-validation-for="Name" class="validation-error-message"></span>
                         </div>
 
@@ -37,21 +37,25 @@
                         </div>
                     </div>
                     
-                    <div class="mb-3">
-                        <label asp-for="Cost" class="form-label">Стоимость</label>
-                        <input type="number" class="form-control input-field"
-                            asp-for="Cost"
-                            placeholder="От 10 до 10000000 руб."
-                            step="0.01">
-                        <span asp-validation-for="Cost" class="validation-error-message"></span>
-                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label asp-for="Cost" class="form-label">Стоимость</label>
+                                <input type="number" class="form-control input-field"
+                                       asp-for="Cost"
+                                       placeholder="От 10 до 10000000 руб."
+                                       step="0.01">
+                                <span asp-validation-for="Cost" class="validation-error-message"></span>
+                            </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Description" class="form-label">Описание</label>
-                        <textarea class="form-control"
-                            asp-for="Description" rows="5"></textarea>                        
-                    </div>
-                    <span asp-validation-for="Description" class="validation-error-message"></span>
+                            <div class="mb-3">
+                                <label asp-for="Description" class="form-label">Описание</label>
+                                <textarea class="form-control"
+                                          asp-for="Description" rows="5"></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="validation-error-message"></span>
+                        </div>                        
+                    </div>                    
 
                     @* Блок для подгрузки характеристик *@
                     <div id="specifications-form">

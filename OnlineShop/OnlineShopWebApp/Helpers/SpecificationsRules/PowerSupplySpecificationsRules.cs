@@ -1,10 +1,13 @@
 ﻿using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Models;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Helpers.SpecificationsRules
 {
     public class PowerSupplySpecificationsRules : IProductSpecificationsRules
     {
+        public ProductCategories Category => ProductCategories.PowerSupplies;
+
         public List<ProductSpecificationRule> GetAll()
         {
             var powerPattern = @"^\d+\sВт$";

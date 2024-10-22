@@ -6,6 +6,7 @@ namespace OnlineShopWebApp.Controllers
     public class HomeController : Controller
     {
         private ProductsService _productsService;
+
         public HomeController(ProductsService productsService)
         {
             _productsService = productsService;
@@ -36,6 +37,15 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Contacts page View</returns>
         public IActionResult Contacts()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Displays the Delivery page View.
+        /// </summary>
+        /// <returns>Delivery page View</returns>
+        public IActionResult Delivery()
         {
             return View();
         }

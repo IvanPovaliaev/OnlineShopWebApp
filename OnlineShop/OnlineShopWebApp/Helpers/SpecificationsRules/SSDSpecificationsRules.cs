@@ -1,10 +1,13 @@
 ﻿using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Models;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Helpers.SpecificationsRules
 {
     public class SSDSpecificationsRules : IProductSpecificationsRules
     {
+        public ProductCategories Category => ProductCategories.SSD;
+
         public List<ProductSpecificationRule> GetAll()
         {
             var formFactorPattern = @"^(2\.5""|M\.2 (2280|2242|2260|22110)|mSATA|U\.2|PCI-e)$";

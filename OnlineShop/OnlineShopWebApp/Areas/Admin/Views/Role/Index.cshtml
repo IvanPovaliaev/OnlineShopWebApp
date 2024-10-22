@@ -79,12 +79,16 @@
                                             {
                                                 var message = $"Вы уверены, что хотите удалить <span class=\"fw-bold\">{role.Name}</span>?<br /> Это действие нельзя отменить";
 
-                                                <i type="button" class="bi bi-trash-fill trash-icon align-content-center"
+                                                <a class="align-content-center"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal"
                                                         data-url="@Url.Action("Delete", "Role", new { id = role.Id })"
-                                                        data-message="@message">                                                    
-                                                </i>
+                                                        data-message="@message">
+
+                                                    <svg class="icon-inactive role-delete-icon">
+                                                        <use href="/icons/TrashIcon.svg#trash-icon" />
+                                                    </svg>
+                                                </a>
                                                                     
                                             }
                                         </span>

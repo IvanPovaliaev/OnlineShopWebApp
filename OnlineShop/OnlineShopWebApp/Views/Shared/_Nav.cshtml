@@ -1,9 +1,9 @@
 ﻿@* Нижняя навигационная панель. Вынесена из header для создания эффекта "прилипания" при прокрутке*@
 <nav class="navbar sticky-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-white mb-3">
     <div class="container d-flex align-items-center search-container">
-        <div class="row gx-3 w-100 fill-height">
+        <div class="row gx-3 w-100 h-100">
             @* Кнопка каталога *@
-            <div class="dropdown d-flex align-items-stretch col-auto fill-height">
+            <div class="dropdown d-flex align-items-stretch col-auto h-100">
                 <button class="btn btn-secondary dropdown-toggle d-flex align-items-center justify-content-between btn-catalog"
                         type="button"
                         data-bs-toggle="dropdown"
@@ -87,12 +87,9 @@
             </div>
 
             @* Иконки *@
-            <div class="col-5 d-flex align-items-center fill-height">
+            <div class="col-5 d-flex align-items-center h-100" id="navUserIcons">
 
-                @await Component.InvokeAsync("Favorite")
-                @await Component.InvokeAsync("Comparison")
-                @await Component.InvokeAsync("Cart")
-                @await Html.PartialAsync("_Account")
+                @await Html.PartialAsync("_NavUserIcons")
 
             </div>
         </div>
