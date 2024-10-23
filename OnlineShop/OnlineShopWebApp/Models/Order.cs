@@ -1,4 +1,5 @@
-﻿using OnlineShopWebApp.Helpers;
+﻿using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

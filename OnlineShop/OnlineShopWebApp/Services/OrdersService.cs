@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;

@@ -1,5 +1,5 @@
-﻿using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Models;
+﻿using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Services;
 using System;
 using System.Collections.Generic;
