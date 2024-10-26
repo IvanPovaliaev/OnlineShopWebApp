@@ -42,7 +42,7 @@ builder.Services.AddTransient<CartsService>();
 builder.Services.AddSingleton<IOrdersRepository, InFileOrdersRepository>();
 builder.Services.AddTransient<OrdersService>();
 
-builder.Services.AddTransient<IComparisonsRepository, InFileComparisonsRepository>();
+builder.Services.AddTransient<IComparisonsRepository, ComparisonsDbRepository>();
 builder.Services.AddTransient<ComparisonsService>();
 
 builder.Services.AddTransient<IFavoritesRepository, FavoritesDbRepository>();

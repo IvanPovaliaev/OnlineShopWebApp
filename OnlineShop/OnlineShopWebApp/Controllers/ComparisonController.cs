@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineShop.Db.Models;
+using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 
@@ -20,7 +20,7 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Comparison category page View</returns>
         /// <param name="category">Product category</param>
-        public IActionResult Index(ProductCategories? category)
+        public IActionResult Index(ProductCategoriesViewModel? category)
         {
             var comparisonsGroups = _comparisonsService.GetGroups(_userId);
 
@@ -44,10 +44,10 @@ namespace OnlineShopWebApp.Controllers
         /// Delete ComparisonProducts from users comparisons by Id.
         /// </summary>
         /// <returns>Users comparison View</returns>
-        /// <param name="comparisonId">ComparisonProduct id (GUID)</param>
-        public IActionResult Delete(Guid comparisonId)
+        /// <param name="id">ComparisonProduct id (GUID)</param>
+        public IActionResult Delete(Guid id)
         {
-            _comparisonsService.Delete(comparisonId);
+            _comparisonsService.Delete(id);
             return RedirectToAction("Index");
         }
 

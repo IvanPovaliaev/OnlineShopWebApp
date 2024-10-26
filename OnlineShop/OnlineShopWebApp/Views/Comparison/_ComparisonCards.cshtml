@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ComparisonProduct>
+﻿@model IEnumerable<ComparisonProductViewModel>
 
 @foreach (var comparison in Model)
 {
@@ -14,7 +14,7 @@
 
                 @* Иконка удаления *@
                 <a class="align-content-center position-absolute top-0 end-0 p-3"
-                   asp-area="" asp-controller="Comparison" asp-action="Delete" asp-route-comparisonId="@comparison.Id">
+                   asp-area="" asp-controller="Comparison" asp-action="Delete" asp-route-id="@comparison.Id">
 
                     <svg class="icon-inactive product-card-icon">
                         <use href="/icons/TrashIcon.svg#trash-icon" />

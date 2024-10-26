@@ -2,8 +2,18 @@
 
 namespace OnlineShop.Db.Models
 {
-    public record class ComparisonProduct(Guid UserId, Product Product)
+    public class ComparisonProduct
     {
         public Guid Id { get; init; }
+        public Guid UserId { get; init; }
+        public Product Product { get; init; }
+
+        public ComparisonProduct() { }
+
+        public ComparisonProduct(Guid userId, Product product)
+        {
+            UserId = userId;
+            Product = product;
+        }
     }
 }

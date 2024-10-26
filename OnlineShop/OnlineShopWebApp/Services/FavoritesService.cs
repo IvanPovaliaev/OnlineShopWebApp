@@ -24,7 +24,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Get all Favorites for target user by Id
         /// </summary>
-        /// <returns>List of FavoriteProducts for target user</returns>
+        /// <returns>List of FavoriteProductViewModel for target user</returns>
         /// <param name="userId">User Id (GUID)</param>
         public List<FavoriteProductViewModel> GetAll(Guid userId)
         {

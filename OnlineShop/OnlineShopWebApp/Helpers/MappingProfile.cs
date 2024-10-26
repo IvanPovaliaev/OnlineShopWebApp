@@ -33,6 +33,7 @@ namespace OnlineShopWebApp.Helpers
             CreateMap<CartPositionViewModel, CartPosition>().ReverseMap();
 
             CreateMap<FavoriteProductViewModel, FavoriteProduct>().ReverseMap();
+            CreateMap<ComparisonProductViewModel, ComparisonProduct>().ReverseMap();
         }
     }
 }
