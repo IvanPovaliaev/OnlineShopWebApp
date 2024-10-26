@@ -20,7 +20,7 @@ namespace OnlineShop.Db.Repositories
         public Product Get(Guid id)
         {
             var product = _databaseContext.Products.FirstOrDefault(p => p.Id == id);
-            return product;
+            return product!;
         }
 
         public void AddRange(List<Product> products)

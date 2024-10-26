@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
@@ -42,7 +43,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admins products View</returns> 
         /// <param name="product">Target product</param>
         [HttpPost]
-        public IActionResult Add(ProductViewModel product)
+        public IActionResult Add(AddProductViewModel product)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +61,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <param name="id">Target productId</param>
         public IActionResult Edit(Guid id)
         {
-            var product = _productsService.Get(id);
+            var product = _productsService.GetEditProduct(id);
             return View(product);
         }
 

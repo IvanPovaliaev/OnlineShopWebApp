@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Services;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +10,7 @@ namespace OnlineShopWebApp.Helpers
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var product = (ProductViewModel)validationContext.ObjectInstance;
+            var product = (AdminProductViewModel)validationContext.ObjectInstance;
 
             if (!IsSpecificationsExists(product))
             {
@@ -36,7 +36,7 @@ namespace OnlineShopWebApp.Helpers
         /// </summary>
         /// <returns>true if specifications exists; otherwise false</returns>
         /// <param name="product">Target product</param>
-        private bool IsSpecificationsExists(ProductViewModel product)
+        private bool IsSpecificationsExists(AdminProductViewModel product)
         {
             if (product?.Specifications == null || product?.Specifications.Count == 0)
             {
@@ -53,7 +53,7 @@ namespace OnlineShopWebApp.Helpers
         /// <param name="product">Target product</param>
         /// <param name="rules">Collection of related rules</param>
         /// <param name="validationErrors">List of validation errors</param>
-        private bool IsRulesValid(ProductViewModel product, IEnumerable<ProductSpecificationRule> rules, out List<string> validationErrors)
+        private bool IsRulesValid(AdminProductViewModel product, IEnumerable<ProductSpecificationRule> rules, out List<string> validationErrors)
         {
             validationErrors = [];
 

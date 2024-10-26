@@ -19,7 +19,7 @@ namespace OnlineShop.Db.Repositories
         {
             return _databaseContext.Carts.Include(cart => cart.Positions)
                                          .ThenInclude(position => position.Product)
-                                         .FirstOrDefault(cart => cart.UserId == userId);
+                                         .FirstOrDefault(cart => cart.UserId == userId)!;
         }
 
         public void Create(Cart cart)

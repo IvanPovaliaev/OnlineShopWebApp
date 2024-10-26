@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
@@ -90,7 +91,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Get product from repository by GUID
         /// </summary>
-        /// <returns>Product; returns null if product not found</returns>
+        /// <returns>ProductViewModel; returns null if product not found</returns>
         public ProductViewModel Get(Guid id)
         {
             var productDb = _productsRepository.Get(id);
@@ -98,10 +99,20 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
+        /// Get EditProduct from repository by GUID
+        /// </summary>
+        /// <returns>EditProductViewModel; returns null if product not found</returns>
+        public EditProductViewModel GetEditProduct(Guid id)
+        {
+            var productDb = _productsRepository.Get(id);
+            return _mapper.Map<EditProductViewModel>(productDb);
+        }
+
+        /// <summary>
         /// Add product to repository
         /// </summary>
         /// <param name="product">Target product</param>
-        public void Add(ProductViewModel product)
+        public void Add(AddProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
             _productsRepository.Add(productDb);
