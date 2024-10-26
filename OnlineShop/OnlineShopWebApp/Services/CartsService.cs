@@ -157,7 +157,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="product">Position product</param>
         /// <param name="userId">GUID user id</param>
-        private void Create(Product product, Guid userId)
+        private void Create(ProductViewModel product, Guid userId)
         {
             var cart = new Cart(userId);
             AddPosition(cart, product);
@@ -169,7 +169,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="cart">Cart with products</param>
         /// <param name="product">Position product</param>
-        private void AddPosition(Cart cart, Product product)
+        private void AddPosition(Cart cart, ProductViewModel product)
         {
             var newPosition = new CartPosition(product, 1);
             cart.Positions.Add(newPosition);

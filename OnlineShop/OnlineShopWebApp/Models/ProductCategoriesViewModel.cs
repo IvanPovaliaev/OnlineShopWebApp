@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp.Models
 {
-    public enum ProductCategories
+    public enum ProductCategoriesViewModel
     {
         [Display(Name = "Видеокарты")]
         GraphicCards,

@@ -36,7 +36,7 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Page View of all products of the specified category</returns>
         /// <param name="category">Product category</param>        
-        public IActionResult Category(ProductCategories category)
+        public IActionResult Category(ProductCategoriesViewModel category)
         {
             var products = _productsService.GetAll(category);
             var productsWithCategory = (products, category);

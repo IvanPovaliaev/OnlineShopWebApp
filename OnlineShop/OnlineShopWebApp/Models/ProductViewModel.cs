@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using OnlineShop.Db.Models;
 using OnlineShopWebApp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -5,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopWebApp.Models
 {
-    public class Product
+    public class ProductViewModel
     {
         public Guid Id { get; set; }
 
@@ -21,19 +23,19 @@ namespace OnlineShopWebApp.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле")]
-        public ProductCategories Category { get; set; }
+        public ProductCategoriesViewModel Category { get; set; }
         public string? ImageUrl { get; set; }
         public long Article => GetArticle();
 
         [SpecificationsValidation]
         public Dictionary<string, string> Specifications { get; set; }
 
-        public Product()
+        public ProductViewModel()
         {
             Id = Guid.NewGuid();
         }
 
-        public Product(string name, decimal cost, string description, ProductCategories category, string? imageUrl = null) : this()
+        public ProductViewModel(string name, decimal cost, string description, ProductCategoriesViewModel category, string? imageUrl = null) : this()
         {
             Name = name;
             Cost = cost;
@@ -41,6 +43,17 @@ namespace OnlineShopWebApp.Models
             Category = category;
             Specifications = [];
             ImageUrl = imageUrl;
+        }
+
+        public ProductViewModel(Product product)
+        {
+            Id = product.Id;
+            Name = product.Name;
+            Cost = product.Cost;
+            Description = product.Description;
+            Category = (ProductCategoriesViewModel)(product.Category);
+            ImageUrl = product.ImageUrl;
+            Specifications = JsonConvert.DeserializeObject<Dictionary<string, string>>(product.SpecificationsJson);
         }
 
         /// <summary>

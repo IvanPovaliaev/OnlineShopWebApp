@@ -19,7 +19,7 @@ namespace OnlineShopWebApp.Areas.Admin.Views.Product.Components.SpecificationsFo
         /// </summary>
         /// <returns>SpecificationsFormViewComponent</returns>
         /// <param name="specificationsWithCategory">Tuple with specifications and category</param> 
-        public IViewComponentResult Invoke((Dictionary<string, string>, ProductCategories) specificationsWithCategory)
+        public IViewComponentResult Invoke((Dictionary<string, string>, ProductCategoriesViewModel) specificationsWithCategory)
         {
             var specifications = specificationsWithCategory.Item1;
             var category = specificationsWithCategory.Item2;

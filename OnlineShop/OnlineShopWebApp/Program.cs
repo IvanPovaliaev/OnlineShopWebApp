@@ -1,7 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnlineShop.Db;
+using OnlineShop.Db.Interfaces;
+using OnlineShop.Db.Repositories;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
@@ -16,6 +21,9 @@ builder.Host.UseSerilog((context, configuration) => configuration
             .Enrich.FromLogContext()
             .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
+var connection = builder.Configuration.GetConnectionString("online_shop");
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
@@ -23,7 +31,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Get
 builder.Services.AddTransient<FileService>();
 builder.Services.AddTransient<JsonRepositoryService>();
 
-builder.Services.AddSingleton<IProductsRepository, InFileProductsRepository>();
+builder.Services.AddTransient<IProductsRepository, ProductsDbRepository>();
 builder.Services.AddTransient<ProductsService>();
 
 builder.Services.AddSingleton<ICartsRepository, InFileCartsRepository>();

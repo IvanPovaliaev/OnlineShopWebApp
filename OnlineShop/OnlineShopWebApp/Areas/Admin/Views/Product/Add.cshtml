@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model ProductViewModel
 
 <section class="container flex-row">
 	<div class="row">
@@ -30,7 +30,7 @@
                             <label asp-for="Category" class="form-label">Категория</label>
                             <select id="category-select" class="form-select"
                                 asp-for="Category"
-                                asp-items="@Html.GetEnumSelectList<ProductCategories>()">
+                                asp-items="@Html.GetEnumSelectList<ProductCategoriesViewModel>()">
 
                             </select>
                             <span asp-validation-for="Category" class="validation-error-message"></span>
@@ -60,7 +60,7 @@
                     @* Блок для подгрузки характеристик *@
                     <div id="specifications-form">
                         @{
-                            var specificationsWithCategory = Model is null ? (null, ProductCategories.GraphicCards) : (Model.Specifications, Model.Category);
+                            var specificationsWithCategory = Model is null ? (null, ProductCategoriesViewModel.GraphicCards) : (Model.Specifications, Model.Category);
                             @await Component.InvokeAsync("SpecificationsForm", specificationsWithCategory)
                         }
 

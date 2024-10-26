@@ -1,5 +1,5 @@
-﻿using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Models;
+﻿using OnlineShop.Db.Models;
+using OnlineShopWebApp.Helpers;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Interfaces
