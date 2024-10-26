@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp.Models
 {
-    public class CartPosition
+    public class CartPositionViewModel
     {
         public Guid Id { get; set; }
         public ProductViewModel Product { get; set; }
@@ -12,7 +12,7 @@ namespace OnlineShopWebApp.Models
             get => Product.Cost * Quantity;
         }
 
-        public CartPosition(ProductViewModel product, int quantity)
+        public CartPositionViewModel(ProductViewModel product, int quantity)
         {
             Id = Guid.NewGuid();
             Product = product;

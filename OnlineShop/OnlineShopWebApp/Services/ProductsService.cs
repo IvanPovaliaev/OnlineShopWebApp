@@ -297,7 +297,7 @@ namespace OnlineShopWebApp.Services
 
             var productsDb = products.Select(_mapper.Map<Product>).ToList();
 
-            _productsRepository.Add(productsDb);
+            _productsRepository.AddRange(productsDb);
         }
     }
 }

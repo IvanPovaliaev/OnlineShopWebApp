@@ -22,7 +22,7 @@ namespace OnlineShop.Db.Interfaces
         /// Add list of products
         /// </summary>
         /// <param name="products">Products list</param>
-        void Add(List<Product> products);
+        void AddRange(List<Product> products);
 
         /// <summary>
         /// Add product

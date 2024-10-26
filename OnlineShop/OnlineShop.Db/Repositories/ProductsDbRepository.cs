@@ -23,7 +23,7 @@ namespace OnlineShop.Db.Repositories
             return product;
         }
 
-        public void Add(List<Product> products)
+        public void AddRange(List<Product> products)
         {
             _databaseContext.Products.AddRange(products);
             _databaseContext.SaveChanges();
@@ -38,6 +38,12 @@ namespace OnlineShop.Db.Repositories
         public void Delete(Guid id)
         {
             var product = Get(id);
+
+            if (product is null)
+            {
+                return;
+            }
+
             _databaseContext.Products.Remove(product);
             _databaseContext.SaveChanges();
         }

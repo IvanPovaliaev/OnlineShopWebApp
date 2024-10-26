@@ -36,7 +36,7 @@ builder.Services.AddTransient<JsonRepositoryService>();
 builder.Services.AddTransient<IProductsRepository, ProductsDbRepository>();
 builder.Services.AddTransient<ProductsService>();
 
-builder.Services.AddSingleton<ICartsRepository, InFileCartsRepository>();
+builder.Services.AddTransient<ICartsRepository, CartsDbRepository>();
 builder.Services.AddTransient<CartsService>();
 
 builder.Services.AddSingleton<IOrdersRepository, InFileOrdersRepository>();
