@@ -1,4 +1,6 @@
-﻿using OnlineShopWebApp.Interfaces;
+﻿using AutoMapper;
+using OnlineShop.Db.Interfaces;
+using OnlineShop.Db.Models;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -9,11 +11,13 @@ namespace OnlineShopWebApp.Services
     public class FavoritesService
     {
         private readonly IFavoritesRepository _favoritesRepository;
+        private readonly IMapper _mapper;
         private readonly ProductsService _productsService;
 
-        public FavoritesService(IFavoritesRepository favoritesRepository, ProductsService productsService)
+        public FavoritesService(IFavoritesRepository favoritesRepository, IMapper mapper, ProductsService productsService)
         {
             _favoritesRepository = favoritesRepository;
+            _mapper = mapper;
             _productsService = productsService;
         }
 
@@ -22,12 +26,12 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>List of FavoriteProducts for target user</returns>
         /// <param name="userId">User Id (GUID)</param>
-        public List<FavoriteProduct> GetAll(Guid userId)
+        public List<FavoriteProductViewModel> GetAll(Guid userId)
         {
-            var favorites = _favoritesRepository
-                .GetAll()
-                .Where(c => c.UserId == userId)
-                .ToList();
+            var favorites = _favoritesRepository.GetAll()
+                                                .Where(c => c.UserId == userId)
+                                                .Select(_mapper.Map<FavoriteProductViewModel>)
+                                                .ToList();
 
             return favorites;
         }
@@ -39,7 +43,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">User Id (GUID)</param>
         public void Create(Guid productId, Guid userId)
         {
-            var product = _productsService.GetViewModel(productId);
+            var product = _productsService.Get(productId);
 
             if (IsProductExists(product, userId))
             {
@@ -83,10 +87,9 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if product exists; otherwise returns false</returns>
         /// <param name="product">Target Product</param>
         /// <param name="userId">User Id (GUID)</param>
-        private bool IsProductExists(ProductViewModel product, Guid userId)
+        private bool IsProductExists(Product product, Guid userId)
         {
-            var result = GetAll(userId)
-                .Any(c => c.Product.Id == product.Id);
+            var result = GetAll(userId).Any(c => c.Product.Id == product.Id);
 
             return result;
         }

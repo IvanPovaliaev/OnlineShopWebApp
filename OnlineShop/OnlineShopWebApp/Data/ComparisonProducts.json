@@ -18,5 +18,27 @@
       }
     },
     "Id": "0a3a99ad-4883-4bbd-89eb-03928c359c48"
+  },
+  {
+    "UserId": "74f1f6b5-083a-4677-8f68-8255caa77965",
+    "Product": {
+      "Id": "c99a2a59-8b59-449a-9869-08dcf5fc25f8",
+      "Name": "NewMemory2",
+      "Cost": 123.00,
+      "Description": "выфвы",
+      "Category": 5,
+      "ImageUrl": null,
+      "Article": 4943416758743214681,
+      "Specifications": {
+        "Manufacturer": "ASUS",
+        "ManufacturerCode": "22222222",
+        "FormFactor": "SO-DIMM",
+        "MemoryType": "DDR2",
+        "MemorySize": "16 Гб",
+        "ModulesCount": "4",
+        "ClockSpeed": "3200 МГц"
+      }
+    },
+    "Id": "f23550a8-660f-4ca6-9e17-3c581a452929"
   }
 ]
