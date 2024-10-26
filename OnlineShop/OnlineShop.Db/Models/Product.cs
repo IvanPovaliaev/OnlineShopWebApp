@@ -13,7 +13,6 @@ namespace OnlineShop.Db.Models
         public string? ImageUrl { get; set; }
         public string SpecificationsJson { get; set; }
 
-        //Связи 1 ко многим
         public List<CartPosition> CartPositions { get; set; }
     }
 }
