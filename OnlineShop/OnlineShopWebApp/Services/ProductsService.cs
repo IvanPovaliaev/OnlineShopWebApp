@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
@@ -19,11 +20,13 @@ namespace OnlineShopWebApp.Services
         private readonly IMediator _mediator;
         private readonly IExcelService _excelService;
         private readonly IEnumerable<IProductSpecificationsRules> _specificationsRules;
+        private readonly IMapper _mapper;
 
-        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules)
+        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules)
         {
             _productsRepository = productsRepository;
             _mediator = mediator;
+            _mapper = mapper;
             _excelService = excelService;
             _specificationsRules = specificationsRules;
             InitializeProducts();
@@ -92,12 +95,7 @@ namespace OnlineShopWebApp.Services
         public ProductViewModel Get(Guid id)
         {
             var productDb = _productsRepository.Get(id);
-            if (productDb is null)
-            {
-                return null;
-            }
-            var product = new ProductViewModel(productDb);
-            return product;
+            return _mapper.Map<ProductViewModel>(productDb);
         }
 
         /// <summary>

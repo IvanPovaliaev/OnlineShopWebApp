@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using OnlineShop.Db;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Repositories;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
@@ -23,6 +24,7 @@ builder.Host.UseSerilog((context, configuration) => configuration
 
 var connection = builder.Configuration.GetConnectionString("online_shop");
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllersWithViews();
 
