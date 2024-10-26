@@ -2,8 +2,7 @@
 
 namespace OnlineShopWebApp.Models
 {
-    public record class ComparisonProductViewModel(Guid UserId, ProductViewModel Product)
+    public record ComparisonProductViewModel(Guid Id, Guid UserId, ProductViewModel Product)
     {
-        public Guid Id { get; init; }
     }
 }

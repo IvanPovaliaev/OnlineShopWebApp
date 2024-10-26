@@ -1,10 +1,8 @@
 using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
-using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -17,15 +15,13 @@ namespace OnlineShopWebApp.Services
     public class ProductsService
     {
         private readonly IProductsRepository _productsRepository;
-        private readonly IMediator _mediator;
         private readonly IExcelService _excelService;
         private readonly IEnumerable<IProductSpecificationsRules> _specificationsRules;
         private readonly IMapper _mapper;
 
-        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules)
+        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules)
         {
             _productsRepository = productsRepository;
-            _mediator = mediator;
             _mapper = mapper;
             _excelService = excelService;
             _specificationsRules = specificationsRules;
@@ -137,11 +133,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete product from repository by GUID
         /// </summary>
-        public void Delete(Guid id)
-        {
-            _productsRepository.Delete(id);
-            _mediator.Publish(new ProductDeletedNotification(id));
-        }
+        public void Delete(Guid id) => _productsRepository.Delete(id);
 
         /// <summary>
         /// Validates the product update model
