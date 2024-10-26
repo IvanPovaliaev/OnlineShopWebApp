@@ -1,7 +1,6 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Newtonsoft.Json;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Helpers.Notifications;
@@ -39,7 +38,7 @@ namespace OnlineShopWebApp.Services
         public List<ProductViewModel> GetAll()
         {
             var products = _productsRepository.GetAll()
-                                              .Select(p => new ProductViewModel(p))
+                                              .Select(_mapper.Map<ProductViewModel>)
                                               .ToList();
             return products;
         }
@@ -296,15 +295,7 @@ namespace OnlineShopWebApp.Services
                 powerSupply
             ];
 
-            var productsDb = products.Select(p => new Product
-            {
-                Name = p.Name,
-                Cost = p.Cost,
-                Description = p.Description,
-                Category = (ProductCategories)(p.Category),
-                ImageUrl = p.ImageUrl,
-                SpecificationsJson = JsonConvert.SerializeObject(p.Specifications, Formatting.Indented)
-            }).ToList();
+            var productsDb = products.Select(_mapper.Map<Product>).ToList();
 
             _productsRepository.Add(productsDb);
         }

@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using OnlineShop.Db.Models;
 using OnlineShopWebApp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -43,17 +42,6 @@ namespace OnlineShopWebApp.Models
             Category = category;
             Specifications = [];
             ImageUrl = imageUrl;
-        }
-
-        public ProductViewModel(Product product)
-        {
-            Id = product.Id;
-            Name = product.Name;
-            Cost = product.Cost;
-            Description = product.Description;
-            Category = (ProductCategoriesViewModel)(product.Category);
-            ImageUrl = product.ImageUrl;
-            Specifications = JsonConvert.DeserializeObject<Dictionary<string, string>>(product.SpecificationsJson);
         }
 
         /// <summary>
