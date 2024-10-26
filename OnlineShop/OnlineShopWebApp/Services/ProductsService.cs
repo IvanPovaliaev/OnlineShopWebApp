@@ -91,7 +91,12 @@ namespace OnlineShopWebApp.Services
         /// <returns>Product; returns null if product not found</returns>
         public ProductViewModel Get(Guid id)
         {
-            var product = new ProductViewModel(_productsRepository.Get(id));
+            var productDb = _productsRepository.Get(id);
+            if (productDb is null)
+            {
+                return null;
+            }
+            var product = new ProductViewModel(productDb);
             return product;
         }
 
