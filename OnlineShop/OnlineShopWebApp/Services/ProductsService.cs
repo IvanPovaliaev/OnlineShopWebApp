@@ -104,16 +104,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="product">Target product</param>
         public void Add(ProductViewModel product)
         {
-            var productDb = new Product
-            {
-                Name = product.Name,
-                Cost = product.Cost,
-                Description = product.Description,
-                Category = (ProductCategories)(product.Category),
-                ImageUrl = product.ImageUrl,
-                SpecificationsJson = JsonConvert.SerializeObject(product.Specifications, Formatting.Indented)
-            };
-
+            var productDb = _mapper.Map<Product>(product);
             _productsRepository.Add(productDb);
         }
 
@@ -123,17 +114,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="product">Target product</param>
         public void Update(ProductViewModel product)
         {
-            var productDb = new Product
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Cost = product.Cost,
-                Description = product.Description,
-                Category = (ProductCategories)(product.Category),
-                ImageUrl = product.ImageUrl,
-                SpecificationsJson = JsonConvert.SerializeObject(product.Specifications, Formatting.Indented)
-            };
-
+            var productDb = _mapper.Map<Product>(product);
             _productsRepository.Update(productDb);
         }
 

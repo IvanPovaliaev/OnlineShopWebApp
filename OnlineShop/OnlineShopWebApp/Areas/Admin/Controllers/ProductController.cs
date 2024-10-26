@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineShop.Db.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
@@ -99,7 +98,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Relevant SpecificationsFormViewComponent</returns>
         /// <param name="category">Product category</param>   
-        public IActionResult GetSpecificationsForm(ProductCategories category)
+        public IActionResult GetSpecificationsForm(ProductCategoriesViewModel category)
         {
             var emptySpecifications = new Dictionary<string, string>();
             var specificationsWithCategory = (emptySpecifications, category);
