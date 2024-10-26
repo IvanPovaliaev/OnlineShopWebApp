@@ -10,14 +10,12 @@ namespace OnlineShopWebApp.Services
     public class CartsService
     {
         private readonly ICartsRepository _cartsRepository;
-        private readonly IProductsRepository _productsRepository;
         private readonly IMapper _mapper;
         private readonly ProductsService _productsService;
 
-        public CartsService(ICartsRepository cartsRepository, IProductsRepository productsRepository, IMapper mapper, ProductsService productsService)
+        public CartsService(ICartsRepository cartsRepository, IMapper mapper, ProductsService productsService)
         {
             _cartsRepository = cartsRepository;
-            _productsRepository = productsRepository;
             _mapper = mapper;
             _productsService = productsService;
         }
@@ -167,7 +165,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="productId">product Id (GUID)</param>
         private void AddPosition(Cart cart, Guid productId)
         {
-            var product = _productsRepository.Get(productId);
+            var product = _productsService.Get(productId);
 
             var position = new CartPosition(product, cart);
             cart.Positions.Add(position);

@@ -39,7 +39,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">User Id (GUID)</param>
         public void Create(Guid productId, Guid userId)
         {
-            var product = _productsService.Get(productId);
+            var product = _productsService.GetViewModel(productId);
 
             if (IsProductExists(product, userId))
             {

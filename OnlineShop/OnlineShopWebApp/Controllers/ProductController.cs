@@ -21,7 +21,7 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="id">Product id (guid)</param>
         public IActionResult Index(Guid id)
         {
-            var product = _productsService.Get(id);
+            var product = _productsService.GetViewModel(id);
 
             if (product == null)
             {

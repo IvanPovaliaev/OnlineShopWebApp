@@ -91,10 +91,16 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Get product from repository by GUID
         /// </summary>
+        /// <returns>Product; returns null if product not found</returns>
+        public Product Get(Guid id) => _productsRepository.Get(id);
+
+        /// <summary>
+        /// Get product ViewModel of related product by GUID
+        /// </summary>
         /// <returns>ProductViewModel; returns null if product not found</returns>
-        public ProductViewModel Get(Guid id)
+        public ProductViewModel GetViewModel(Guid id)
         {
-            var productDb = _productsRepository.Get(id);
+            var productDb = Get(id);
             return _mapper.Map<ProductViewModel>(productDb);
         }
 
@@ -104,7 +110,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>EditProductViewModel; returns null if product not found</returns>
         public EditProductViewModel GetEditProduct(Guid id)
         {
-            var productDb = _productsRepository.Get(id);
+            var productDb = Get(id);
             return _mapper.Map<EditProductViewModel>(productDb);
         }
 
@@ -145,7 +151,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="product">Target product model</param>
         public bool IsUpdateValid(ModelStateDictionary modelState, ProductViewModel product)
         {
-            var repositoryProduct = Get(product.Id);
+            var repositoryProduct = GetViewModel(product.Id);
 
             if (repositoryProduct.Category != product.Category)
             {
@@ -193,9 +199,8 @@ namespace OnlineShopWebApp.Services
         /// <param name="targetNumber">Target string number</param>
         private bool IsArticleContainsNumber(ProductViewModel product, string targetNumber)
         {
-            var result = product.Article
-                .ToString()
-                .Contains(targetNumber);
+            var result = product.Article.ToString()
+                                        .Contains(targetNumber);
             return result;
         }
 
