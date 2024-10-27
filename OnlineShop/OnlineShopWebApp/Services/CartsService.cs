@@ -114,15 +114,6 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Delete all CartPositions related to product Id.
-        /// </summary>
-        /// <param name="productId">Target product Id (guid)</param>
-        public void DeletePositionsByProductId(Guid productId)
-        {
-            _cartsRepository.DeletePositionsByProductId(productId);
-        }
-
-        /// <summary>
         /// Delete cart of target user;
         /// </summary>        
         /// <param name="userId">Target userId</param>

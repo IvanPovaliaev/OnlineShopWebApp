@@ -42,12 +42,5 @@ namespace OnlineShop.Db.Repositories
             _databaseContext.FavoriteProducts.RemoveRange(favorites);
             _databaseContext.SaveChanges();
         }
-
-        public void DeleteAllByProductId(Guid productId)
-        {
-            var favorites = _databaseContext.FavoriteProducts.Where(f => f.Product.Id == productId);
-            _databaseContext.FavoriteProducts.RemoveRange(favorites);
-            _databaseContext.SaveChanges();
-        }
     }
 }
