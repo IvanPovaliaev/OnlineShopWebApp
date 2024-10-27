@@ -38,6 +38,8 @@ namespace OnlineShopWebApp.Helpers
             CreateMap<OrderViewModel, Order>().ReverseMap();
             CreateMap<UserDeliveryInfoViewModel, UserDeliveryInfo>().ReverseMap();
             CreateMap<OrderPositionViewModel, OrderPosition>().ReverseMap();
+
+            CreateMap<RoleViewModel, Role>().ReverseMap();
         }
     }
 }

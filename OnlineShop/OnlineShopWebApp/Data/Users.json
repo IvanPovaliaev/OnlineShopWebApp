@@ -1,122 +1,38 @@
 [
   {
-    "Id": "36c2d705-90ba-4478-a0a1-c99645a9e763",
-    "Email": "test1@test.ru",
-    "Password": "6+EbDVkG/fSviHkM4w1qOrhch9869BJ3kZj7W+XGr7c=:d2w7KqsyHWH/RPRUdpYElQ==",
-    "Name": null,
-    "Phone": "+7(900)000-00-00",
-    "Role": {
-      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
-      "Name": "User",
-      "CanBeDeleted": false
-    }
-  },
-  {
-    "Id": "1667175b-55b9-4427-b0b4-ec4c2bada72f",
-    "Email": "test2@test.ru",
-    "Password": "hRUu3vj8Cw8lcQBvq2tjo4lK+Kf34HraVRHht9I8XqI=:Tp2TuoOf9ubsE1K8g7Rb2w==",
-    "Name": "Gekk",
-    "Phone": null,
-    "Role": {
-      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
-      "Name": "User",
-      "CanBeDeleted": false
-    }
-  },
-  {
-    "Id": "cc9cdf4f-9365-4d8a-81d4-2091fd19670d",
-    "Email": "test4@test.ru",
-    "Password": "myAXBQbwcv2JiSDdIiTtkCbhKU/i5jCPu00fZLS3a2A=:nndHv6rtgYll13sSmSZY4g==",
+    "Id": "9a80d3bc-5e58-48ea-a354-1b1c5a0c0d59",
+    "Email": "UserRegistration@test.ru",
+    "Password": "Xr+31ufyhJxh4AxWxr4i97lPyjpAgVEJDQAl1PGi0S8=:IuGSwIb3XmxzN31vRlp4Fw==",
     "Name": "David",
     "Phone": "+7(900)000-00-02",
     "Role": {
-      "Id": "fad8286b-cadb-425b-903e-631941c0b011",
-      "Name": "Admin",
-      "CanBeDeleted": false
-    }
-  },
-  {
-    "Id": "9eb9074d-83b9-4784-941c-c0f3bf95b920",
-    "Email": "test8@test.ru",
-    "Password": "D4ftwrvHpsWI6m3+Fwd04tvPGU6tjY6UtYOd2t+6+AQ=:N0JHcUGowEXnFQ1qjdEElg==",
-    "Name": "Aбырвалг",
-    "Phone": "+7(900)000-00-03",
-    "Role": {
-      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
-      "Name": "TestRole",
-      "CanBeDeleted": true
-    }
-  },
-  {
-    "Id": "ef066ecf-872d-4959-b2dc-94bb1bff6f62",
-    "Email": "test10@test.ru",
-    "Password": "zlgCQYYGtlFB51e2ereRXmDdShbSSCEffQV12sKP57M=:rxZ81I8YA2aNJxpvVrdmTw==",
-    "Name": "Nicolas",
-    "Phone": "+7(900)000-00-02",
-    "Role": {
-      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
-      "Name": "TestRole",
-      "CanBeDeleted": true
-    }
-  },
-  {
-    "Id": "498d67b1-e796-4263-978b-291cd151bfe3",
-    "Email": "test11@test.ru",
-    "Password": "19biBww2aIcis/bEBI6MKZ22h4hBB5jqkOYqd7NMMp4=:SpGMyOaJcKxRqvuHn2y8EA==",
-    "Name": "Друг",
-    "Phone": null,
-    "Role": {
-      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
-      "Name": "TestRole",
-      "CanBeDeleted": true
-    }
-  },
-  {
-    "Id": "a8f36762-5fce-4580-aaf0-18d8ea2dfe6e",
-    "Email": "test12@test.ru",
-    "Password": "WZB9HZSUCkcQKFmYw4Iux4GjDFQDhC2O3RsxQMMWihk=:4/XqMqouJdFTN2s8K9ZKSw==",
-    "Name": "Goliah",
-    "Phone": null,
-    "Role": {
-      "Id": "7a668921-554f-461f-82f3-0208211ccc4b",
+      "Id": "593cfe38-24dc-4d5a-cfb8-08dcf6875539",
       "Name": "User",
       "CanBeDeleted": false
     }
   },
   {
-    "Id": "68a7a202-0490-48e0-aa14-c6d8e3804da5",
-    "Email": "test20@test.ru",
-    "Password": "GMWGMF9aRIo7CgD3OwTaPNcbJFVmoPNUt/A4MMs1wmY=:bVTDk7BZXS/mPXfb0QslLA==",
-    "Name": "NewUserAfterChanges",
-    "Phone": null,
+    "Id": "1801f386-bb3b-4f9e-bb1c-f33f5dedd054",
+    "Email": "AdminRegistration@test.com",
+    "Password": "Lk5XC/2o+ImQOg8USVN4HDBBlsKsg9xIwqPvVDgGU5g=:NdMDzdW2SiJlm1SBMzJGiA==",
+    "Name": "Admin",
+    "Phone": "+7 900 000-00-00",
     "Role": {
-      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
-      "Name": "TestRole",
-      "CanBeDeleted": true
-    }
-  },
-  {
-    "Id": "3346e1d9-1858-4264-a3ab-c82b295cf55d",
-    "Email": "Test21@test.ru",
-    "Password": "QseGPvU5fnBiHMXGBTMP1ItwEth4+x1OWwL6ZJ0s2C8=:8M1ChsV5cYSv+S0dbimQ+Q==",
-    "Name": "NewAdminUserAfterChanges",
-    "Phone": null,
-    "Role": {
-      "Id": "fad8286b-cadb-425b-903e-631941c0b011",
+      "Id": "9d05d1f4-9524-4693-cfb7-08dcf6875539",
       "Name": "Admin",
       "CanBeDeleted": false
     }
   },
   {
-    "Id": "6eed253f-9273-4118-b00e-d6d88ddd1f0b",
-    "Email": "test4221@test.com",
-    "Password": "slL5map6saBNhJuo4Y55oRJ5vs/U0NrDR1VxpNDxkbE=:9fWXk7zGPkQlF8d9EbNFGQ==",
-    "Name": "Test",
-    "Phone": null,
+    "Id": "ba19509d-1153-49da-9c63-92556d35121b",
+    "Email": "UserWithDeletedRole@test.ru",
+    "Password": "L97/0GeVzV9Kra3fHYXkT596LiHlo029HfyUS1+QbwI=:TJClUYhmhrXk8WO15VdONw==",
+    "Name": "Mark",
+    "Phone": "+7 900 000-00-00",
     "Role": {
-      "Id": "ccdd59bc-32cb-4bd9-b75a-f13dfe70e3fa",
-      "Name": "TestRole",
-      "CanBeDeleted": true
+      "Id": "593cfe38-24dc-4d5a-cfb8-08dcf6875539",
+      "Name": "User",
+      "CanBeDeleted": false
     }
   }
 ]

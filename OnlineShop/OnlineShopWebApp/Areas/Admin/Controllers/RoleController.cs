@@ -32,7 +32,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admin Roles View</returns>
         /// <param name="role">Target role</param>  
         [HttpPost]
-        public IActionResult Add(Role role)
+        public IActionResult Add(RoleViewModel role)
         {
             var isModelValid = _rolesService.IsNewValid(ModelState, role);
 

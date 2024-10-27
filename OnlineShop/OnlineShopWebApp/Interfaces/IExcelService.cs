@@ -26,7 +26,7 @@ namespace OnlineShopWebApp.Interfaces
         /// </summary>
         /// <returns>MemoryStream Excel file with roles info</returns>
         /// <param name="roles">Target roles collection</param>
-        MemoryStream ExportRoles(IEnumerable<Role> roles);
+        MemoryStream ExportRoles(IEnumerable<RoleViewModel> roles);
 
         /// <summary>
         /// Export all products info in collection to excel

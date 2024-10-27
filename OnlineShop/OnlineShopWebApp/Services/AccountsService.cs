@@ -219,7 +219,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>Associated Role; Return Role User as default</returns>
         /// <param name="register">Target register model</param>
-        private Role GetRegisterRole(Register register)
+        private RoleViewModel GetRegisterRole(Register register)
         {
             return register switch
             {

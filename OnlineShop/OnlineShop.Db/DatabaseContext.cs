@@ -11,6 +11,7 @@ namespace OnlineShop.Db
         public DbSet<FavoriteProduct> FavoriteProducts { get; set; }
         public DbSet<ComparisonProduct> ComparisonProducts { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {

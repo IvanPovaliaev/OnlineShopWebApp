@@ -157,7 +157,7 @@ namespace OnlineShopWebApp.Services
             return stream;
         }
 
-        public MemoryStream ExportRoles(IEnumerable<Role> roles)
+        public MemoryStream ExportRoles(IEnumerable<RoleViewModel> roles)
         {
             var stream = new MemoryStream();
             using (var workbook = new XLWorkbook())

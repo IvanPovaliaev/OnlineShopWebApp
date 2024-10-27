@@ -1,4 +1,4 @@
-﻿@model List<Role>
+﻿@model List<RoleViewModel>
 
 <section class="container flex-row">
 	<div class="row">
@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="modal-body" id="addRoleFormWrapper">
-                                   @await Html.PartialAsync("_AddForm", new Role())
+                                   @await Html.PartialAsync("_AddForm", new RoleViewModel())
                             </div>
 
                             <div class="modal-footer">
