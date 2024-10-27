@@ -19,7 +19,7 @@ namespace OnlineShopWebApp.Interfaces
         /// </summary>
         /// <returns>MemoryStream Excel file with orders info</returns>
         /// <param name="orders">Target orders collection</param>
-        MemoryStream ExportOrders(IEnumerable<Order> orders);
+        MemoryStream ExportOrders(IEnumerable<OrderViewModel> orders);
 
         /// <summary>
         /// Export all roles info in collection to excel

@@ -48,7 +48,7 @@ namespace OnlineShopWebApp.Services
             return stream;
         }
 
-        public MemoryStream ExportOrders(IEnumerable<Order> orders)
+        public MemoryStream ExportOrders(IEnumerable<OrderViewModel> orders)
         {
             var stream = new MemoryStream();
             using (var workbook = new XLWorkbook())
@@ -83,16 +83,16 @@ namespace OnlineShopWebApp.Services
                     worksheet.Cell(rowNumber, 3).Value = order.UserId.ToString();
                     worksheet.Cell(rowNumber, 4).Value = order.CreationDate;
                     worksheet.Cell(rowNumber, 5).Value = order.Status.ToString();
-                    worksheet.Cell(rowNumber, 6).Value = order.City;
-                    worksheet.Cell(rowNumber, 7).Value = order.Entrance;
-                    worksheet.Cell(rowNumber, 8).Value = order.Floor;
-                    worksheet.Cell(rowNumber, 9).Value = order.Apartment;
-                    worksheet.Cell(rowNumber, 10).Value = order.PostCode;
-                    worksheet.Cell(rowNumber, 11).Value = order.FullName;
-                    worksheet.Cell(rowNumber, 12).Value = order.Email;
-                    worksheet.Cell(rowNumber, 13).Value = order.Phone;
-                    worksheet.Cell(rowNumber, 14).Value = order.ReservePhone;
-                    worksheet.Cell(rowNumber, 15).Value = order.AdditionalInfo;
+                    worksheet.Cell(rowNumber, 6).Value = order.Info.City;
+                    worksheet.Cell(rowNumber, 7).Value = order.Info.Entrance;
+                    worksheet.Cell(rowNumber, 8).Value = order.Info.Floor;
+                    worksheet.Cell(rowNumber, 9).Value = order.Info.Apartment;
+                    worksheet.Cell(rowNumber, 10).Value = order.Info.PostCode;
+                    worksheet.Cell(rowNumber, 11).Value = order.Info.FullName;
+                    worksheet.Cell(rowNumber, 12).Value = order.Info.Email;
+                    worksheet.Cell(rowNumber, 13).Value = order.Info.Phone;
+                    worksheet.Cell(rowNumber, 14).Value = order.Info.ReservePhone;
+                    worksheet.Cell(rowNumber, 15).Value = order.Info.AdditionalInfo;
 
                     var formattedPositions = order.Positions.Select(p => $"{p.Product.Name}{_entityValuesSeparator}{p.Quantity}{_entityValuesSeparator}{p.Cost}");
                     worksheet.Cell(rowNumber, 16).Value = string.Join("\n", formattedPositions);
@@ -117,7 +117,7 @@ namespace OnlineShopWebApp.Services
             var stream = new MemoryStream();
             using (var workbook = new XLWorkbook())
             {
-                var worksheet = workbook.Worksheets.Add("Orders");
+                var worksheet = workbook.Worksheets.Add("Products");
 
                 worksheet.Cell(1, 1).Value = "ID";
                 worksheet.Cell(1, 2).Value = "Name";
@@ -162,7 +162,7 @@ namespace OnlineShopWebApp.Services
             var stream = new MemoryStream();
             using (var workbook = new XLWorkbook())
             {
-                var worksheet = workbook.Worksheets.Add("Orders");
+                var worksheet = workbook.Worksheets.Add("Roles");
 
                 worksheet.Cell(1, 1).Value = "ID";
                 worksheet.Cell(1, 2).Value = "Name";

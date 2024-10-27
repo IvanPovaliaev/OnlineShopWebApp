@@ -1,19 +1,11 @@
-﻿using OnlineShopWebApp.Areas.Admin.Models;
-using OnlineShopWebApp.Helpers;
+﻿using OnlineShopWebApp.Helpers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace OnlineShopWebApp.Models
 {
-    public class Order
+    public class UserDeliveryInfoViewModel
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
-        public DateTime CreationDate { get; set; }
-        public OrderStatus Status { get; set; }
-
         [Required(ErrorMessage = "Обязательное поле")]
         public string City { get; set; }
 
@@ -50,30 +42,5 @@ namespace OnlineShopWebApp.Models
 
         [StringLength(300, MinimumLength = 10, ErrorMessage = "Количество символов должно быть от {2} до {1}")]
         public string? AdditionalInfo { get; set; }
-        public List<CartPositionViewModel> Positions { get; set; }
-        public long Article => GetArticle();
-        public decimal TotalCost
-        {
-            get => Positions?.Sum(p => p.Cost) ?? 0;
-        }
-
-        public Order()
-        {
-            Id = Guid.NewGuid();
-            CreationDate = DateTime.Now;
-            Status = OrderStatus.Created;
-            Positions = [];
-        }
-
-        /// <summary>
-        /// Get Article
-        /// </summary>
-        /// <returns>positive 64-bit integer</returns>
-        private long GetArticle()
-        {
-            var bytes = Id.ToByteArray();
-            var article = BitConverter.ToInt64(bytes, 0);
-            return Math.Abs(article);
-        }
     }
 }

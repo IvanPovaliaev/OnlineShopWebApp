@@ -20,7 +20,7 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Users cart View</returns>
         public IActionResult Index()
         {
-            var cart = _cartsService.Get(_userId);
+            var cart = _cartsService.GetViewModel(_userId);
             return View(cart);
         }
 

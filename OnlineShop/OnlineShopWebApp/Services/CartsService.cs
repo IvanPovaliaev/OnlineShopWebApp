@@ -23,11 +23,18 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Get cart by userId (guid)
         /// </summary>        
+        /// <returns>Cart for related user</returns>
+        /// <param name="userId">GUID user id</param>
+        public Cart Get(Guid userId) => _cartsRepository.Get(userId);
+
+        /// <summary>
+        /// Get cart by userId (guid)
+        /// </summary>        
         /// <returns>CartViewModel for related user</returns>
         /// <param name="userId">GUID user id</param>
-        public CartViewModel Get(Guid userId)
+        public CartViewModel GetViewModel(Guid userId)
         {
-            var cartDb = _cartsRepository.Get(userId);
+            var cartDb = Get(userId);
             return _mapper.Map<CartViewModel>(cartDb);
         }
 

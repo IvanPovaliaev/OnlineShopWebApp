@@ -34,6 +34,10 @@ namespace OnlineShopWebApp.Helpers
 
             CreateMap<FavoriteProductViewModel, FavoriteProduct>().ReverseMap();
             CreateMap<ComparisonProductViewModel, ComparisonProduct>().ReverseMap();
+
+            CreateMap<OrderViewModel, Order>().ReverseMap();
+            CreateMap<UserDeliveryInfoViewModel, UserDeliveryInfo>().ReverseMap();
+            CreateMap<OrderPositionViewModel, OrderPosition>().ReverseMap();
         }
     }
 }

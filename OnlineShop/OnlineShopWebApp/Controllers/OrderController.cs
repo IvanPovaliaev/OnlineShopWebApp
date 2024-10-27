@@ -22,21 +22,22 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Create order view</returns>
         [HttpPost]
-        public IActionResult Create(Order order)
+        public IActionResult Create(UserDeliveryInfoViewModel deliveryInfo)
         {
-            order.Positions = _cartsService.Get(_userId).Positions;
+            var positions = _cartsService.Get(_userId).Positions;
 
-            var isModelValid = _ordersService.IsCreationValid(ModelState, order);
+            var isModelValid = _ordersService.IsCreationValid(ModelState, positions);
 
             if (!isModelValid)
             {
                 return BadRequest();
             }
 
-            order.UserId = _userId;
-
+            _ordersService.Create(_userId, deliveryInfo, positions);
             _cartsService.Delete(_userId);
-            _ordersService.Create(order);
+
+            var order = _ordersService.GetLast(_userId);
+
             return View(order);
         }
     }

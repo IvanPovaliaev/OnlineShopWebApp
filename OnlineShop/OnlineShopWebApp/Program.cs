@@ -24,6 +24,7 @@ builder.Host.UseSerilog((context, configuration) => configuration
 
 var connection = builder.Configuration.GetConnectionString("online_shop");
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllersWithViews();
@@ -39,7 +40,7 @@ builder.Services.AddTransient<ProductsService>();
 builder.Services.AddTransient<ICartsRepository, CartsDbRepository>();
 builder.Services.AddTransient<CartsService>();
 
-builder.Services.AddSingleton<IOrdersRepository, InFileOrdersRepository>();
+builder.Services.AddTransient<IOrdersRepository, OrdersDbRepository>();
 builder.Services.AddTransient<OrdersService>();
 
 builder.Services.AddTransient<IComparisonsRepository, ComparisonsDbRepository>();

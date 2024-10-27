@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp.Models
 {
-    public class CartPositionViewModel
+    public class OrderPositionViewModel
     {
         public Guid Id { get; init; }
         public ProductViewModel Product { get; set; }
