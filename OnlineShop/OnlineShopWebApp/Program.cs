@@ -9,7 +9,6 @@ using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Repositories;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Repositories;
 using OnlineShopWebApp.Services;
 using Serilog;
 using System.Globalization;
@@ -52,7 +51,7 @@ builder.Services.AddTransient<FavoritesService>();
 builder.Services.AddTransient<IRolesRepository, RolesDbRepository>();
 builder.Services.AddTransient<RolesService>();
 
-builder.Services.AddSingleton<IUsersRepository, InFileUsersRepository>();
+builder.Services.AddTransient<IUsersRepository, UsersDbRepository>();
 builder.Services.AddTransient<AccountsService>();
 
 builder.Services.AddTransient<HashService>();

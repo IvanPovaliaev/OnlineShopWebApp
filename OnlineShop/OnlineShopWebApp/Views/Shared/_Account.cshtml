@@ -18,7 +18,7 @@
             </div>
 
             <div class="modal-body" id="loginFormWrapper">
-                @await Html.PartialAsync("_LoginForm", new Login())
+                @await Html.PartialAsync("_LoginForm", new LoginViewModel())
             </div>
 
             <div class="modal-footer d-flex flex-column">
@@ -49,7 +49,7 @@
             </div>
 
             <div class="modal-body" id="registrationFormWrapper">
-                @await Html.PartialAsync("_RegistrationForm", new UserRegister())
+                @await Html.PartialAsync("_RegistrationForm", new UserRegisterViewModel())
             </div>
 
             <div class="modal-footer d-flex flex-column">

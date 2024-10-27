@@ -29,7 +29,7 @@ namespace OnlineShop.Db.Interfaces
         /// Add list of roles
         /// </summary>
         /// <param name="roles">Roles list</param>
-        void Add(List<Role> roles);
+        void AddRange(List<Role> roles);
 
         /// <summary>
         /// Delete role by GUID

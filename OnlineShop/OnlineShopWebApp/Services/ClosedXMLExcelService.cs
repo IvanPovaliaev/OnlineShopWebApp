@@ -12,7 +12,7 @@ namespace OnlineShopWebApp.Services
     {
         private string _entityValuesSeparator = @"........";
 
-        public MemoryStream ExportUsers(IEnumerable<User> users)
+        public MemoryStream ExportUsers(IEnumerable<UserViewModel> users)
         {
             var stream = new MemoryStream();
             using (var workbook = new XLWorkbook())

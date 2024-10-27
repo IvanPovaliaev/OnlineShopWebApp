@@ -1,8 +1,8 @@
-﻿using OnlineShopWebApp.Areas.Admin.Models;
+﻿using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 
-namespace OnlineShopWebApp.Interfaces
+namespace OnlineShop.Db.Interfaces
 {
     public interface IUsersRepository
     {

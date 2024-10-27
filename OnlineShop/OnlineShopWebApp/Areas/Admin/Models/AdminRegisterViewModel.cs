@@ -3,7 +3,7 @@ using System;
 
 namespace OnlineShopWebApp.Areas.Admin.Models
 {
-    public class AdminRegister : Register
+    public class AdminRegisterViewModel : RegisterViewModel
     {
         public Guid RoleId { get; set; }
     }

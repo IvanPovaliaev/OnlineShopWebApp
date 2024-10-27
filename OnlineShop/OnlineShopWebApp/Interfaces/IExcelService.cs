@@ -12,7 +12,7 @@ namespace OnlineShopWebApp.Interfaces
         /// </summary>
         /// <returns>MemoryStream Excel file with users info</returns>
         /// <param name="users">Target users collection</param>
-        MemoryStream ExportUsers(IEnumerable<User> users);
+        MemoryStream ExportUsers(IEnumerable<UserViewModel> users);
 
         /// <summary>
         /// Export all orders info in collection to excel

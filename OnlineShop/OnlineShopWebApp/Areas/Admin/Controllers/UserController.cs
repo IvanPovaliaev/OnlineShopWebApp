@@ -41,7 +41,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admins users View</returns> 
         /// <param name="register">Target register user model</param>
         [HttpPost]
-        public IActionResult Add(AdminRegister register)
+        public IActionResult Add(AdminRegisterViewModel register)
         {
             var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
 
@@ -76,7 +76,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>User Details Page</returns>
         /// <param name="changePassword">Target changePassword model</param>  
         [HttpPost]
-        public IActionResult ChangePassword(ChangePassword changePassword)
+        public IActionResult ChangePassword(ChangePasswordViewModel changePassword)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admin Edit User View</returns>
         /// <param name="editUser">Target EditUser model</param> 
-        public IActionResult Edit(AdminEditUser editUser) => View(editUser);
+        public IActionResult Edit(AdminEditUserViewModel editUser) => View(editUser);
 
         /// <summary>
         /// Update target user
@@ -103,7 +103,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>User Details Page if success; otherwise Edit User View</returns>
         /// <param name="editUser">Target EditUser model</param>  
         [HttpPost]
-        public IActionResult Update(AdminEditUser editUser)
+        public IActionResult Update(AdminEditUserViewModel editUser)
         {
             var isModelValid = _accountsService.IsEditUserValid(ModelState, editUser);
 

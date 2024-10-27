@@ -44,11 +44,18 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Get role from repository by id
         /// </summary>
+        /// <returns>Role; returns null if role not found</returns>
+        /// <param name="id">Target role id (GUID)</param>
+        public Role Get(Guid id) => _rolesRepository.Get(id);
+
+        /// <summary>
+        /// Get role from repository by id
+        /// </summary>
         /// <returns>RoleViewModel; returns null if role not found</returns>
         /// <param name="id">Target role id (GUID)</param>
-        public RoleViewModel Get(Guid id)
+        public RoleViewModel GetViewModel(Guid id)
         {
-            var roleDb = _rolesRepository.Get(id);
+            var roleDb = Get(id);
             return _mapper.Map<RoleViewModel>(roleDb);
         }
 
@@ -107,7 +114,7 @@ namespace OnlineShopWebApp.Services
 
         private bool CanBeDeleted(Guid id)
         {
-            var role = _rolesRepository.Get(id);
+            var role = Get(id);
             return role.CanBeDeleted;
         }
 
@@ -136,7 +143,7 @@ namespace OnlineShopWebApp.Services
                 }
             ];
 
-            _rolesRepository.Add(roles);
+            _rolesRepository.AddRange(roles);
         }
     }
 }

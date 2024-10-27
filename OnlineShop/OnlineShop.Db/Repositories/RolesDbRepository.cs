@@ -28,7 +28,7 @@ namespace OnlineShop.Db.Repositories
             _databaseContext.SaveChanges();
         }
 
-        public void Add(List<Role> roles)
+        public void AddRange(List<Role> roles)
         {
             _databaseContext.Roles.AddRange(roles);
             _databaseContext.SaveChanges();

@@ -1,43 +1,36 @@
-﻿using OnlineShopWebApp.Areas.Admin.Models;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Services;
+﻿using OnlineShop.Db.Interfaces;
+using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OnlineShopWebApp.Repositories
+namespace OnlineShop.Db.Repositories
 {
-    public class InFileUsersRepository : IUsersRepository
+    public class UsersDbRepository : IUsersRepository
     {
-        public const string FilePath = @".\Data\Users.json";
-        private JsonRepositoryService _jsonRepositoryService;
-        private List<User> _users;
+        private readonly DatabaseContext _databaseContext;
 
-        public InFileUsersRepository(JsonRepositoryService jsonService)
+        public UsersDbRepository(DatabaseContext databaseContext)
         {
-            _jsonRepositoryService = jsonService;
-            _users = _jsonRepositoryService.Upload<User>(FilePath);
+            _databaseContext = databaseContext;
         }
 
-        public List<User> GetAll() => _users;
+        public List<User> GetAll() => _databaseContext.Users.ToList();
 
         public User Get(Guid id)
         {
-            var user = _users.FirstOrDefault(u => u.Id == id);
-            return user;
+            return _databaseContext.Users.FirstOrDefault(u => u.Id == id)!;
         }
 
         public User GetByEmail(string email)
         {
-            var user = GetAll().
-                        FirstOrDefault(u => u.Email == email);
-            return user;
+            return _databaseContext.Users.FirstOrDefault(u => u.Email == email)!;
         }
 
         public void Add(User user)
         {
-            _users.Add(user);
-            _jsonRepositoryService.SaveChanges(FilePath, _users);
+            _databaseContext.Users.Add(user);
+            _databaseContext.SaveChanges();
         }
 
         public void Update(User user)
@@ -55,7 +48,7 @@ namespace OnlineShopWebApp.Repositories
             repositoryUser.Phone = user.Phone;
             repositoryUser.Role = user.Role;
 
-            _jsonRepositoryService.SaveChanges(FilePath, _users);
+            _databaseContext.SaveChanges();
         }
 
         public void ChangeRolesToUser(IEnumerable<User> users)
@@ -72,14 +65,14 @@ namespace OnlineShopWebApp.Repositories
                 repositoryUser.Role = user.Role;
             }
 
-            _jsonRepositoryService.SaveChanges(FilePath, _users);
+            _databaseContext.SaveChanges();
         }
 
         public void Delete(Guid id)
         {
             var user = Get(id);
-            _users.Remove(user);
-            _jsonRepositoryService.SaveChanges(FilePath, _users);
+            _databaseContext.Users.Remove(user);
+            _databaseContext.SaveChanges();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OnlineShopWebApp.Areas.Admin.Models
+namespace OnlineShop.Db.Models
 {
     public class User
     {
@@ -9,11 +9,6 @@ namespace OnlineShopWebApp.Areas.Admin.Models
         public string Password { get; set; }
         public string? Name { get; set; }
         public string? Phone { get; set; }
-        public RoleViewModel Role { get; set; }
-
-        public User()
-        {
-            Id = Guid.NewGuid();
-        }
+        public Role Role { get; set; }
     }
 }
