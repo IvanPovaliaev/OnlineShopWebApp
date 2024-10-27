@@ -70,7 +70,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admins products View</returns>
         [HttpPost]
-        public IActionResult Update(ProductViewModel product)
+        public IActionResult Update(EditProductViewModel product)
         {
             var isModelValid = _productsService.IsUpdateValid(ModelState, product);
 
