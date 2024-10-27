@@ -36,11 +36,5 @@ namespace OnlineShop.Db.Interfaces
         /// </summary>
         /// <param name="userId">User Id (guid)</param>
         void DeleteAll(Guid userId);
-
-        /// <summary>
-        /// Delete all ComparisonProducts related to product Id.
-        /// </summary>
-        /// <param name="productId">Target product Id (guid)</param>
-        void DeleteAllByProductId(Guid productId);
     }
 }

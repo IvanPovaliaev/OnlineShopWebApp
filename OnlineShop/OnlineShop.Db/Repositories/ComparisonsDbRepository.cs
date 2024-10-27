@@ -38,12 +38,5 @@ namespace OnlineShop.Db.Repositories
             _databaseContext.ComparisonProducts.RemoveRange(comparisons);
             _databaseContext.SaveChanges();
         }
-
-        public void DeleteAllByProductId(Guid productId)
-        {
-            var comparisons = _databaseContext.ComparisonProducts.Where(c => c.Product.Id == productId);
-            _databaseContext.ComparisonProducts.RemoveRange(comparisons);
-            _databaseContext.SaveChanges();
-        }
     }
 }

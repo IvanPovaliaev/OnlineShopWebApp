@@ -64,15 +64,5 @@ namespace OnlineShop.Db.Repositories
             _databaseContext.Carts.Remove(repositoryCart);
             _databaseContext.SaveChanges();
         }
-
-        public void DeletePositionsByProductId(Guid productId)
-        {
-            foreach (var cart in _databaseContext.Carts)
-            {
-                cart.Positions.RemoveAll(position => position.Product.Id == productId);
-            }
-
-            _databaseContext.SaveChanges();
-        }
     }
 }
