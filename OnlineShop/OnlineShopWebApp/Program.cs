@@ -30,9 +30,6 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-builder.Services.AddTransient<FileService>();
-builder.Services.AddTransient<JsonRepositoryService>();
-
 builder.Services.AddTransient<IProductsRepository, ProductsDbRepository>();
 builder.Services.AddTransient<ProductsService>();
 
