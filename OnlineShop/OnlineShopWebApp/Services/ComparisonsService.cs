@@ -81,15 +81,6 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Delete all ComparisonProducts related to product Id.
-        /// </summary>
-        /// <param name="productId">Target product Id (guid)</param>
-        public void DeleteAllByProductId(Guid productId)
-        {
-            _comparisonsRepository.DeleteAllByProductId(productId);
-        }
-
-        /// <summary>
         /// Checks if the given product exists in users comparison products
         /// </summary>
         /// <returns>true if product exists; otherwise returns false</returns>

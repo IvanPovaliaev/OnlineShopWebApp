@@ -73,15 +73,6 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Delete all FavoriteProducts related to product Id.
-        /// </summary>
-        /// <param name="productId">Target product Id (guid)</param>
-        public void DeleteAllByProductId(Guid productId)
-        {
-            _favoritesRepository.DeleteAllByProductId(productId);
-        }
-
-        /// <summary>
         /// Checks if the given product exists in users favorites products
         /// </summary>
         /// <returns>true if product exists; otherwise returns false</returns>
