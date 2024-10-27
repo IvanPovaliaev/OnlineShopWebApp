@@ -9,6 +9,6 @@ namespace OnlineShopWebApp.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Введите пароль")]
-        public string Password { get; set; }
+        public string Password { get; init; }
     }
 }

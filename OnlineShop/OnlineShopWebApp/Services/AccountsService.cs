@@ -230,7 +230,7 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Get a role fot new user based on register model
+        /// Get a role for new user based on register model
         /// </summary>        
         /// <returns>Associated Role Id; Return Role User Id as default</returns>
         /// <param name="register">Target register model</param>
