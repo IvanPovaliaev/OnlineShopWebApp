@@ -128,7 +128,7 @@ namespace OnlineShopWebApp.Services
         /// Update product with identical id.
         /// </summary>
         /// <param name="product">Target product</param>
-        public void Update(ProductViewModel product)
+        public void Update(EditProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
             _productsRepository.Update(productDb);
@@ -148,8 +148,8 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>true if model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
-        /// <param name="product">Target product model</param>
-        public bool IsUpdateValid(ModelStateDictionary modelState, ProductViewModel product)
+        /// <param name="product">Target EditProductViewModel</param>
+        public bool IsUpdateValid(ModelStateDictionary modelState, EditProductViewModel product)
         {
             var repositoryProduct = GetViewModel(product.Id);
 
