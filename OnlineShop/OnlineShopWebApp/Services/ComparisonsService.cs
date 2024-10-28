@@ -58,7 +58,13 @@ namespace OnlineShopWebApp.Services
             {
                 return;
             }
-            var comparison = new ComparisonProduct(userId, product);
+
+            var comparison = new ComparisonProduct()
+            {
+                UserId = userId,
+                Product = product
+            };
+
             _comparisonsRepository.Create(comparison);
         }
 

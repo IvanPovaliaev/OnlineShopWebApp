@@ -50,7 +50,12 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            var favorite = new FavoriteProduct(userId, product);
+            var favorite = new FavoriteProduct()
+            {
+                UserId = userId,
+                Product = product
+            };
+
             _favoritesRepository.Create(favorite);
         }
 
