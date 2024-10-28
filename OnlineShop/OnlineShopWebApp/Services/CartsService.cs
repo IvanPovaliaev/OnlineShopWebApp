@@ -158,7 +158,13 @@ namespace OnlineShopWebApp.Services
         {
             var product = _productsService.Get(productId);
 
-            var position = new CartPosition(product, cart);
+            var position = new CartPosition()
+            {
+                Product = product,
+                Quantity = 1,
+                Cart = cart
+            };
+
             cart.Positions.Add(position);
         }
     }
