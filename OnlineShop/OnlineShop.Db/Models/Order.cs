@@ -5,7 +5,7 @@ namespace OnlineShop.Db.Models
 {
     public class Order
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
         public Guid UserId { get; set; }
         public DateTime CreationDate { get; set; }
         public OrderStatus Status { get; set; }
@@ -14,7 +14,7 @@ namespace OnlineShop.Db.Models
 
         public Order()
         {
-            CreationDate = DateTime.Now;
+            CreationDate = DateTime.Now.ToUniversalTime();
             Status = OrderStatus.Created;
         }
     }

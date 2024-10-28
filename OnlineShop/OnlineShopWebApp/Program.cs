@@ -22,7 +22,7 @@ builder.Host.UseSerilog((context, configuration) => configuration
             .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
 var connection = builder.Configuration.GetConnectionString("online_shop");
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connection));
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
