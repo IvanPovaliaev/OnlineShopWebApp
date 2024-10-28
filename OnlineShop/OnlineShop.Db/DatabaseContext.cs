@@ -7,7 +7,6 @@ namespace OnlineShop.Db
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartPosition> CartPositions { get; set; }
         public DbSet<FavoriteProduct> FavoriteProducts { get; set; }
         public DbSet<ComparisonProduct> ComparisonProducts { get; set; }
         public DbSet<Order> Orders { get; set; }
