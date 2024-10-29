@@ -27,7 +27,6 @@ namespace OnlineShopWebApp.Services
             _mediator = mediator;
             _excelService = excelService;
             _mapper = mapper;
-            InitializeRoles();
         }
 
         /// <summary>
@@ -117,34 +116,6 @@ namespace OnlineShopWebApp.Services
         {
             var role = await GetAllAsync(id);
             return role.CanBeDeleted;
-        }
-
-        /// <summary>
-        /// Initializes initial roles if repository is empty;
-        /// </summary>
-        private void InitializeRoles()
-        {
-            //var roles = _rolesRepository.GetAllAsync();
-            //if (roles.Count != 0)
-            //{
-            //    return;
-            //}
-
-            //roles =
-            //[
-            //    new()
-            //    {
-            //        Name = Constants.AdminRoleName,
-            //        CanBeDeleted = false
-            //    },
-            //    new()
-            //    {
-            //        Name = Constants.UserRoleName,
-            //        CanBeDeleted = false
-            //    }
-            //];
-
-            //_rolesRepository.AddRangeAsync(roles);
         }
     }
 }
