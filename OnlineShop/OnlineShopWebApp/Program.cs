@@ -22,7 +22,7 @@ builder.Host.UseSerilog((context, configuration) => configuration
             .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
 var connection = builder.Configuration.GetConnectionString("online_shop");
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connection));
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -30,25 +30,25 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-builder.Services.AddTransient<IProductsRepository, ProductsDbRepository>();
+builder.Services.AddScoped<IProductsRepository, ProductsDbRepository>();
 builder.Services.AddTransient<ProductsService>();
 
-builder.Services.AddTransient<ICartsRepository, CartsDbRepository>();
+builder.Services.AddScoped<ICartsRepository, CartsDbRepository>();
 builder.Services.AddTransient<CartsService>();
 
-builder.Services.AddTransient<IOrdersRepository, OrdersDbRepository>();
+builder.Services.AddScoped<IOrdersRepository, OrdersDbRepository>();
 builder.Services.AddTransient<OrdersService>();
 
-builder.Services.AddTransient<IComparisonsRepository, ComparisonsDbRepository>();
+builder.Services.AddScoped<IComparisonsRepository, ComparisonsDbRepository>();
 builder.Services.AddTransient<ComparisonsService>();
 
-builder.Services.AddTransient<IFavoritesRepository, FavoritesDbRepository>();
+builder.Services.AddScoped<IFavoritesRepository, FavoritesDbRepository>();
 builder.Services.AddTransient<FavoritesService>();
 
-builder.Services.AddTransient<IRolesRepository, RolesDbRepository>();
+builder.Services.AddScoped<IRolesRepository, RolesDbRepository>();
 builder.Services.AddTransient<RolesService>();
 
-builder.Services.AddTransient<IUsersRepository, UsersDbRepository>();
+builder.Services.AddScoped<IUsersRepository, UsersDbRepository>();
 builder.Services.AddTransient<AccountsService>();
 
 builder.Services.AddTransient<HashService>();
