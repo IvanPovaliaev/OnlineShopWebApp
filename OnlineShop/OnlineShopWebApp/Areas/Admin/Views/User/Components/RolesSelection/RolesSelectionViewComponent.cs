@@ -7,14 +7,9 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Views.User.Components.RolesSelection
 {
-    public class RolesSelection : ViewComponent
+    public class RolesSelectionViewComponent(RolesService rolesService) : ViewComponent
     {
-        private readonly RolesService _rolesService;
-
-        public RolesSelection(RolesService rolesService)
-        {
-            _rolesService = rolesService;
-        }
+        private readonly RolesService _rolesService = rolesService;
 
         /// <summary>
         /// Return selection ViewComponent with initial role by selectedRoleId;
