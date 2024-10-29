@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Views.Shared.Components.Cart
 {
@@ -18,11 +19,10 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
         /// Show favorite icon component on View;
         /// </summary>
         /// <returns>CartViewComponent</returns>
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var favoritesCount = _favoritesService
-                .GetAll(_userId)
-                .Count;
+            var favoritesCount = (await _favoritesService.GetAllAsync(_userId))
+                                                         .Count;
 
             return View("Favorite", favoritesCount);
         }

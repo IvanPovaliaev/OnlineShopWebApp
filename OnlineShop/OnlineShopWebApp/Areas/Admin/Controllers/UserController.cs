@@ -3,6 +3,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
 {
@@ -20,9 +21,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Open Admin Users Page
         /// </summary>
         /// <returns>Admin Users View</returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = _accountsService.GetAll();
+            var users = await _accountsService.GetAllAsync();
             return View(users);
         }
 
@@ -41,16 +42,16 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admins users View</returns> 
         /// <param name="register">Target register user model</param>
         [HttpPost]
-        public IActionResult Add(AdminRegisterViewModel register)
+        public async Task<IActionResult> Add(AdminRegisterViewModel register)
         {
-            var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
+            var isModelValid = await _accountsService.IsRegisterValidAsync(ModelState, register);
 
             if (!isModelValid)
             {
                 return View("Add", register);
             }
 
-            _accountsService.Add(register);
+            await _accountsService.AddAsync(register);
             return RedirectToAction("Index");
         }
 
@@ -59,9 +60,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admin Users View</returns>
         /// <param name="id">Target user Id</param>
-        public IActionResult Details(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            var user = _accountsService.Get(id);
+            var user = await _accountsService.GetAsync(id);
             if (user is null)
             {
                 return NotFound();
@@ -76,14 +77,14 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>User Details Page</returns>
         /// <param name="changePassword">Target changePassword model</param>  
         [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordViewModel changePassword)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePassword)
         {
             if (!ModelState.IsValid)
             {
                 return PartialView("_ChangePasswordForm", changePassword);
             }
 
-            _accountsService.ChangePassword(changePassword);
+            await _accountsService.ChangePasswordAsync(changePassword);
 
             var redirectUrl = Url.Action("Details", new { id = changePassword.UserId });
 
@@ -103,16 +104,16 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>User Details Page if success; otherwise Edit User View</returns>
         /// <param name="editUser">Target EditUser model</param>  
         [HttpPost]
-        public IActionResult Update(AdminEditUserViewModel editUser)
+        public async Task<IActionResult> Update(AdminEditUserViewModel editUser)
         {
-            var isModelValid = _accountsService.IsEditUserValid(ModelState, editUser);
+            var isModelValid = await _accountsService.IsEditUserValidAsync(ModelState, editUser);
 
             if (!isModelValid)
             {
                 return View("Edit", editUser);
             }
 
-            _accountsService.UpdateInfo(editUser);
+            await _accountsService.UpdateInfoAsync(editUser);
 
             return RedirectToAction("Details", new { id = editUser.UserId });
         }
@@ -122,9 +123,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admins users View</returns>
         /// <param name="id">Target user Id</param>  
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            _accountsService.Delete(id);
+            await _accountsService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
 
@@ -132,9 +133,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Export all users info to excel
         /// </summary>
         /// <returns>Excel file with users info</returns>
-        public IActionResult ExportToExcel()
+        public async Task<IActionResult> ExportToExcel()
         {
-            var stream = _accountsService.ExportAllToExcel();
+            var stream = await _accountsService.ExportAllToExcelAsync();
 
             var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
             {

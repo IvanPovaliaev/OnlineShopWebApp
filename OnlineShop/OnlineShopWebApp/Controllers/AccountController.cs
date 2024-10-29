@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -18,9 +19,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Home page</returns>
         [HttpPost]
-        public IActionResult Login(LoginViewModel login, bool keepMeLogged)
+        public async Task<IActionResult> Login(LoginViewModel login, bool keepMeLogged)
         {
-            var isModelValid = _accountsService.IsLoginValid(ModelState, login);
+            var isModelValid = await _accountsService.IsLoginValidAsync(ModelState, login);
 
             if (!isModelValid)
             {
@@ -37,16 +38,16 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Home page</returns>
         [HttpPost]
-        public IActionResult Register(UserRegisterViewModel register)
+        public async Task<IActionResult> Register(UserRegisterViewModel register)
         {
-            var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
+            var isModelValid = await _accountsService.IsRegisterValidAsync(ModelState, register);
 
             if (!isModelValid)
             {
                 return PartialView("_RegistrationForm", register);
             }
 
-            _accountsService.Add(register);
+            await _accountsService.AddAsync(register);
 
             var redirectUrl = Url.Action("Index", "Home");
 

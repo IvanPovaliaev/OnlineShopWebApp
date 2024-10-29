@@ -1,8 +1,9 @@
-﻿using OnlineShop.Db.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
 {
@@ -15,30 +16,30 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public List<Role> GetAll() => _databaseContext.Roles.ToList();
+        public async Task<List<Role>> GetAllAsync() => await _databaseContext.Roles.ToListAsync();
 
-        public Role Get(Guid id)
+        public async Task<Role> GetAsync(Guid id)
         {
-            return _databaseContext.Roles.FirstOrDefault(r => r.Id == id)!;
+            return await _databaseContext.Roles.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public void Add(Role role)
+        public async Task AddAsync(Role role)
         {
-            _databaseContext.Roles.Add(role);
-            _databaseContext.SaveChanges();
+            await _databaseContext.Roles.AddAsync(role);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void AddRange(List<Role> roles)
+        public async Task AddRangeAsync(List<Role> roles)
         {
-            _databaseContext.Roles.AddRange(roles);
-            _databaseContext.SaveChanges();
+            await _databaseContext.Roles.AddRangeAsync(roles);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var role = Get(id);
+            var role = await GetAsync(id);
             _databaseContext.Roles.Remove(role);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

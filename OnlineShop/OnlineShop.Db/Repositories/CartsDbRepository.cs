@@ -3,6 +3,7 @@ using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
 {
@@ -15,22 +16,22 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public Cart Get(Guid userId)
+        public async Task<Cart> GetAsync(Guid userId)
         {
-            return _databaseContext.Carts.Include(cart => cart.Positions)
-                                         .ThenInclude(position => position.Product)
-                                         .FirstOrDefault(cart => cart.UserId == userId)!;
+            return await _databaseContext.Carts.Include(cart => cart.Positions)
+                                               .ThenInclude(position => position.Product)
+                                               .FirstOrDefaultAsync(cart => cart.UserId == userId);
         }
 
-        public void Create(Cart cart)
+        public async Task CreateAsync(Cart cart)
         {
-            _databaseContext.Carts.Add(cart);
-            _databaseContext.SaveChanges();
+            await _databaseContext.Carts.AddAsync(cart);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Update(Cart cart)
+        public async Task UpdateAsync(Cart cart)
         {
-            var repositoryCart = Get(cart.UserId);
+            var repositoryCart = await GetAsync(cart.UserId)!;
 
             if (repositoryCart is null)
             {
@@ -49,12 +50,12 @@ namespace OnlineShop.Db.Repositories
                 existingPosition.Quantity = cartPosition.Quantity;
             }
 
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Delete(Guid userId)
+        public async Task DeleteAsync(Guid userId)
         {
-            var repositoryCart = Get(userId);
+            var repositoryCart = await GetAsync(userId);
 
             if (repositoryCart is null)
             {
@@ -62,7 +63,7 @@ namespace OnlineShop.Db.Repositories
             }
 
             _databaseContext.Carts.Remove(repositoryCart);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

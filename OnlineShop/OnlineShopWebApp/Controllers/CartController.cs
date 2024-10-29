@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -18,9 +19,9 @@ namespace OnlineShopWebApp.Controllers
         /// Get current cart for related user
         /// </summary>
         /// <returns>Users cart View</returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var cart = _cartsService.GetViewModel(_userId);
+            var cart = await _cartsService.GetViewModelAsync(_userId);
             return View(cart);
         }
 
@@ -29,9 +30,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>_NavUserIcons PartialView</returns>
         /// <param name="productId">Product id (guid)</param>
-        public IActionResult Add(Guid productId)
+        public async Task<IActionResult> Add(Guid productId)
         {
-            _cartsService.Add(productId, _userId);
+            await _cartsService.AddAsync(productId, _userId);
             return PartialView("_NavUserIcons");
         }
 
@@ -40,9 +41,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Users cart View</returns>
         /// <param name="positionId">Position ID (GUID)</param>
-        public IActionResult Increase(Guid positionId)
+        public async Task<IActionResult> Increase(Guid positionId)
         {
-            _cartsService.IncreasePosition(_userId, positionId);
+            await _cartsService.IncreasePositionAsync(_userId, positionId);
             return RedirectToAction("Index");
         }
 
@@ -51,9 +52,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Users cart View</returns>
         /// <param name="positionId">Position ID (GUID)</param>
-        public IActionResult Decrease(Guid positionId)
+        public async Task<IActionResult> Decrease(Guid positionId)
         {
-            _cartsService.DecreasePosition(_userId, positionId);
+            await _cartsService.DecreasePosition(_userId, positionId);
             return RedirectToAction("Index");
         }
 
@@ -61,9 +62,9 @@ namespace OnlineShopWebApp.Controllers
         /// Delete users cart
         /// </summary>
         /// <returns>Users cart View</returns>
-        public IActionResult Delete()
+        public async Task<IActionResult> Delete()
         {
-            _cartsService.Delete(_userId);
+            await _cartsService.DeleteAsync(_userId);
             return RedirectToAction("Index");
         }
 
@@ -72,9 +73,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Users cart View</returns>
         /// <param name="positionId">Position ID (GUID)</param>
-        public IActionResult DeletePosition(Guid positionId)
+        public async Task<IActionResult> DeletePosition(Guid positionId)
         {
-            _cartsService.DeletePosition(_userId, positionId);
+            await _cartsService.DeletePositionAsync(_userId, positionId);
             return RedirectToAction("Index");
         }
     }

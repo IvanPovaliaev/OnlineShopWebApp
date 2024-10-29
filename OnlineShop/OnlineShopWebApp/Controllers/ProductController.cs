@@ -2,6 +2,7 @@
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -19,9 +20,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Product page View</returns>
         /// <param name="id">Product id (guid)</param>
-        public IActionResult Index(Guid id)
+        public async Task<IActionResult> Index(Guid id)
         {
-            var product = _productsService.GetViewModel(id);
+            var product = await _productsService.GetViewModelAsync(id);
 
             if (product == null)
             {
@@ -36,9 +37,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Page View of all products of the specified category</returns>
         /// <param name="category">Product category</param>        
-        public IActionResult Category(ProductCategoriesViewModel category)
+        public async Task<IActionResult> Category(ProductCategoriesViewModel category)
         {
-            var products = _productsService.GetAll(category);
+            var products = await _productsService.GetAllAsync(category);
             var productsWithCategory = (products, category);
             return View(productsWithCategory);
         }
@@ -47,9 +48,9 @@ namespace OnlineShopWebApp.Controllers
         /// Get all products
         /// </summary>
         /// <returns>Page View of all products</returns>        
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var products = _productsService.GetAll();
+            var products = await _productsService.GetAllAsync();
             return View(products);
         }
 
@@ -57,9 +58,9 @@ namespace OnlineShopWebApp.Controllers
         /// Get all products that match the search query
         /// </summary>
         /// <returns>Page with found products</returns>        
-        public IActionResult SearchResult(string searchQuery)
+        public async Task<IActionResult> SearchResult(string searchQuery)
         {
-            var products = _productsService.GetAllFromSearch(searchQuery);
+            var products = await _productsService.GetAllFromSearchAsync(searchQuery);
             var productsWithQuery = (products, searchQuery);
             return View(productsWithQuery);
         }

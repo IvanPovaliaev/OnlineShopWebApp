@@ -1,8 +1,10 @@
-﻿using OnlineShop.Db.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
 {
@@ -15,31 +17,34 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public List<FavoriteProduct> GetAll() => _databaseContext.FavoriteProducts.ToList();
+        public async Task<List<FavoriteProduct>> GetAllAsync() => await _databaseContext.FavoriteProducts.Include(f => f.Product)
+                                                                                                         .ToListAsync();
 
-        public FavoriteProduct Get(Guid id)
+        public async Task<FavoriteProduct> GetAsync(Guid id)
         {
-            return _databaseContext.FavoriteProducts.FirstOrDefault(f => f.Id == id)!;
+            return await _databaseContext.FavoriteProducts.Include(f => f.Product)
+                                                          .FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public void Create(FavoriteProduct product)
+        public async Task CreateAsync(FavoriteProduct product)
         {
-            _databaseContext.FavoriteProducts.Add(product);
-            _databaseContext.SaveChanges();
+            await _databaseContext.FavoriteProducts.AddAsync(product)!;
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var favoriteProduct = Get(id);
+            var favoriteProduct = await GetAsync(id);
             _databaseContext.FavoriteProducts.Remove(favoriteProduct);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void DeleteAll(Guid userId)
+        public async Task DeleteAllAsync(Guid userId)
         {
-            var favorites = _databaseContext.FavoriteProducts.Where(f => f.UserId == userId);
+            var favorites = await _databaseContext.FavoriteProducts.Where(f => f.UserId == userId)
+                                                                   .ToArrayAsync();
             _databaseContext.FavoriteProducts.RemoveRange(favorites);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

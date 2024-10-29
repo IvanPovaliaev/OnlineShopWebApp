@@ -1,6 +1,7 @@
 ﻿using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Interfaces
 {
@@ -10,31 +11,31 @@ namespace OnlineShop.Db.Interfaces
         /// Get all FavoriteProducts
         /// </summary>
         /// <returns>List of all products</returns>
-        List<FavoriteProduct> GetAll();
+        Task<List<FavoriteProduct>> GetAllAsync();
 
         /// <summary>
         /// Get a FavoriteProducts by Id
         /// </summary>
         /// <returns>Target FavoriteProducts</returns>
         /// <param name="id">FavoriteProduct Id (guid)</param>
-        FavoriteProduct Get(Guid id);
+        Task<FavoriteProduct> GetAsync(Guid id);
 
         /// <summary>
         /// Create a new FavoriteProduct
         /// </summary>
         /// <param name="product">Target FavoriteProduct</param>
-        void Create(FavoriteProduct product);
+        Task CreateAsync(FavoriteProduct product);
 
         /// <summary>
         /// Delete a FavoriteProduct by Id.
         /// </summary>
         /// <param name="id">FavoriteProduct Id (guid)</param>
-        void Delete(Guid id);
+        Task DeleteAsync(Guid id);
 
         /// <summary>
         /// Delete all FavoriteProducts by userId.
         /// </summary>
         /// <param name="userId">User Id (guid)</param>
-        void DeleteAll(Guid userId);
+        Task DeleteAllAsync(Guid userId);
     }
 }

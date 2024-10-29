@@ -2,6 +2,7 @@
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -22,9 +23,10 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Create order view</returns>
         [HttpPost]
-        public IActionResult Create(UserDeliveryInfoViewModel deliveryInfo)
+        public async Task<IActionResult> Create(UserDeliveryInfoViewModel deliveryInfo)
         {
-            var positions = _cartsService.Get(_userId).Positions;
+            var cart = await _cartsService.GetAsync(_userId);
+            var positions = cart.Positions;
 
             var isModelValid = _ordersService.IsCreationValid(ModelState, positions);
 
@@ -33,10 +35,10 @@ namespace OnlineShopWebApp.Controllers
                 return BadRequest();
             }
 
-            _ordersService.Create(_userId, deliveryInfo, positions);
-            _cartsService.Delete(_userId);
+            await _ordersService.CreateAsync(_userId, deliveryInfo, positions);
+            await _cartsService.DeleteAsync(_userId);
 
-            var order = _ordersService.GetLast(_userId);
+            var order = await _ordersService.GetLastAsync(_userId);
 
             return View(order);
         }
