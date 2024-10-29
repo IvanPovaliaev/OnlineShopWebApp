@@ -14,16 +14,6 @@ namespace OnlineShopWebApp.Models
         public long Article => GetArticle();
         public Dictionary<string, string> Specifications { get; set; }
 
-        public ProductViewModel(string name, decimal cost, string description, ProductCategoriesViewModel category, string? imageUrl = null)
-        {
-            Name = name;
-            Cost = cost;
-            Description = description;
-            Category = category;
-            Specifications = [];
-            ImageUrl = imageUrl;
-        }
-
         /// <summary>
         /// Get Article
         /// </summary>

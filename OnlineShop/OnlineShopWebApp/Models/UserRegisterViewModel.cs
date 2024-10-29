@@ -4,6 +4,5 @@ namespace OnlineShopWebApp.Models
 {
     public class UserRegisterViewModel : RegisterViewModel
     {
-
     }
 }
