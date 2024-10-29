@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
@@ -42,7 +43,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admins products View</returns> 
         /// <param name="product">Target product</param>
         [HttpPost]
-        public IActionResult Add(Product product)
+        public IActionResult Add(AddProductViewModel product)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +61,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <param name="id">Target productId</param>
         public IActionResult Edit(Guid id)
         {
-            var product = _productsService.Get(id);
+            var product = _productsService.GetEditProduct(id);
             return View(product);
         }
 
@@ -69,7 +70,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admins products View</returns>
         [HttpPost]
-        public IActionResult Update(Product product)
+        public IActionResult Update(EditProductViewModel product)
         {
             var isModelValid = _productsService.IsUpdateValid(ModelState, product);
 
@@ -98,7 +99,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Relevant SpecificationsFormViewComponent</returns>
         /// <param name="category">Product category</param>   
-        public IActionResult GetSpecificationsForm(ProductCategories category)
+        public IActionResult GetSpecificationsForm(ProductCategoriesViewModel category)
         {
             var emptySpecifications = new Dictionary<string, string>();
             var specificationsWithCategory = (emptySpecifications, category);

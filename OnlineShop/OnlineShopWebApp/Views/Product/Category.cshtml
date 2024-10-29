@@ -1,16 +1,6 @@
-﻿@model (List<Product> Products, ProductCategories)
+﻿@model (List<ProductViewModel> Products, ProductCategoriesViewModel)
 @{
-    var category = Model.Item2 switch
-    {
-        ProductCategories.SSD => "SSD",
-        ProductCategories.HDD => "HDD",
-        ProductCategories.RAM => "Оперативная память",
-        ProductCategories.Motherboards => "Материнские платы",
-        ProductCategories.Processors => "Процессоры",
-        ProductCategories.PowerSupplies => "Блоки питания",
-        ProductCategories.GraphicCards => "Видеокарты",
-        _ => "Неизвестная категория"
-    };
+    var category = Model.Item2.GetDisplayAttributeName();
 
     ViewData["Title"] = category;
 }

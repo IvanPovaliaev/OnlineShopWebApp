@@ -112,7 +112,7 @@ namespace OnlineShopWebApp.Services
             return stream;
         }
 
-        public MemoryStream ExportProducts(IEnumerable<Product> products)
+        public MemoryStream ExportProducts(IEnumerable<ProductViewModel> products)
         {
             var stream = new MemoryStream();
             using (var workbook = new XLWorkbook())

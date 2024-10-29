@@ -33,6 +33,6 @@ namespace OnlineShopWebApp.Interfaces
         /// </summary>
         /// <returns>MemoryStream Excel file with products info</returns>
         /// <param name="products">Target products collection</param>
-        MemoryStream ExportProducts(IEnumerable<Product> products);
+        MemoryStream ExportProducts(IEnumerable<ProductViewModel> products);
     }
 }

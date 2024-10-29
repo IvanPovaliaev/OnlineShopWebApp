@@ -1,5 +1,9 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShop.Db.Interfaces;
+using OnlineShop.Db.Models;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
@@ -12,15 +16,17 @@ namespace OnlineShopWebApp.Services
 {
     public class ProductsService
     {
-        private IProductsRepository _productsRepository;
+        private readonly IProductsRepository _productsRepository;
         private readonly IMediator _mediator;
         private readonly IExcelService _excelService;
         private readonly IEnumerable<IProductSpecificationsRules> _specificationsRules;
+        private readonly IMapper _mapper;
 
-        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules)
+        public ProductsService(IProductsRepository productsRepository, IMediator mediator, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules)
         {
             _productsRepository = productsRepository;
             _mediator = mediator;
+            _mapper = mapper;
             _excelService = excelService;
             _specificationsRules = specificationsRules;
             InitializeProducts();
@@ -30,18 +36,23 @@ namespace OnlineShopWebApp.Services
         /// Get all products from repository
         /// </summary>
         /// <returns>List of all products from repository</returns>
-        public List<Product> GetAll() => _productsRepository.GetAll();
+        public List<ProductViewModel> GetAll()
+        {
+            var products = _productsRepository.GetAll()
+                                              .Select(_mapper.Map<ProductViewModel>)
+                                              .ToList();
+            return products;
+        }
 
         /// <summary>
         /// Get all products from repository for current category
         /// </summary>        
         /// <returns>List of all products from repository for current category</returns>
         /// <param name="category">Product category</param>
-        public List<Product> GetAll(ProductCategories category)
+        public List<ProductViewModel> GetAll(ProductCategoriesViewModel category)
         {
-            var products = GetAll()
-                .Where(p => p.Category == category)
-                .ToList();
+            var products = GetAll().Where(p => p.Category == category)
+                                   .ToList();
             return products;
         }
 
@@ -50,7 +61,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>List of all relevant products</returns>
         /// <param name="searchQuery">Search query</param>
-        public List<Product> GetAllFromSearch(string searchQuery)
+        public List<ProductViewModel> GetAllFromSearch(string searchQuery)
         {
             if (string.IsNullOrEmpty(searchQuery))
             {
@@ -63,7 +74,7 @@ namespace OnlineShopWebApp.Services
 
             if (isNumber)
             {
-                isProductInfoContainsString = (Product product, string targetString) =>
+                isProductInfoContainsString = (ProductViewModel product, string targetString) =>
                 {
                     var result = IsNameContainsString(product, targetString) || IsArticleContainsNumber(product, targetString);
                     return result;
@@ -81,28 +92,46 @@ namespace OnlineShopWebApp.Services
         /// Get product from repository by GUID
         /// </summary>
         /// <returns>Product; returns null if product not found</returns>
-        public Product Get(Guid id)
+        public Product Get(Guid id) => _productsRepository.Get(id);
+
+        /// <summary>
+        /// Get product ViewModel of related product by GUID
+        /// </summary>
+        /// <returns>ProductViewModel; returns null if product not found</returns>
+        public ProductViewModel GetViewModel(Guid id)
         {
-            var product = _productsRepository.Get(id);
-            return product;
+            var productDb = Get(id);
+            return _mapper.Map<ProductViewModel>(productDb);
+        }
+
+        /// <summary>
+        /// Get EditProduct from repository by GUID
+        /// </summary>
+        /// <returns>EditProductViewModel; returns null if product not found</returns>
+        public EditProductViewModel GetEditProduct(Guid id)
+        {
+            var productDb = Get(id);
+            return _mapper.Map<EditProductViewModel>(productDb);
         }
 
         /// <summary>
         /// Add product to repository
         /// </summary>
         /// <param name="product">Target product</param>
-        public void Add(Product product)
+        public void Add(AddProductViewModel product)
         {
-            _productsRepository.Add(product);
+            var productDb = _mapper.Map<Product>(product);
+            _productsRepository.Add(productDb);
         }
 
         /// <summary>
         /// Update product with identical id.
         /// </summary>
         /// <param name="product">Target product</param>
-        public void Update(Product product)
+        public void Update(EditProductViewModel product)
         {
-            _productsRepository.Update(product);
+            var productDb = _mapper.Map<Product>(product);
+            _productsRepository.Update(productDb);
         }
 
         /// <summary>
@@ -119,10 +148,10 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>true if model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
-        /// <param name="product">Target product model</param>
-        public bool IsUpdateValid(ModelStateDictionary modelState, Product product)
+        /// <param name="product">Target EditProductViewModel</param>
+        public bool IsUpdateValid(ModelStateDictionary modelState, EditProductViewModel product)
         {
-            var repositoryProduct = Get(product.Id);
+            var repositoryProduct = GetViewModel(product.Id);
 
             if (repositoryProduct.Category != product.Category)
             {
@@ -136,10 +165,11 @@ namespace OnlineShopWebApp.Services
         /// Get the IProductSpecificationsRules implementation according to the target category
         /// </summary>        
         /// <returns>Related IProductSpecificationsRules representation</returns>
-        /// <param name="category">ProductCategories</param>
-        public IProductSpecificationsRules GetSpecificationsRules(ProductCategories category)
+        /// <param name="category">ProductCategoriesViewModel</param>
+        public IProductSpecificationsRules GetSpecificationsRules(ProductCategoriesViewModel category)
         {
-            return _specificationsRules.FirstOrDefault(s => s.Category == category)!;
+            var categoryDb = (ProductCategories)category;
+            return _specificationsRules.FirstOrDefault(s => s.Category == categoryDb)!;
         }
 
         /// <summary>
@@ -157,7 +187,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <param name="product">Target product</param>
         /// <param name="targetString">Target string</param>
-        private bool IsNameContainsString(Product product, string targetString)
+        private bool IsNameContainsString(ProductViewModel product, string targetString)
         {
             return product.Name.Contains(targetString);
         }
@@ -167,11 +197,10 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <param name="product">Target product</param>
         /// <param name="targetNumber">Target string number</param>
-        private bool IsArticleContainsNumber(Product product, string targetNumber)
+        private bool IsArticleContainsNumber(ProductViewModel product, string targetNumber)
         {
-            var result = product.Article
-                .ToString()
-                .Contains(targetNumber);
+            var result = product.Article.ToString()
+                                        .Contains(targetNumber);
             return result;
         }
 
@@ -180,21 +209,21 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         private void InitializeProducts()
         {
-            var products = _productsRepository.GetAll();
+            var products = GetAll();
             if (products.Count != 0)
             {
                 return;
             }
 
             var ssdImageUrl = "/img/products/SSD-1Tb-Kingston-NV2.webp";
-            var ssd = new Product("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategories.SSD, ssdImageUrl);
+            var ssd = new ProductViewModel("SSD 1Tb Kingston NV2 (SNV2S/1000G)", 7050, "Test Description for SSD", ProductCategoriesViewModel.SSD, ssdImageUrl);
             ssd.Specifications["Manufacturer"] = "Kingston";
             ssd.Specifications["ManufacturerCode"] = "SNV2S/1000G";
             ssd.Specifications["FormFactor"] = "M.2";
             ssd.Specifications["Capacity"] = "1000 Гб";
 
             var hddImageUrl = "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp";
-            var hdd = new Product("2Tb SATA-III Seagate Barracuda (ST2000DM008)", 7030, "Test Description for HDD", ProductCategories.HDD, hddImageUrl);
+            var hdd = new ProductViewModel("2Tb SATA-III Seagate Barracuda (ST2000DM008)", 7030, "Test Description for HDD", ProductCategoriesViewModel.HDD, hddImageUrl);
             hdd.Specifications["Manufacturer"] = "Seagate";
             hdd.Specifications["ManufacturerCode"] = "ST2000DM008";
             hdd.Specifications["FormFactor"] = "3.5\"";
@@ -202,7 +231,7 @@ namespace OnlineShopWebApp.Services
             hdd.Specifications["Capacity"] = "2000 Гб";
 
             var firstRamImageUrl = "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp";
-            var firstRam = new Product("32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)", 11870, "Test Description for RAM", ProductCategories.RAM, firstRamImageUrl);
+            var firstRam = new ProductViewModel("32Gb DDR5 6000MHz Team T-Create Expert (CTCED532G6000HC38ADC01) (2x16Gb KIT)", 11870, "Test Description for RAM", ProductCategoriesViewModel.RAM, firstRamImageUrl);
             firstRam.Specifications["Manufacturer"] = "Team";
             firstRam.Specifications["ManufacturerCode"] = "CTCED532G6000HC38ADC01";
             firstRam.Specifications["FormFactor"] = "DIMM";
@@ -212,7 +241,7 @@ namespace OnlineShopWebApp.Services
             firstRam.Specifications["ClockSpeed"] = "6000 МГц";
 
             var secondRamImageUrl = "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp";
-            var secondRam = new Product("32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)", 14160, "Test Description for RAM", ProductCategories.RAM, secondRamImageUrl);
+            var secondRam = new ProductViewModel("32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT)", 14160, "Test Description for RAM", ProductCategoriesViewModel.RAM, secondRamImageUrl);
             secondRam.Specifications["Manufacturer"] = "Kingston";
             secondRam.Specifications["ManufacturerCode"] = "KF560C40BBK2-32";
             secondRam.Specifications["FormFactor"] = "DIMM";
@@ -222,7 +251,7 @@ namespace OnlineShopWebApp.Services
             secondRam.Specifications["ClockSpeed"] = "6000 МГц";
 
             var thirdRamImageUrl = "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp";
-            var thirdRam = new Product("16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT)", 3970, "Test Description for RAM", ProductCategories.RAM, thirdRamImageUrl);
+            var thirdRam = new ProductViewModel("16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT)", 3970, "Test Description for RAM", ProductCategoriesViewModel.RAM, thirdRamImageUrl);
             thirdRam.Specifications["Manufacturer"] = "Netac";
             thirdRam.Specifications["ManufacturerCode"] = "NTSWD4P32DP-16W";
             thirdRam.Specifications["FormFactor"] = "DIMM";
@@ -232,7 +261,7 @@ namespace OnlineShopWebApp.Services
             thirdRam.Specifications["ClockSpeed"] = "3200 МГц";
 
             var fourthRamImageUrl = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT).webp";
-            var fourthRam = new Product("32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)", 8450, "Test Description for RAM", ProductCategories.RAM, fourthRamImageUrl);
+            var fourthRam = new ProductViewModel("32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)", 8450, "Test Description for RAM", ProductCategoriesViewModel.RAM, fourthRamImageUrl);
             fourthRam.Specifications["Manufacturer"] = "Patriot MemoryPatriot Memory";
             fourthRam.Specifications["ManufacturerCode"] = "PVSR432G360C0K";
             fourthRam.Specifications["FormFactor"] = "DIMM";
@@ -242,7 +271,7 @@ namespace OnlineShopWebApp.Services
             fourthRam.Specifications["ClockSpeed"] = "3600 МГц";
 
             var fifthRamImageUrl = "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp";
-            var fifthRam = new Product("64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)", 20790, "Test Description for RAM", ProductCategories.RAM, fifthRamImageUrl);
+            var fifthRam = new ProductViewModel("64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)", 20790, "Test Description for RAM", ProductCategoriesViewModel.RAM, fifthRamImageUrl);
             fifthRam.Specifications["Manufacturer"] = "ADATA";
             fifthRam.Specifications["ManufacturerCode"] = "AX5U5600C3632G-DCLABK";
             fifthRam.Specifications["FormFactor"] = "DIMM";
@@ -252,7 +281,7 @@ namespace OnlineShopWebApp.Services
             fifthRam.Specifications["ClockSpeed"] = "5600 МГц";
 
             var cpuImageUrl = "/img/products/Intel-Core-i5-12400F-OEM.webp";
-            var cpu = new Product("Intel Core i5 - 12400F OEM", 15870, "Test Description for CPU", ProductCategories.Processors, cpuImageUrl);
+            var cpu = new ProductViewModel("Intel Core i5 - 12400F OEM", 15870, "Test Description for CPU", ProductCategoriesViewModel.Processors, cpuImageUrl);
             cpu.Specifications["Manufacturer"] = "Intel";
             cpu.Specifications["ManufacturerCode"] = "CM8071504555318/CM8071504650609";
             cpu.Specifications["Model"] = "Core i5 12400F";
@@ -262,7 +291,7 @@ namespace OnlineShopWebApp.Services
             cpu.Specifications["ThreadsCount"] = "12";
             cpu.Specifications["ClockSpeed"] = "2500 МГц";
 
-            var powerSupply = new Product("750W Be Quiet System Power 10", 8250, "Test Description for PowerSupply", ProductCategories.PowerSupplies);
+            var powerSupply = new ProductViewModel("750W Be Quiet System Power 10", 8250, "Test Description for PowerSupply", ProductCategoriesViewModel.PowerSupplies);
             powerSupply.Specifications["Manufacturer"] = "Be Quiet";
             powerSupply.Specifications["ManufacturerCode"] = "BN329";
             powerSupply.Specifications["Power"] = "750 Вт";
@@ -282,7 +311,9 @@ namespace OnlineShopWebApp.Services
                 powerSupply
             ];
 
-            _productsRepository.Add(products);
+            var productsDb = products.Select(_mapper.Map<Product>).ToList();
+
+            _productsRepository.AddRange(productsDb);
         }
     }
 }

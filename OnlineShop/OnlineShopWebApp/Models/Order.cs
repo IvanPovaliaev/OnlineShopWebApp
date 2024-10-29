@@ -50,7 +50,7 @@ namespace OnlineShopWebApp.Models
 
         [StringLength(300, MinimumLength = 10, ErrorMessage = "Количество символов должно быть от {2} до {1}")]
         public string? AdditionalInfo { get; set; }
-        public List<CartPosition> Positions { get; set; }
+        public List<CartPositionViewModel> Positions { get; set; }
         public long Article => GetArticle();
         public decimal TotalCost
         {

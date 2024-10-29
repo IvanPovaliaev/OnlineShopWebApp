@@ -1,8 +1,8 @@
-﻿using OnlineShopWebApp.Models;
+﻿using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 
-namespace OnlineShopWebApp.Interfaces
+namespace OnlineShop.Db.Interfaces
 {
     public interface IProductsRepository
     {
@@ -22,7 +22,7 @@ namespace OnlineShopWebApp.Interfaces
         /// Add list of products
         /// </summary>
         /// <param name="products">Products list</param>
-        void Add(List<Product> products);
+        void AddRange(List<Product> products);
 
         /// <summary>
         /// Add product

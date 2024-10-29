@@ -1,7 +1,7 @@
-﻿using OnlineShopWebApp.Models;
+﻿using OnlineShop.Db.Models;
 using System;
 
-namespace OnlineShopWebApp.Interfaces
+namespace OnlineShop.Db.Interfaces
 {
     public interface ICartsRepository
     {

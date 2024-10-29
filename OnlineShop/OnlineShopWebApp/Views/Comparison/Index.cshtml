@@ -1,4 +1,4 @@
-﻿@model (ILookup<ProductCategories, ComparisonProduct>, ProductCategories?)
+﻿@model (ILookup<ProductCategoriesViewModel, ComparisonProduct>, ProductCategoriesViewModel?)
 @{
     ViewData["Title"] = "Сравнение";
     var comparisonsGroups = Model.Item1;
@@ -72,7 +72,7 @@
         return;
     }
 
-    var category = Model.Item2 is null ? comparisonsGroups.First().Key : (ProductCategories)Model.Item2;
+    var category = Model.Item2 is null ? comparisonsGroups.First().Key : (ProductCategoriesViewModel)Model.Item2;
 
     var comparisons = comparisonsGroups[category];
     var modelWithCategory = (comparisonsGroups, category);

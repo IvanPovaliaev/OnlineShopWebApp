@@ -1,4 +1,6 @@
-﻿using OnlineShopWebApp.Interfaces;
+﻿using AutoMapper;
+using OnlineShop.Db.Interfaces;
+using OnlineShop.Db.Models;
 using OnlineShopWebApp.Models;
 using System;
 using System.Linq;
@@ -8,22 +10,25 @@ namespace OnlineShopWebApp.Services
     public class CartsService
     {
         private readonly ICartsRepository _cartsRepository;
+        private readonly IMapper _mapper;
         private readonly ProductsService _productsService;
 
-        public CartsService(ICartsRepository cartsRepository, ProductsService productsService)
+        public CartsService(ICartsRepository cartsRepository, IMapper mapper, ProductsService productsService)
         {
             _cartsRepository = cartsRepository;
+            _mapper = mapper;
             _productsService = productsService;
         }
 
         /// <summary>
         /// Get cart by userId (guid)
         /// </summary>        
-        /// <returns>Cart for related user</returns>
+        /// <returns>CartViewModel for related user</returns>
         /// <param name="userId">GUID user id</param>
-        public Cart Get(Guid userId)
+        public CartViewModel Get(Guid userId)
         {
-            return _cartsRepository.Get(userId);
+            var cartDb = _cartsRepository.Get(userId);
+            return _mapper.Map<CartViewModel>(cartDb);
         }
 
         /// <summary>
@@ -33,35 +38,36 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">User Id (GUID)</param>
         public void Add(Guid productId, Guid userId)
         {
-            var product = _productsService.Get(productId);
-            var cart = Get(userId);
+            var cart = _cartsRepository.Get(userId);
 
             if (cart is null)
             {
-                Create(product, userId);
+                Create(productId, userId);
                 return;
             }
 
-            var position = cart.Positions
-                .FirstOrDefault(position => position.Product.Id == product.Id);
+            var position = cart.Positions.FirstOrDefault(position => position.Product.Id == productId);
 
             if (position is null)
             {
-                AddPosition(cart, product);
+                AddPosition(cart, productId);
+
                 _cartsRepository.Update(cart);
                 return;
             }
 
-            IncreasePosition(cart, position.Id);
+            IncreasePosition(userId, position.Id);
         }
 
         /// <summary>
-        /// Increase quantity of target cart position by 1
+        /// Increase quantity of user cart position by 1
         /// </summary>        
-        /// <param name="cart">Target cart</param>
+        /// <param name="userId">User Id (GUID)</param>
         /// <param name="positionId">Id of cart position</param>
-        public void IncreasePosition(Cart cart, Guid positionId)
+        public void IncreasePosition(Guid userId, Guid positionId)
         {
+            var cart = _cartsRepository.Get(userId);
+
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
 
             if (position is null)
@@ -70,6 +76,7 @@ namespace OnlineShopWebApp.Services
             }
 
             position.Quantity++;
+
             _cartsRepository.Update(cart!);
         }
 
@@ -80,7 +87,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="positionId">Id of cart position</param>
         public void DecreasePosition(Guid userId, Guid positionId)
         {
-            var cart = Get(userId);
+            var cart = _cartsRepository.Get(userId);
 
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
             if (position is null)
@@ -90,11 +97,12 @@ namespace OnlineShopWebApp.Services
 
             if (position.Quantity == 1)
             {
-                DeletePosition(cart!, position);
+                DeletePosition(userId, positionId);
                 return;
             }
 
             position.Quantity--;
+
             _cartsRepository.Update(cart!);
         }
 
@@ -113,7 +121,8 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">Target userId</param>
         public void Delete(Guid userId)
         {
-            var cart = Get(userId);
+            var cart = _cartsRepository.Get(userId);
+
             _cartsRepository.Delete(cart);
         }
 
@@ -124,7 +133,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="positionId">Target positionId</param>
         public void DeletePosition(Guid userId, Guid positionId)
         {
-            var cart = Get(userId);
+            var cart = _cartsRepository.Get(userId);
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
 
             if (position is null)
@@ -132,35 +141,20 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            DeletePosition(cart!, position);
-        }
-
-        /// <summary>
-        /// Delete target position in target cart. If positions count should become 0, deletes the cart.
-        /// </summary>        
-        /// <param name="cart">Target cart</param>
-        /// <param name="position">Target position</param>
-        private void DeletePosition(Cart cart, CartPosition position)
-        {
-            cart.Positions.Remove(position);
-
-            if (cart.Positions.Count == 0)
-            {
-                _cartsRepository.Delete(cart);
-            }
-
+            cart!.Positions.Remove(position);
             _cartsRepository.Update(cart);
         }
 
         /// <summary>
         /// Create a new cart for related user.
         /// </summary>        
-        /// <param name="product">Position product</param>
+        /// <param name="productId">product Id (GUID)</param>
         /// <param name="userId">GUID user id</param>
-        private void Create(Product product, Guid userId)
+        private void Create(Guid productId, Guid userId)
         {
             var cart = new Cart(userId);
-            AddPosition(cart, product);
+
+            AddPosition(cart, productId);
             _cartsRepository.Create(cart);
         }
 
@@ -168,11 +162,19 @@ namespace OnlineShopWebApp.Services
         /// Add new product position to cart.
         /// </summary>        
         /// <param name="cart">Cart with products</param>
-        /// <param name="product">Position product</param>
-        private void AddPosition(Cart cart, Product product)
+        /// <param name="productId">product Id (GUID)</param>
+        private void AddPosition(Cart cart, Guid productId)
         {
-            var newPosition = new CartPosition(product, 1);
-            cart.Positions.Add(newPosition);
+            var product = _productsService.Get(productId);
+
+            var position = new CartPosition()
+            {
+                Product = product,
+                Quantity = 1,
+                Cart = cart
+            };
+
+            cart.Positions.Add(position);
         }
     }
 }

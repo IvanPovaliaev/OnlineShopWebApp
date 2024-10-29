@@ -37,7 +37,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>ILookup object of ComparisonProducts grouping by ProductCategory </returns>
         /// <param name="userId">User Id (GUID)</param>
-        public ILookup<ProductCategories, ComparisonProduct> GetGroups(Guid userId)
+        public ILookup<ProductCategoriesViewModel, ComparisonProduct> GetGroups(Guid userId)
         {
             var comparisonsGroups = GetAll(userId)
                 .ToLookup(c => c.Product.Category);
@@ -52,7 +52,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">User Id (GUID)</param>
         public void Create(Guid productId, Guid userId)
         {
-            var product = _productsService.Get(productId);
+            var product = _productsService.GetViewModel(productId);
             if (IsProductExists(product, userId))
             {
                 return;
@@ -94,7 +94,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if product exists; otherwise returns false</returns>
         /// <param name="product">Target Product</param>
         /// <param name="userId">User Id (GUID)</param>
-        private bool IsProductExists(Product product, Guid userId)
+        private bool IsProductExists(ProductViewModel product, Guid userId)
         {
             var result = GetAll(userId)
                 .Any(c => c.Product.Id == product.Id);

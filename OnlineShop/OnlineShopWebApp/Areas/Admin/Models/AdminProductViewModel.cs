@@ -1,14 +1,14 @@
+﻿using Newtonsoft.Json;
 using OnlineShopWebApp.Helpers;
+using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShopWebApp.Models
+namespace OnlineShopWebApp.Areas.Admin.Models
 {
-    public class Product
+    public abstract class AdminProductViewModel
     {
-        public Guid Id { get; set; }
-
         [Required(ErrorMessage = "Обязательное поле")]
         [StringLength(80, MinimumLength = 6, ErrorMessage = "Наименование продукта должно содержать от {2} до {1} символов.")]
         public string Name { get; set; }
@@ -21,37 +21,10 @@ namespace OnlineShopWebApp.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле")]
-        public ProductCategories Category { get; set; }
+        public ProductCategoriesViewModel Category { get; set; }
         public string? ImageUrl { get; set; }
-        public long Article => GetArticle();
 
         [SpecificationsValidation]
         public Dictionary<string, string> Specifications { get; set; }
-
-        public Product()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public Product(string name, decimal cost, string description, ProductCategories category, string? imageUrl = null) : this()
-        {
-            Name = name;
-            Cost = cost;
-            Description = description;
-            Category = category;
-            Specifications = [];
-            ImageUrl = imageUrl;
-        }
-
-        /// <summary>
-        /// Get Article
-        /// </summary>
-        /// <returns>positive 64-bit integer</returns>
-        private long GetArticle()
-        {
-            var bytes = Id.ToByteArray();
-            var article = BitConverter.ToInt64(bytes, 0);
-            return Math.Abs(article);
-        }
     }
 }
