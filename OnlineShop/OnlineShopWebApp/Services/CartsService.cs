@@ -117,12 +117,7 @@ namespace OnlineShopWebApp.Services
         /// Delete cart of target user;
         /// </summary>        
         /// <param name="userId">Target userId</param>
-        public void Delete(Guid userId)
-        {
-            var cart = _cartsRepository.Get(userId);
-
-            _cartsRepository.Delete(cart);
-        }
+        public void Delete(Guid userId) => _cartsRepository.Delete(userId);
 
         /// <summary>
         /// Delete target position in users cart. If positions count should become 0, deletes the cart.
@@ -150,7 +145,10 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">GUID user id</param>
         private void Create(Guid productId, Guid userId)
         {
-            var cart = new Cart(userId);
+            var cart = new Cart()
+            {
+                UserId = userId
+            };
 
             AddPosition(cart, productId);
             _cartsRepository.Create(cart);

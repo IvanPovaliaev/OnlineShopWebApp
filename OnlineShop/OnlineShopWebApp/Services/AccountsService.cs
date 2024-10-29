@@ -200,23 +200,14 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Change all users role related to role Id to user Role.
         /// </summary>
-        /// <param name="roleId">Target role Id (guid)</param>
-        public void ChangeRolesToUser(Guid roleId)
+        /// <param name="oldRoleId">Target old role Id (guid)</param>
+        public void ChangeRolesToUser(Guid oldRoleId)
         {
-            var targetUsers = _usersRepository.GetAll()
-                                              .Where(u => u.Role.Id == roleId)
-                                              .ToArray();
+            var userRoleId = _rolesService.GetAll()
+                                          .FirstOrDefault(r => r.Name == Constants.UserRoleName)!
+                                          .Id;
 
-            var newRoleId = _rolesService.GetAll()
-                                         .FirstOrDefault(r => r.Name == Constants.UserRoleName)!
-                                         .Id;
-
-            foreach (var user in targetUsers)
-            {
-                user.Role = _rolesService.Get(newRoleId);
-            }
-
-            _usersRepository.ChangeRolesToUser(targetUsers);
+            _usersRepository.ChangeRolesToUser(oldRoleId, userRoleId);
         }
 
         /// <summary>

@@ -52,9 +52,9 @@ namespace OnlineShop.Db.Repositories
             _databaseContext.SaveChanges();
         }
 
-        public void Delete(Cart cart)
+        public void Delete(Guid userId)
         {
-            var repositoryCart = Get(cart.UserId);
+            var repositoryCart = Get(userId);
 
             if (repositoryCart is null)
             {

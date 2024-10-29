@@ -19,8 +19,7 @@ namespace OnlineShop.Db.Repositories
 
         public FavoriteProduct Get(Guid id)
         {
-            var favoriteProduct = _databaseContext.FavoriteProducts.FirstOrDefault(f => f.Id == id);
-            return favoriteProduct!;
+            return _databaseContext.FavoriteProducts.FirstOrDefault(f => f.Id == id)!;
         }
 
         public void Create(FavoriteProduct product)

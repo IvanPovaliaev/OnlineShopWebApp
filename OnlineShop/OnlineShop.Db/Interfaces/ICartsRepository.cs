@@ -25,9 +25,9 @@ namespace OnlineShop.Db.Interfaces
         void Update(Cart cart);
 
         /// <summary>
-        /// Delete cart with identical id. If cart is not in the repository - does nothing.
+        /// Delete cart by userId. If cart is not in the repository - does nothing.
         /// </summary>
-        /// <param name="cart">Target cart</param>
-        void Delete(Cart cart);
+        /// <param name="userId">GUID user id</param>
+        void Delete(Guid userId);
     }
 }

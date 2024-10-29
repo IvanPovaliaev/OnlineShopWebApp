@@ -51,18 +51,15 @@ namespace OnlineShop.Db.Repositories
             _databaseContext.SaveChanges();
         }
 
-        public void ChangeRolesToUser(IEnumerable<User> users)
+        public void ChangeRolesToUser(Guid oldRoleId, Guid userRoleId)
         {
+            var userRole = _databaseContext.Roles.FirstOrDefault(r => r.Id == userRoleId)!;
+
+            var users = _databaseContext.Users.Where(user => user.Role.Id == oldRoleId);
+
             foreach (var user in users)
             {
-                var repositoryUser = Get(user.Id);
-
-                if (repositoryUser is null)
-                {
-                    continue;
-                }
-
-                repositoryUser.Role = user.Role;
+                user.Role = userRole;
             }
 
             _databaseContext.SaveChanges();

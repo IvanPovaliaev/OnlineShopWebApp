@@ -39,10 +39,11 @@ namespace OnlineShop.Db.Interfaces
         void Update(User user);
 
         /// <summary>
-        /// Change roles of every user in target collection to User.
+        /// Change roles by is id to User role for every user in reposutory.
         /// </summary>
-        /// <param name="users">Target users collection</param>
-        void ChangeRolesToUser(IEnumerable<User> users);
+        /// <param name="oldRoleId">Old role id</param>
+        /// <param name="userRoleId">User role id</param>
+        void ChangeRolesToUser(Guid oldRoleId, Guid userRoleId);
 
         /// <summary>
         /// Delete user by GUID

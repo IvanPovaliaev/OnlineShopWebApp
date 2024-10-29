@@ -60,8 +60,12 @@ namespace OnlineShopWebApp.Services
                 Info = deliveryInfoDb
             };
 
-            order.Positions = positions.Select(p => new OrderPosition(p, order))
-                                       .ToList();
+            order.Positions = positions.Select(p => new OrderPosition()
+            {
+                Product = p.Product,
+                Quantity = p.Quantity,
+                Order = order
+            }).ToList();
 
             _ordersRepository.Create(order);
         }
