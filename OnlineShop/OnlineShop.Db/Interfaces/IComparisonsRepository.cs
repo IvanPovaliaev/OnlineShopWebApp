@@ -1,8 +1,8 @@
-﻿using OnlineShopWebApp.Models;
+﻿using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 
-namespace OnlineShopWebApp.Interfaces
+namespace OnlineShop.Db.Interfaces
 {
     public interface IComparisonsRepository
     {
@@ -16,8 +16,8 @@ namespace OnlineShopWebApp.Interfaces
         /// Get a ComparisonProduct by Id
         /// </summary>
         /// <returns>Target ComparisonProduct</returns>
-        /// <param name="comparisonId">ComparisonProduct Id (guid)</param>
-        ComparisonProduct Get(Guid comparisonId);
+        /// <param name="id">ComparisonProduct Id (guid)</param>
+        ComparisonProduct Get(Guid id);
 
         /// <summary>
         /// Create a new ComparisonProduct
@@ -28,19 +28,13 @@ namespace OnlineShopWebApp.Interfaces
         /// <summary>
         /// Delete a ComparisonProduct by Id.
         /// </summary>
-        /// <param name="comparisonId">ComparisonProduct Id (guid)</param>
-        void Delete(Guid comparisonId);
+        /// <param name="id">ComparisonProduct Id (guid)</param>
+        void Delete(Guid id);
 
         /// <summary>
         /// Delete all ComparisonProducts by userId.
         /// </summary>
         /// <param name="userId">User Id (guid)</param>
         void DeleteAll(Guid userId);
-
-        /// <summary>
-        /// Delete all ComparisonProducts related to product Id.
-        /// </summary>
-        /// <param name="productId">Target product Id (guid)</param>
-        void DeleteAllByProductId(Guid productId);
     }
 }

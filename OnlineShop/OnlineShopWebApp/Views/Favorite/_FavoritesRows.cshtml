@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FavoriteProduct>
+﻿@model IEnumerable<FavoriteProductViewModel>
 
 @foreach (var favorite in Model)
 {
@@ -64,7 +64,7 @@
                     </a>
 
                     <a class="align-content-center"
-                       asp-area="" asp-controller="Favorite" asp-action="Delete" asp-route-favoriteId="@favorite.Id">
+                       asp-area="" asp-controller="Favorite" asp-action="Delete" asp-route-id="@favorite.Id">
 
                         <svg class="icon-inactive favorite-row-icon">
                             <use href="/icons/TrashIcon.svg#trash-icon" />

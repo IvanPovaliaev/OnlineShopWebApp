@@ -39,10 +39,10 @@ namespace OnlineShopWebApp.Controllers
         /// Delete product from users favorites
         /// </summary>
         /// <returns>Users comparison View</returns>
-        /// <param name="favoriteId">FavoriteProduct Id (GUID)</param>
-        public IActionResult Delete(Guid favoriteId)
+        /// <param name="id">FavoriteProduct Id (GUID)</param>
+        public IActionResult Delete(Guid id)
         {
-            _favoritesService.Delete(favoriteId);
+            _favoritesService.Delete(id);
             return RedirectToAction("Index");
         }
 

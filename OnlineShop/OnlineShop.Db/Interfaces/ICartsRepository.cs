@@ -29,11 +29,5 @@ namespace OnlineShop.Db.Interfaces
         /// </summary>
         /// <param name="cart">Target cart</param>
         void Delete(Cart cart);
-
-        /// <summary>
-        /// Delete all CartPositions related to product Id.
-        /// </summary>
-        /// <param name="productId">Target product Id (guid)</param>
-        void DeletePositionsByProductId(Guid productId);
     }
 }

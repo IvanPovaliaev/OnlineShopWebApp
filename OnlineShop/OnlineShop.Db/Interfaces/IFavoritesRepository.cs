@@ -1,8 +1,8 @@
-﻿using OnlineShopWebApp.Models;
+﻿using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 
-namespace OnlineShopWebApp.Interfaces
+namespace OnlineShop.Db.Interfaces
 {
     public interface IFavoritesRepository
     {
@@ -16,8 +16,8 @@ namespace OnlineShopWebApp.Interfaces
         /// Get a FavoriteProducts by Id
         /// </summary>
         /// <returns>Target FavoriteProducts</returns>
-        /// <param name="favoriteProductId">FavoriteProduct Id (guid)</param>
-        FavoriteProduct Get(Guid favoriteProductId);
+        /// <param name="id">FavoriteProduct Id (guid)</param>
+        FavoriteProduct Get(Guid id);
 
         /// <summary>
         /// Create a new FavoriteProduct
@@ -28,19 +28,13 @@ namespace OnlineShopWebApp.Interfaces
         /// <summary>
         /// Delete a FavoriteProduct by Id.
         /// </summary>
-        /// <param name="favoriteProductId">FavoriteProduct Id (guid)</param>
-        void Delete(Guid favoriteProductId);
+        /// <param name="id">FavoriteProduct Id (guid)</param>
+        void Delete(Guid id);
 
         /// <summary>
         /// Delete all FavoriteProducts by userId.
         /// </summary>
         /// <param name="userId">User Id (guid)</param>
         void DeleteAll(Guid userId);
-
-        /// <summary>
-        /// Delete all FavoriteProducts related to product Id.
-        /// </summary>
-        /// <param name="productId">Target product Id (guid)</param>
-        void DeleteAllByProductId(Guid productId);
     }
 }
