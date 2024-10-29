@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopWebApp.Areas.Admin.Models
 {
-    public class AdminEditUser
+    public class AdminEditUserViewModel
     {
         public Guid UserId { get; set; }
 

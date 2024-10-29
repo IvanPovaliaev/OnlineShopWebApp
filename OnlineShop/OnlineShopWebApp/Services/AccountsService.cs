@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShop.Db.Interfaces;
+using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
@@ -15,39 +18,49 @@ namespace OnlineShopWebApp.Services
     public class AccountsService
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly IMapper _mapper;
         private readonly RolesService _rolesService;
         private readonly HashService _hashService;
         private readonly IExcelService _excelService;
 
-        public AccountsService(IUsersRepository usersRepository, RolesService rolesService, HashService hashService, IExcelService excelService)
+        public AccountsService(IUsersRepository usersRepository, IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService)
         {
             _usersRepository = usersRepository;
+            _mapper = mapper;
             _rolesService = rolesService;
             _hashService = hashService;
             _excelService = excelService;
-
         }
 
         /// <summary>
         /// Get all users from repository
         /// </summary>
-        /// <returns>List of all users from repository</returns>
-        public List<User> GetAll() => _usersRepository.GetAll();
+        /// <returns>List of all UserViewModel from repository</returns>
+        public List<UserViewModel> GetAll()
+        {
+            return _usersRepository.GetAll()
+                                   .Select(_mapper.Map<UserViewModel>)
+                                   .ToList();
+        }
 
         /// <summary>
         /// Get user from repository by GUID
         /// </summary>
-        /// <returns>Product; returns null if product not found</returns>
+        /// <returns>UserViewModel; returns null if user not found</returns>
         /// <param name="id">Target user id (GUID)</param>
-        public User Get(Guid id) => _usersRepository.Get(id);
+        public UserViewModel Get(Guid id)
+        {
+            var userDb = _usersRepository.Get(id);
+            return _mapper.Map<UserViewModel>(userDb);
+        }
 
         /// <summary>
         /// Add a new user to repository based on register info
         /// </summary>        
         /// <param name="register">Target register model</param>
-        public void Add(Register register)
+        public void Add(RegisterViewModel register)
         {
-            var role = GetRegisterRole(register);
+            var roleId = GetRegisterRoleId(register);
 
             var user = new User
             {
@@ -55,7 +68,7 @@ namespace OnlineShopWebApp.Services
                 Password = _hashService.GenerateHash(register.Password),
                 Name = register.Name,
                 Phone = register.Phone,
-                Role = role
+                Role = _rolesService.Get(roleId)
             };
 
             _usersRepository.Add(user);
@@ -65,10 +78,10 @@ namespace OnlineShopWebApp.Services
         /// Change password for related user if user exist
         /// </summary>        
         /// <param name="changePassword">Target ChangePassword model</param>
-        public void ChangePassword(ChangePassword changePassword)
+        public void ChangePassword(ChangePasswordViewModel changePassword)
         {
             var userId = changePassword.UserId;
-            var user = Get(userId);
+            var user = _usersRepository.Get(userId);
 
             if (user is null)
             {
@@ -84,10 +97,10 @@ namespace OnlineShopWebApp.Services
         /// Update info for related user if user exist
         /// </summary>        
         /// <param name="editUser">Target editUser model</param>
-        public void UpdateInfo(AdminEditUser editUser)
+        public void UpdateInfo(AdminEditUserViewModel editUser)
         {
             var userId = editUser.UserId;
-            var user = Get(userId);
+            var user = _usersRepository.Get(userId);
 
             if (user is null)
             {
@@ -116,7 +129,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if login model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="login">Target login model</param>
-        public bool IsLoginValid(ModelStateDictionary modelState, Login login)
+        public bool IsLoginValid(ModelStateDictionary modelState, LoginViewModel login)
         {
             var user = _usersRepository.GetByEmail(login.Email);
 
@@ -141,7 +154,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if registration model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="register">Target register model</param>
-        public bool IsRegisterValid(ModelStateDictionary modelState, Register register)
+        public bool IsRegisterValid(ModelStateDictionary modelState, RegisterViewModel register)
         {
             if (register.Email == register.Password)
             {
@@ -153,7 +166,7 @@ namespace OnlineShopWebApp.Services
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
-            if (register is AdminRegister { RoleId: var roleId } && !IsRoleExist(roleId))
+            if (register is AdminRegisterViewModel { RoleId: var roleId } && !IsRoleExist(roleId))
             {
                 modelState.AddModelError(string.Empty, "Роль не существует!");
             }
@@ -167,7 +180,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if edit model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="editUser">Target edit model</param>
-        public bool IsEditUserValid(ModelStateDictionary modelState, AdminEditUser editUser)
+        public bool IsEditUserValid(ModelStateDictionary modelState, AdminEditUserViewModel editUser)
         {
             var repositoryUser = Get(editUser.UserId);
 
@@ -190,15 +203,17 @@ namespace OnlineShopWebApp.Services
         /// <param name="roleId">Target role Id (guid)</param>
         public void ChangeRolesToUser(Guid roleId)
         {
-            var targetUsers = GetAll().Where(u => u.Role.Id == roleId)
-                                      .ToArray();
+            var targetUsers = _usersRepository.GetAll()
+                                              .Where(u => u.Role.Id == roleId)
+                                              .ToArray();
 
-            var newRole = _rolesService.GetAll()
-                                       .FirstOrDefault(r => r.Name == Constants.UserRoleName);
+            var newRoleId = _rolesService.GetAll()
+                                         .FirstOrDefault(r => r.Name == Constants.UserRoleName)!
+                                         .Id;
 
             foreach (var user in targetUsers)
             {
-                user.Role = newRole!;
+                user.Role = _rolesService.Get(newRoleId);
             }
 
             _usersRepository.ChangeRolesToUser(targetUsers);
@@ -215,17 +230,18 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Get a role fot new user based on register model
+        /// Get a role for new user based on register model
         /// </summary>        
-        /// <returns>Associated Role; Return Role User as default</returns>
+        /// <returns>Associated Role Id; Return Role User Id as default</returns>
         /// <param name="register">Target register model</param>
-        private Role GetRegisterRole(Register register)
+        private Guid GetRegisterRoleId(RegisterViewModel register)
         {
             return register switch
             {
-                AdminRegister adminRegister => _rolesService.Get(adminRegister.RoleId),
+                AdminRegisterViewModel adminRegister => adminRegister.RoleId,
                 _ => _rolesService.GetAll()
-                                  .First(r => r.Name == Constants.UserRoleName),
+                                  .First(r => r.Name == Constants.UserRoleName)
+                                  .Id
             };
         }
 

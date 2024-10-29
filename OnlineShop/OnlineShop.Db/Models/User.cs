@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OnlineShopWebApp.Areas.Admin.Models
+namespace OnlineShop.Db.Models
 {
     public class User
     {
@@ -10,10 +10,5 @@ namespace OnlineShopWebApp.Areas.Admin.Models
         public string? Name { get; set; }
         public string? Phone { get; set; }
         public Role Role { get; set; }
-
-        public User()
-        {
-            Id = Guid.NewGuid();
-        }
     }
 }

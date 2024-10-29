@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp.Models
 {
-    public class UserRegister : Register
+    public class UserRegisterViewModel : RegisterViewModel
     {
 
     }

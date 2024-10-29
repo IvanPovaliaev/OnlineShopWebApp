@@ -32,7 +32,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admin Orders View</returns>
         /// <param name="id">Order id (guid)</param>
         /// <param name="status">New order status</param>
-        public IActionResult UpdateStatus(Guid id, OrderStatus status)
+        public IActionResult UpdateStatus(Guid id, OrderStatusViewModel status)
         {
             _ordersService.UpdateStatus(id, status);
             return RedirectToAction("Index");

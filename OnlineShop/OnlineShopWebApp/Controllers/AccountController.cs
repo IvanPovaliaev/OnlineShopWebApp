@@ -18,7 +18,7 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Home page</returns>
         [HttpPost]
-        public IActionResult Login(Login login, bool keepMeLogged)
+        public IActionResult Login(LoginViewModel login, bool keepMeLogged)
         {
             var isModelValid = _accountsService.IsLoginValid(ModelState, login);
 
@@ -37,7 +37,7 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Home page</returns>
         [HttpPost]
-        public IActionResult Register(UserRegister register)
+        public IActionResult Register(UserRegisterViewModel register)
         {
             var isModelValid = _accountsService.IsRegisterValid(ModelState, register);
 

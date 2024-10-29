@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace OnlineShop.Db.Models
+{
+    public class Order
+    {
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime CreationDate { get; set; }
+        public OrderStatus Status { get; set; }
+        public UserDeliveryInfo Info { get; set; }
+        public List<OrderPosition> Positions { get; set; }
+
+        public Order()
+        {
+            CreationDate = DateTime.Now;
+            Status = OrderStatus.Created;
+        }
+    }
+}

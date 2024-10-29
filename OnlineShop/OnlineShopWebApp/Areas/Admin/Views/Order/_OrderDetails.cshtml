@@ -1,4 +1,4 @@
-﻿@model Order
+﻿@model OrderViewModel
 
 @{
     var getMessageIfNull = (object value) =>
@@ -26,52 +26,52 @@
                     <table class="table table-hover">
                         <tr>
                             <td class="col-6">Город</td>
-                            <td class="col">@Model.City</td>
+                            <td class="col">@Model.Info.City</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">Адрес</td>
-                            <td class=col>@Model.Address</td>
+                            <td class=col>@Model.Info.Address</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">Подъезд</td>
-                            <td class=col>@getMessageIfNull(Model.Entrance)</td>
+                            <td class=col>@getMessageIfNull(Model.Info.Entrance!)</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">Этаж</td>
-                            <td class=col>@getMessageIfNull(Model.Floor)</td>
+                            <td class=col>@getMessageIfNull(Model.Info.Floor!)</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">Индекс</td>
-                            <td class=col>@Model.PostCode</td>
+                            <td class=col>@Model.Info.PostCode</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">ФИО</td>
-                            <td class=col>@Model.FullName</td>
+                            <td class=col>@Model.Info.FullName</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">Email</td>
-                            <td class=col>@Model.Email</td>
+                            <td class=col>@Model.Info.Email</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">Телефон</td>
-                            <td class=col>@Model.Phone</td>
+                            <td class=col>@Model.Info.Phone</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">Телефон(дополнительный)</td>
-                            <td class=col>@getMessageIfNull(Model.ReservePhone)</td>
+                            <td class=col>@getMessageIfNull(Model.Info.ReservePhone!)</td>
                         </tr>
 
                         <tr>
                             <td class="col-6">Дополнительная информация</td>
-                            <td class=col>@getMessageIfNull(Model.AdditionalInfo)</td>
+                            <td class=col>@getMessageIfNull(Model.Info.AdditionalInfo!)</td>
                         </tr>
 
                         <tr>
@@ -84,7 +84,7 @@
                             <td class=col>
                                 <select class="form-select"
                                     asp-for="@Model.Status"
-                                    asp-items="@Html.GetEnumSelectList<OrderStatus>()">
+                                    asp-items="@Html.GetEnumSelectList<OrderStatusViewModel>()">
                                 </select>
                             </td>
                         </tr>

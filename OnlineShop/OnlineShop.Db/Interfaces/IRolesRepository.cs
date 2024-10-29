@@ -1,8 +1,8 @@
-﻿using OnlineShopWebApp.Areas.Admin.Models;
+﻿using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 
-namespace OnlineShopWebApp.Interfaces
+namespace OnlineShop.Db.Interfaces
 {
     public interface IRolesRepository
     {
@@ -29,7 +29,7 @@ namespace OnlineShopWebApp.Interfaces
         /// Add list of roles
         /// </summary>
         /// <param name="roles">Roles list</param>
-        void Add(List<Role> roles);
+        void AddRange(List<Role> roles);
 
         /// <summary>
         /// Delete role by GUID

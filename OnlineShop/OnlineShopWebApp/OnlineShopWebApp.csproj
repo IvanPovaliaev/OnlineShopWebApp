@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="logs\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>

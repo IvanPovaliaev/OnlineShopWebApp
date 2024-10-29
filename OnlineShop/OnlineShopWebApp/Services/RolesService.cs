@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShop.Db.Interfaces;
+using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Helpers.Notifications;
@@ -16,20 +19,27 @@ namespace OnlineShopWebApp.Services
         private readonly IRolesRepository _rolesRepository;
         private readonly IMediator _mediator;
         private readonly IExcelService _excelService;
+        private readonly IMapper _mapper;
 
-        public RolesService(IRolesRepository rolesRepository, IMediator mediator, IExcelService excelService)
+        public RolesService(IRolesRepository rolesRepository, IMediator mediator, IMapper mapper, IExcelService excelService)
         {
             _rolesRepository = rolesRepository;
             _mediator = mediator;
             _excelService = excelService;
+            _mapper = mapper;
             InitializeRoles();
         }
 
         /// <summary>
         /// Get all roles from repository
         /// </summary>
-        /// <returns>List of all roles from repository</returns>
-        public List<Role> GetAll() => _rolesRepository.GetAll();
+        /// <returns>List of all RolesViewModel from repository</returns>
+        public List<RoleViewModel> GetAll()
+        {
+            return _rolesRepository.GetAll()
+                                   .Select(_mapper.Map<RoleViewModel>)
+                                   .ToList();
+        }
 
         /// <summary>
         /// Get role from repository by id
@@ -39,12 +49,23 @@ namespace OnlineShopWebApp.Services
         public Role Get(Guid id) => _rolesRepository.Get(id);
 
         /// <summary>
+        /// Get role from repository by id
+        /// </summary>
+        /// <returns>RoleViewModel; returns null if role not found</returns>
+        /// <param name="id">Target role id (GUID)</param>
+        public RoleViewModel GetViewModel(Guid id)
+        {
+            var roleDb = Get(id);
+            return _mapper.Map<RoleViewModel>(roleDb);
+        }
+
+        /// <summary>
         /// Validates the new role model
         /// </summary>        
         /// <returns>true if model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="role">Target role model</param>
-        public bool IsNewValid(ModelStateDictionary modelState, Role role)
+        public bool IsNewValid(ModelStateDictionary modelState, RoleViewModel role)
         {
             var repositoryRoles = GetAll();
 
@@ -60,7 +81,11 @@ namespace OnlineShopWebApp.Services
         /// Add role to repository
         /// </summary>
         /// <param name="role">Target role</param>
-        public void Add(Role role) => _rolesRepository.Add(role);
+        public void Add(RoleViewModel role)
+        {
+            var roleDb = _mapper.Map<Role>(role);
+            _rolesRepository.Add(roleDb);
+        }
 
         /// <summary>
         /// Delete role from repository by id if it can be deleted
@@ -89,7 +114,7 @@ namespace OnlineShopWebApp.Services
 
         private bool CanBeDeleted(Guid id)
         {
-            var role = _rolesRepository.Get(id);
+            var role = Get(id);
             return role.CanBeDeleted;
         }
 
@@ -106,17 +131,19 @@ namespace OnlineShopWebApp.Services
 
             roles =
             [
-                new(Constants.AdminRoleName)
+                new()
                 {
+                    Name = Constants.AdminRoleName,
                     CanBeDeleted = false
                 },
-                new(Constants.UserRoleName)
+                new()
                 {
+                    Name = Constants.UserRoleName,
                     CanBeDeleted = false
                 }
             ];
 
-            _rolesRepository.Add(roles);
+            _rolesRepository.AddRange(roles);
         }
     }
 }
