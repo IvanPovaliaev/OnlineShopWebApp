@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Views.Shared.Components.Cart
 {
@@ -18,11 +19,10 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
         /// Show comparison icon component on View;
         /// </summary>
         /// <returns>CartViewComponent</returns>
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var comparisonsCount = _comparisonsService
-                .GetAll(_userId)
-                .Count;
+            var comparisonsCount = (await _comparisonsService.GetAllAsync(_userId))
+                                                             .Count;
             return View("Comparison", comparisonsCount);
         }
     }

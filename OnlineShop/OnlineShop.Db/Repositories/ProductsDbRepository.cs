@@ -1,8 +1,9 @@
-﻿using OnlineShop.Db.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
 {
@@ -15,29 +16,28 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public List<Product> GetAll() => _databaseContext.Products.ToList();
+        public async Task<List<Product>> GetAllAsync() => await _databaseContext.Products.ToListAsync();
 
-        public Product Get(Guid id)
+        public async Task<Product> GetAsync(Guid id)
         {
-            var product = _databaseContext.Products.FirstOrDefault(p => p.Id == id);
-            return product!;
+            return await _databaseContext.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void AddRange(List<Product> products)
+        public async Task AddRangeAsync(List<Product> products)
         {
-            _databaseContext.Products.AddRange(products);
-            _databaseContext.SaveChanges();
+            await _databaseContext.Products.AddRangeAsync(products);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Add(Product product)
+        public async Task AddAsync(Product product)
         {
-            _databaseContext.Products.Add(product);
-            _databaseContext.SaveChanges();
+            await _databaseContext.Products.AddAsync(product);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var product = Get(id);
+            var product = await GetAsync(id);
 
             if (product is null)
             {
@@ -45,12 +45,12 @@ namespace OnlineShop.Db.Repositories
             }
 
             _databaseContext.Products.Remove(product);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Update(Product product)
+        public async Task UpdateAsync(Product product)
         {
-            var repositoryProduct = Get(product.Id);
+            var repositoryProduct = await GetAsync(product.Id);
 
             if (repositoryProduct is null)
             {
@@ -63,7 +63,7 @@ namespace OnlineShop.Db.Repositories
             repositoryProduct.ImageUrl = product.ImageUrl;
             repositoryProduct.SpecificationsJson = product.SpecificationsJson;
 
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

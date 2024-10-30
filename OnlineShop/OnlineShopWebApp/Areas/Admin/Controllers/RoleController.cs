@@ -3,6 +3,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
 {
@@ -20,9 +21,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Open Admin Roles Page
         /// </summary>
         /// <returns>Admin Roles View</returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var roles = _rolesService.GetAll();
+            var roles = await _rolesService.GetAllAsync();
             return View(roles);
         }
 
@@ -32,16 +33,16 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admin Roles View</returns>
         /// <param name="role">Target role</param>  
         [HttpPost]
-        public IActionResult Add(RoleViewModel role)
+        public async Task<IActionResult> Add(RoleViewModel role)
         {
-            var isModelValid = _rolesService.IsNewValid(ModelState, role);
+            var isModelValid = await _rolesService.IsNewValidAsync(ModelState, role);
 
             if (!isModelValid)
             {
                 return PartialView("_AddForm", role);
             }
 
-            _rolesService.Add(role);
+            await _rolesService.AddAsync(role);
 
             var redirectUrl = Url.Action("Index");
 
@@ -53,9 +54,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admins roles View</returns>
         /// <param name="id">Target role Id</param>  
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            _rolesService.Delete(id);
+            await _rolesService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
 
@@ -63,9 +64,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Export all roles info to excel
         /// </summary>
         /// <returns>Excel file with roles info</returns>
-        public IActionResult ExportToExcel()
+        public async Task<IActionResult> ExportToExcel()
         {
-            var stream = _rolesService.ExportAllToExcel();
+            var stream = await _rolesService.ExportAllToExcelAsync();
 
             var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
             {

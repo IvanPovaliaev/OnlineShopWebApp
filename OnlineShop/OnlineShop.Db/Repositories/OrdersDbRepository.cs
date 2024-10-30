@@ -3,7 +3,7 @@ using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
 {
@@ -16,28 +16,28 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public List<Order> GetAll()
+        public async Task<List<Order>> GetAllAsync()
         {
-            return _databaseContext.Orders.Include(order => order.Info)
+            return await _databaseContext.Orders.Include(order => order.Info)
                                           .Include(order => order.Positions)
                                           .ThenInclude(position => position.Product)
-                                          .ToList();
+                                          .ToListAsync();
         }
 
-        public Order Get(Guid id)
+        public async Task<Order> GetAsync(Guid id)
         {
-            return _databaseContext.Orders.FirstOrDefault(o => o.Id == id)!;
+            return await _databaseContext.Orders.FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public void Create(Order order)
+        public async Task CreateAsync(Order order)
         {
-            _databaseContext.Orders.Add(order);
-            _databaseContext.SaveChanges();
+            await _databaseContext.Orders.AddAsync(order);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void UpdateStatus(Guid id, OrderStatus newStatus)
+        public async Task UpdateStatusAsync(Guid id, OrderStatus newStatus)
         {
-            var repositoryOrder = Get(id);
+            var repositoryOrder = await GetAsync(id);
 
             if (repositoryOrder is null)
             {
@@ -46,7 +46,7 @@ namespace OnlineShop.Db.Repositories
 
             repositoryOrder.Status = newStatus;
 
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

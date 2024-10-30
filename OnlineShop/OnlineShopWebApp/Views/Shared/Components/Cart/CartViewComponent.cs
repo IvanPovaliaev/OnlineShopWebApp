@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Views.Shared.Components.Cart
 {
@@ -18,9 +19,9 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
         /// Show cart icon component on View;
         /// </summary>
         /// <returns>CartViewComponent</returns>
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var cart = _cartsService.GetViewModel(_userId);
+            var cart = await _cartsService.GetViewModelAsync(_userId);
             var productsCount = cart?.TotalQuantity ?? 0;
 
             return View("Cart", productsCount);

@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private ProductsService _productsService;
+        private readonly ProductsService _productsService;
 
         public HomeController(ProductsService productsService)
         {
@@ -16,9 +17,9 @@ namespace OnlineShopWebApp.Controllers
         /// Get all product for Home Page
         /// </summary>
         /// <returns>Home page View</returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var products = _productsService.GetAll();
+            var products = await _productsService.GetAllAsync();
 
             return View(products);
         }

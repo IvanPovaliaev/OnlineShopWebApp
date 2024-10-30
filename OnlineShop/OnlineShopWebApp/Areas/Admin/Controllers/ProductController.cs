@@ -5,6 +5,7 @@ using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
 {
@@ -22,9 +23,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Open Admin Products Page
         /// </summary>
         /// <returns>Admin Products View</returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var products = _productsService.GetAll();
+            var products = await _productsService.GetAllAsync();
             return View(products);
         }
 
@@ -43,14 +44,14 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admins products View</returns> 
         /// <param name="product">Target product</param>
         [HttpPost]
-        public IActionResult Add(AddProductViewModel product)
+        public async Task<IActionResult> Add(AddProductViewModel product)
         {
             if (!ModelState.IsValid)
             {
                 return View("Add", product);
             }
 
-            _productsService.Add(product);
+            await _productsService.AddAsync(product);
             return RedirectToAction("Index");
         }
 
@@ -59,9 +60,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admin EditProduct View</returns>
         /// <param name="id">Target productId</param>
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var product = _productsService.GetEditProduct(id);
+            var product = await _productsService.GetEditProductAsync(id);
             return View(product);
         }
 
@@ -70,16 +71,16 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admins products View</returns>
         [HttpPost]
-        public IActionResult Update(EditProductViewModel product)
+        public async Task<IActionResult> Update(EditProductViewModel product)
         {
-            var isModelValid = _productsService.IsUpdateValid(ModelState, product);
+            var isModelValid = await _productsService.IsUpdateValidAsync(ModelState, product);
 
             if (!isModelValid)
             {
                 return View("Edit", product);
             }
 
-            _productsService.Update(product);
+            await _productsService.UpdateAsync(product);
             return RedirectToAction("Index");
         }
 
@@ -88,9 +89,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admins products View</returns>
         /// <param name="id">Target productId</param>  
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            _productsService.Delete(id);
+            await _productsService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
 
@@ -110,9 +111,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Export all products info to excel
         /// </summary>
         /// <returns>Excel file with products info</returns>
-        public IActionResult ExportToExcel()
+        public async Task<IActionResult> ExportToExcel()
         {
-            var stream = _productsService.ExportAllToExcel();
+            var stream = await _productsService.ExportAllToExcelAsync();
 
             var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
             {

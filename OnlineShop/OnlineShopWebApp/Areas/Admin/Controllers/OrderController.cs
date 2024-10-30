@@ -3,6 +3,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
 {
@@ -20,9 +21,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Open Admin Orders Page
         /// </summary>
         /// <returns>Admin Orders View</returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var orders = _ordersService.GetAll();
+            var orders = await _ordersService.GetAllAsync();
             return View(orders);
         }
 
@@ -32,9 +33,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admin Orders View</returns>
         /// <param name="id">Order id (guid)</param>
         /// <param name="status">New order status</param>
-        public IActionResult UpdateStatus(Guid id, OrderStatusViewModel status)
+        public async Task<IActionResult> UpdateStatus(Guid id, OrderStatusViewModel status)
         {
-            _ordersService.UpdateStatus(id, status);
+            await _ordersService.UpdateStatusAsync(id, status);
             return RedirectToAction("Index");
         }
 
@@ -42,9 +43,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// Export all roles info to excel
         /// </summary>
         /// <returns>Excel file with roles info</returns>
-        public IActionResult ExportToExcel()
+        public async Task<IActionResult> ExportToExcel()
         {
-            var stream = _ordersService.ExportAllToExcel();
+            var stream = await _ordersService.ExportAllToExcelAsync();
 
             var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
             {

@@ -1,6 +1,7 @@
 ﻿using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Interfaces
 {
@@ -10,36 +11,36 @@ namespace OnlineShop.Db.Interfaces
         /// Get all products
         /// </summary>
         /// <returns>List of all products</returns>
-        List<Product> GetAll();
+        Task<List<Product>> GetAllAsync();
 
         /// <summary>
         /// Get product by GUID
         /// </summary>
         /// <returns>Product; returns null if product not found</returns>
-        Product Get(Guid id);
+        Task<Product> GetAsync(Guid id);
 
         /// <summary>
         /// Add list of products
         /// </summary>
         /// <param name="products">Products list</param>
-        void AddRange(List<Product> products);
+        Task AddRangeAsync(List<Product> products);
 
         /// <summary>
         /// Add product
         /// </summary>
         /// <param name="product">Target Product</param>
-        void Add(Product product);
+        Task AddAsync(Product product);
 
         /// <summary>
         /// Update product
         /// </summary>
         /// <param name="product">Target Product</param>
-        void Update(Product product);
+        Task UpdateAsync(Product product);
 
         /// <summary>
         /// Delete product by GUID
         /// </summary>
         /// <param name="id">Product Id</param>
-        void Delete(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

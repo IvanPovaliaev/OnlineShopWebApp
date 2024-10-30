@@ -5,6 +5,7 @@ using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
@@ -26,14 +27,13 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>List of FavoriteProductViewModel for target user</returns>
         /// <param name="userId">User Id (GUID)</param>
-        public List<FavoriteProductViewModel> GetAll(Guid userId)
+        public async Task<List<FavoriteProductViewModel>> GetAllAsync(Guid userId)
         {
-            var favorites = _favoritesRepository.GetAll()
-                                                .Where(c => c.UserId == userId)
-                                                .Select(_mapper.Map<FavoriteProductViewModel>)
-                                                .ToList();
+            var favorites = await _favoritesRepository.GetAllAsync();
 
-            return favorites;
+            return favorites.Where(c => c.UserId == userId)
+                            .Select(_mapper.Map<FavoriteProductViewModel>)
+                            .ToList();
         }
 
         /// <summary>
@@ -41,35 +41,40 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>
         /// <param name="userId">User Id (GUID)</param>
-        public void Create(Guid productId, Guid userId)
+        public async Task CreateAsync(Guid productId, Guid userId)
         {
-            var product = _productsService.Get(productId);
+            var product = await _productsService.GetAsync(productId);
 
-            if (IsProductExists(product, userId))
+            if (await IsProductExistsAsync(product, userId))
             {
                 return;
             }
 
-            var favorite = new FavoriteProduct(userId, product);
-            _favoritesRepository.Create(favorite);
+            var favorite = new FavoriteProduct()
+            {
+                UserId = userId,
+                Product = product
+            };
+
+            await _favoritesRepository.CreateAsync(favorite);
         }
 
         /// <summary>
         /// Delete target FavoriteProduct by Id
         /// </summary>        
         /// <param name="id">FavoriteProduct Id (GUID)</param>
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            _favoritesRepository.Delete(id);
+            await _favoritesRepository.DeleteAsync(id);
         }
 
         /// <summary>
         /// Delete all FavoriteProducts for related user.
         /// </summary>        
         /// <param name="userId">User Id (GUID)</param>
-        public void DeleteAll(Guid userId)
+        public async Task DeleteAllAsync(Guid userId)
         {
-            _favoritesRepository.DeleteAll(userId);
+            await _favoritesRepository.DeleteAllAsync(userId);
         }
 
         /// <summary>
@@ -78,11 +83,11 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if product exists; otherwise returns false</returns>
         /// <param name="product">Target Product</param>
         /// <param name="userId">User Id (GUID)</param>
-        private bool IsProductExists(Product product, Guid userId)
+        private async Task<bool> IsProductExistsAsync(Product product, Guid userId)
         {
-            var result = GetAll(userId).Any(c => c.Product.Id == product.Id);
+            var result = await GetAllAsync(userId);
 
-            return result;
+            return result.Any(c => c.Product.Id == product.Id);
         }
     }
 }

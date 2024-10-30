@@ -1,6 +1,7 @@
 ﻿using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Interfaces
 {
@@ -10,44 +11,45 @@ namespace OnlineShop.Db.Interfaces
         /// Get all users
         /// </summary>
         /// <returns>List of all users</returns>
-        List<User> GetAll();
+        Task<List<User>> GetAllAsync();
 
         /// <summary>
         /// Get user by GUID
         /// </summary>
         /// <returns>User; returns null if user not found</returns>
         /// <param name="id">User Id (GUID)</param>
-        User Get(Guid id);
+        Task<User> GetAsync(Guid id);
 
         /// <summary>
         /// Get user by email
         /// </summary>
         /// <returns>User; returns null if user not found</returns>
         /// <param name="email">Target email</param>
-        User GetByEmail(string email);
+        Task<User> GetByEmailAsync(string email);
 
         /// <summary>
         /// Add a new user
         /// </summary>
         /// <param name="user">Target user</param>
-        void Add(User user);
+        Task AddAsync(User user);
 
         /// <summary>
         /// Update user with identical id. If user is not in the repository - does nothing.
         /// </summary>
         /// <param name="user">Target user</param>
-        void Update(User user);
+        Task UpdateAsync(User user);
 
         /// <summary>
-        /// Change roles of every user in target collection to User.
+        /// Change roles by is id to User role for every user in reposutory.
         /// </summary>
-        /// <param name="users">Target users collection</param>
-        void ChangeRolesToUser(IEnumerable<User> users);
+        /// <param name="oldRoleId">Old role id</param>
+        /// <param name="userRoleId">User role id</param>
+        Task ChangeRolesToUserAsync(Guid oldRoleId, Guid userRoleId);
 
         /// <summary>
         /// Delete user by GUID
         /// </summary>
         /// <param name="id">User Id (GUID)</param>
-        void Delete(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

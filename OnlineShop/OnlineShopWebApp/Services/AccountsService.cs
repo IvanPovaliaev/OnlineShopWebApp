@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
@@ -36,11 +37,11 @@ namespace OnlineShopWebApp.Services
         /// Get all users from repository
         /// </summary>
         /// <returns>List of all UserViewModel from repository</returns>
-        public List<UserViewModel> GetAll()
+        public async Task<List<UserViewModel>> GetAllAsync()
         {
-            return _usersRepository.GetAll()
-                                   .Select(_mapper.Map<UserViewModel>)
-                                   .ToList();
+            var users = await _usersRepository.GetAllAsync();
+            return users.Select(_mapper.Map<UserViewModel>)
+                        .ToList();
         }
 
         /// <summary>
@@ -48,9 +49,9 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>UserViewModel; returns null if user not found</returns>
         /// <param name="id">Target user id (GUID)</param>
-        public UserViewModel Get(Guid id)
+        public async Task<UserViewModel> GetAsync(Guid id)
         {
-            var userDb = _usersRepository.Get(id);
+            var userDb = await _usersRepository.GetAsync(id);
             return _mapper.Map<UserViewModel>(userDb);
         }
 
@@ -58,9 +59,9 @@ namespace OnlineShopWebApp.Services
         /// Add a new user to repository based on register info
         /// </summary>        
         /// <param name="register">Target register model</param>
-        public void Add(RegisterViewModel register)
+        public async Task AddAsync(RegisterViewModel register)
         {
-            var roleId = GetRegisterRoleId(register);
+            var roleId = await GetRegisterRoleIdAsync(register);
 
             var user = new User
             {
@@ -68,20 +69,20 @@ namespace OnlineShopWebApp.Services
                 Password = _hashService.GenerateHash(register.Password),
                 Name = register.Name,
                 Phone = register.Phone,
-                Role = _rolesService.Get(roleId)
+                Role = await _rolesService.GetAllAsync(roleId)
             };
 
-            _usersRepository.Add(user);
+            await _usersRepository.AddAsync(user);
         }
 
         /// <summary>
         /// Change password for related user if user exist
         /// </summary>        
         /// <param name="changePassword">Target ChangePassword model</param>
-        public void ChangePassword(ChangePasswordViewModel changePassword)
+        public async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
         {
             var userId = changePassword.UserId;
-            var user = _usersRepository.Get(userId);
+            var user = await _usersRepository.GetAsync(changePassword.UserId);
 
             if (user is null)
             {
@@ -90,38 +91,38 @@ namespace OnlineShopWebApp.Services
 
             user.Password = _hashService.GenerateHash(changePassword.Password);
 
-            _usersRepository.Update(user);
+            await _usersRepository.UpdateAsync(user);
         }
 
         /// <summary>
         /// Update info for related user if user exist
         /// </summary>        
         /// <param name="editUser">Target editUser model</param>
-        public void UpdateInfo(AdminEditUserViewModel editUser)
+        public async Task UpdateInfoAsync(AdminEditUserViewModel editUser)
         {
             var userId = editUser.UserId;
-            var user = _usersRepository.Get(userId);
+            var user = await _usersRepository.GetAsync(editUser.UserId);
 
             if (user is null)
             {
                 return;
             }
 
-            var role = _rolesService.Get(editUser.RoleId);
+            var role = await _rolesService.GetAllAsync(editUser.RoleId);
 
             user.Email = editUser.Email;
             user.Phone = editUser.Phone;
             user.Name = editUser.Name;
             user.Role = role;
 
-            _usersRepository.Update(user);
+            await _usersRepository.UpdateAsync(user);
         }
 
         /// <summary>
         /// Delete user from repository by id
         /// </summary>
         /// <param name="id">Target user id (GUID)</param>
-        public void Delete(Guid id) => _usersRepository.Delete(id);
+        public async Task DeleteAsync(Guid id) => await _usersRepository.DeleteAsync(id);
 
         /// <summary>
         /// Validates the user login model
@@ -129,9 +130,9 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if login model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="login">Target login model</param>
-        public bool IsLoginValid(ModelStateDictionary modelState, LoginViewModel login)
+        public async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
         {
-            var user = _usersRepository.GetByEmail(login.Email);
+            var user = await _usersRepository.GetByEmailAsync(login.Email);
 
             if (user is null)
             {
@@ -154,19 +155,20 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if registration model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="register">Target register model</param>
-        public bool IsRegisterValid(ModelStateDictionary modelState, RegisterViewModel register)
+        public async Task<bool> IsRegisterValidAsync(ModelStateDictionary modelState, RegisterViewModel register)
         {
             if (register.Email == register.Password)
             {
                 modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать!");
             }
 
-            if (IsEmailExist(register.Email))
+            if (await IsEmailExistAsync(register.Email))
             {
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
-            if (register is AdminRegisterViewModel { RoleId: var roleId } && !IsRoleExist(roleId))
+
+            if (register is AdminRegisterViewModel { RoleId: var roleId } && !await IsRoleExistAsync(roleId))
             {
                 modelState.AddModelError(string.Empty, "Роль не существует!");
             }
@@ -180,16 +182,18 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if edit model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="editUser">Target edit model</param>
-        public bool IsEditUserValid(ModelStateDictionary modelState, AdminEditUserViewModel editUser)
+        public async Task<bool> IsEditUserValidAsync(ModelStateDictionary modelState, AdminEditUserViewModel editUser)
         {
-            var repositoryUser = Get(editUser.UserId);
+            var repositoryUser = await GetAsync(editUser.UserId);
 
-            if (repositoryUser.Email != editUser.Email & IsEmailExist(editUser.Email))
+            if (repositoryUser.Email != editUser.Email & await IsEmailExistAsync(editUser.Email))
             {
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
-            if (!IsRoleExist(editUser.RoleId))
+            var isRoleExist = await IsRoleExistAsync(editUser.RoleId);
+
+            if (!isRoleExist)
             {
                 modelState.AddModelError(string.Empty, "Роль не существует!");
             }
@@ -200,32 +204,23 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Change all users role related to role Id to user Role.
         /// </summary>
-        /// <param name="roleId">Target role Id (guid)</param>
-        public void ChangeRolesToUser(Guid roleId)
+        /// <param name="oldRoleId">Target old role Id (guid)</param>
+        public async Task ChangeRolesToUserAsync(Guid oldRoleId)
         {
-            var targetUsers = _usersRepository.GetAll()
-                                              .Where(u => u.Role.Id == roleId)
-                                              .ToArray();
+            var userRoleId = (await _rolesService.GetAllAsync())
+                                                 .FirstOrDefault(r => r.Name == Constants.UserRoleName)!
+                                                 .Id;
 
-            var newRoleId = _rolesService.GetAll()
-                                         .FirstOrDefault(r => r.Name == Constants.UserRoleName)!
-                                         .Id;
-
-            foreach (var user in targetUsers)
-            {
-                user.Role = _rolesService.Get(newRoleId);
-            }
-
-            _usersRepository.ChangeRolesToUser(targetUsers);
+            await _usersRepository.ChangeRolesToUserAsync(oldRoleId, userRoleId);
         }
 
         /// <summary>
         /// Get MemoryStream for all users export to Excel 
         /// </summary>
         /// <returns>MemoryStream Excel file with users info</returns>
-        public MemoryStream ExportAllToExcel()
+        public async Task<MemoryStream> ExportAllToExcelAsync()
         {
-            var users = GetAll();
+            var users = await GetAllAsync();
             return _excelService.ExportUsers(users);
         }
 
@@ -234,15 +229,17 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>Associated Role Id; Return Role User Id as default</returns>
         /// <param name="register">Target register model</param>
-        private Guid GetRegisterRoleId(RegisterViewModel register)
+        private async Task<Guid> GetRegisterRoleIdAsync(RegisterViewModel register)
         {
-            return register switch
+            if (register is AdminRegisterViewModel)
             {
-                AdminRegisterViewModel adminRegister => adminRegister.RoleId,
-                _ => _rolesService.GetAll()
-                                  .First(r => r.Name == Constants.UserRoleName)
-                                  .Id
-            };
+                var adminRegister = register as AdminRegisterViewModel;
+                return adminRegister!.RoleId;
+            }
+
+            var roles = await _rolesService.GetAllAsync();
+            return roles.First(r => r.Name == Constants.UserRoleName)
+                        .Id;
         }
 
         /// <summary>
@@ -250,9 +247,9 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>true if user with target email already exists; otherwise false</returns>
         /// <param name="email">Target email</param>
-        private bool IsEmailExist(string email)
+        private async Task<bool> IsEmailExistAsync(string email)
         {
-            var users = _usersRepository.GetAll();
+            var users = await _usersRepository.GetAllAsync();
 
             return users.Any(users => users.Email == email);
         }
@@ -262,9 +259,9 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>true if exists; otherwise false</returns>
         /// <param name="roleId">Target role id (GUID)</param>
-        private bool IsRoleExist(Guid roleId)
+        private async Task<bool> IsRoleExistAsync(Guid roleId)
         {
-            var role = _rolesService.Get(roleId);
+            var role = await _rolesService.GetAllAsync(roleId);
 
             return role != null;
         }

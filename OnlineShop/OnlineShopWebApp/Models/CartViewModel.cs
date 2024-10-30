@@ -8,7 +8,7 @@ namespace OnlineShopWebApp.Models
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; } //Для дальнейшей привязки пользователя
-        public List<CartPositionViewModel> Positions { get; set; }
+        public List<CartPositionViewModel> Positions { get; set; } = [];
         public decimal TotalCost
         {
             get => Positions?.Sum(p => p.Cost) ?? 0;
@@ -17,13 +17,6 @@ namespace OnlineShopWebApp.Models
         public int TotalQuantity
         {
             get => Positions?.Sum(p => p.Quantity) ?? 0;
-        }
-
-        public CartViewModel(Guid userId)
-        {
-            Id = Guid.NewGuid();
-            UserId = userId;
-            Positions = [];
         }
     }
 }

@@ -12,7 +12,7 @@ namespace OnlineShopWebApp.Helpers.Handlers
 
         public async Task Handle(RoleDeletedNotification notification, CancellationToken cancellationToken)
         {
-            _accountsService.ChangeRolesToUser(notification.RoleId);
+            await _accountsService.ChangeRolesToUserAsync(notification.RoleId);
         }
     }
 }

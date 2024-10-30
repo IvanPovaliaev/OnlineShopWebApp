@@ -1,5 +1,7 @@
 ﻿@{
-    var productId = "03269129-85ee-4bf1-b635-85e30fd98faf";
+    var firstProductId = "c643c046-93df-4d0f-ba01-224b689eca0f";
+    var secondProductId = "d13b5481-bfe0-4d5c-885b-1d43df8aa6b9";
+    var thirdProductId = "fa991ad4-510b-47d2-848c-130aadd43838";
 }
 <div id="carouselExampleAutoplaying" class="carousel slide mb-3" data-bs-ride="carousel">
     <div class="carousel-indicators">
@@ -8,13 +10,13 @@
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
-        <a class="carousel-item active" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@productId">
+        <a class="carousel-item active" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@firstProductId">
             <img src="~/img/carousel/1.png" class="d-block w-100" alt="AMD">
         </a>
-        <a class="carousel-item" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="03269129-85ee-4bf1-b635-85e30fd98f2f">
+        <a class="carousel-item" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@secondProductId">
             <img src="~/img/carousel/2.jpg" class="d-block w-100" alt="NVidia">
         </a>
-        <a class="carousel-item" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@productId">
+        <a class="carousel-item" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@thirdProductId">
             <img src="~/img/carousel/3.jpg" class="d-block w-100" alt="DDR5">
         </a>
     </div>

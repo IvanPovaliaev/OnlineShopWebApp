@@ -1,8 +1,10 @@
-﻿using OnlineShop.Db.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
 {
@@ -15,28 +17,31 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public List<ComparisonProduct> GetAll() => _databaseContext.ComparisonProducts.ToList();
+        public async Task<List<ComparisonProduct>> GetAllAsync() => await _databaseContext.ComparisonProducts.Include(c => c.Product)
+                                                                                                             .ToListAsync();
 
-        public ComparisonProduct Get(Guid id) => _databaseContext.ComparisonProducts.FirstOrDefault(c => c.Id == id)!;
+        public async Task<ComparisonProduct> GetAsync(Guid id) => await _databaseContext.ComparisonProducts.Include(c => c.Product)
+                                                                                                           .FirstOrDefaultAsync(c => c.Id == id);
 
-        public void Create(ComparisonProduct product)
+        public async Task CreateAsync(ComparisonProduct product)
         {
-            _databaseContext.ComparisonProducts.Add(product);
-            _databaseContext.SaveChanges();
+            await _databaseContext.ComparisonProducts.AddAsync(product);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var comparison = Get(id);
+            var comparison = await GetAsync(id);
             _databaseContext.ComparisonProducts.Remove(comparison);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void DeleteAll(Guid userId)
+        public async Task DeleteAllAsync(Guid userId)
         {
-            var comparisons = _databaseContext.ComparisonProducts.Where(c => c.UserId == userId);
+            var comparisons = await _databaseContext.ComparisonProducts.Where(c => c.UserId == userId)
+                                                                       .ToArrayAsync();
             _databaseContext.ComparisonProducts.RemoveRange(comparisons);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

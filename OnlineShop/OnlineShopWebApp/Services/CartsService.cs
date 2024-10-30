@@ -4,6 +4,7 @@ using OnlineShop.Db.Models;
 using OnlineShopWebApp.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
@@ -25,16 +26,16 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>Cart for related user</returns>
         /// <param name="userId">GUID user id</param>
-        public Cart Get(Guid userId) => _cartsRepository.Get(userId);
+        public async Task<Cart> GetAsync(Guid userId) => await _cartsRepository.GetAsync(userId);
 
         /// <summary>
         /// Get cart by userId (guid)
         /// </summary>        
         /// <returns>CartViewModel for related user</returns>
         /// <param name="userId">GUID user id</param>
-        public CartViewModel GetViewModel(Guid userId)
+        public async Task<CartViewModel> GetViewModelAsync(Guid userId)
         {
-            var cartDb = Get(userId);
+            var cartDb = await GetAsync(userId);
             return _mapper.Map<CartViewModel>(cartDb);
         }
 
@@ -43,13 +44,13 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>
         /// <param name="userId">User Id (GUID)</param>
-        public void Add(Guid productId, Guid userId)
+        public async Task AddAsync(Guid productId, Guid userId)
         {
-            var cart = _cartsRepository.Get(userId);
+            var cart = await _cartsRepository.GetAsync(userId);
 
             if (cart is null)
             {
-                Create(productId, userId);
+                await CreateAsync(productId, userId);
                 return;
             }
 
@@ -57,13 +58,12 @@ namespace OnlineShopWebApp.Services
 
             if (position is null)
             {
-                AddPosition(cart, productId);
-
-                _cartsRepository.Update(cart);
+                await AddPositionAsync(cart, productId);
+                await _cartsRepository.UpdateAsync(cart);
                 return;
             }
 
-            IncreasePosition(userId, position.Id);
+            await IncreasePositionAsync(userId, position.Id);
         }
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="userId">User Id (GUID)</param>
         /// <param name="positionId">Id of cart position</param>
-        public void IncreasePosition(Guid userId, Guid positionId)
+        public async Task IncreasePositionAsync(Guid userId, Guid positionId)
         {
-            var cart = _cartsRepository.Get(userId);
+            var cart = await _cartsRepository.GetAsync(userId);
 
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
 
@@ -84,7 +84,7 @@ namespace OnlineShopWebApp.Services
 
             position.Quantity++;
 
-            _cartsRepository.Update(cart!);
+            await _cartsRepository.UpdateAsync(cart!);
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="userId">UserId</param>
         /// <param name="positionId">Id of cart position</param>
-        public void DecreasePosition(Guid userId, Guid positionId)
+        public async Task DecreasePosition(Guid userId, Guid positionId)
         {
-            var cart = _cartsRepository.Get(userId);
+            var cart = await _cartsRepository.GetAsync(userId);
 
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
             if (position is null)
@@ -104,34 +104,29 @@ namespace OnlineShopWebApp.Services
 
             if (position.Quantity == 1)
             {
-                DeletePosition(userId, positionId);
+                await DeletePositionAsync(userId, positionId);
                 return;
             }
 
             position.Quantity--;
 
-            _cartsRepository.Update(cart!);
+            await _cartsRepository.UpdateAsync(cart!);
         }
 
         /// <summary>
         /// Delete cart of target user;
         /// </summary>        
         /// <param name="userId">Target userId</param>
-        public void Delete(Guid userId)
-        {
-            var cart = _cartsRepository.Get(userId);
-
-            _cartsRepository.Delete(cart);
-        }
+        public async Task DeleteAsync(Guid userId) => await _cartsRepository.DeleteAsync(userId);
 
         /// <summary>
         /// Delete target position in users cart. If positions count should become 0, deletes the cart.
         /// </summary>        
         /// <param name="userId">Target UserId</param>
         /// <param name="positionId">Target positionId</param>
-        public void DeletePosition(Guid userId, Guid positionId)
+        public async Task DeletePositionAsync(Guid userId, Guid positionId)
         {
-            var cart = _cartsRepository.Get(userId);
+            var cart = await _cartsRepository.GetAsync(userId);
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
 
             if (position is null)
@@ -140,7 +135,7 @@ namespace OnlineShopWebApp.Services
             }
 
             cart!.Positions.Remove(position);
-            _cartsRepository.Update(cart);
+            await _cartsRepository.UpdateAsync(cart);
         }
 
         /// <summary>
@@ -148,12 +143,15 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="productId">product Id (GUID)</param>
         /// <param name="userId">GUID user id</param>
-        private void Create(Guid productId, Guid userId)
+        private async Task CreateAsync(Guid productId, Guid userId)
         {
-            var cart = new Cart(userId);
+            var cart = new Cart()
+            {
+                UserId = userId
+            };
 
-            AddPosition(cart, productId);
-            _cartsRepository.Create(cart);
+            await AddPositionAsync(cart, productId);
+            await _cartsRepository.CreateAsync(cart);
         }
 
         /// <summary>
@@ -161,9 +159,9 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="cart">Cart with products</param>
         /// <param name="productId">product Id (GUID)</param>
-        private void AddPosition(Cart cart, Guid productId)
+        private async Task AddPositionAsync(Cart cart, Guid productId)
         {
-            var product = _productsService.Get(productId);
+            var product = await _productsService.GetAsync(productId);
 
             var position = new CartPosition()
             {

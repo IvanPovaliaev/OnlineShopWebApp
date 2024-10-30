@@ -1,5 +1,6 @@
 ﻿using OnlineShop.Db.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Interfaces
 {
@@ -10,24 +11,24 @@ namespace OnlineShop.Db.Interfaces
         /// </summary>        
         /// <returns>Cart for related user</returns>
         /// <param name="userId">GUID user id</param>
-        Cart Get(Guid userId);
+        Task<Cart> GetAsync(Guid userId);
 
         /// <summary>
         /// Create a new cart
         /// </summary> 
         /// <param name="cart">Target cart</param>
-        void Create(Cart cart);
+        Task CreateAsync(Cart cart);
 
         /// <summary>
         /// Update cart with identical id. If cart is not in the repository - does nothing.
         /// </summary>
         /// <param name="cart">Target cart</param>
-        void Update(Cart cart);
+        Task UpdateAsync(Cart cart);
 
         /// <summary>
-        /// Delete cart with identical id. If cart is not in the repository - does nothing.
+        /// Delete cart by userId. If cart is not in the repository - does nothing.
         /// </summary>
-        /// <param name="cart">Target cart</param>
-        void Delete(Cart cart);
+        /// <param name="userId">GUID user id</param>
+        Task DeleteAsync(Guid userId);
     }
 }

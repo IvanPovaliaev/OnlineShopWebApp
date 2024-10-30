@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -18,9 +19,9 @@ namespace OnlineShopWebApp.Controllers
         /// Open favorite page
         /// </summary>
         /// <returns>Users favorites View</returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var favorites = _favoritesService.GetAll(_userId);
+            var favorites = await _favoritesService.GetAllAsync(_userId);
             return View(favorites);
         }
 
@@ -29,9 +30,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>_NavUserIcons PartialView</returns>
         /// <param name="productId">Product id (GUID)</param>
-        public IActionResult Add(Guid productId)
+        public async Task<IActionResult> Add(Guid productId)
         {
-            _favoritesService.Create(productId, _userId);
+            await _favoritesService.CreateAsync(productId, _userId);
             return PartialView("_NavUserIcons");
         }
 
@@ -40,9 +41,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Users comparison View</returns>
         /// <param name="id">FavoriteProduct Id (GUID)</param>
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            _favoritesService.Delete(id);
+            await _favoritesService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
 
@@ -50,9 +51,9 @@ namespace OnlineShopWebApp.Controllers
         /// Delete all FavoriteProducts by userId
         /// </summary>
         /// <returns>Users comparison View</returns>
-        public IActionResult DeleteAll()
+        public async Task<IActionResult> DeleteAll()
         {
-            _favoritesService.DeleteAll(_userId);
+            await _favoritesService.DeleteAllAsync(_userId);
             return RedirectToAction("Index");
         }
     }

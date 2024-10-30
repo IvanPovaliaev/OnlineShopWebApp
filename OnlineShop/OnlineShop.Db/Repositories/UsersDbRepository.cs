@@ -1,8 +1,10 @@
-﻿using OnlineShop.Db.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
 {
@@ -15,27 +17,30 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public List<User> GetAll() => _databaseContext.Users.ToList();
+        public async Task<List<User>> GetAllAsync() => await _databaseContext.Users.Include(u => u.Role)
+                                                                                   .ToListAsync();
 
-        public User Get(Guid id)
+        public async Task<User> GetAsync(Guid id)
         {
-            return _databaseContext.Users.FirstOrDefault(u => u.Id == id)!;
+            return await _databaseContext.Users.Include(u => u.Role)
+                                               .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public User GetByEmail(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
-            return _databaseContext.Users.FirstOrDefault(u => u.Email == email)!;
+            return await _databaseContext.Users.Include(u => u.Role)
+                                               .FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public void Add(User user)
+        public async Task AddAsync(User user)
         {
-            _databaseContext.Users.Add(user);
-            _databaseContext.SaveChanges();
+            await _databaseContext.Users.AddAsync(user);
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Update(User user)
+        public async Task UpdateAsync(User user)
         {
-            var repositoryUser = Get(user.Id);
+            var repositoryUser = await GetAsync(user.Id);
 
             if (repositoryUser is null)
             {
@@ -48,31 +53,29 @@ namespace OnlineShop.Db.Repositories
             repositoryUser.Phone = user.Phone;
             repositoryUser.Role = user.Role;
 
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void ChangeRolesToUser(IEnumerable<User> users)
+        public async Task ChangeRolesToUserAsync(Guid oldRoleId, Guid userRoleId)
         {
+            var userRole = await _databaseContext.Roles.FirstOrDefaultAsync(r => r.Id == userRoleId)!;
+
+            var users = await _databaseContext.Users.Where(user => user.Role.Id == oldRoleId)
+                                              .ToArrayAsync();
+
             foreach (var user in users)
             {
-                var repositoryUser = Get(user.Id);
-
-                if (repositoryUser is null)
-                {
-                    continue;
-                }
-
-                repositoryUser.Role = user.Role;
+                user.Role = userRole;
             }
 
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var user = Get(id);
+            var user = await GetAsync(id);
             _databaseContext.Users.Remove(user);
-            _databaseContext.SaveChanges();
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

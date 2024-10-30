@@ -5,6 +5,7 @@ using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
@@ -26,12 +27,12 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>List of ComparisonProductViewModel for target user</returns>
         /// <param name="userId">User Id (GUID)</param>
-        public List<ComparisonProductViewModel> GetAll(Guid userId)
+        public async Task<List<ComparisonProductViewModel>> GetAllAsync(Guid userId)
         {
-            return _comparisonsRepository.GetAll()
-                                         .Where(c => c.UserId == userId)
-                                         .Select(_mapper.Map<ComparisonProductViewModel>)
-                                         .ToList();
+            return (await _comparisonsRepository.GetAllAsync())
+                                                .Where(c => c.UserId == userId)
+                                                .Select(_mapper.Map<ComparisonProductViewModel>)
+                                                .ToList();
         }
 
         /// <summary>
@@ -39,11 +40,9 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>ILookup object of ComparisonProducts grouping by ProductCategory </returns>
         /// <param name="userId">User Id (GUID)</param>
-        public ILookup<ProductCategoriesViewModel, ComparisonProductViewModel> GetGroups(Guid userId)
+        public async Task<ILookup<ProductCategoriesViewModel, ComparisonProductViewModel>> GetGroupsAsync(Guid userId)
         {
-            var comparisonsGroups = GetAll(userId).ToLookup(c => c.Product.Category);
-
-            return comparisonsGroups;
+            return (await GetAllAsync(userId)).ToLookup(c => c.Product.Category);
         }
 
         /// <summary>
@@ -51,33 +50,39 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>
         /// <param name="userId">User Id (GUID)</param>
-        public void Create(Guid productId, Guid userId)
+        public async Task CreateAsync(Guid productId, Guid userId)
         {
-            var product = _productsService.Get(productId);
-            if (IsProductExists(product, userId))
+            var product = await _productsService.GetAsync(productId);
+            if (await IsProductExistsAsync(product, userId))
             {
                 return;
             }
-            var comparison = new ComparisonProduct(userId, product);
-            _comparisonsRepository.Create(comparison);
+
+            var comparison = new ComparisonProduct()
+            {
+                UserId = userId,
+                Product = product
+            };
+
+            await _comparisonsRepository.CreateAsync(comparison);
         }
 
         /// <summary>
         /// Delete target ComparisonProduct by Id
         /// </summary>        
         /// <param name="comparisonId">ComparisonProduct Id (GUID)</param>
-        public void Delete(Guid comparisonId)
+        public async Task DeleteAsync(Guid comparisonId)
         {
-            _comparisonsRepository.Delete(comparisonId);
+            await _comparisonsRepository.DeleteAsync(comparisonId);
         }
 
         /// <summary>
         /// Delete all ComparisonProducts for related user.
         /// </summary>        
         /// <param name="userId">User Id (GUID)</param>
-        public void DeleteAll(Guid userId)
+        public async Task DeleteAllAsync(Guid userId)
         {
-            _comparisonsRepository.DeleteAll(userId);
+            await _comparisonsRepository.DeleteAllAsync(userId);
         }
 
         /// <summary>
@@ -86,11 +91,9 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if product exists; otherwise returns false</returns>
         /// <param name="product">Target Product</param>
         /// <param name="userId">User Id (GUID)</param>
-        private bool IsProductExists(Product product, Guid userId)
+        private async Task<bool> IsProductExistsAsync(Product product, Guid userId)
         {
-            var result = GetAll(userId).Any(c => c.Product.Id == product.Id);
-
-            return result;
+            return (await GetAllAsync(userId)).Any(c => c.Product.Id == product.Id);
         }
     }
 }

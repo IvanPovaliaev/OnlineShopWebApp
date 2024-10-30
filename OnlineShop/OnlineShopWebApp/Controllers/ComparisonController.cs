@@ -2,6 +2,7 @@
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -20,9 +21,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Comparison category page View</returns>
         /// <param name="category">Product category</param>
-        public IActionResult Index(ProductCategoriesViewModel? category)
+        public async Task<IActionResult> Index(ProductCategoriesViewModel? category)
         {
-            var comparisonsGroups = _comparisonsService.GetGroups(_userId);
+            var comparisonsGroups = await _comparisonsService.GetGroupsAsync(_userId);
 
             var comparisonsGroupsWithCategory = (comparisonsGroups, category);
 
@@ -34,9 +35,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>_NavUserIcons PartialView</returns>
         /// <param name="productId">Product id (GUID)</param>
-        public IActionResult Add(Guid productId)
+        public async Task<IActionResult> Add(Guid productId)
         {
-            _comparisonsService.Create(productId, _userId);
+            await _comparisonsService.CreateAsync(productId, _userId);
             return PartialView("_NavUserIcons");
         }
 
@@ -45,9 +46,9 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Users comparison View</returns>
         /// <param name="id">ComparisonProduct id (GUID)</param>
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            _comparisonsService.Delete(id);
+            await _comparisonsService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
 
@@ -55,9 +56,9 @@ namespace OnlineShopWebApp.Controllers
         /// Delete all ComparisonProducts from users comparisons
         /// </summary>
         /// <returns>Users comparison View</returns>
-        public IActionResult DeleteAll()
+        public async Task<IActionResult> DeleteAll()
         {
-            _comparisonsService.DeleteAll(_userId);
+            await _comparisonsService.DeleteAllAsync(_userId);
             return RedirectToAction("Index");
         }
     }

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
@@ -29,20 +30,21 @@ namespace OnlineShopWebApp.Services
         /// Get all orders from repository
         /// </summary>
         /// <returns>List of all OrderViewModel from repository</returns>
-        public List<OrderViewModel> GetAll()
+        public async Task<List<OrderViewModel>> GetAllAsync()
         {
-            return _ordersRepository.GetAll()
-                                    .Select(_mapper.Map<OrderViewModel>)
-                                    .ToList();
+            var orders = await _ordersRepository.GetAllAsync();
+            return orders.Select(_mapper.Map<OrderViewModel>)
+                         .ToList();
         }
 
         /// <summary>
-        /// Get last user order grom repository 
+        /// Get last user order from repository 
         /// </summary>
         /// <returns>OrderViewModel; returns null if user doesn't have any orders</returns>
-        public OrderViewModel GetLast(Guid userId)
+        public async Task<OrderViewModel> GetLastAsync(Guid userId)
         {
-            return GetAll().LastOrDefault(o => o.UserId == userId)!;
+            var orders = await GetAllAsync();
+            return orders.LastOrDefault(o => o.UserId == userId)!;
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">Target user ID</param>
         /// <param name="deliveryInfo">Related UserDeliveryInfoViewModel </param>
         /// <param name="positions">Target CartPosition List</param>
-        public void Create(Guid userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)
+        public async Task CreateAsync(Guid userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)
         {
             var deliveryInfoDb = _mapper.Map<UserDeliveryInfo>(deliveryInfo);
             var order = new Order
@@ -60,10 +62,14 @@ namespace OnlineShopWebApp.Services
                 Info = deliveryInfoDb
             };
 
-            order.Positions = positions.Select(p => new OrderPosition(p, order))
-                                       .ToList();
+            order.Positions = positions.Select(p => new OrderPosition()
+            {
+                Product = p.Product,
+                Quantity = p.Quantity,
+                Order = order
+            }).ToList();
 
-            _ordersRepository.Create(order);
+            await _ordersRepository.CreateAsync(order);
         }
 
         /// <summary>
@@ -88,18 +94,18 @@ namespace OnlineShopWebApp.Services
         /// <returns>Admin Orders View</returns>
         /// <param name="id">Order id (guid)</param>
         /// <param name="newStatus">New order status</param>
-        public void UpdateStatus(Guid id, OrderStatusViewModel newStatus)
+        public async Task UpdateStatusAsync(Guid id, OrderStatusViewModel newStatus)
         {
-            _ordersRepository.UpdateStatus(id, (OrderStatus)newStatus);
+            await _ordersRepository.UpdateStatusAsync(id, (OrderStatus)newStatus);
         }
 
         /// <summary>
         /// Get MemoryStream for all orders export to Excel 
         /// </summary>
         /// <returns>MemoryStream Excel file with users info</returns>
-        public MemoryStream ExportAllToExcel()
+        public async Task<MemoryStream> ExportAllToExcelAsync()
         {
-            var orders = GetAll();
+            var orders = await GetAllAsync();
             return _excelService.ExportOrders(orders);
         }
     }

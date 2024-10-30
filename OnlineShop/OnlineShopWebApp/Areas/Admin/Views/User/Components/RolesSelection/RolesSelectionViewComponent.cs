@@ -3,26 +3,22 @@ using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Services;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Views.User.Components.RolesSelection
 {
-    public class RolesSelection : ViewComponent
+    public class RolesSelectionViewComponent(RolesService rolesService) : ViewComponent
     {
-        private readonly RolesService _rolesService;
-
-        public RolesSelection(RolesService rolesService)
-        {
-            _rolesService = rolesService;
-        }
+        private readonly RolesService _rolesService = rolesService;
 
         /// <summary>
-        /// Show SpecificationsForm component on View;
+        /// Return selection ViewComponent with initial role by selectedRoleId;
         /// </summary>
-        /// <returns>SpecificationsFormViewComponent</returns>
-        /// <param name="specificationsWithCategory">Tuple with specifications and category</param> 
-        public IViewComponentResult Invoke(Guid selectedRoleId)
+        /// <returns>RoleSelectionViewComponent</returns>
+        /// <param name="selectedRoleId">Target selected role id</param> 
+        public async Task<IViewComponentResult> InvokeAsync(Guid selectedRoleId)
         {
-            var roles = _rolesService.GetAll();
+            var roles = await _rolesService.GetAllAsync();
             var defaultRoleId = roles.First(r => r.Name == Constants.UserRoleName).Id;
 
             if (roles.Any(r => r.Id == selectedRoleId))
