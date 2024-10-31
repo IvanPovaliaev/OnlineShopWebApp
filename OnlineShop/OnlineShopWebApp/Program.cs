@@ -21,7 +21,22 @@ builder.Host.UseSerilog((context, configuration) => configuration
             .Enrich.FromLogContext()
             .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
-var connection = builder.Configuration.GetConnectionString("online_shop");
+var databaseProvider = builder.Configuration["DatabaseProvider"];
+var connection = builder.Configuration.GetConnectionString(databaseProvider!);
+
+var databaseType = builder.Configuration["DatabaseType"];
+
+switch (databaseType.ToLower())
+{
+    case "postgresql":
+        builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
+        break;
+    default:
+        builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
+        break;
+}
+
+
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
