@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace OnlineShop.Db.Migrations
+namespace OnlineShop.Db.Migrations.PostgreSQL
 {
     /// <inheritdoc />
     public partial class Initial : Migration

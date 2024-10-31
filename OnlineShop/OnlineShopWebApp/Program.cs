@@ -11,6 +11,8 @@ using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Services;
 using Serilog;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 
@@ -23,21 +25,27 @@ builder.Host.UseSerilog((context, configuration) => configuration
 
 var databaseProvider = builder.Configuration["DatabaseProvider"];
 var connection = builder.Configuration.GetConnectionString(databaseProvider!);
+var databaseTypes = builder.Configuration.GetSection("DatabaseTypes").Get<Dictionary<string, string>>();
 
-var databaseType = builder.Configuration["DatabaseType"];
+if (!databaseTypes.TryGetValue(databaseProvider!, out var databaseType))
+{
+    throw new InvalidOperationException("Invalid database provider");
+}
 
 switch (databaseType.ToLower())
 {
     case "postgresql":
-        builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
+        builder.Services.AddDbContext<DatabaseContext, PostgreSQLContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
+        break;
+    case "mssql":
+        builder.Services.AddDbContext<DatabaseContext, MsSQLContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
+        break;
+    case "mysql":
+        builder.Services.AddDbContext<DatabaseContext, MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)), ServiceLifetime.Scoped);
         break;
     default:
-        builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
-        break;
+        throw new InvalidOperationException("Invalid database type");
 }
-
-
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
