@@ -25,7 +25,8 @@ builder.Host.UseSerilog((context, configuration) => configuration
 
 var databaseProvider = builder.Configuration["DatabaseProvider"];
 var connection = builder.Configuration.GetConnectionString(databaseProvider!);
-var databaseTypes = builder.Configuration.GetSection("DatabaseTypes").Get<Dictionary<string, string>>();
+var databaseTypes = builder.Configuration.GetSection("DatabaseTypes")
+                                         .Get<Dictionary<string, string>>();
 
 if (!databaseTypes.TryGetValue(databaseProvider!, out var databaseType))
 {
