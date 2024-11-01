@@ -17,8 +17,11 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<List<FavoriteProduct>> GetAllAsync() => await _databaseContext.FavoriteProducts.Include(f => f.Product)
-                                                                                                         .ToListAsync();
+        public async Task<List<FavoriteProduct>> GetAllAsync()
+        {
+            return await _databaseContext.FavoriteProducts.Include(f => f.Product)
+                                                   .ToListAsync();
+        }
 
         public async Task<FavoriteProduct> GetAsync(Guid id)
         {
