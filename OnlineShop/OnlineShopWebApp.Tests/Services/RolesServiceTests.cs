@@ -68,7 +68,6 @@ namespace OnlineShopWebApp.Tests.Services
             _rolesRepositoryMock.Setup(repo => repo.GetAllAsync())
                                 .ReturnsAsync(_fakeRoles);
 
-
             var result = await _rolesService.GetAllAsync();
 
             Assert.Equal(_fakeRoles.Count, result.Count);
