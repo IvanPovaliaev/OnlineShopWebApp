@@ -63,7 +63,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task GetAllAsync_WhenCallde_ReturnsMappedRoles()
+        public async Task GetAllAsync_WhenCalled_ReturnsMappedRoles()
         {
             _rolesRepositoryMock.Setup(repo => repo.GetAllAsync())
                                 .ReturnsAsync(_fakeRoles);
@@ -100,7 +100,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task GetAsync_WhenRoleDoesNotExist_ShouldReturnNull()
+        public async Task GetAsync_WhenRoleDoesNotExist_ReturnNull()
         {
             var roleId = Guid.NewGuid();
 
@@ -114,7 +114,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task GetViewModelAsync_WhenRoleExist_ShouldReturnMappedRole()
+        public async Task GetViewModelAsync_WhenRoleExist_ReturnMappedRole()
         {
             var fakeRole = _roleFaker.Generate();
             var expectedRoleViewModel = new RoleViewModel
@@ -139,7 +139,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task IsNewValidAsync_IfRoleWithSameNameExists_ReturnFalse_()
+        public async Task IsNewValidAsync_IfRoleWithSameNameExists_ReturnFalse()
         {
             var fakeRole = _fakeRoleViewModels.First();
             var existingRoles = new List<RoleViewModel>
@@ -243,7 +243,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task ExportAllToExcelAsync_WhenCalled_ReturnMemoryStream()
+        public async Task ExportAllToExcelAsync_WhenCalled_ReturnsMemoryStream()
         {
             var memoryStream = new MemoryStream();
 
