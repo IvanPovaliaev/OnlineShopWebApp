@@ -92,7 +92,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task GetAllAsync_OrderViewModelsList()
+        public async Task GetAllAsync_WhenCalled_ReturnsOrderViewModelsList()
         {
             _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
                                  .ReturnsAsync(_fakeOrders);
@@ -120,7 +120,7 @@ namespace OnlineShopWebApp.Tests.Services
 
 
         [Fact]
-        public async Task GetLastAsync_ShouldReturnLastOrderForUser_WhenOrdersExist()
+        public async Task GetLastAsync_WhenOrdersExist_ReturnLastOrderForUser()
         {
             var userId = _fakeOrders[0].UserId;
             _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
@@ -135,7 +135,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task GetLastAsync_ShouldReturnNull_WhenUserHasNoOrders()
+        public async Task GetLastAsync_WhenUserHasNoOrders_ReturnNull()
         {
             var userId = Guid.NewGuid();
             _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
@@ -148,7 +148,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task CreateAsync_ShouldCallRepositoryCreateAsyncWithCorrectOrder()
+        public async Task CreateAsync_WhenCalled_InvokeRepositoryCreateAsyncWithCorrectOrder()
         {
             var userId = _fakeOrderViewModels.First().UserId;
             var deliveryInfo = _fakeOrderViewModels.First().Info;
@@ -178,7 +178,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public void IsCreationValid_ShouldAddModelError_WhenPositionsAreEmpty()
+        public void IsCreationValid_WhenPositionsAreEmpty_ReturnsFalseWithModelErrors()
         {
             var modelState = new ModelStateDictionary();
             var positions = new List<CartPosition>();
@@ -190,7 +190,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public void IsCreationValid_ShouldNotAddModelError_WhenPositionsAreNotEmpty()
+        public void IsCreationValid_WhenPositionsAreNotEmpty_ReturnsTrueWithoutModelErrors()
         {
             var modelState = new ModelStateDictionary();
             var positions = new List<CartPosition>
@@ -205,7 +205,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task UpdateStatusAsync_ShouldCallUpdateStatusInRepository()
+        public async Task UpdateStatusAsync_WhenCalled_CallUpdateStatusInRepository()
         {
             var orderId = _fakeOrders.First().Id;
             var newStatus = OrderStatusViewModel.Confirmed;
@@ -219,7 +219,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task ExportAllToExcelAsync_ShouldReturnMemoryStreamWithExportedOrders()
+        public async Task ExportAllToExcelAsync_WhenCalled_ShouldReturnMemoryStream()
         {
             var memoryStream = new MemoryStream();
 
@@ -233,7 +233,6 @@ namespace OnlineShopWebApp.Tests.Services
 
             Assert.IsType<MemoryStream>(result);
         }
-
     }
 
 }

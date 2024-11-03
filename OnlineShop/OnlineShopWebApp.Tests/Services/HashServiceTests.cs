@@ -14,7 +14,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public void GenerateHash_ShouldReturnDifferentHashes_ForDifferentInputs()
+        public void GenerateHash_WhenGivenDifferentInputs_GeneratesDifferentHashes()
         {
             var input1 = "password1";
             var input2 = "password2";
@@ -26,7 +26,18 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public void GenerateHash_ShouldProduceConsistentHash_WhenGivenSameSalt()
+        public void GenerateHash_WhenGivenSameInputsWithoutSameSalt_GeneratesDifferentHashes()
+        {
+            var input = "password1";
+
+            var hash1 = _hashService.GenerateHash(input);
+            var hash2 = _hashService.GenerateHash(input);
+
+            Assert.NotEqual(hash1, hash2);
+        }
+
+        [Fact]
+        public void GenerateHash_WhenGivenSameSalt_GeneratesSameHashes()
         {
             var password = "password";
             var salt = Convert.FromBase64String(_hashService.GenerateHash(password).Split(':')[1]);
@@ -38,7 +49,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public void IsEquals_ShouldReturnTrue_WhenHashMatches()
+        public void IsEquals_WhenHashMatches_ReturnsTrue()
         {
             var password = "mypassword";
             var hash = _hashService.GenerateHash(password);
@@ -49,7 +60,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public void IsEquals_ShouldReturnFalse_WhenHashDoesNotMatch()
+        public void IsEquals_WhenHashDoesNotMatch_ReturnsFalse()
         {
             var password = "password1";
             var incorrectPassword = "password2";
