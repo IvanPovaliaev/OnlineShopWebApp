@@ -23,6 +23,7 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly Mock<IExcelService> _excelServiceMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly OrdersService _ordersService;
+
         private readonly List<Order> _fakeOrders;
         private readonly List<OrderViewModel> _fakeOrderViewModels;
         private readonly Faker<UserDeliveryInfo> _userDeliveryInfoFaker;
@@ -32,7 +33,7 @@ namespace OnlineShopWebApp.Tests.Services
         {
             _ordersRepositoryMock = new Mock<IOrdersRepository>();
             _excelServiceMock = new Mock<IExcelService>();
-            _mapperMock = new Mock<IMapper>();
+            _mapperMock = InitializeMapperMock();
             _ordersService = new OrdersService(_ordersRepositoryMock.Object, _excelServiceMock.Object, _mapperMock.Object);
 
             _userDeliveryInfoFaker = new Faker<UserDeliveryInfo>()
@@ -49,10 +50,6 @@ namespace OnlineShopWebApp.Tests.Services
                 .RuleFor(o => o.UserId, f => f.Random.Guid())
                 .RuleFor(o => o.CreationDate, f => f.Date.Past())
                 .RuleFor(o => o.Info, f => _userDeliveryInfoFaker.Generate());
-
-            var orderViewModelFaker = new Faker<OrderViewModel>()
-                .RuleFor(o => o.Id, f => f.Random.Guid())
-                .RuleFor(o => o.UserId, f => f.Random.Guid());
 
             _fakeOrders = orderFaker.Generate(OrdersCount);
             _fakeOrderViewModels = _fakeOrders.Select(order => new OrderViewModel
@@ -71,24 +68,6 @@ namespace OnlineShopWebApp.Tests.Services
                     Phone = order.Info.Phone,
                 }
             }).ToList();
-
-            _mapperMock.Setup(mapper => mapper.Map<OrderViewModel>(It.IsAny<Order>()))
-                       .Returns((Order order) => new OrderViewModel
-                       {
-                           Id = order.Id,
-                           UserId = order.UserId,
-                           CreationDate = order.CreationDate,
-                           Status = (OrderStatusViewModel)order.Status,
-                           Info = new UserDeliveryInfoViewModel()
-                           {
-                               City = order.Info.City,
-                               Address = order.Info.Address,
-                               PostCode = order.Info.PostCode,
-                               FullName = order.Info.FullName,
-                               Email = order.Info.Email,
-                               Phone = order.Info.Phone,
-                           }
-                       });
         }
 
         [Fact]
@@ -164,17 +143,12 @@ namespace OnlineShopWebApp.Tests.Services
             _mapperMock.Setup(mapper => mapper.Map<UserDeliveryInfo>(deliveryInfo))
                        .Returns(_fakeOrders.First().Info);
 
-            var createdOrder = _fakeOrders.First();
             _ordersRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<Order>()))
                                  .Returns(Task.CompletedTask);
 
             await _ordersService.CreateAsync(userId, deliveryInfo, positions);
 
             _ordersRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Order>()), Times.Once);
-            Assert.NotNull(createdOrder);
-            Assert.Equal(userId, createdOrder.UserId);
-            Assert.NotEqual(default, createdOrder.CreationDate);
-            Assert.Equal(OrderStatus.Created, createdOrder.Status);
         }
 
         [Fact]
@@ -232,6 +206,31 @@ namespace OnlineShopWebApp.Tests.Services
             var result = await _ordersService.ExportAllToExcelAsync();
 
             Assert.IsType<MemoryStream>(result);
+            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _excelServiceMock.Verify(service => service.ExportOrders(It.IsAny<List<OrderViewModel>>()), Times.Once);
+        }
+
+        private Mock<IMapper> InitializeMapperMock()
+        {
+            var mapperMock = new Mock<IMapper>();
+            mapperMock.Setup(mapper => mapper.Map<OrderViewModel>(It.IsAny<Order>()))
+                      .Returns((Order order) => new OrderViewModel
+                      {
+                          Id = order.Id,
+                          UserId = order.UserId,
+                          CreationDate = order.CreationDate,
+                          Status = (OrderStatusViewModel)order.Status,
+                          Info = new UserDeliveryInfoViewModel()
+                          {
+                              City = order.Info.City,
+                              Address = order.Info.Address,
+                              PostCode = order.Info.PostCode,
+                              FullName = order.Info.FullName,
+                              Email = order.Info.Email,
+                              Phone = order.Info.Phone,
+                          }
+                      });
+            return mapperMock;
         }
     }
 

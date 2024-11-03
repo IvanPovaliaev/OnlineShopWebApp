@@ -31,7 +31,7 @@ namespace OnlineShopWebApp.Tests.Services
         {
             _productsRepositoryMock = new Mock<IProductsRepository>();
             _excelServiceMock = new Mock<IExcelService>();
-            _mapperMock = new Mock<IMapper>();
+            _mapperMock = InitializeMapperMock();
 
             var rules = new List<IProductSpecificationsRules>();
 
@@ -42,33 +42,7 @@ namespace OnlineShopWebApp.Tests.Services
                 rules
             );
 
-
-            _fakeProducts = new Faker<Product>()
-                .RuleFor(p => p.Id, f => f.Random.Guid())
-                .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                .RuleFor(p => p.Cost, f => f.Random.Decimal(10, 1000))
-                .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
-                .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>())
-                .RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl())
-                .Generate(ProductsCount);
-
-            _mapperMock.Setup(m => m.Map<ProductViewModel>(It.IsAny<Product>()))
-                       .Returns((Product source) =>
-                       {
-                           if (source is null)
-                           {
-                               return null!;
-                           }
-                           return new ProductViewModel
-                           {
-                               Id = source.Id,
-                               Name = source.Name,
-                               Cost = source.Cost,
-                               Description = source.Description,
-                               Category = (ProductCategoriesViewModel)source.Category,
-                               ImageUrl = source.ImageUrl
-                           };
-                       });
+            _fakeProducts = InitializeFakeProducts(ProductsCount);
         }
 
         [Fact]
@@ -94,6 +68,7 @@ namespace OnlineShopWebApp.Tests.Services
             var result = await _productsService.GetAllAsync(category);
 
             Assert.All(result, p => Assert.Equal(category, p.Category));
+            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
 
         [Fact]
@@ -190,6 +165,7 @@ namespace OnlineShopWebApp.Tests.Services
 
             _productsRepositoryMock.Setup(repo => repo.GetAsync(fakeProduct.Id))
                                    .ReturnsAsync(fakeProduct);
+
             _mapperMock.Setup(m => m.Map<EditProductViewModel>(fakeProduct)).Returns(new EditProductViewModel
             {
                 Id = fakeProduct.Id,
@@ -329,7 +305,7 @@ namespace OnlineShopWebApp.Tests.Services
             var result = await _productsService.IsUpdateValidAsync(modelState, editProduct);
 
             Assert.True(result);
-            Assert.True(modelState.IsValid);
+            Assert.Equal(0, modelState.ErrorCount);
             _productsRepositoryMock.Verify(repo => repo.GetAsync(fakeProduct.Id), Times.Once);
         }
 
@@ -380,6 +356,42 @@ namespace OnlineShopWebApp.Tests.Services
             Assert.IsType<MemoryStream>(result);
             _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
             _excelServiceMock.Verify(service => service.ExportProducts(It.IsAny<List<ProductViewModel>>()), Times.Once);
+        }
+
+        private List<Product> InitializeFakeProducts(int count)
+        {
+            return new Faker<Product>()
+                .RuleFor(p => p.Id, f => f.Random.Guid())
+                .RuleFor(p => p.Name, f => f.Commerce.ProductName())
+                .RuleFor(p => p.Cost, f => f.Random.Decimal(10, 1000))
+                .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
+                .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>())
+                .RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl())
+                .Generate(count);
+        }
+
+        private Mock<IMapper> InitializeMapperMock()
+        {
+            var mapperMock = new Mock<IMapper>();
+            mapperMock.Setup(m => m.Map<ProductViewModel>(It.IsAny<Product>()))
+                      .Returns((Product source) =>
+                      {
+                          if (source == null)
+                          {
+                              return null!;
+                          }
+
+                          return new ProductViewModel
+                          {
+                              Id = source.Id,
+                              Name = source.Name,
+                              Cost = source.Cost,
+                              Description = source.Description,
+                              ImageUrl = source.ImageUrl,
+                              Category = (ProductCategoriesViewModel)source.Category
+                          };
+                      });
+            return mapperMock;
         }
     }
 }
