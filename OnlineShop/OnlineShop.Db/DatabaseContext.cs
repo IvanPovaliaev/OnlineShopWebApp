@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace OnlineShop.Db
 {
-    public class DatabaseContext : DbContext
+    public abstract class DatabaseContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
@@ -15,10 +15,8 @@ namespace OnlineShop.Db
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-        {
-            Database.Migrate();
-        }
+        public DatabaseContext(DbContextOptions options) : base(options) { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

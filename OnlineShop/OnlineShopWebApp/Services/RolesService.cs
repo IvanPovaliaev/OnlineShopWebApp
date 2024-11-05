@@ -45,7 +45,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>Role; returns null if role not found</returns>
         /// <param name="id">Target role id (GUID)</param>
-        public async Task<Role> GetAllAsync(Guid id) => await _rolesRepository.GetAsync(id);
+        public async Task<Role> GetAsync(Guid id) => await _rolesRepository.GetAsync(id);
 
         /// <summary>
         /// Get role from repository by id
@@ -54,7 +54,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="id">Target role id (GUID)</param>
         public async Task<RoleViewModel> GetViewModelAsync(Guid id)
         {
-            var roleDb = await GetAllAsync(id);
+            var roleDb = await GetAsync(id);
             return _mapper.Map<RoleViewModel>(roleDb);
         }
 
@@ -66,7 +66,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="role">Target role model</param>
         public async Task<bool> IsNewValidAsync(ModelStateDictionary modelState, RoleViewModel role)
         {
-            var repositoryRoles = await GetAllAsync();
+            var repositoryRoles = await _rolesRepository.GetAllAsync();
 
             if (repositoryRoles.Any(r => r.Name.ToLower() == role.Name.ToLower()))
             {
@@ -114,7 +114,7 @@ namespace OnlineShopWebApp.Services
 
         private async Task<bool> CanBeDeletedAsync(Guid id)
         {
-            var role = await GetAllAsync(id);
+            var role = await GetAsync(id);
             return role.CanBeDeleted;
         }
     }

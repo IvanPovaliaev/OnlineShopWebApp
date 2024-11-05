@@ -17,11 +17,17 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<List<ComparisonProduct>> GetAllAsync() => await _databaseContext.ComparisonProducts.Include(c => c.Product)
-                                                                                                             .ToListAsync();
+        public async Task<List<ComparisonProduct>> GetAllAsync()
+        {
+            return await _databaseContext.ComparisonProducts.Include(c => c.Product)
+                                                            .ToListAsync();
+        }
 
-        public async Task<ComparisonProduct> GetAsync(Guid id) => await _databaseContext.ComparisonProducts.Include(c => c.Product)
-                                                                                                           .FirstOrDefaultAsync(c => c.Id == id);
+        public async Task<ComparisonProduct> GetAsync(Guid id)
+        {
+            return await _databaseContext.ComparisonProducts.Include(c => c.Product)
+                                                     .FirstOrDefaultAsync(c => c.Id == id);
+        }
 
         public async Task CreateAsync(ComparisonProduct product)
         {

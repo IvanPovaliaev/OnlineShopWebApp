@@ -9,10 +9,10 @@ using OnlineShop.Db;
 
 #nullable disable
 
-namespace OnlineShop.Db.Migrations
+namespace OnlineShop.Db.Migrations.PostgreSQL
 {
-    [DbContext(typeof(DatabaseContext))]
-    [Migration("20241029195336_Initial")]
+    [DbContext(typeof(PostgreSQLContext))]
+    [Migration("20241031200545_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

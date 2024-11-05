@@ -60,13 +60,8 @@ namespace OnlineShop.Db.Repositories
         {
             var userRole = await _databaseContext.Roles.FirstOrDefaultAsync(r => r.Id == userRoleId)!;
 
-            var users = await _databaseContext.Users.Where(user => user.Role.Id == oldRoleId)
-                                              .ToArrayAsync();
-
-            foreach (var user in users)
-            {
-                user.Role = userRole;
-            }
+            await _databaseContext.Users.Where(user => user.Role.Id == oldRoleId)
+                                        .ForEachAsync(user => user.Role = userRole!);
 
             await _databaseContext.SaveChangesAsync();
         }

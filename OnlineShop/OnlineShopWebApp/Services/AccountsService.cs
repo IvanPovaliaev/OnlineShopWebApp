@@ -69,7 +69,7 @@ namespace OnlineShopWebApp.Services
                 Password = _hashService.GenerateHash(register.Password),
                 Name = register.Name,
                 Phone = register.Phone,
-                Role = await _rolesService.GetAllAsync(roleId)
+                Role = await _rolesService.GetAsync(roleId)
             };
 
             await _usersRepository.AddAsync(user);
@@ -108,7 +108,7 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            var role = await _rolesService.GetAllAsync(editUser.RoleId);
+            var role = await _rolesService.GetAsync(editUser.RoleId);
 
             user.Email = editUser.Email;
             user.Phone = editUser.Phone;
@@ -261,7 +261,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="roleId">Target role id (GUID)</param>
         private async Task<bool> IsRoleExistAsync(Guid roleId)
         {
-            var role = await _rolesService.GetAllAsync(roleId);
+            var role = await _rolesService.GetAsync(roleId);
 
             return role != null;
         }
