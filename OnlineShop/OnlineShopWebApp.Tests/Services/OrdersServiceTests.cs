@@ -73,6 +73,7 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetAllAsync_WhenCalled_ReturnsOrderViewModelsList()
         {
+            // Arrange
             _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
                                  .ReturnsAsync(_fakeOrders);
 
@@ -101,12 +102,15 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetLastAsync_WhenOrdersExist_ReturnLastOrderForUser()
         {
+            // Arrange
             var userId = _fakeOrders[0].UserId;
             _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
                                  .ReturnsAsync(_fakeOrders);
 
+            // Act
             var result = await _ordersService.GetLastAsync(userId);
 
+            // Assert
             Assert.NotNull(result);
             Assert.Equal(userId, result.UserId);
 
@@ -116,12 +120,15 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetLastAsync_WhenUserHasNoOrders_ReturnNull()
         {
+            // Arrange
             var userId = Guid.NewGuid();
             _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
                                  .ReturnsAsync(_fakeOrders);
 
+            // Act
             var result = await _ordersService.GetLastAsync(userId);
 
+            // Assert
             Assert.Null(result);
             _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
@@ -129,6 +136,7 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task CreateAsync_WhenCalled_InvokeRepositoryCreateAsyncWithCorrectOrder()
         {
+            // Arrange
             var userId = _fakeOrderViewModels.First().UserId;
             var deliveryInfo = _fakeOrderViewModels.First().Info;
             var positions = new List<CartPosition>
@@ -146,19 +154,24 @@ namespace OnlineShopWebApp.Tests.Services
             _ordersRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<Order>()))
                                  .Returns(Task.CompletedTask);
 
+            // Act
             await _ordersService.CreateAsync(userId, deliveryInfo, positions);
 
+            // Assert
             _ordersRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Order>()), Times.Once);
         }
 
         [Fact]
         public void IsCreationValid_WhenPositionsAreEmpty_ReturnsFalseWithModelErrors()
         {
+            // Arrange
             var modelState = new ModelStateDictionary();
             var positions = new List<CartPosition>();
 
+            // Act
             var result = _ordersService.IsCreationValid(modelState, positions);
 
+            // Assert
             Assert.False(result);
             Assert.Contains(modelState, m => m.Value!.Errors.Any());
         }
@@ -166,14 +179,17 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public void IsCreationValid_WhenPositionsAreNotEmpty_ReturnsTrueWithoutModelErrors()
         {
+            // Arrange
             var modelState = new ModelStateDictionary();
             var positions = new List<CartPosition>
             {
                 new CartPosition { Product = new Product { Id = Guid.NewGuid(), Name = "Product1" }, Quantity = 1 }
             };
 
+            // Act
             var result = _ordersService.IsCreationValid(modelState, positions);
 
+            // Assert
             Assert.True(result);
             Assert.Equal(0, modelState.ErrorCount);
         }
@@ -181,20 +197,24 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task UpdateStatusAsync_WhenCalled_CallUpdateStatusInRepository()
         {
+            // Arrange
             var orderId = _fakeOrders.First().Id;
             var newStatus = OrderStatusViewModel.Confirmed;
 
             _ordersRepositoryMock.Setup(repo => repo.UpdateStatusAsync(orderId, (OrderStatus)newStatus))
                                  .Returns(Task.CompletedTask);
 
+            // Act
             await _ordersService.UpdateStatusAsync(orderId, newStatus);
 
+            // Assert
             _ordersRepositoryMock.Verify(repo => repo.UpdateStatusAsync(orderId, (OrderStatus)newStatus), Times.Once);
         }
 
         [Fact]
         public async Task ExportAllToExcelAsync_WhenCalled_ShouldReturnMemoryStream()
         {
+            // Arrange
             var memoryStream = new MemoryStream();
 
             _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
@@ -203,8 +223,10 @@ namespace OnlineShopWebApp.Tests.Services
             _excelServiceMock.Setup(service => service.ExportOrders(It.IsAny<List<OrderViewModel>>()))
                              .Returns(memoryStream);
 
+            // Act
             var result = await _ordersService.ExportAllToExcelAsync();
 
+            // Assert
             Assert.IsType<MemoryStream>(result);
             _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
             _excelServiceMock.Verify(service => service.ExportOrders(It.IsAny<List<OrderViewModel>>()), Times.Once);
