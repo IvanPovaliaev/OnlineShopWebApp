@@ -72,9 +72,9 @@
         return;
     }
 
-    var category = Model.Item2 is null ? comparisonsGroups.First().Key : (ProductCategoriesViewModel)Model.Item2;
+    var category = Model.Item2 is null ? comparisonsGroups!.First().Key : (ProductCategoriesViewModel)Model.Item2;
 
-    var comparisons = comparisonsGroups[category];
+    var comparisons = comparisonsGroups![category];
     var modelWithCategory = (comparisonsGroups, category);
 }
 

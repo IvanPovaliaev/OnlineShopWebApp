@@ -26,6 +26,10 @@ namespace OnlineShop.Db
 
         private void InitializeInitialProducts(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>()
+                        .Property(p => p.Cost)
+                        .HasPrecision(18, 2);
+
             var ssdImageUrl = "/img/products/SSD-1Tb-Kingston-NV2.webp";
             var hddImageUrl = "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp";
             var firstRamImageUrl = "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp";

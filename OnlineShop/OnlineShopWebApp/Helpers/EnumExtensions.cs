@@ -17,8 +17,8 @@ namespace OnlineShopWebApp.Helpers
             return enumValue.GetType()
                 .GetMember(enumValue.ToString())
                 .First()
-                .GetCustomAttribute<DisplayAttribute>()
-                .GetName();
+                .GetCustomAttribute<DisplayAttribute>()!
+                .GetName()!;
         }
     }
 }
