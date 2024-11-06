@@ -1,5 +1,4 @@
-﻿using Bogus;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
@@ -20,10 +19,6 @@ namespace OnlineShopWebApp.Tests.Controllers
         private readonly Mock<AccountsService> _accountsServiceMock;
         private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly AccountController _controller;
-
-        private const int RolesCount = 10;
-        private const int UsersCount = 10;
-        private readonly List<Role> _fakeRoles;
         private readonly List<User> _fakeUsers;
 
         public AccountControllerTests()
@@ -35,17 +30,7 @@ namespace OnlineShopWebApp.Tests.Controllers
                 Url = _urlHelperMock.Object
             };
 
-            _fakeRoles = FakerProvider.RoleFaker.Generate(RolesCount);
-
-            var userFaker = new Faker<User>()
-                .RuleFor(u => u.Id, f => f.Random.Guid())
-                .RuleFor(u => u.Email, f => f.Internet.Email())
-                .RuleFor(u => u.Password, f => f.Internet.Password(12))
-                .RuleFor(u => u.Name, f => f.Name.FullName())
-                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber())
-                .RuleFor(u => u.Role, f => f.PickRandom(_fakeRoles));
-
-            _fakeUsers = userFaker.Generate(UsersCount);
+            _fakeUsers = FakerProvider.FakeUsers;
         }
 
         [Fact]

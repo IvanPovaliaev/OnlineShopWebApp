@@ -21,7 +21,6 @@ namespace OnlineShopWebApp.Tests.Services
 
         private readonly Guid _userId;
         private readonly Guid _newProductId;
-        private const int PositionsCount = 10;
         private readonly Faker<Product> _productFaker;
         private readonly Cart _fakeCart;
 
@@ -39,17 +38,9 @@ namespace OnlineShopWebApp.Tests.Services
                 _productsServiceMock.Object);
 
             _userId = FakerProvider.UserId;
-
+            _newProductId = Guid.NewGuid();
             _productFaker = FakerProvider.ProductFaker;
-
-            var fakeCartPositions = FakerProvider.CartPositionFaker.Generate(PositionsCount);
-
-            _fakeCart = new Cart()
-            {
-                Id = Guid.NewGuid(),
-                UserId = _userId,
-                Positions = fakeCartPositions
-            };
+            _fakeCart = FakerProvider.FakeCart;
         }
 
         [Fact]
@@ -70,6 +61,7 @@ namespace OnlineShopWebApp.Tests.Services
         public async Task GetViewModelAsync_ForSpecifiedUserId_ReturnsMappedCartViewModel()
         {
             // Arrange
+            var expectedPositionQuantity = _fakeCart.Positions.Count;
             _cartsRepositoryMock.Setup(repo => repo.GetAsync(_userId))
                                 .ReturnsAsync(_fakeCart);
 
@@ -78,13 +70,14 @@ namespace OnlineShopWebApp.Tests.Services
 
             // Assert
             Assert.Equal(_fakeCart.UserId, result.UserId);
-            Assert.Equal(PositionsCount, result.Positions.Count);
+            Assert.Equal(expectedPositionQuantity, result.Positions.Count);
         }
 
         [Fact]
         public async Task AddAsync_IfCartExistsAndProductNotInCart_AddsProductToExistingCart()
         {
             // Arrange
+            var initialPositionsCount = _fakeCart.Positions.Count;
             _cartsRepositoryMock.Setup(repo => repo.GetAsync(_userId))
                                 .ReturnsAsync(_fakeCart);
             _productsServiceMock.Setup(service => service.GetAsync(_newProductId))
@@ -94,7 +87,7 @@ namespace OnlineShopWebApp.Tests.Services
             await _cartsService.AddAsync(_newProductId, _userId);
 
             // Assert
-            Assert.Equal(PositionsCount + 1, _fakeCart.Positions.Count);
+            Assert.Equal(initialPositionsCount + 1, _fakeCart.Positions.Count);
             _cartsRepositoryMock.Verify(repo => repo.UpdateAsync(_fakeCart), Times.Once);
         }
 

@@ -19,9 +19,7 @@ namespace OnlineShopWebApp.Tests.Controllers
         private readonly Mock<ProductsService> _productsServiceMock;
         private readonly ProductController _controller;
         private readonly IMapper _mapper;
-        private readonly Guid _userId;
 
-        private const int ProductsCount = 10;
         private readonly List<Product> _fakeProducts;
 
         public ProductControllerTests()
@@ -32,8 +30,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
             _mapper = config.CreateMapper();
 
-            _userId = FakerProvider.UserId;
-            _fakeProducts = FakerProvider.ProductFaker.Generate(ProductsCount);
+            _fakeProducts = FakerProvider.FakeProducts;
         }
 
         [Fact]

@@ -28,7 +28,6 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly IMapper _mapper;
         private readonly AccountsService _accountsService;
 
-        private const int RolesCount = 10;
         private const int UsersCount = 10;
         private readonly List<Role> _fakeRoles;
         private readonly List<RoleViewModel> _fakeRolesViewModels;
@@ -52,7 +51,7 @@ namespace OnlineShopWebApp.Tests.Services
                 _hashServiceMock.Object,
                 _excelServiceMock.Object);
 
-            _fakeRoles = FakerProvider.RoleFaker.Generate(RolesCount);
+            _fakeRoles = FakerProvider.FakeRoles;
             var userRole = new Role()
             {
                 Id = Guid.NewGuid(),
@@ -64,15 +63,8 @@ namespace OnlineShopWebApp.Tests.Services
             _fakeRolesViewModels = _fakeRoles.Select(role => _mapper.Map<RoleViewModel>(role))
                                              .ToList();
 
-            _userFaker = new Faker<User>()
-                .RuleFor(u => u.Id, f => f.Random.Guid())
-                .RuleFor(u => u.Email, f => f.Internet.Email())
-                .RuleFor(u => u.Password, f => f.Internet.Password(12))
-                .RuleFor(u => u.Name, f => f.Name.FullName())
-                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber())
-                .RuleFor(u => u.Role, f => f.PickRandom(_fakeRoles));
-
-            _fakeUsers = _userFaker.Generate(UsersCount);
+            _userFaker = FakerProvider.UserFaker;
+            _fakeUsers = FakerProvider.FakeUsers;
         }
 
         [Fact]

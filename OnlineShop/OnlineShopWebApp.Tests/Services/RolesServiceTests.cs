@@ -30,7 +30,6 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly List<Role> _fakeRoles;
         private readonly List<RoleViewModel> _fakeRoleViewModels;
         private readonly Faker<Role> _roleFaker;
-        private const int RolesCount = 10;
 
         public RolesServiceTests()
         {
@@ -49,8 +48,7 @@ namespace OnlineShopWebApp.Tests.Services
             );
 
             _roleFaker = FakerProvider.RoleFaker;
-
-            _fakeRoles = _roleFaker.Generate(RolesCount);
+            _fakeRoles = FakerProvider.FakeRoles;
             _fakeRoleViewModels = _fakeRoles.Select(_mapper.Map<RoleViewModel>)
                                             .ToList();
         }

@@ -24,7 +24,6 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
         private readonly ProductController _controller;
         private readonly IMapper _mapper;
 
-        private const int ProductsCount = 10;
         private readonly Faker<Product> _productFaker;
         private readonly List<Product> _fakeProducts;
 
@@ -37,7 +36,7 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
             _mapper = config.CreateMapper();
 
             _productFaker = FakerProvider.ProductFaker;
-            _fakeProducts = _productFaker.Generate(ProductsCount);
+            _fakeProducts = FakerProvider.FakeProducts;
         }
 
         [Fact]

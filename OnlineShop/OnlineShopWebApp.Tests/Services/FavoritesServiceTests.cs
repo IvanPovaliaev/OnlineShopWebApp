@@ -21,7 +21,6 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly FavoritesService _favoritesService;
         private readonly IMapper _mapper;
 
-        private const int ProductsCount = 10;
         private readonly Guid _userId;
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
         private readonly Faker<Product> _productFaker;
@@ -41,13 +40,14 @@ namespace OnlineShopWebApp.Tests.Services
 
             _userId = FakerProvider.UserId;
             _productFaker = FakerProvider.ProductFaker;
-            _fakeFavoriteProducts = FakerProvider.FavoriteProductFaker.Generate(ProductsCount);
+            _fakeFavoriteProducts = FakerProvider.FakeFavoriteProducts;
         }
 
         [Fact]
         public async Task GetAllAsync_WhenUserHasFavorites_ReturnsUserFavorites()
         {
             // Arrange
+            var expectedCount = _fakeFavoriteProducts.Count;
             _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync())
                                     .ReturnsAsync(_fakeFavoriteProducts);
 
@@ -55,7 +55,7 @@ namespace OnlineShopWebApp.Tests.Services
             var result = await _favoritesService.GetAllAsync(_userId);
 
             // Assert
-            Assert.Equal(ProductsCount, result.Count);
+            Assert.Equal(expectedCount, result.Count);
             Assert.All(result, favorite => Assert.IsType<FavoriteProductViewModel>(favorite));
             Assert.All(result, favorite => Assert.Equal(_userId, favorite.UserId));
         }

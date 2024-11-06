@@ -20,9 +20,6 @@ namespace OnlineShopWebApp.Tests.Controllers
         private readonly Mock<OrdersService> _ordersServiceMock;
         private readonly OrderController _controller;
         private readonly IMapper _mapper;
-
-        private const int PositionsCount = 10;
-        private readonly Guid _userId;
         private readonly Cart _fakeCart;
         private readonly Faker<UserDeliveryInfo> _userDeliveryInfoFaker;
 
@@ -35,17 +32,8 @@ namespace OnlineShopWebApp.Tests.Controllers
             var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
             _mapper = config.CreateMapper();
 
-            _userId = FakerProvider.UserId;
             _userDeliveryInfoFaker = FakerProvider.UserDeliveryInfoFaker;
-
-            var fakeCartPositions = FakerProvider.CartPositionFaker.Generate(PositionsCount);
-
-            _fakeCart = new Cart()
-            {
-                Id = Guid.NewGuid(),
-                UserId = _userId,
-                Positions = fakeCartPositions
-            };
+            _fakeCart = FakerProvider.FakeCart;
         }
 
         [Fact]

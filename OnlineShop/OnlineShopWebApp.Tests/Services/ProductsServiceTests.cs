@@ -25,7 +25,6 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly IMapper _mapper;
         private readonly ProductsService _productsService;
 
-        private const int ProductsCount = 10;
         private readonly List<Product> _fakeProducts;
 
         public ProductsServiceTests()
@@ -44,7 +43,7 @@ namespace OnlineShopWebApp.Tests.Services
                 rules
             );
 
-            _fakeProducts = FakerProvider.ProductFaker.Generate(ProductsCount);
+            _fakeProducts = FakerProvider.FakeProducts;
         }
 
         [Fact]
@@ -84,7 +83,7 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var query = "testQuery123!23112";
-            var productCount = new Random().Next(1, ProductsCount);
+            var productCount = new Random().Next(1, _fakeProducts.Count);
 
             for (int i = 0; i < productCount; i++)
             {

@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using OnlineShopWebApp.Controllers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
-using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,8 +13,6 @@ namespace OnlineShopWebApp.Tests.Controllers
     {
         private readonly Mock<CartsService> _cartsServiceMock;
         private readonly CartController _controller;
-        private readonly Guid _userId;
-        private readonly IMapper _mapper;
         private readonly CartViewModel _fakeCartViewModel;
 
         public CartControllerTests()
@@ -24,10 +20,6 @@ namespace OnlineShopWebApp.Tests.Controllers
             _cartsServiceMock = new Mock<CartsService>(null!, null!, null!);
             _controller = new CartController(_cartsServiceMock.Object);
 
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
-            _mapper = config.CreateMapper();
-
-            _userId = FakerProvider.UserId;
             _fakeCartViewModel = new CartViewModel();
         }
 

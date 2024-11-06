@@ -26,9 +26,6 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
         private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly IMapper _mapper;
 
-        private const int RolesCount = 10;
-        private const int UsersCount = 10;
-        private readonly List<Role> _fakeRoles;
         private readonly List<User> _fakeUsers;
         private readonly Faker<User> _userFaker;
 
@@ -45,17 +42,8 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
             var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
             _mapper = config.CreateMapper();
 
-            _fakeRoles = FakerProvider.RoleFaker.Generate(RolesCount);
-
-            _userFaker = new Faker<User>()
-                .RuleFor(u => u.Id, f => f.Random.Guid())
-                .RuleFor(u => u.Email, f => f.Internet.Email())
-                .RuleFor(u => u.Password, f => f.Internet.Password(12))
-                .RuleFor(u => u.Name, f => f.Name.FullName())
-                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber())
-                .RuleFor(u => u.Role, f => f.PickRandom(_fakeRoles));
-
-            _fakeUsers = _userFaker.Generate(UsersCount);
+            _userFaker = FakerProvider.UserFaker;
+            _fakeUsers = FakerProvider.FakeUsers;
         }
 
         [Fact]

@@ -26,7 +26,6 @@ namespace OnlineShopWebApp.Tests.Services
 
         private readonly List<Order> _fakeOrders;
         private readonly List<OrderViewModel> _fakeOrderViewModels;
-        private const int OrdersCount = 10;
 
         public OrdersServiceTests()
         {
@@ -38,7 +37,7 @@ namespace OnlineShopWebApp.Tests.Services
 
             _ordersService = new OrdersService(_ordersRepositoryMock.Object, _excelServiceMock.Object, _mapper);
 
-            _fakeOrders = FakerProvider.OrderFaker.Generate(OrdersCount);
+            _fakeOrders = FakerProvider.FakeOrders;
             _fakeOrderViewModels = _fakeOrders.Select(_mapper.Map<OrderViewModel>)
                                               .ToList();
         }

@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using OnlineShop.Db.Models;
 using System;
+using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Tests.Helpers
 {
@@ -14,6 +15,20 @@ namespace OnlineShopWebApp.Tests.Helpers
         public static Faker<Order> OrderFaker { get; }
         public static Faker<UserDeliveryInfo> UserDeliveryInfoFaker { get; }
         public static Faker<Role> RoleFaker { get; }
+        public static Faker<User> UserFaker { get; }
+
+        public const int PositionsCount = 10;
+        public const int ProductsCount = 10;
+        public const int OrdersCount = 10;
+        public const int RolesCount = 10;
+        public const int UsersCount = 10;
+        public static Cart FakeCart { get; }
+        public static List<Product> FakeProducts { get; }
+        public static List<ComparisonProduct> FakeComparisonProducts { get; }
+        public static List<FavoriteProduct> FakeFavoriteProducts { get; }
+        public static List<Order> FakeOrders { get; }
+        public static List<Role> FakeRoles { get; }
+        public static List<User> FakeUsers { get; }
 
         static FakerProvider()
         {
@@ -61,6 +76,31 @@ namespace OnlineShopWebApp.Tests.Helpers
                 .RuleFor(o => o.CreationDate, f => f.Date.Past())
                 .RuleFor(o => o.Status, f => f.PickRandom<OrderStatus>())
                 .RuleFor(o => o.Info, f => UserDeliveryInfoFaker.Generate());
+
+            var fakeCartPositions = CartPositionFaker.Generate(PositionsCount);
+
+            FakeCart = new Cart()
+            {
+                Id = Guid.NewGuid(),
+                UserId = UserId,
+                Positions = fakeCartPositions
+            };
+
+            FakeProducts = ProductFaker.Generate(ProductsCount);
+            FakeComparisonProducts = ComparisonProductFaker.Generate(ProductsCount);
+            FakeFavoriteProducts = FavoriteProductFaker.Generate(ProductsCount);
+            FakeOrders = OrderFaker.Generate(OrdersCount);
+            FakeRoles = RoleFaker.Generate(RolesCount);
+
+            UserFaker = new Faker<User>()
+                .RuleFor(u => u.Id, f => f.Random.Guid())
+                .RuleFor(u => u.Email, f => f.Internet.Email())
+                .RuleFor(u => u.Password, f => f.Internet.Password(12))
+                .RuleFor(u => u.Name, f => f.Name.FullName())
+                .RuleFor(u => u.Phone, f => f.Phone.PhoneNumber())
+                .RuleFor(u => u.Role, f => f.PickRandom(FakeRoles));
+
+            FakeUsers = UserFaker.Generate(UsersCount);
         }
     }
 }

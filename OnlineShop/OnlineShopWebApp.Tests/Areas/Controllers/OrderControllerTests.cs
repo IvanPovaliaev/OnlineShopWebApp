@@ -22,11 +22,7 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
         private readonly Mock<OrdersService> _ordersServiceMock;
         private readonly OrderController _controller;
         private readonly IMapper _mapper;
-
-        private const int OrdersCount = 10;
-        private readonly Guid _userId;
         private readonly List<Order> _fakeOrders;
-
 
         public OrderControllerTests()
         {
@@ -36,8 +32,7 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
             var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
             _mapper = config.CreateMapper();
 
-            _userId = FakerProvider.UserId;
-            _fakeOrders = FakerProvider.OrderFaker.Generate(OrdersCount);
+            _fakeOrders = FakerProvider.FakeOrders;
         }
 
         [Fact]

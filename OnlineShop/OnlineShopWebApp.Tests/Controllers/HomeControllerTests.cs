@@ -19,16 +19,14 @@ namespace OnlineShopWebApp.Tests.Controllers
         private readonly Mock<ProductsService> _mockProductsService;
         private readonly HomeController _controller;
         private readonly IMapper _mapper;
-
         private readonly List<Product> _fakeProducts;
-        private const int ProductsCount = 10;
 
         public HomeControllerTests()
         {
             _mockProductsService = new Mock<ProductsService>(null!, null!, null!, null!);
             _controller = new HomeController(_mockProductsService.Object);
 
-            _fakeProducts = FakerProvider.ProductFaker.Generate(ProductsCount);
+            _fakeProducts = FakerProvider.FakeProducts;
 
             var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
             _mapper = config.CreateMapper();
@@ -37,18 +35,21 @@ namespace OnlineShopWebApp.Tests.Controllers
         [Fact]
         public async Task Index_ReturnsViewWithProducts()
         {
+            // Arrange
+            var expectedCount = _fakeProducts.Count;
             var fakeProducts = _fakeProducts.Select(_mapper.Map<ProductViewModel>)
                                             .ToList();
 
             _mockProductsService.Setup(s => s.GetAllAsync())
                                 .ReturnsAsync(fakeProducts);
 
+            // Act
             var result = await _controller.Index();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IEnumerable<ProductViewModel>>(viewResult.Model);
-            Assert.Equal(ProductsCount, model.Count());
+            Assert.Equal(expectedCount, model.Count());
         }
 
         [Fact]

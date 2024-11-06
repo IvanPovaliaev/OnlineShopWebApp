@@ -18,10 +18,7 @@ namespace OnlineShopWebApp.Tests.Controllers
     {
         private readonly Mock<ComparisonsService> _comparisonsServiceMock;
         private readonly ComparisonController _controller;
-        private readonly Guid _userId;
         private readonly IMapper _mapper;
-
-        private const int ProductsCount = 10;
         private readonly List<ComparisonProduct> _fakeComparisonProducts;
 
         public ComparisonControllerTests()
@@ -32,8 +29,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
             _mapper = config.CreateMapper();
 
-            _userId = FakerProvider.UserId;
-            _fakeComparisonProducts = FakerProvider.ComparisonProductFaker.Generate(ProductsCount);
+            _fakeComparisonProducts = FakerProvider.FakeComparisonProducts;
         }
 
         [Fact]

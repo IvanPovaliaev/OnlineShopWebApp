@@ -26,7 +26,6 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
         private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly IMapper _mapper;
 
-        private const int RolesCount = 10;
         private readonly Faker<Role> _roleFaker;
         private readonly List<Role> _fakeRoles;
 
@@ -40,12 +39,11 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
                 Url = _urlHelperMock.Object
             };
 
-
             var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
             _mapper = config.CreateMapper();
 
             _roleFaker = FakerProvider.RoleFaker;
-            _fakeRoles = _roleFaker.Generate(RolesCount);
+            _fakeRoles = FakerProvider.FakeRoles;
         }
 
         [Fact]

@@ -19,9 +19,6 @@ namespace OnlineShopWebApp.Tests.Controllers
         private readonly Mock<FavoritesService> _favoritesServiceMock;
         private readonly FavoriteController _controller;
         private readonly IMapper _mapper;
-        private readonly Guid _userId;
-
-        private const int ProductsCount = 10;
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
 
         public FavoriteControllerTests()
@@ -32,8 +29,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
             _mapper = config.CreateMapper();
 
-            _userId = FakerProvider.UserId;
-            _fakeFavoriteProducts = FakerProvider.FavoriteProductFaker.Generate(ProductsCount);
+            _fakeFavoriteProducts = FakerProvider.FakeFavoriteProducts;
         }
 
         [Fact]

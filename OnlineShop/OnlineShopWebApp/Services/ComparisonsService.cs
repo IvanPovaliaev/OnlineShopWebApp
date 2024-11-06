@@ -27,7 +27,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>List of ComparisonProductViewModel for target user</returns>
         /// <param name="userId">User Id (GUID)</param>
-        public async Task<List<ComparisonProductViewModel>> GetAllAsync(Guid userId)
+        public virtual async Task<List<ComparisonProductViewModel>> GetAllAsync(Guid userId)
         {
             return (await _comparisonsRepository.GetAllAsync())
                                                 .Where(c => c.UserId == userId)

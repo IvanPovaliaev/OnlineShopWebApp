@@ -20,7 +20,6 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly ComparisonsService _comparisonsService;
         private readonly IMapper _mapper;
 
-        private const int ProductsCount = 10;
         private readonly Guid _userId;
         private readonly List<ComparisonProduct> _fakeComparisonProducts;
         private readonly Faker<Product> _productsFaker;
@@ -40,13 +39,14 @@ namespace OnlineShopWebApp.Tests.Services
 
             _userId = FakerProvider.UserId;
             _productsFaker = FakerProvider.ProductFaker;
-            _fakeComparisonProducts = FakerProvider.ComparisonProductFaker.Generate(ProductsCount);
+            _fakeComparisonProducts = FakerProvider.FakeComparisonProducts;
         }
 
         [Fact]
         public async Task GetAllAsync_WhenUserHasComparisons_ReturnsUserComparisons()
         {
             // Arrange
+            var expectedCount = _fakeComparisonProducts.Count;
             _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
                                       .ReturnsAsync(_fakeComparisonProducts);
 
@@ -54,7 +54,7 @@ namespace OnlineShopWebApp.Tests.Services
             var result = await _comparisonsService.GetAllAsync(_userId);
 
             // Assert
-            Assert.Equal(ProductsCount, result.Count);
+            Assert.Equal(expectedCount, result.Count);
             Assert.All(result, comparison => Assert.Equal(_userId, comparison.UserId));
         }
 
