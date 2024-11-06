@@ -156,7 +156,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>Related IProductSpecificationsRules representation</returns>
         /// <param name="category">ProductCategoriesViewModel</param>
-        public IProductSpecificationsRules GetSpecificationsRules(ProductCategoriesViewModel category)
+        public virtual IProductSpecificationsRules GetSpecificationsRules(ProductCategoriesViewModel category)
         {
             var categoryDb = (ProductCategories)category;
             return _specificationsRules.FirstOrDefault(s => s.Category == categoryDb)!;

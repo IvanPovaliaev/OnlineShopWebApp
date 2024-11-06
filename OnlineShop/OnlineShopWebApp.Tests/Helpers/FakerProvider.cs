@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -91,6 +92,13 @@ namespace OnlineShopWebApp.Tests.Helpers
             FakeFavoriteProducts = FavoriteProductFaker.Generate(ProductsCount);
             FakeOrders = OrderFaker.Generate(OrdersCount);
             FakeRoles = RoleFaker.Generate(RolesCount);
+            var userRole = new Role()
+            {
+                Id = Guid.NewGuid(),
+                Name = Constants.UserRoleName,
+                CanBeDeleted = false
+            };
+            FakeRoles.Add(userRole);
 
             UserFaker = new Faker<User>()
                 .RuleFor(u => u.Id, f => f.Random.Guid())

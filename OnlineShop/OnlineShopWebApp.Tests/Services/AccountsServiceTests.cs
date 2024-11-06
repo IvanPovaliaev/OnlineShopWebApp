@@ -52,14 +52,6 @@ namespace OnlineShopWebApp.Tests.Services
                 _excelServiceMock.Object);
 
             _fakeRoles = FakerProvider.FakeRoles;
-            var userRole = new Role()
-            {
-                Id = Guid.NewGuid(),
-                Name = Constants.UserRoleName,
-                CanBeDeleted = false
-            };
-
-            _fakeRoles.Add(userRole);
             _fakeRolesViewModels = _fakeRoles.Select(role => _mapper.Map<RoleViewModel>(role))
                                              .ToList();
 
