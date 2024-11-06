@@ -24,7 +24,7 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly Mock<IRolesRepository> _rolesRepositoryMock;
         private readonly Mock<IMediator> _mediatorMock;
         private readonly Mock<IExcelService> _excelServiceMock;
-        private readonly Mock<IMapper> _mapperMock;
+        private readonly IMapper _mapper;
         private readonly RolesService _rolesService;
 
         private readonly List<Role> _fakeRoles;
@@ -37,19 +37,21 @@ namespace OnlineShopWebApp.Tests.Services
             _rolesRepositoryMock = new Mock<IRolesRepository>();
             _mediatorMock = new Mock<IMediator>();
             _excelServiceMock = new Mock<IExcelService>();
-            _mapperMock = InitializeMapperMock();
+
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
+            _mapper = config.CreateMapper();
 
             _rolesService = new RolesService(
                 _rolesRepositoryMock.Object,
                 _mediatorMock.Object,
-                _mapperMock.Object,
+                _mapper,
                 _excelServiceMock.Object
             );
 
             _roleFaker = FakerProvider.RoleFaker;
 
             _fakeRoles = _roleFaker.Generate(RolesCount);
-            _fakeRoleViewModels = _fakeRoles.Select(r => new RoleViewModel { Id = r.Id, Name = r.Name, CanBeDeleted = r.CanBeDeleted })
+            _fakeRoleViewModels = _fakeRoles.Select(_mapper.Map<RoleViewModel>)
                                             .ToList();
         }
 
@@ -127,8 +129,6 @@ namespace OnlineShopWebApp.Tests.Services
 
             _rolesRepositoryMock.Setup(repo => repo.GetAsync(fakeRole.Id))
                                 .ReturnsAsync(fakeRole);
-            _mapperMock.Setup(mapper => mapper.Map<RoleViewModel>(fakeRole))
-                                              .Returns(expectedRoleViewModel);
 
             // Act
             var result = await _rolesService.GetViewModelAsync(fakeRole.Id);
@@ -197,9 +197,6 @@ namespace OnlineShopWebApp.Tests.Services
             // Arrange
             var roleViewModel = _fakeRoleViewModels.First();
             var role = _fakeRoles.First();
-
-            _mapperMock.Setup(mapper => mapper.Map<Role>(roleViewModel))
-                       .Returns(role);
 
             // Act
             await _rolesService.AddAsync(roleViewModel);
@@ -279,19 +276,6 @@ namespace OnlineShopWebApp.Tests.Services
             Assert.IsType<MemoryStream>(result);
             _rolesRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
             _excelServiceMock.Verify(service => service.ExportRoles(It.IsAny<List<RoleViewModel>>()), Times.Once);
-        }
-
-        private Mock<IMapper> InitializeMapperMock()
-        {
-            var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(mapper => mapper.Map<RoleViewModel>(It.IsAny<Role>()))
-                      .Returns((Role role) => new RoleViewModel
-                      {
-                          Id = role.Id,
-                          Name = role.Name,
-                          CanBeDeleted = role.CanBeDeleted
-                      });
-            return mapperMock;
         }
     }
 }

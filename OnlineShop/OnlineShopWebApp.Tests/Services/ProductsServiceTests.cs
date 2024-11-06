@@ -22,7 +22,7 @@ namespace OnlineShopWebApp.Tests.Services
     {
         private readonly Mock<IProductsRepository> _productsRepositoryMock;
         private readonly Mock<IExcelService> _excelServiceMock;
-        private readonly Mock<IMapper> _mapperMock;
+        private readonly IMapper _mapper;
         private readonly ProductsService _productsService;
 
         private const int ProductsCount = 10;
@@ -32,13 +32,14 @@ namespace OnlineShopWebApp.Tests.Services
         {
             _productsRepositoryMock = new Mock<IProductsRepository>();
             _excelServiceMock = new Mock<IExcelService>();
-            _mapperMock = InitializeMapperMock();
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
+            _mapper = config.CreateMapper();
 
             var rules = new List<IProductSpecificationsRules>();
 
             _productsService = new ProductsService(
                 _productsRepositoryMock.Object,
-                _mapperMock.Object,
+                _mapper,
                 _excelServiceMock.Object,
                 rules
             );
@@ -189,16 +190,6 @@ namespace OnlineShopWebApp.Tests.Services
             _productsRepositoryMock.Setup(repo => repo.GetAsync(fakeProduct.Id))
                                    .ReturnsAsync(fakeProduct);
 
-            _mapperMock.Setup(m => m.Map<EditProductViewModel>(fakeProduct)).Returns(new EditProductViewModel
-            {
-                Id = fakeProduct.Id,
-                Name = fakeProduct.Name,
-                Cost = fakeProduct.Cost,
-                Description = fakeProduct.Description,
-                ImageUrl = fakeProduct.ImageUrl,
-                Category = (ProductCategoriesViewModel)fakeProduct.Category
-            });
-
             // Act
             var result = await _productsService.GetEditProductAsync(fakeProduct.Id);
 
@@ -220,9 +211,6 @@ namespace OnlineShopWebApp.Tests.Services
             var productId = Guid.NewGuid();
             _productsRepositoryMock.Setup(repo => repo.GetAsync(productId))
                                    .ReturnsAsync((Product)null!);
-
-            _mapperMock.Setup(m => m.Map<EditProductViewModel>(null))
-                       .Returns((EditProductViewModel)null!);
 
             // Act
             var result = await _productsService.GetViewModelAsync(productId);
@@ -247,17 +235,8 @@ namespace OnlineShopWebApp.Tests.Services
                 }
             };
 
-            var mappedProduct = new Product
-            {
-                Id = Guid.NewGuid(),
-                Name = newProduct.Name,
-                Cost = newProduct.Cost,
-                Description = newProduct.Description,
-                SpecificationsJson = System.Text.Json.JsonSerializer.Serialize(newProduct.Specifications)
-            };
+            var mappedProduct = _mapper.Map<Product>(newProduct);
 
-            _mapperMock.Setup(m => m.Map<Product>(newProduct))
-                       .Returns(mappedProduct);
             _productsRepositoryMock.Setup(repo => repo.AddAsync(mappedProduct))
                                    .Returns(Task.CompletedTask);
 
@@ -265,7 +244,12 @@ namespace OnlineShopWebApp.Tests.Services
             await _productsService.AddAsync(newProduct);
 
             // Assert
-            _productsRepositoryMock.Verify(repo => repo.AddAsync(mappedProduct), Times.Once);
+            _productsRepositoryMock.Verify(repo => repo.AddAsync(It.Is<Product>(p =>
+                p.Name == mappedProduct.Name &&
+                p.Cost == mappedProduct.Cost &&
+                p.Description == mappedProduct.Description &&
+                p.SpecificationsJson.Equals(mappedProduct.SpecificationsJson))), Times.Once);
+
         }
 
         [Fact]
@@ -293,8 +277,6 @@ namespace OnlineShopWebApp.Tests.Services
                 SpecificationsJson = System.Text.Json.JsonSerializer.Serialize(product.Specifications)
             };
 
-            _mapperMock.Setup(m => m.Map<Product>(product))
-                       .Returns(mappedProduct);
             _productsRepositoryMock.Setup(repo => repo.UpdateAsync(mappedProduct))
                                    .Returns(Task.CompletedTask);
 
@@ -302,7 +284,11 @@ namespace OnlineShopWebApp.Tests.Services
             await _productsService.UpdateAsync(product);
 
             // Assert
-            _productsRepositoryMock.Verify(repo => repo.UpdateAsync(mappedProduct), Times.Once);
+            _productsRepositoryMock.Verify(repo => repo.UpdateAsync(It.Is<Product>(p =>
+                p.Name == mappedProduct.Name &&
+                p.Cost == mappedProduct.Cost &&
+                p.Description == mappedProduct.Description &&
+                p.SpecificationsJson.Equals(mappedProduct.SpecificationsJson))), Times.Once);
         }
 
         [Fact]
@@ -327,15 +313,7 @@ namespace OnlineShopWebApp.Tests.Services
             // Arrange
             var fakeProduct = _fakeProducts.First();
             var modelState = new ModelStateDictionary();
-            var editProduct = new EditProductViewModel
-            {
-                Id = fakeProduct.Id,
-                Name = fakeProduct.Name,
-                Cost = fakeProduct.Cost,
-                Description = fakeProduct.Description,
-                ImageUrl = fakeProduct.ImageUrl,
-                Category = (ProductCategoriesViewModel)fakeProduct.Category
-            };
+            var editProduct = _mapper.Map<EditProductViewModel>(fakeProduct);
 
             _productsRepositoryMock.Setup(repo => repo.GetAsync(fakeProduct.Id))
                                    .ReturnsAsync(fakeProduct);
@@ -402,30 +380,6 @@ namespace OnlineShopWebApp.Tests.Services
             Assert.IsType<MemoryStream>(result);
             _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
             _excelServiceMock.Verify(service => service.ExportProducts(It.IsAny<List<ProductViewModel>>()), Times.Once);
-        }
-
-        private Mock<IMapper> InitializeMapperMock()
-        {
-            var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(m => m.Map<ProductViewModel>(It.IsAny<Product>()))
-                      .Returns((Product source) =>
-                      {
-                          if (source == null)
-                          {
-                              return null!;
-                          }
-
-                          return new ProductViewModel
-                          {
-                              Id = source.Id,
-                              Name = source.Name,
-                              Cost = source.Cost,
-                              Description = source.Description,
-                              ImageUrl = source.ImageUrl,
-                              Category = (ProductCategoriesViewModel)source.Category
-                          };
-                      });
-            return mapperMock;
         }
     }
 }

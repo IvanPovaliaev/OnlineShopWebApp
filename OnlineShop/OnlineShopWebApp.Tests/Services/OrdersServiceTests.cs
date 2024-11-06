@@ -21,7 +21,7 @@ namespace OnlineShopWebApp.Tests.Services
     {
         private readonly Mock<IOrdersRepository> _ordersRepositoryMock;
         private readonly Mock<IExcelService> _excelServiceMock;
-        private readonly Mock<IMapper> _mapperMock;
+        private readonly IMapper _mapper;
         private readonly OrdersService _ordersService;
 
         private readonly List<Order> _fakeOrders;
@@ -32,26 +32,15 @@ namespace OnlineShopWebApp.Tests.Services
         {
             _ordersRepositoryMock = new Mock<IOrdersRepository>();
             _excelServiceMock = new Mock<IExcelService>();
-            _mapperMock = InitializeMapperMock();
-            _ordersService = new OrdersService(_ordersRepositoryMock.Object, _excelServiceMock.Object, _mapperMock.Object);
+
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
+            _mapper = config.CreateMapper();
+
+            _ordersService = new OrdersService(_ordersRepositoryMock.Object, _excelServiceMock.Object, _mapper);
 
             _fakeOrders = FakerProvider.OrderFaker.Generate(OrdersCount);
-            _fakeOrderViewModels = _fakeOrders.Select(order => new OrderViewModel
-            {
-                Id = order.Id,
-                UserId = order.UserId,
-                CreationDate = order.CreationDate,
-                Status = (OrderStatusViewModel)order.Status,
-                Info = new UserDeliveryInfoViewModel()
-                {
-                    City = order.Info.City,
-                    Address = order.Info.Address,
-                    PostCode = order.Info.PostCode,
-                    FullName = order.Info.FullName,
-                    Email = order.Info.Email,
-                    Phone = order.Info.Phone,
-                }
-            }).ToList();
+            _fakeOrderViewModels = _fakeOrders.Select(_mapper.Map<OrderViewModel>)
+                                              .ToList();
         }
 
         [Fact]
@@ -61,8 +50,10 @@ namespace OnlineShopWebApp.Tests.Services
             _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
                                  .ReturnsAsync(_fakeOrders);
 
+            // Act
             var result = await _ordersService.GetAllAsync();
 
+            // Assert
             Assert.Equal(_fakeOrderViewModels.Count, result.Count);
 
             for (int i = 0; i < result.Count; i++)
@@ -123,17 +114,7 @@ namespace OnlineShopWebApp.Tests.Services
             // Arrange
             var userId = _fakeOrderViewModels.First().UserId;
             var deliveryInfo = _fakeOrderViewModels.First().Info;
-            var positions = new List<CartPosition>
-            {
-                new()
-                {
-                    Product = new Product { Id = Guid.NewGuid(), Name = "Product1" },
-                    Quantity = 1
-                }
-            };
-
-            _mapperMock.Setup(mapper => mapper.Map<UserDeliveryInfo>(deliveryInfo))
-                       .Returns(_fakeOrders.First().Info);
+            var positions = FakerProvider.CartPositionFaker.Generate(2);
 
             _ordersRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<Order>()))
                                  .Returns(Task.CompletedTask);
@@ -165,10 +146,7 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var modelState = new ModelStateDictionary();
-            var positions = new List<CartPosition>
-            {
-                new CartPosition { Product = new Product { Id = Guid.NewGuid(), Name = "Product1" }, Quantity = 1 }
-            };
+            var positions = FakerProvider.CartPositionFaker.Generate(2);
 
             // Act
             var result = _ordersService.IsCreationValid(modelState, positions);
@@ -214,29 +192,6 @@ namespace OnlineShopWebApp.Tests.Services
             Assert.IsType<MemoryStream>(result);
             _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
             _excelServiceMock.Verify(service => service.ExportOrders(It.IsAny<List<OrderViewModel>>()), Times.Once);
-        }
-
-        private Mock<IMapper> InitializeMapperMock()
-        {
-            var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(mapper => mapper.Map<OrderViewModel>(It.IsAny<Order>()))
-                      .Returns((Order order) => new OrderViewModel
-                      {
-                          Id = order.Id,
-                          UserId = order.UserId,
-                          CreationDate = order.CreationDate,
-                          Status = (OrderStatusViewModel)order.Status,
-                          Info = new UserDeliveryInfoViewModel()
-                          {
-                              City = order.Info.City,
-                              Address = order.Info.Address,
-                              PostCode = order.Info.PostCode,
-                              FullName = order.Info.FullName,
-                              Email = order.Info.Email,
-                              Phone = order.Info.Phone,
-                          }
-                      });
-            return mapperMock;
         }
     }
 

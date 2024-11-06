@@ -33,8 +33,8 @@ namespace OnlineShopWebApp.Tests.Helpers
                 .RuleFor(p => p.Quantity, f => f.Random.Int(1, 10));
 
             RoleFaker = new Faker<Role>().RuleFor(r => r.Id, f => f.Random.Guid())
-                                          .RuleFor(r => r.Name, f => f.Name.JobTitle())
-                                          .RuleFor(r => r.CanBeDeleted, f => f.Random.Bool());
+                                         .RuleFor(r => r.Name, f => f.Name.JobTitle())
+                                         .RuleFor(r => r.CanBeDeleted, f => f.Random.Bool());
 
             ComparisonProductFaker = new Faker<ComparisonProduct>()
                     .RuleFor(fp => fp.Id, f => Guid.NewGuid())
