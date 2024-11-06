@@ -86,7 +86,7 @@ namespace OnlineShopWebApp.Services
         /// Get product from repository by GUID
         /// </summary>
         /// <returns>Product; returns null if product not found</returns>
-        public async Task<Product> GetAsync(Guid id) => await _productsRepository.GetAsync(id);
+        public virtual async Task<Product> GetAsync(Guid id) => await _productsRepository.GetAsync(id);
 
         /// <summary>
         /// Get product ViewModel of related product by GUID

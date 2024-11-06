@@ -20,7 +20,7 @@ namespace OnlineShop.Db.Repositories
         public async Task<List<FavoriteProduct>> GetAllAsync()
         {
             return await _databaseContext.FavoriteProducts.Include(f => f.Product)
-                                                   .ToListAsync();
+                                                          .ToListAsync();
         }
 
         public async Task<FavoriteProduct> GetAsync(Guid id)

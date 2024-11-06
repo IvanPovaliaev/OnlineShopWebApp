@@ -33,7 +33,7 @@ namespace OnlineShopWebApp.Services
         /// Get all roles from repository
         /// </summary>
         /// <returns>List of all RolesViewModel from repository</returns>
-        public async Task<List<RoleViewModel>> GetAllAsync()
+        public virtual async Task<List<RoleViewModel>> GetAllAsync()
         {
             var roles = await _rolesRepository.GetAllAsync();
             return roles.Select(_mapper.Map<RoleViewModel>)
@@ -45,7 +45,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>Role; returns null if role not found</returns>
         /// <param name="id">Target role id (GUID)</param>
-        public async Task<Role> GetAsync(Guid id) => await _rolesRepository.GetAsync(id);
+        public virtual async Task<Role> GetAsync(Guid id) => await _rolesRepository.GetAsync(id);
 
         /// <summary>
         /// Get role from repository by id
