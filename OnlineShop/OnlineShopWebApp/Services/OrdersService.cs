@@ -30,7 +30,7 @@ namespace OnlineShopWebApp.Services
         /// Get all orders from repository
         /// </summary>
         /// <returns>List of all OrderViewModel from repository</returns>
-        public async Task<List<OrderViewModel>> GetAllAsync()
+        public virtual async Task<List<OrderViewModel>> GetAllAsync()
         {
             var orders = await _ordersRepository.GetAllAsync();
             return orders.Select(_mapper.Map<OrderViewModel>)
@@ -94,7 +94,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>Admin Orders View</returns>
         /// <param name="id">Order id (guid)</param>
         /// <param name="newStatus">New order status</param>
-        public async Task UpdateStatusAsync(Guid id, OrderStatusViewModel newStatus)
+        public virtual async Task UpdateStatusAsync(Guid id, OrderStatusViewModel newStatus)
         {
             await _ordersRepository.UpdateStatusAsync(id, (OrderStatus)newStatus);
         }
@@ -103,7 +103,7 @@ namespace OnlineShopWebApp.Services
         /// Get MemoryStream for all orders export to Excel 
         /// </summary>
         /// <returns>MemoryStream Excel file with users info</returns>
-        public async Task<MemoryStream> ExportAllToExcelAsync()
+        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
         {
             var orders = await GetAllAsync();
             return _excelService.ExportOrders(orders);

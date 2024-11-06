@@ -37,7 +37,7 @@ namespace OnlineShopWebApp.Services
         /// Get all users from repository
         /// </summary>
         /// <returns>List of all UserViewModel from repository</returns>
-        public async Task<List<UserViewModel>> GetAllAsync()
+        public virtual async Task<List<UserViewModel>> GetAllAsync()
         {
             var users = await _usersRepository.GetAllAsync();
             return users.Select(_mapper.Map<UserViewModel>)
@@ -49,7 +49,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>UserViewModel; returns null if user not found</returns>
         /// <param name="id">Target user id (GUID)</param>
-        public async Task<UserViewModel> GetAsync(Guid id)
+        public virtual async Task<UserViewModel> GetAsync(Guid id)
         {
             var userDb = await _usersRepository.GetAsync(id);
             return _mapper.Map<UserViewModel>(userDb);
@@ -79,7 +79,7 @@ namespace OnlineShopWebApp.Services
         /// Change password for related user if user exist
         /// </summary>        
         /// <param name="changePassword">Target ChangePassword model</param>
-        public async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
+        public virtual async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
         {
             var userId = changePassword.UserId;
             var user = await _usersRepository.GetAsync(changePassword.UserId);
@@ -98,7 +98,7 @@ namespace OnlineShopWebApp.Services
         /// Update info for related user if user exist
         /// </summary>        
         /// <param name="editUser">Target editUser model</param>
-        public async Task UpdateInfoAsync(AdminEditUserViewModel editUser)
+        public virtual async Task UpdateInfoAsync(AdminEditUserViewModel editUser)
         {
             var userId = editUser.UserId;
             var user = await _usersRepository.GetAsync(editUser.UserId);
@@ -122,7 +122,7 @@ namespace OnlineShopWebApp.Services
         /// Delete user from repository by id
         /// </summary>
         /// <param name="id">Target user id (GUID)</param>
-        public async Task DeleteAsync(Guid id) => await _usersRepository.DeleteAsync(id);
+        public virtual async Task DeleteAsync(Guid id) => await _usersRepository.DeleteAsync(id);
 
         /// <summary>
         /// Validates the user login model
@@ -182,7 +182,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if edit model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="editUser">Target edit model</param>
-        public async Task<bool> IsEditUserValidAsync(ModelStateDictionary modelState, AdminEditUserViewModel editUser)
+        public virtual async Task<bool> IsEditUserValidAsync(ModelStateDictionary modelState, AdminEditUserViewModel editUser)
         {
             var repositoryUser = await GetAsync(editUser.UserId);
 
@@ -218,7 +218,7 @@ namespace OnlineShopWebApp.Services
         /// Get MemoryStream for all users export to Excel 
         /// </summary>
         /// <returns>MemoryStream Excel file with users info</returns>
-        public async Task<MemoryStream> ExportAllToExcelAsync()
+        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
         {
             var users = await GetAllAsync();
             return _excelService.ExportUsers(users);

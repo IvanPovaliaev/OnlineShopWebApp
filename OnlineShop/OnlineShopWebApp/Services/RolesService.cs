@@ -64,7 +64,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="role">Target role model</param>
-        public async Task<bool> IsNewValidAsync(ModelStateDictionary modelState, RoleViewModel role)
+        public virtual async Task<bool> IsNewValidAsync(ModelStateDictionary modelState, RoleViewModel role)
         {
             var repositoryRoles = await _rolesRepository.GetAllAsync();
 
@@ -80,7 +80,7 @@ namespace OnlineShopWebApp.Services
         /// Add role to repository
         /// </summary>
         /// <param name="role">Target role</param>
-        public async Task AddAsync(RoleViewModel role)
+        public virtual async Task AddAsync(RoleViewModel role)
         {
             var roleDb = _mapper.Map<Role>(role);
             await _rolesRepository.AddAsync(roleDb);
@@ -90,7 +90,7 @@ namespace OnlineShopWebApp.Services
         /// Delete role from repository by id if it can be deleted
         /// </summary>
         /// <param name="id">Target role id (GUID)</param>
-        public async Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(Guid id)
         {
             var canBeDeleted = await CanBeDeletedAsync(id);
             if (!canBeDeleted)
@@ -106,7 +106,7 @@ namespace OnlineShopWebApp.Services
         /// Get MemoryStream for all roles export to Excel 
         /// </summary>
         /// <returns>MemoryStream Excel file with roles info</returns>
-        public async Task<MemoryStream> ExportAllToExcelAsync()
+        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
         {
             var roles = await GetAllAsync();
             return _excelService.ExportRoles(roles);

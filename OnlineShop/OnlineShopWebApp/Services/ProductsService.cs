@@ -102,7 +102,7 @@ namespace OnlineShopWebApp.Services
         /// Get EditProduct from repository by GUID
         /// </summary>
         /// <returns>EditProductViewModel; returns null if product not found</returns>
-        public async Task<EditProductViewModel> GetEditProductAsync(Guid id)
+        public virtual async Task<EditProductViewModel> GetEditProductAsync(Guid id)
         {
             var productDb = await GetAsync(id);
             return _mapper.Map<EditProductViewModel>(productDb);
@@ -112,7 +112,7 @@ namespace OnlineShopWebApp.Services
         /// Add product to repository
         /// </summary>
         /// <param name="product">Target product</param>
-        public async Task AddAsync(AddProductViewModel product)
+        public virtual async Task AddAsync(AddProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
             await _productsRepository.AddAsync(productDb);
@@ -122,7 +122,7 @@ namespace OnlineShopWebApp.Services
         /// Update product with identical id.
         /// </summary>
         /// <param name="product">Target product</param>
-        public async Task UpdateAsync(EditProductViewModel product)
+        public virtual async Task UpdateAsync(EditProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
             await _productsRepository.UpdateAsync(productDb);
@@ -131,7 +131,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete product from repository by GUID
         /// </summary>
-        public async Task DeleteAsync(Guid id) => await _productsRepository.DeleteAsync(id);
+        public virtual async Task DeleteAsync(Guid id) => await _productsRepository.DeleteAsync(id);
 
         /// <summary>
         /// Validates the product update model
@@ -139,7 +139,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="product">Target EditProductViewModel</param>
-        public async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)
+        public virtual async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)
         {
             var repositoryProduct = await GetViewModelAsync(product.Id);
 
@@ -166,7 +166,7 @@ namespace OnlineShopWebApp.Services
         /// Get MemoryStream for all products export to Excel 
         /// </summary>
         /// <returns>MemoryStream Excel file with products info</returns>
-        public async Task<MemoryStream> ExportAllToExcelAsync()
+        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
         {
             var products = await GetAllAsync();
             return _excelService.ExportProducts(products);

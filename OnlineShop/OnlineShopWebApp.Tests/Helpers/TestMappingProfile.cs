@@ -20,7 +20,10 @@ namespace OnlineShopWebApp.Tests.Helpers
 
             CreateMap<AddProductViewModel, Product>()
                 .ForMember(destination => destination.SpecificationsJson,
-                            option => option.MapFrom(source => JsonConvert.SerializeObject(source.Specifications)));
+                            option => option.MapFrom(source => JsonConvert.SerializeObject(source.Specifications)))
+                .ReverseMap()
+                .ForMember(destination => destination.Specifications,
+                            option => option.MapFrom(source => JsonConvert.DeserializeObject<Dictionary<string, string>>(source.SpecificationsJson)));
 
             CreateMap<EditProductViewModel, Product>()
                 .ForMember(destination => destination.SpecificationsJson,

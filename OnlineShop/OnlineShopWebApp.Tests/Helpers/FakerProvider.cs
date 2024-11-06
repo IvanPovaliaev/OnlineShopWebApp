@@ -59,6 +59,7 @@ namespace OnlineShopWebApp.Tests.Helpers
                 .RuleFor(o => o.Id, f => f.Random.Guid())
                 .RuleFor(o => o.UserId, f => f.Random.Guid())
                 .RuleFor(o => o.CreationDate, f => f.Date.Past())
+                .RuleFor(o => o.Status, f => f.PickRandom<OrderStatus>())
                 .RuleFor(o => o.Info, f => UserDeliveryInfoFaker.Generate());
         }
     }
