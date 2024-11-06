@@ -8,6 +8,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +43,7 @@ namespace OnlineShopWebApp.Tests.Services
                 rules
             );
 
-            _fakeProducts = InitializeFakeProducts(ProductsCount);
+            _fakeProducts = FakerProvider.ProductFaker.Generate(ProductsCount);
         }
 
         [Fact]
@@ -78,7 +79,7 @@ namespace OnlineShopWebApp.Tests.Services
         }
 
         [Fact]
-        public async Task GetAllFromSearchAsync_WithValidQuery_ReturnsMatchingProducts()
+        public virtual async Task GetAllFromSearchAsync_WithValidQuery_ReturnsMatchingProducts()
         {
             // Arrange
             var query = "testQuery123!23112";
@@ -401,18 +402,6 @@ namespace OnlineShopWebApp.Tests.Services
             Assert.IsType<MemoryStream>(result);
             _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
             _excelServiceMock.Verify(service => service.ExportProducts(It.IsAny<List<ProductViewModel>>()), Times.Once);
-        }
-
-        private List<Product> InitializeFakeProducts(int count)
-        {
-            return new Faker<Product>()
-                .RuleFor(p => p.Id, f => f.Random.Guid())
-                .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                .RuleFor(p => p.Cost, f => f.Random.Decimal(10, 1000))
-                .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
-                .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>())
-                .RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl())
-                .Generate(count);
         }
 
         private Mock<IMapper> InitializeMapperMock()

@@ -32,7 +32,7 @@ namespace OnlineShopWebApp.Services
         /// Get all products from repository
         /// </summary>
         /// <returns>List of all products from repository</returns>
-        public async Task<List<ProductViewModel>> GetAllAsync()
+        public virtual async Task<List<ProductViewModel>> GetAllAsync()
         {
             var products = await _productsRepository.GetAllAsync();
             return products.Select(_mapper.Map<ProductViewModel>)
@@ -44,7 +44,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>List of all products from repository for current category</returns>
         /// <param name="category">Product category</param>
-        public async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
+        public virtual async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
         {
             var products = await GetAllAsync();
             return products.Where(p => p.Category == category)
@@ -56,7 +56,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>List of all relevant products</returns>
         /// <param name="searchQuery">Search query</param>
-        public async Task<List<ProductViewModel>> GetAllFromSearchAsync(string searchQuery)
+        public virtual async Task<List<ProductViewModel>> GetAllFromSearchAsync(string searchQuery)
         {
             if (string.IsNullOrEmpty(searchQuery))
             {
@@ -92,7 +92,7 @@ namespace OnlineShopWebApp.Services
         /// Get product ViewModel of related product by GUID
         /// </summary>
         /// <returns>ProductViewModel; returns null if product not found</returns>
-        public async Task<ProductViewModel> GetViewModelAsync(Guid id)
+        public virtual async Task<ProductViewModel> GetViewModelAsync(Guid id)
         {
             var productDb = await GetAsync(id);
             return _mapper.Map<ProductViewModel>(productDb);

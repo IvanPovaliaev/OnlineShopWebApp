@@ -9,6 +9,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,9 +46,7 @@ namespace OnlineShopWebApp.Tests.Services
                 _excelServiceMock.Object
             );
 
-            _roleFaker = new Faker<Role>().RuleFor(r => r.Id, f => f.Random.Guid())
-                                          .RuleFor(r => r.Name, f => f.Name.JobTitle())
-                                          .RuleFor(r => r.CanBeDeleted, f => f.Random.Bool());
+            _roleFaker = FakerProvider.RoleFaker;
 
             _fakeRoles = _roleFaker.Generate(RolesCount);
             _fakeRoleViewModels = _fakeRoles.Select(r => new RoleViewModel { Id = r.Id, Name = r.Name, CanBeDeleted = r.CanBeDeleted })

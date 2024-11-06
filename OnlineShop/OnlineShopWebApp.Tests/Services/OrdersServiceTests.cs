@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Bogus;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using OnlineShop.Db.Interfaces;
@@ -8,6 +7,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +26,6 @@ namespace OnlineShopWebApp.Tests.Services
 
         private readonly List<Order> _fakeOrders;
         private readonly List<OrderViewModel> _fakeOrderViewModels;
-        private readonly Faker<UserDeliveryInfo> _userDeliveryInfoFaker;
         private const int OrdersCount = 10;
 
         public OrdersServiceTests()
@@ -36,22 +35,7 @@ namespace OnlineShopWebApp.Tests.Services
             _mapperMock = InitializeMapperMock();
             _ordersService = new OrdersService(_ordersRepositoryMock.Object, _excelServiceMock.Object, _mapperMock.Object);
 
-            _userDeliveryInfoFaker = new Faker<UserDeliveryInfo>()
-                .RuleFor(i => i.Id, f => f.Random.Guid())
-                .RuleFor(i => i.City, f => f.Address.City())
-                .RuleFor(i => i.Address, f => f.Address.FullAddress())
-                .RuleFor(i => i.PostCode, f => f.Address.ZipCode())
-                .RuleFor(i => i.FullName, f => f.Name.FullName())
-                .RuleFor(i => i.Email, f => f.Internet.Email())
-                .RuleFor(i => i.Phone, f => f.Phone.PhoneNumber());
-
-            var orderFaker = new Faker<Order>()
-                .RuleFor(o => o.Id, f => f.Random.Guid())
-                .RuleFor(o => o.UserId, f => f.Random.Guid())
-                .RuleFor(o => o.CreationDate, f => f.Date.Past())
-                .RuleFor(o => o.Info, f => _userDeliveryInfoFaker.Generate());
-
-            _fakeOrders = orderFaker.Generate(OrdersCount);
+            _fakeOrders = FakerProvider.OrderFaker.Generate(OrdersCount);
             _fakeOrderViewModels = _fakeOrders.Select(order => new OrderViewModel
             {
                 Id = order.Id,

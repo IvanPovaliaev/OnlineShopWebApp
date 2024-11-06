@@ -24,7 +24,7 @@ namespace OnlineShopWebApp.Tests.Services
         private const int ProductsCount = 10;
         private readonly Guid _userId;
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
-        private readonly Faker<Product> _productsFaker;
+        private readonly Faker<Product> _productFaker;
 
         public FavoritesServiceTests()
         {
@@ -39,21 +39,9 @@ namespace OnlineShopWebApp.Tests.Services
                 _mapper,
                 _productsServiceMock.Object);
 
-            _userId = Guid.NewGuid();
-
-            _productsFaker = new Faker<Product>()
-                .RuleFor(p => p.Id, f => Guid.NewGuid())
-                .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                .RuleFor(p => p.Cost, f => f.Finance.Amount())
-                .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
-                .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>())
-                .RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl());
-
-            _fakeFavoriteProducts = new Faker<FavoriteProduct>()
-                .RuleFor(fp => fp.Id, f => Guid.NewGuid())
-                .RuleFor(fp => fp.UserId, f => _userId)
-                .RuleFor(fp => fp.Product, f => _productsFaker.Generate())
-                .Generate(ProductsCount);
+            _userId = FakerProvider.UserId;
+            _productFaker = FakerProvider.ProductFaker;
+            _fakeFavoriteProducts = FakerProvider.FavoriteProductFaker.Generate(ProductsCount);
         }
 
         [Fact]
@@ -91,7 +79,7 @@ namespace OnlineShopWebApp.Tests.Services
         public async Task CreateAsync_WhenProductIsNotInFavorites_AddProductToFavorites()
         {
             // Arrange
-            var fakeProduct = _productsFaker.Generate();
+            var fakeProduct = _productFaker.Generate();
 
             _productsServiceMock.Setup(service => service.GetAsync(fakeProduct.Id))
                                 .ReturnsAsync(fakeProduct);

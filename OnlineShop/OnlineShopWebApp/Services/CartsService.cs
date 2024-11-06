@@ -26,14 +26,14 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>Cart for related user</returns>
         /// <param name="userId">GUID user id</param>
-        public async Task<Cart> GetAsync(Guid userId) => await _cartsRepository.GetAsync(userId);
+        public virtual async Task<Cart> GetAsync(Guid userId) => await _cartsRepository.GetAsync(userId);
 
         /// <summary>
         /// Get cart by userId (guid)
         /// </summary>        
         /// <returns>CartViewModel for related user</returns>
         /// <param name="userId">GUID user id</param>
-        public async Task<CartViewModel> GetViewModelAsync(Guid userId)
+        public virtual async Task<CartViewModel> GetViewModelAsync(Guid userId)
         {
             var cartDb = await GetAsync(userId);
             return _mapper.Map<CartViewModel>(cartDb);
@@ -44,7 +44,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>
         /// <param name="userId">User Id (GUID)</param>
-        public async Task AddAsync(Guid productId, Guid userId)
+        public virtual async Task AddAsync(Guid productId, Guid userId)
         {
             var cart = await _cartsRepository.GetAsync(userId);
 
@@ -71,7 +71,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="userId">User Id (GUID)</param>
         /// <param name="positionId">Id of cart position</param>
-        public async Task IncreasePositionAsync(Guid userId, Guid positionId)
+        public virtual async Task IncreasePositionAsync(Guid userId, Guid positionId)
         {
             var cart = await _cartsRepository.GetAsync(userId);
 
@@ -92,7 +92,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="userId">UserId</param>
         /// <param name="positionId">Id of cart position</param>
-        public async Task DecreasePosition(Guid userId, Guid positionId)
+        public virtual async Task DecreasePosition(Guid userId, Guid positionId)
         {
             var cart = await _cartsRepository.GetAsync(userId);
 
@@ -117,14 +117,14 @@ namespace OnlineShopWebApp.Services
         /// Delete cart of target user;
         /// </summary>        
         /// <param name="userId">Target userId</param>
-        public async Task DeleteAsync(Guid userId) => await _cartsRepository.DeleteAsync(userId);
+        public virtual async Task DeleteAsync(Guid userId) => await _cartsRepository.DeleteAsync(userId);
 
         /// <summary>
         /// Delete target position in users cart. If positions count should become 0, deletes the cart.
         /// </summary>        
         /// <param name="userId">Target UserId</param>
         /// <param name="positionId">Target positionId</param>
-        public async Task DeletePositionAsync(Guid userId, Guid positionId)
+        public virtual async Task DeletePositionAsync(Guid userId, Guid positionId)
         {
             var cart = await _cartsRepository.GetAsync(userId);
             var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);

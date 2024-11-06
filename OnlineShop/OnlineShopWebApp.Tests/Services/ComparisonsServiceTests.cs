@@ -38,21 +38,9 @@ namespace OnlineShopWebApp.Tests.Services
                 _mapper,
                 _productsServiceMock.Object);
 
-            _userId = Guid.NewGuid();
-
-            _productsFaker = new Faker<Product>()
-                    .RuleFor(p => p.Id, f => Guid.NewGuid())
-                    .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                    .RuleFor(p => p.Cost, f => f.Finance.Amount())
-                    .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
-                    .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>())
-                    .RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl());
-
-            _fakeComparisonProducts = new Faker<ComparisonProduct>()
-                    .RuleFor(fp => fp.Id, f => Guid.NewGuid())
-                    .RuleFor(fp => fp.UserId, f => _userId)
-                    .RuleFor(fp => fp.Product, f => _productsFaker.Generate())
-                    .Generate(ProductsCount);
+            _userId = FakerProvider.UserId;
+            _productsFaker = FakerProvider.ProductFaker;
+            _fakeComparisonProducts = FakerProvider.ComparisonProductFaker.Generate(ProductsCount);
         }
 
         [Fact]

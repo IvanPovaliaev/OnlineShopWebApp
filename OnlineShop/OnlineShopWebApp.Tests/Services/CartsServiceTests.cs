@@ -22,7 +22,7 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly Guid _userId;
         private readonly Guid _newProductId;
         private const int PositionsCount = 10;
-        private readonly Faker<Product> _productsFaker;
+        private readonly Faker<Product> _productFaker;
         private readonly Cart _fakeCart;
 
         public CartsServiceTests()
@@ -38,21 +38,11 @@ namespace OnlineShopWebApp.Tests.Services
                 _mapper,
                 _productsServiceMock.Object);
 
-            _userId = Guid.NewGuid();
+            _userId = FakerProvider.UserId;
 
-            _productsFaker = new Faker<Product>()
-                .RuleFor(p => p.Id, f => Guid.NewGuid())
-                .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                .RuleFor(p => p.Cost, f => f.Finance.Amount())
-                .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
-                .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>())
-                .RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl());
+            _productFaker = FakerProvider.ProductFaker;
 
-            var fakeCartPositions = new Faker<CartPosition>()
-                .RuleFor(p => p.Id, f => Guid.NewGuid())
-                .RuleFor(p => p.Product, _productsFaker.Generate())
-                .RuleFor(p => p.Quantity, f => f.Random.Int(1, 10))
-                .Generate(PositionsCount);
+            var fakeCartPositions = FakerProvider.CartPositionFaker.Generate(PositionsCount);
 
             _fakeCart = new Cart()
             {
@@ -98,7 +88,7 @@ namespace OnlineShopWebApp.Tests.Services
             _cartsRepositoryMock.Setup(repo => repo.GetAsync(_userId))
                                 .ReturnsAsync(_fakeCart);
             _productsServiceMock.Setup(service => service.GetAsync(_newProductId))
-                                .ReturnsAsync(_productsFaker.Generate());
+                                .ReturnsAsync(_productFaker.Generate());
 
             // Act
             await _cartsService.AddAsync(_newProductId, _userId);
@@ -134,7 +124,7 @@ namespace OnlineShopWebApp.Tests.Services
             _cartsRepositoryMock.Setup(repo => repo.GetAsync(_userId))!
                                 .ReturnsAsync((Cart)null!);
             _productsServiceMock.Setup(service => service.GetAsync(_newProductId))
-                                .ReturnsAsync(_productsFaker.Generate());
+                                .ReturnsAsync(_productFaker.Generate());
 
             // Act
             await _cartsService.AddAsync(_newProductId, _userId);
@@ -167,7 +157,7 @@ namespace OnlineShopWebApp.Tests.Services
             var fakePosition = new CartPosition()
             {
                 Id = Guid.NewGuid(),
-                Product = _productsFaker.Generate(),
+                Product = _productFaker.Generate(),
                 Quantity = 1
             };
             _cartsRepositoryMock.Setup(repo => repo.GetAsync(_userId))
@@ -222,7 +212,7 @@ namespace OnlineShopWebApp.Tests.Services
             var fakePosition = new CartPosition()
             {
                 Id = Guid.NewGuid(),
-                Product = _productsFaker.Generate(),
+                Product = _productFaker.Generate(),
                 Quantity = 1
             };
             _cartsRepositoryMock.Setup(repo => repo.GetAsync(_userId))

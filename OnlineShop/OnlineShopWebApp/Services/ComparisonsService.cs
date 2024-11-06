@@ -40,7 +40,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>ILookup object of ComparisonProducts grouping by ProductCategory </returns>
         /// <param name="userId">User Id (GUID)</param>
-        public async Task<ILookup<ProductCategoriesViewModel, ComparisonProductViewModel>> GetGroupsAsync(Guid userId)
+        public virtual async Task<ILookup<ProductCategoriesViewModel, ComparisonProductViewModel>> GetGroupsAsync(Guid userId)
         {
             return (await GetAllAsync(userId)).ToLookup(c => c.Product.Category);
         }
@@ -50,7 +50,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>
         /// <param name="userId">User Id (GUID)</param>
-        public async Task CreateAsync(Guid productId, Guid userId)
+        public virtual async Task CreateAsync(Guid productId, Guid userId)
         {
             var product = await _productsService.GetAsync(productId);
             if (await IsProductExistsAsync(product, userId))
@@ -71,7 +71,7 @@ namespace OnlineShopWebApp.Services
         /// Delete target ComparisonProduct by Id
         /// </summary>        
         /// <param name="comparisonId">ComparisonProduct Id (GUID)</param>
-        public async Task DeleteAsync(Guid comparisonId)
+        public virtual async Task DeleteAsync(Guid comparisonId)
         {
             await _comparisonsRepository.DeleteAsync(comparisonId);
         }
@@ -80,7 +80,7 @@ namespace OnlineShopWebApp.Services
         /// Delete all ComparisonProducts for related user.
         /// </summary>        
         /// <param name="userId">User Id (GUID)</param>
-        public async Task DeleteAllAsync(Guid userId)
+        public virtual async Task DeleteAllAsync(Guid userId)
         {
             await _comparisonsRepository.DeleteAllAsync(userId);
         }

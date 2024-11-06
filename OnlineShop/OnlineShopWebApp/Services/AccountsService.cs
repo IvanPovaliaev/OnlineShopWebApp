@@ -59,7 +59,7 @@ namespace OnlineShopWebApp.Services
         /// Add a new user to repository based on register info
         /// </summary>        
         /// <param name="register">Target register model</param>
-        public async Task AddAsync(RegisterViewModel register)
+        public virtual async Task AddAsync(RegisterViewModel register)
         {
             var roleId = await GetRegisterRoleIdAsync(register);
 
@@ -130,7 +130,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if login model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="login">Target login model</param>
-        public async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
+        public virtual async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
         {
             var user = await _usersRepository.GetByEmailAsync(login.Email);
 
@@ -155,7 +155,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if registration model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="register">Target register model</param>
-        public async Task<bool> IsRegisterValidAsync(ModelStateDictionary modelState, RegisterViewModel register)
+        public virtual async Task<bool> IsRegisterValidAsync(ModelStateDictionary modelState, RegisterViewModel register)
         {
             if (register.Email == register.Password)
             {

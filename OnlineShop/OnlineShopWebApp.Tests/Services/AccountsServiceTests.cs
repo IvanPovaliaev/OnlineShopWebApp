@@ -52,12 +52,7 @@ namespace OnlineShopWebApp.Tests.Services
                 _hashServiceMock.Object,
                 _excelServiceMock.Object);
 
-            var _roleFaker = new Faker<Role>()
-                              .RuleFor(r => r.Id, f => f.Random.Guid())
-                              .RuleFor(r => r.Name, f => f.Name.JobTitle())
-                              .RuleFor(r => r.CanBeDeleted, f => f.Random.Bool());
-
-            _fakeRoles = _roleFaker.Generate(RolesCount);
+            _fakeRoles = FakerProvider.RoleFaker.Generate(RolesCount);
             var userRole = new Role()
             {
                 Id = Guid.NewGuid(),
@@ -66,7 +61,6 @@ namespace OnlineShopWebApp.Tests.Services
             };
 
             _fakeRoles.Add(userRole);
-
             _fakeRolesViewModels = _fakeRoles.Select(role => _mapper.Map<RoleViewModel>(role))
                                              .ToList();
 
