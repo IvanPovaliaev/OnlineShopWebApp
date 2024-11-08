@@ -8,6 +8,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,38 +22,41 @@ namespace OnlineShopWebApp.Tests.Services
     {
         private readonly Mock<IProductsRepository> _productsRepositoryMock;
         private readonly Mock<IExcelService> _excelServiceMock;
-        private readonly Mock<IMapper> _mapperMock;
+        private readonly IMapper _mapper;
         private readonly ProductsService _productsService;
 
-        private const int ProductsCount = 10;
         private readonly List<Product> _fakeProducts;
 
         public ProductsServiceTests()
         {
             _productsRepositoryMock = new Mock<IProductsRepository>();
             _excelServiceMock = new Mock<IExcelService>();
-            _mapperMock = InitializeMapperMock();
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
+            _mapper = config.CreateMapper();
 
             var rules = new List<IProductSpecificationsRules>();
 
             _productsService = new ProductsService(
                 _productsRepositoryMock.Object,
-                _mapperMock.Object,
+                _mapper,
                 _excelServiceMock.Object,
                 rules
             );
 
-            _fakeProducts = InitializeFakeProducts(ProductsCount);
+            _fakeProducts = FakerProvider.FakeProducts;
         }
 
         [Fact]
         public async Task GetAllAsync_WhenCalled_ReturnAllProducts()
         {
+            // Arrange
             _productsRepositoryMock.Setup(repo => repo.GetAllAsync())
                                    .ReturnsAsync(_fakeProducts);
 
+            // Act
             var result = await _productsService.GetAllAsync();
 
+            // Assert
             Assert.Equal(_fakeProducts.Count, result.Count);
             _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
@@ -60,22 +64,26 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetAllAsync_WithCategory_ReturnsFilteredProducts()
         {
+            // Arrange
             var category = new Faker().PickRandom<ProductCategoriesViewModel>();
 
             _productsRepositoryMock.Setup(repo => repo.GetAllAsync())
                                    .ReturnsAsync(_fakeProducts);
 
+            // Act
             var result = await _productsService.GetAllAsync(category);
 
+            // Assert
             Assert.All(result, p => Assert.Equal(category, p.Category));
             _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
 
         [Fact]
-        public async Task GetAllFromSearchAsync_WithValidQuery_ReturnsMatchingProducts()
+        public virtual async Task GetAllFromSearchAsync_WithValidQuery_ReturnsMatchingProducts()
         {
+            // Arrange
             var query = "testQuery123!23112";
-            var productCount = new Random().Next(1, ProductsCount);
+            var productCount = new Random().Next(1, _fakeProducts.Count);
 
             for (int i = 0; i < productCount; i++)
             {
@@ -91,8 +99,10 @@ namespace OnlineShopWebApp.Tests.Services
 
             _productsRepositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(_fakeProducts);
 
+            // Act
             var result = await _productsService.GetAllFromSearchAsync(query);
 
+            // Assert
             Assert.Contains(result, p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
             _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
         }
@@ -100,13 +110,16 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetAsync_WhenProductExists_ReturnProduct()
         {
+            // Arrange
             var expectedProduct = _fakeProducts.First();
 
             _productsRepositoryMock.Setup(repo => repo.GetAsync(expectedProduct.Id))
                                    .ReturnsAsync(expectedProduct);
 
+            // Act
             var result = await _productsService.GetAsync(expectedProduct.Id);
 
+            // Assert
             Assert.NotNull(result);
             Assert.Equal(expectedProduct, result);
             _productsRepositoryMock.Verify(repo => repo.GetAsync(expectedProduct.Id), Times.Once);
@@ -115,13 +128,16 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetAsync_WhenProductDoesNotExist_ReturnNull()
         {
+            // Arrange
             var productId = Guid.NewGuid();
 
             _productsRepositoryMock.Setup(repo => repo.GetAsync(productId))
                                    .ReturnsAsync((Product)null!);
 
+            // Act
             var result = await _productsService.GetAsync(productId);
 
+            // Assert
             Assert.Null(result);
             _productsRepositoryMock.Verify(repo => repo.GetAsync(productId), Times.Once);
         }
@@ -129,13 +145,16 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetViewModelAsync_WhenProductExists_ReturnsMappedProductViewModel()
         {
+            // Arrange
             var fakeProduct = _fakeProducts.First();
 
             _productsRepositoryMock.Setup(repo => repo.GetAsync(fakeProduct.Id))
                                    .ReturnsAsync(fakeProduct);
 
+            // Act
             var result = await _productsService.GetViewModelAsync(fakeProduct.Id);
 
+            // Assert
             Assert.NotNull(result);
             Assert.Equal(fakeProduct.Id, result.Id);
             Assert.Equal(fakeProduct.Name, result.Name);
@@ -149,35 +168,31 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetViewModelAsync_WhenProductDoesNotExist_ReturnsNull()
         {
+            // Arrange
             var productId = Guid.NewGuid();
             _productsRepositoryMock.Setup(repo => repo.GetAsync(productId))
                                    .ReturnsAsync((Product)null!);
 
+            // Act
             var result = await _productsService.GetViewModelAsync(productId);
 
+            // Assert
             Assert.Null(result);
         }
 
         [Fact]
         public async Task GetEditProductAsync_WhenProductExist_ReturnsMappedEditProductViewModel()
         {
+            // Arrange
             var fakeProduct = _fakeProducts.First();
 
             _productsRepositoryMock.Setup(repo => repo.GetAsync(fakeProduct.Id))
                                    .ReturnsAsync(fakeProduct);
 
-            _mapperMock.Setup(m => m.Map<EditProductViewModel>(fakeProduct)).Returns(new EditProductViewModel
-            {
-                Id = fakeProduct.Id,
-                Name = fakeProduct.Name,
-                Cost = fakeProduct.Cost,
-                Description = fakeProduct.Description,
-                ImageUrl = fakeProduct.ImageUrl,
-                Category = (ProductCategoriesViewModel)fakeProduct.Category
-            });
-
+            // Act
             var result = await _productsService.GetEditProductAsync(fakeProduct.Id);
 
+            // Assert
             Assert.NotNull(result);
             Assert.Equal(fakeProduct.Id, result.Id);
             Assert.Equal(fakeProduct.Name, result.Name);
@@ -191,15 +206,15 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task GetEditProductAsync_WhenProductDoesNotExist_ReturnsNull()
         {
+            // Arrange
             var productId = Guid.NewGuid();
             _productsRepositoryMock.Setup(repo => repo.GetAsync(productId))
                                    .ReturnsAsync((Product)null!);
 
-            _mapperMock.Setup(m => m.Map<EditProductViewModel>(null))
-                       .Returns((EditProductViewModel)null!);
-
+            // Act
             var result = await _productsService.GetViewModelAsync(productId);
 
+            // Assert
             Assert.Null(result);
             _productsRepositoryMock.Verify(repo => repo.GetAsync(productId), Times.Once);
         }
@@ -207,6 +222,7 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task AddAsync_ShouldAddProductToRepository()
         {
+            // Arrange
             var newProduct = new AddProductViewModel
             {
                 Name = "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
@@ -218,28 +234,27 @@ namespace OnlineShopWebApp.Tests.Services
                 }
             };
 
-            var mappedProduct = new Product
-            {
-                Id = Guid.NewGuid(),
-                Name = newProduct.Name,
-                Cost = newProduct.Cost,
-                Description = newProduct.Description,
-                SpecificationsJson = System.Text.Json.JsonSerializer.Serialize(newProduct.Specifications)
-            };
+            var mappedProduct = _mapper.Map<Product>(newProduct);
 
-            _mapperMock.Setup(m => m.Map<Product>(newProduct))
-                       .Returns(mappedProduct);
             _productsRepositoryMock.Setup(repo => repo.AddAsync(mappedProduct))
                                    .Returns(Task.CompletedTask);
 
+            // Act
             await _productsService.AddAsync(newProduct);
 
-            _productsRepositoryMock.Verify(repo => repo.AddAsync(mappedProduct), Times.Once);
+            // Assert
+            _productsRepositoryMock.Verify(repo => repo.AddAsync(It.Is<Product>(p =>
+                p.Name == mappedProduct.Name &&
+                p.Cost == mappedProduct.Cost &&
+                p.Description == mappedProduct.Description &&
+                p.SpecificationsJson.Equals(mappedProduct.SpecificationsJson))), Times.Once);
+
         }
 
         [Fact]
         public async Task UpdateAsync_WhenCalled_UpdateProductInRepository()
         {
+            // Arrange
             var product = new EditProductViewModel
             {
                 Id = Guid.NewGuid(),
@@ -261,49 +276,51 @@ namespace OnlineShopWebApp.Tests.Services
                 SpecificationsJson = System.Text.Json.JsonSerializer.Serialize(product.Specifications)
             };
 
-            _mapperMock.Setup(m => m.Map<Product>(product))
-                       .Returns(mappedProduct);
             _productsRepositoryMock.Setup(repo => repo.UpdateAsync(mappedProduct))
                                    .Returns(Task.CompletedTask);
 
+            // Act
             await _productsService.UpdateAsync(product);
 
-            _productsRepositoryMock.Verify(repo => repo.UpdateAsync(mappedProduct), Times.Once);
+            // Assert
+            _productsRepositoryMock.Verify(repo => repo.UpdateAsync(It.Is<Product>(p =>
+                p.Name == mappedProduct.Name &&
+                p.Cost == mappedProduct.Cost &&
+                p.Description == mappedProduct.Description &&
+                p.SpecificationsJson.Equals(mappedProduct.SpecificationsJson))), Times.Once);
         }
 
         [Fact]
         public async Task DeleteAsync_WhenCalled_RemoveProductFromRepository()
         {
+            // Arrange
             var productId = Guid.NewGuid();
 
             _productsRepositoryMock.Setup(repo => repo.DeleteAsync(productId))
                                    .Returns(Task.CompletedTask);
 
+            // Act
             await _productsService.DeleteAsync(productId);
 
+            // Assert
             _productsRepositoryMock.Verify(repo => repo.DeleteAsync(productId), Times.Once);
         }
 
         [Fact]
         public async Task IsUpdateValidAsync_SameCategory_ModelStateIsValid()
         {
+            // Arrange
             var fakeProduct = _fakeProducts.First();
             var modelState = new ModelStateDictionary();
-            var editProduct = new EditProductViewModel
-            {
-                Id = fakeProduct.Id,
-                Name = fakeProduct.Name,
-                Cost = fakeProduct.Cost,
-                Description = fakeProduct.Description,
-                ImageUrl = fakeProduct.ImageUrl,
-                Category = (ProductCategoriesViewModel)fakeProduct.Category
-            };
+            var editProduct = _mapper.Map<EditProductViewModel>(fakeProduct);
 
             _productsRepositoryMock.Setup(repo => repo.GetAsync(fakeProduct.Id))
                                    .ReturnsAsync(fakeProduct);
 
+            // Act
             var result = await _productsService.IsUpdateValidAsync(modelState, editProduct);
 
+            // Assert
             Assert.True(result);
             Assert.Equal(0, modelState.ErrorCount);
             _productsRepositoryMock.Verify(repo => repo.GetAsync(fakeProduct.Id), Times.Once);
@@ -312,6 +329,7 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task IsUpdateValidAsync_DifferentCategory_AddsModelError()
         {
+            // Arrange
             var fakeProduct = _fakeProducts.First();
             var modelState = new ModelStateDictionary();
 
@@ -333,8 +351,10 @@ namespace OnlineShopWebApp.Tests.Services
             _productsRepositoryMock.Setup(repo => repo.GetAsync(fakeProduct.Id))
                                    .ReturnsAsync(fakeProduct);
 
+            // Act
             var result = await _productsService.IsUpdateValidAsync(modelState, editProduct);
 
+            // Assert
             Assert.False(result);
             Assert.Contains(modelState, m => m.Value!.Errors.Any());
             _productsRepositoryMock.Verify(repo => repo.GetAsync(fakeProduct.Id), Times.Once);
@@ -343,6 +363,7 @@ namespace OnlineShopWebApp.Tests.Services
         [Fact]
         public async Task ExportAllToExcelAsync_WhenCalled_ReturnsExcelFileWithProducts()
         {
+            // Arrange
             var memoryStream = new MemoryStream();
 
             _productsRepositoryMock.Setup(repo => repo.GetAllAsync())
@@ -351,47 +372,13 @@ namespace OnlineShopWebApp.Tests.Services
             _excelServiceMock.Setup(service => service.ExportProducts(It.IsAny<List<ProductViewModel>>()))
                              .Returns(memoryStream);
 
+            // Act
             var result = await _productsService.ExportAllToExcelAsync();
 
+            // Assert
             Assert.IsType<MemoryStream>(result);
             _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
             _excelServiceMock.Verify(service => service.ExportProducts(It.IsAny<List<ProductViewModel>>()), Times.Once);
-        }
-
-        private List<Product> InitializeFakeProducts(int count)
-        {
-            return new Faker<Product>()
-                .RuleFor(p => p.Id, f => f.Random.Guid())
-                .RuleFor(p => p.Name, f => f.Commerce.ProductName())
-                .RuleFor(p => p.Cost, f => f.Random.Decimal(10, 1000))
-                .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
-                .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>())
-                .RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl())
-                .Generate(count);
-        }
-
-        private Mock<IMapper> InitializeMapperMock()
-        {
-            var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(m => m.Map<ProductViewModel>(It.IsAny<Product>()))
-                      .Returns((Product source) =>
-                      {
-                          if (source == null)
-                          {
-                              return null!;
-                          }
-
-                          return new ProductViewModel
-                          {
-                              Id = source.Id,
-                              Name = source.Name,
-                              Cost = source.Cost,
-                              Description = source.Description,
-                              ImageUrl = source.ImageUrl,
-                              Category = (ProductCategoriesViewModel)source.Category
-                          };
-                      });
-            return mapperMock;
         }
     }
 }

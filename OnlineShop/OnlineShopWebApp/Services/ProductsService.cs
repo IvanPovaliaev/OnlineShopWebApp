@@ -32,7 +32,7 @@ namespace OnlineShopWebApp.Services
         /// Get all products from repository
         /// </summary>
         /// <returns>List of all products from repository</returns>
-        public async Task<List<ProductViewModel>> GetAllAsync()
+        public virtual async Task<List<ProductViewModel>> GetAllAsync()
         {
             var products = await _productsRepository.GetAllAsync();
             return products.Select(_mapper.Map<ProductViewModel>)
@@ -44,7 +44,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>List of all products from repository for current category</returns>
         /// <param name="category">Product category</param>
-        public async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
+        public virtual async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
         {
             var products = await GetAllAsync();
             return products.Where(p => p.Category == category)
@@ -56,7 +56,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>List of all relevant products</returns>
         /// <param name="searchQuery">Search query</param>
-        public async Task<List<ProductViewModel>> GetAllFromSearchAsync(string searchQuery)
+        public virtual async Task<List<ProductViewModel>> GetAllFromSearchAsync(string searchQuery)
         {
             if (string.IsNullOrEmpty(searchQuery))
             {
@@ -86,13 +86,13 @@ namespace OnlineShopWebApp.Services
         /// Get product from repository by GUID
         /// </summary>
         /// <returns>Product; returns null if product not found</returns>
-        public async Task<Product> GetAsync(Guid id) => await _productsRepository.GetAsync(id);
+        public virtual async Task<Product> GetAsync(Guid id) => await _productsRepository.GetAsync(id);
 
         /// <summary>
         /// Get product ViewModel of related product by GUID
         /// </summary>
         /// <returns>ProductViewModel; returns null if product not found</returns>
-        public async Task<ProductViewModel> GetViewModelAsync(Guid id)
+        public virtual async Task<ProductViewModel> GetViewModelAsync(Guid id)
         {
             var productDb = await GetAsync(id);
             return _mapper.Map<ProductViewModel>(productDb);
@@ -102,7 +102,7 @@ namespace OnlineShopWebApp.Services
         /// Get EditProduct from repository by GUID
         /// </summary>
         /// <returns>EditProductViewModel; returns null if product not found</returns>
-        public async Task<EditProductViewModel> GetEditProductAsync(Guid id)
+        public virtual async Task<EditProductViewModel> GetEditProductAsync(Guid id)
         {
             var productDb = await GetAsync(id);
             return _mapper.Map<EditProductViewModel>(productDb);
@@ -112,7 +112,7 @@ namespace OnlineShopWebApp.Services
         /// Add product to repository
         /// </summary>
         /// <param name="product">Target product</param>
-        public async Task AddAsync(AddProductViewModel product)
+        public virtual async Task AddAsync(AddProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
             await _productsRepository.AddAsync(productDb);
@@ -122,7 +122,7 @@ namespace OnlineShopWebApp.Services
         /// Update product with identical id.
         /// </summary>
         /// <param name="product">Target product</param>
-        public async Task UpdateAsync(EditProductViewModel product)
+        public virtual async Task UpdateAsync(EditProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
             await _productsRepository.UpdateAsync(productDb);
@@ -131,7 +131,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete product from repository by GUID
         /// </summary>
-        public async Task DeleteAsync(Guid id) => await _productsRepository.DeleteAsync(id);
+        public virtual async Task DeleteAsync(Guid id) => await _productsRepository.DeleteAsync(id);
 
         /// <summary>
         /// Validates the product update model
@@ -139,7 +139,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="product">Target EditProductViewModel</param>
-        public async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)
+        public virtual async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)
         {
             var repositoryProduct = await GetViewModelAsync(product.Id);
 
@@ -156,7 +156,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>Related IProductSpecificationsRules representation</returns>
         /// <param name="category">ProductCategoriesViewModel</param>
-        public IProductSpecificationsRules GetSpecificationsRules(ProductCategoriesViewModel category)
+        public virtual IProductSpecificationsRules GetSpecificationsRules(ProductCategoriesViewModel category)
         {
             var categoryDb = (ProductCategories)category;
             return _specificationsRules.FirstOrDefault(s => s.Category == categoryDb)!;
@@ -166,7 +166,7 @@ namespace OnlineShopWebApp.Services
         /// Get MemoryStream for all products export to Excel 
         /// </summary>
         /// <returns>MemoryStream Excel file with products info</returns>
-        public async Task<MemoryStream> ExportAllToExcelAsync()
+        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
         {
             var products = await GetAllAsync();
             return _excelService.ExportProducts(products);

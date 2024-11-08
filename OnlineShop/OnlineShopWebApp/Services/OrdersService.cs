@@ -30,7 +30,7 @@ namespace OnlineShopWebApp.Services
         /// Get all orders from repository
         /// </summary>
         /// <returns>List of all OrderViewModel from repository</returns>
-        public async Task<List<OrderViewModel>> GetAllAsync()
+        public virtual async Task<List<OrderViewModel>> GetAllAsync()
         {
             var orders = await _ordersRepository.GetAllAsync();
             return orders.Select(_mapper.Map<OrderViewModel>)
@@ -41,7 +41,7 @@ namespace OnlineShopWebApp.Services
         /// Get last user order from repository 
         /// </summary>
         /// <returns>OrderViewModel; returns null if user doesn't have any orders</returns>
-        public async Task<OrderViewModel> GetLastAsync(Guid userId)
+        public virtual async Task<OrderViewModel> GetLastAsync(Guid userId)
         {
             var orders = await GetAllAsync();
             return orders.LastOrDefault(o => o.UserId == userId)!;
@@ -53,7 +53,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">Target user ID</param>
         /// <param name="deliveryInfo">Related UserDeliveryInfoViewModel </param>
         /// <param name="positions">Target CartPosition List</param>
-        public async Task CreateAsync(Guid userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)
+        public virtual async Task CreateAsync(Guid userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)
         {
             var deliveryInfoDb = _mapper.Map<UserDeliveryInfo>(deliveryInfo);
             var order = new Order
@@ -78,7 +78,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if creation model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="positions">Target cart positions</param>
-        public bool IsCreationValid(ModelStateDictionary modelState, List<CartPosition> positions)
+        public virtual bool IsCreationValid(ModelStateDictionary modelState, List<CartPosition> positions)
         {
             if (positions.Count == 0)
             {
@@ -94,7 +94,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>Admin Orders View</returns>
         /// <param name="id">Order id (guid)</param>
         /// <param name="newStatus">New order status</param>
-        public async Task UpdateStatusAsync(Guid id, OrderStatusViewModel newStatus)
+        public virtual async Task UpdateStatusAsync(Guid id, OrderStatusViewModel newStatus)
         {
             await _ordersRepository.UpdateStatusAsync(id, (OrderStatus)newStatus);
         }
@@ -103,7 +103,7 @@ namespace OnlineShopWebApp.Services
         /// Get MemoryStream for all orders export to Excel 
         /// </summary>
         /// <returns>MemoryStream Excel file with users info</returns>
-        public async Task<MemoryStream> ExportAllToExcelAsync()
+        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
         {
             var orders = await GetAllAsync();
             return _excelService.ExportOrders(orders);

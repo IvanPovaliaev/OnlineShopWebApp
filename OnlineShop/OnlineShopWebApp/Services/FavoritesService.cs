@@ -27,7 +27,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>List of FavoriteProductViewModel for target user</returns>
         /// <param name="userId">User Id (GUID)</param>
-        public async Task<List<FavoriteProductViewModel>> GetAllAsync(Guid userId)
+        public virtual async Task<List<FavoriteProductViewModel>> GetAllAsync(Guid userId)
         {
             var favorites = await _favoritesRepository.GetAllAsync();
 
@@ -41,7 +41,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>
         /// <param name="userId">User Id (GUID)</param>
-        public async Task CreateAsync(Guid productId, Guid userId)
+        public virtual async Task CreateAsync(Guid productId, Guid userId)
         {
             var product = await _productsService.GetAsync(productId);
 
@@ -63,7 +63,7 @@ namespace OnlineShopWebApp.Services
         /// Delete target FavoriteProduct by Id
         /// </summary>        
         /// <param name="id">FavoriteProduct Id (GUID)</param>
-        public async Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(Guid id)
         {
             await _favoritesRepository.DeleteAsync(id);
         }
@@ -72,7 +72,7 @@ namespace OnlineShopWebApp.Services
         /// Delete all FavoriteProducts for related user.
         /// </summary>        
         /// <param name="userId">User Id (GUID)</param>
-        public async Task DeleteAllAsync(Guid userId)
+        public virtual async Task DeleteAllAsync(Guid userId)
         {
             await _favoritesRepository.DeleteAllAsync(userId);
         }

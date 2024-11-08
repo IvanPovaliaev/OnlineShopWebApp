@@ -22,7 +22,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>hash string</returns>
         /// <param name="input">Target string</param>
         /// <param name="inputSalt">Target salt</param>
-        public string GenerateHash(string input, byte[]? inputSalt = null)
+        public virtual string GenerateHash(string input, byte[]? inputSalt = null)
         {
             var inputBytes = Encoding.UTF8.GetBytes(input);
             var salt = inputSalt ?? GenerateSalt(SaltSize);
@@ -50,7 +50,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if matched; otherwise false </returns>
         /// <param name="input">Target string</param>
         /// <param name="hash">Target hash</param>
-        public bool IsEquals(string input, string hash)
+        public virtual bool IsEquals(string input, string hash)
         {
             var salt = Convert.FromBase64String(hash.Split(':')[1]);
             var inputHash = GenerateHash(input, salt);
