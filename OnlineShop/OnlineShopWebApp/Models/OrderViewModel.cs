@@ -8,7 +8,7 @@ namespace OnlineShopWebApp.Models
     public class OrderViewModel
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public DateTime CreationDate { get; set; }
         public OrderStatusViewModel Status { get; set; }
         public UserDeliveryInfoViewModel Info { get; set; }

@@ -8,7 +8,6 @@ using OnlineShopWebApp.Controllers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -44,7 +43,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var cart = _fakeCart;
             var modelState = new ModelStateDictionary();
 
-            _cartsServiceMock.Setup(s => s.GetAsync(It.IsAny<Guid>()))
+            _cartsServiceMock.Setup(s => s.GetAsync(It.IsAny<string>()))
                              .ReturnsAsync(cart);
 
             _ordersServiceMock.Setup(s => s.IsCreationValid(modelState, _fakeCart.Positions))
@@ -55,11 +54,11 @@ namespace OnlineShopWebApp.Tests.Controllers
 
             // Assert
             Assert.IsType<BadRequestResult>(result);
-            _cartsServiceMock.Verify(s => s.GetAsync(It.IsAny<Guid>()), Times.Once);
+            _cartsServiceMock.Verify(s => s.GetAsync(It.IsAny<string>()), Times.Once);
             _ordersServiceMock.Verify(s => s.IsCreationValid(modelState, _fakeCart.Positions), Times.Once);
-            _ordersServiceMock.Verify(s => s.CreateAsync(It.IsAny<Guid>(), deliveryInfo, _fakeCart.Positions), Times.Never);
-            _ordersServiceMock.Verify(s => s.GetLastAsync(It.IsAny<Guid>()), Times.Never);
-            _cartsServiceMock.Verify(s => s.DeleteAsync(It.IsAny<Guid>()), Times.Never);
+            _ordersServiceMock.Verify(s => s.CreateAsync(It.IsAny<string>(), deliveryInfo, _fakeCart.Positions), Times.Never);
+            _ordersServiceMock.Verify(s => s.GetLastAsync(It.IsAny<string>()), Times.Never);
+            _cartsServiceMock.Verify(s => s.DeleteAsync(It.IsAny<string>()), Times.Never);
         }
 
         [Fact]
@@ -70,20 +69,20 @@ namespace OnlineShopWebApp.Tests.Controllers
             var cart = _fakeCart;
             var modelState = new ModelStateDictionary();
 
-            _cartsServiceMock.Setup(s => s.GetAsync(It.IsAny<Guid>()))
+            _cartsServiceMock.Setup(s => s.GetAsync(It.IsAny<string>()))
                              .ReturnsAsync(cart);
 
             _ordersServiceMock.Setup(s => s.IsCreationValid(modelState, _fakeCart.Positions))
                               .Returns(true);
 
-            _ordersServiceMock.Setup(s => s.CreateAsync(It.IsAny<Guid>(), deliveryInfo, _fakeCart.Positions))
+            _ordersServiceMock.Setup(s => s.CreateAsync(It.IsAny<string>(), deliveryInfo, _fakeCart.Positions))
                               .Returns(Task.CompletedTask);
 
             var fakeOrder = new OrderViewModel();
-            _ordersServiceMock.Setup(s => s.GetLastAsync(It.IsAny<Guid>()))
+            _ordersServiceMock.Setup(s => s.GetLastAsync(It.IsAny<string>()))
                               .ReturnsAsync(fakeOrder);
 
-            _cartsServiceMock.Setup(s => s.DeleteAsync(It.IsAny<Guid>()))
+            _cartsServiceMock.Setup(s => s.DeleteAsync(It.IsAny<string>()))
                              .Returns(Task.CompletedTask);
 
             // Act
@@ -93,11 +92,11 @@ namespace OnlineShopWebApp.Tests.Controllers
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsType<OrderViewModel>(viewResult.Model);
             Assert.Equal(fakeOrder, model);
-            _cartsServiceMock.Verify(s => s.GetAsync(It.IsAny<Guid>()), Times.Once);
+            _cartsServiceMock.Verify(s => s.GetAsync(It.IsAny<string>()), Times.Once);
             _ordersServiceMock.Verify(s => s.IsCreationValid(modelState, _fakeCart.Positions), Times.Once);
-            _ordersServiceMock.Verify(s => s.CreateAsync(It.IsAny<Guid>(), deliveryInfo, _fakeCart.Positions), Times.Once);
-            _ordersServiceMock.Verify(s => s.GetLastAsync(It.IsAny<Guid>()), Times.Once);
-            _cartsServiceMock.Verify(s => s.DeleteAsync(It.IsAny<Guid>()), Times.Once);
+            _ordersServiceMock.Verify(s => s.CreateAsync(It.IsAny<string>(), deliveryInfo, _fakeCart.Positions), Times.Once);
+            _ordersServiceMock.Verify(s => s.GetLastAsync(It.IsAny<string>()), Times.Once);
+            _cartsServiceMock.Verify(s => s.DeleteAsync(It.IsAny<string>()), Times.Once);
         }
     }
 }

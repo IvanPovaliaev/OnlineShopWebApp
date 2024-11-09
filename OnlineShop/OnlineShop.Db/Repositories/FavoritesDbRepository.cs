@@ -42,7 +42,7 @@ namespace OnlineShop.Db.Repositories
             await _databaseContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAllAsync(Guid userId)
+        public async Task DeleteAllAsync(string userId)
         {
             var favorites = await _databaseContext.FavoriteProducts.Where(f => f.UserId == userId)
                                                                    .ToArrayAsync();

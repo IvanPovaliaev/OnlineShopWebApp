@@ -38,7 +38,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             // Arrange
             var expectedFavorites = _fakeFavoriteProducts.Select(_mapper.Map<FavoriteProductViewModel>)
                                                          .ToList();
-            _favoritesServiceMock.Setup(s => s.GetAllAsync(It.IsAny<Guid>()))
+            _favoritesServiceMock.Setup(s => s.GetAllAsync(It.IsAny<string>()))
                                  .ReturnsAsync(expectedFavorites);
 
             // Act
@@ -59,7 +59,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var result = await _controller.Add(productId);
 
             // Assert
-            _favoritesServiceMock.Verify(s => s.CreateAsync(productId, It.IsAny<Guid>()), Times.Once);
+            _favoritesServiceMock.Verify(s => s.CreateAsync(productId, It.IsAny<string>()), Times.Once);
             var partialViewResult = Assert.IsType<PartialViewResult>(result);
             Assert.Equal("_NavUserIcons", partialViewResult.ViewName);
         }
@@ -86,7 +86,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var result = await _controller.DeleteAll();
 
             // Assert
-            _favoritesServiceMock.Verify(s => s.DeleteAllAsync(It.IsAny<Guid>()), Times.Once);
+            _favoritesServiceMock.Verify(s => s.DeleteAllAsync(It.IsAny<string>()), Times.Once);
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
         }

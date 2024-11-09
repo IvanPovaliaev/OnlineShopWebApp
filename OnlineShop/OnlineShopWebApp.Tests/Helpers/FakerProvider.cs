@@ -7,7 +7,7 @@ namespace OnlineShopWebApp.Tests.Helpers
 {
     public static class FakerProvider
     {
-        public static Guid UserId { get; }
+        public static string UserId { get; }
         public static Faker<Product> ProductFaker { get; }
         public static Faker<CartPosition> CartPositionFaker { get; }
         public static Faker<ComparisonProduct> ComparisonProductFaker { get; }
@@ -32,7 +32,7 @@ namespace OnlineShopWebApp.Tests.Helpers
 
         static FakerProvider()
         {
-            UserId = Guid.NewGuid();
+            UserId = Guid.NewGuid().ToString();
 
             ProductFaker = new Faker<Product>()
                                 .RuleFor(p => p.Id, f => Guid.NewGuid())
@@ -72,7 +72,7 @@ namespace OnlineShopWebApp.Tests.Helpers
 
             OrderFaker = new Faker<Order>()
                 .RuleFor(o => o.Id, f => f.Random.Guid())
-                .RuleFor(o => o.UserId, f => f.Random.Guid())
+                .RuleFor(o => o.UserId, f => f.Random.Guid().ToString())
                 .RuleFor(o => o.CreationDate, f => f.Date.Past())
                 .RuleFor(o => o.Status, f => f.PickRandom<OrderStatus>())
                 .RuleFor(o => o.Info, f => UserDeliveryInfoFaker.Generate());

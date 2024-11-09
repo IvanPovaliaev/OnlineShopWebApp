@@ -1,4 +1,5 @@
-﻿using OnlineShop.Db.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
@@ -8,43 +9,42 @@ namespace OnlineShop.Db.Repositories
 {
     public class UsersDbRepository : IUsersRepository
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly IdentityContext _identityContext;
 
-        public UsersDbRepository(DatabaseContext databaseContext)
+        public UsersDbRepository(IdentityContext identityContext)
         {
-            _databaseContext = databaseContext;
+            _identityContext = identityContext;
         }
 
-        public async Task<List<User>> GetAllAsync() => [];
+        public async Task<List<User>> GetAllAsync()
+        {
+            return await _identityContext.Users.ToListAsync();
+        }
 
         public async Task<User> GetAsync(Guid id)
         {
-            return new User();
-        }
-
-        public async Task<User> GetByEmailAsync(string email)
-        {
-            return new User();
+            var identityId = id.ToString();
+            return await _identityContext.Users.FirstOrDefaultAsync(u => u.Id == identityId);
         }
 
         public async Task AddAsync(User user)
         {
-            await _databaseContext.SaveChangesAsync();
+            await _identityContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(User user)
         {
-            await _databaseContext.SaveChangesAsync();
+            await _identityContext.SaveChangesAsync();
         }
 
         public async Task ChangeRolesToUserAsync(Guid oldRoleId, Guid userRoleId)
         {
-            await _databaseContext.SaveChangesAsync();
+            await _identityContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            await _databaseContext.SaveChangesAsync();
+            await _identityContext.SaveChangesAsync();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Logout as user
+        /// Logout user
         /// </summary>
         /// <returns>Home page</returns>
         public async Task<IActionResult> Logout()

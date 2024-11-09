@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp.Models
 {
-    public record class FavoriteProductViewModel(Guid Id, Guid UserId, ProductViewModel Product)
+    public record class FavoriteProductViewModel(Guid Id, string UserId, ProductViewModel Product)
     {
     }
 }

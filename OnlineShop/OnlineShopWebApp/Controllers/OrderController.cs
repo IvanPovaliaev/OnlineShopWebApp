@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
-using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
     public class OrderController : Controller
     {
-        private Guid _userId = new Guid("74f1f6b5-083a-4677-8f68-8255caa77965"); //Временный guid для тестирования
+        private string _userId;
         private readonly CartsService _cartsService;
         private readonly OrdersService _ordersService;
 
-        public OrderController(CartsService cartsService, OrdersService ordersService)
+        public OrderController(CartsService cartsService, OrdersService ordersService, IHttpContextAccessor httpContextAccessor)
         {
             _cartsService = cartsService;
             _ordersService = ordersService;
+            _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         /// <summary>

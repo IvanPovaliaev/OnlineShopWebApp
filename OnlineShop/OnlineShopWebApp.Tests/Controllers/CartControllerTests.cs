@@ -27,7 +27,7 @@ namespace OnlineShopWebApp.Tests.Controllers
         public async Task Index_WhenCalled_ReturnsViewWithCart()
         {
             // Arrange
-            _cartsServiceMock.Setup(s => s.GetViewModelAsync(It.IsAny<Guid>()))
+            _cartsServiceMock.Setup(s => s.GetViewModelAsync(It.IsAny<string>()))
                              .ReturnsAsync(_fakeCartViewModel);
 
             // Act
@@ -49,7 +49,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var result = await _controller.Add(productId);
 
             // Assert
-            _cartsServiceMock.Verify(s => s.AddAsync(productId, It.IsAny<Guid>()), Times.Once);
+            _cartsServiceMock.Verify(s => s.AddAsync(productId, It.IsAny<string>()), Times.Once);
             var partialViewResult = Assert.IsType<PartialViewResult>(result);
             Assert.Equal("_NavUserIcons", partialViewResult.ViewName);
         }
@@ -64,7 +64,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var result = await _controller.Increase(positionId);
 
             // Assert
-            _cartsServiceMock.Verify(s => s.IncreasePositionAsync(It.IsAny<Guid>(), positionId), Times.Once);
+            _cartsServiceMock.Verify(s => s.IncreasePositionAsync(It.IsAny<string>(), positionId), Times.Once);
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
         }
@@ -79,7 +79,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var result = await _controller.Decrease(positionId);
 
             // Assert
-            _cartsServiceMock.Verify(s => s.DecreasePosition(It.IsAny<Guid>(), positionId), Times.Once);
+            _cartsServiceMock.Verify(s => s.DecreasePosition(It.IsAny<string>(), positionId), Times.Once);
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
         }
@@ -91,7 +91,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var result = await _controller.Delete();
 
             // Assert
-            _cartsServiceMock.Verify(s => s.DeleteAsync(It.IsAny<Guid>()), Times.Once);
+            _cartsServiceMock.Verify(s => s.DeleteAsync(It.IsAny<string>()), Times.Once);
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
         }
@@ -106,7 +106,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var result = await _controller.DeletePosition(positionId);
 
             // Assert
-            _cartsServiceMock.Verify(s => s.DeletePositionAsync(It.IsAny<Guid>(), positionId), Times.Once);
+            _cartsServiceMock.Verify(s => s.DeletePositionAsync(It.IsAny<string>(), positionId), Times.Once);
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", redirectResult.ActionName);
         }

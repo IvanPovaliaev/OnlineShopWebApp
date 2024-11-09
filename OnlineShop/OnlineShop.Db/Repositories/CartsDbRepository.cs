@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +15,7 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<Cart> GetAsync(Guid userId)
+        public async Task<Cart> GetAsync(string userId)
         {
             return await _databaseContext.Carts.Include(cart => cart.Positions)
                                                .ThenInclude(position => position.Product)
@@ -53,7 +52,7 @@ namespace OnlineShop.Db.Repositories
             await _databaseContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Guid userId)
+        public async Task DeleteAsync(string userId)
         {
             var repositoryCart = await GetAsync(userId);
 

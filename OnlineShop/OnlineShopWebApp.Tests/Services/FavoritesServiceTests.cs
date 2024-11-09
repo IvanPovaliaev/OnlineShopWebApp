@@ -21,7 +21,7 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly FavoritesService _favoritesService;
         private readonly IMapper _mapper;
 
-        private readonly Guid _userId;
+        private readonly string _userId;
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
         private readonly Faker<Product> _productFaker;
 
@@ -64,7 +64,7 @@ namespace OnlineShopWebApp.Tests.Services
         public async Task GetAllAsync_WhenUserHasNoFavorites_ReturnsEmpty()
         {
             // Arrange
-            var anotherUserId = Guid.NewGuid();
+            var anotherUserId = Guid.NewGuid().ToString();
             _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync())
                                     .ReturnsAsync(_fakeFavoriteProducts);
 

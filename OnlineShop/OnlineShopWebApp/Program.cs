@@ -68,6 +68,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));

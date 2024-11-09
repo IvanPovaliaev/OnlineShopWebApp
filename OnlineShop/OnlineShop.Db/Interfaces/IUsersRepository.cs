@@ -21,13 +21,6 @@ namespace OnlineShop.Db.Interfaces
         Task<User> GetAsync(Guid id);
 
         /// <summary>
-        /// Get user by email
-        /// </summary>
-        /// <returns>User; returns null if user not found</returns>
-        /// <param name="email">Target email</param>
-        Task<User> GetByEmailAsync(string email);
-
-        /// <summary>
         /// Add a new user
         /// </summary>
         /// <param name="user">Target user</param>

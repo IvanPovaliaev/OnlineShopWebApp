@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineShop.Db;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
-using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Models.Abstractions;
@@ -25,8 +25,9 @@ namespace OnlineShopWebApp.Services
         private readonly HashService _hashService;
         private readonly IExcelService _excelService;
         private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
 
-        public AccountsService(IUsersRepository usersRepository, IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService, SignInManager<User> signInManager)
+        public AccountsService(IUsersRepository usersRepository, IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _usersRepository = usersRepository;
             _mapper = mapper;
@@ -34,6 +35,7 @@ namespace OnlineShopWebApp.Services
             _hashService = hashService;
             _excelService = excelService;
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -64,18 +66,17 @@ namespace OnlineShopWebApp.Services
         /// <param name="register">Target register model</param>
         public virtual async Task AddAsync(RegisterViewModel register)
         {
-            var roleId = await GetRegisterRoleIdAsync(register);
-
             var user = new User
             {
                 Email = register.Email,
-                PasswordHash = _hashService.GenerateHash(register.Password),
+                UserName = register.Email,
                 FullName = register.Name,
-                PhoneNumber = register.Phone,
-                //Role = await _rolesService.GetAsync(roleId)
+                PhoneNumber = register.Phone
             };
 
-            await _usersRepository.AddAsync(user);
+            await _userManager.CreateAsync(user, register.Password);
+            await _signInManager.SignInAsync(user, false);
+            await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
         }
 
         /// <summary>
@@ -250,9 +251,9 @@ namespace OnlineShopWebApp.Services
         /// <param name="email">Target email</param>
         private async Task<bool> IsEmailExistAsync(string email)
         {
-            var users = await _usersRepository.GetAllAsync();
+            var user = await _userManager.FindByEmailAsync(email);
 
-            return users.Any(users => users.Email == email);
+            return user is not null;
         }
 
         /// <summary>

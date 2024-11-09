@@ -1,5 +1,4 @@
 ﻿using OnlineShop.Db.Models;
-using System;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Interfaces
@@ -11,7 +10,7 @@ namespace OnlineShop.Db.Interfaces
         /// </summary>        
         /// <returns>Cart for related user</returns>
         /// <param name="userId">GUID user id</param>
-        Task<Cart> GetAsync(Guid userId);
+        Task<Cart> GetAsync(string userId);
 
         /// <summary>
         /// Create a new cart
@@ -29,6 +28,6 @@ namespace OnlineShop.Db.Interfaces
         /// Delete cart by userId. If cart is not in the repository - does nothing.
         /// </summary>
         /// <param name="userId">GUID user id</param>
-        Task DeleteAsync(Guid userId);
+        Task DeleteAsync(string userId);
     }
 }

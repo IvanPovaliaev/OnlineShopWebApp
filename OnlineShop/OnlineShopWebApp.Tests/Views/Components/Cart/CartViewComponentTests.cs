@@ -32,7 +32,7 @@ namespace OnlineShopWebApp.Tests.Views.Components.Cart
         public async Task InvokeAsync_WhenCartHasItems_ReturnsCorrectTotalQuantityInView()
         {
             // Arrange
-            _cartsServiceMock.Setup(s => s.GetViewModelAsync(It.IsAny<Guid>()))
+            _cartsServiceMock.Setup(s => s.GetViewModelAsync(It.IsAny<string>()))
                              .ReturnsAsync(_fakeCartViewModel);
             var expectedItemQuantity = _fakeCartViewModel.TotalQuantity;
 
@@ -51,7 +51,7 @@ namespace OnlineShopWebApp.Tests.Views.Components.Cart
         {
             // Arrange
             var fakeCart = new CartViewModel();
-            _cartsServiceMock.Setup(s => s.GetViewModelAsync(It.IsAny<Guid>()))
+            _cartsServiceMock.Setup(s => s.GetViewModelAsync(It.IsAny<string>()))
                              .ReturnsAsync(fakeCart);
 
             // Act
@@ -68,7 +68,7 @@ namespace OnlineShopWebApp.Tests.Views.Components.Cart
         public async Task InvokeAsync_WhenCartIsNull_ReturnsZeroTotalQuantityInView()
         {
             // Arrange
-            _cartsServiceMock.Setup(s => s.GetViewModelAsync(It.IsAny<Guid>()))
+            _cartsServiceMock.Setup(s => s.GetViewModelAsync(It.IsAny<string>()))
                              .ReturnsAsync((CartViewModel)null!);
 
             // Act

@@ -27,7 +27,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>List of FavoriteProductViewModel for target user</returns>
         /// <param name="userId">User Id (GUID)</param>
-        public virtual async Task<List<FavoriteProductViewModel>> GetAllAsync(Guid userId)
+        public virtual async Task<List<FavoriteProductViewModel>> GetAllAsync(string userId)
         {
             var favorites = await _favoritesRepository.GetAllAsync();
 
@@ -41,7 +41,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="productId">Product Id (GUID)</param>
         /// <param name="userId">User Id (GUID)</param>
-        public virtual async Task CreateAsync(Guid productId, Guid userId)
+        public virtual async Task CreateAsync(Guid productId, string userId)
         {
             var product = await _productsService.GetAsync(productId);
 
@@ -72,7 +72,7 @@ namespace OnlineShopWebApp.Services
         /// Delete all FavoriteProducts for related user.
         /// </summary>        
         /// <param name="userId">User Id (GUID)</param>
-        public virtual async Task DeleteAllAsync(Guid userId)
+        public virtual async Task DeleteAllAsync(string userId)
         {
             await _favoritesRepository.DeleteAllAsync(userId);
         }
@@ -83,7 +83,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>true if product exists; otherwise returns false</returns>
         /// <param name="product">Target Product</param>
         /// <param name="userId">User Id (GUID)</param>
-        private async Task<bool> IsProductExistsAsync(Product product, Guid userId)
+        private async Task<bool> IsProductExistsAsync(Product product, string userId)
         {
             var result = await GetAllAsync(userId);
 

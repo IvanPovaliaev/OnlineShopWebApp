@@ -36,7 +36,7 @@ namespace OnlineShopWebApp.Tests.Views.Components.Favorite
         {
             // Arrange
             var expectedQuantity = _fakeFavoriteProducts.Count;
-            _favoritesServiceMock.Setup(s => s.GetAllAsync(It.IsAny<Guid>()))
+            _favoritesServiceMock.Setup(s => s.GetAllAsync(It.IsAny<string>()))
                                  .ReturnsAsync(_fakeFavoriteProducts);
 
             // Act
@@ -54,7 +54,7 @@ namespace OnlineShopWebApp.Tests.Views.Components.Favorite
         {
             // Arrange
             var emptyFavorites = new List<FavoriteProductViewModel>();
-            _favoritesServiceMock.Setup(s => s.GetAllAsync(It.IsAny<Guid>()))
+            _favoritesServiceMock.Setup(s => s.GetAllAsync(It.IsAny<string>()))
                                  .ReturnsAsync(emptyFavorites);
 
             // Act

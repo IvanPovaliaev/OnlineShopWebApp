@@ -36,7 +36,7 @@ namespace OnlineShopWebApp.Tests.Views.Components.Comparison
         {
             // Arrange
             var expectedQuantity = _fakeComparisonProducts.Count;
-            _comparisonsServiceMock.Setup(s => s.GetAllAsync(It.IsAny<Guid>()))
+            _comparisonsServiceMock.Setup(s => s.GetAllAsync(It.IsAny<string>()))
                                    .ReturnsAsync(_fakeComparisonProducts);
 
             // Act
@@ -54,7 +54,7 @@ namespace OnlineShopWebApp.Tests.Views.Components.Comparison
         {
             // Arrange
             var emptyComparisons = new List<ComparisonProductViewModel>();
-            _comparisonsServiceMock.Setup(s => s.GetAllAsync(It.IsAny<Guid>()))
+            _comparisonsServiceMock.Setup(s => s.GetAllAsync(It.IsAny<string>()))
                                    .ReturnsAsync(emptyComparisons);
 
             // Act

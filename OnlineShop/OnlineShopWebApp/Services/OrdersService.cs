@@ -41,7 +41,7 @@ namespace OnlineShopWebApp.Services
         /// Get last user order from repository 
         /// </summary>
         /// <returns>OrderViewModel; returns null if user doesn't have any orders</returns>
-        public virtual async Task<OrderViewModel> GetLastAsync(Guid userId)
+        public virtual async Task<OrderViewModel> GetLastAsync(string userId)
         {
             var orders = await GetAllAsync();
             return orders.LastOrDefault(o => o.UserId == userId)!;
@@ -53,7 +53,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">Target user ID</param>
         /// <param name="deliveryInfo">Related UserDeliveryInfoViewModel </param>
         /// <param name="positions">Target CartPosition List</param>
-        public virtual async Task CreateAsync(Guid userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)
+        public virtual async Task CreateAsync(string userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)
         {
             var deliveryInfoDb = _mapper.Map<UserDeliveryInfo>(deliveryInfo);
             var order = new Order

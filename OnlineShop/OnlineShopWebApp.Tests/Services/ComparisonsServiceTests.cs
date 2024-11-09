@@ -20,7 +20,7 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly ComparisonsService _comparisonsService;
         private readonly IMapper _mapper;
 
-        private readonly Guid _userId;
+        private readonly string _userId;
         private readonly List<ComparisonProduct> _fakeComparisonProducts;
         private readonly Faker<Product> _productsFaker;
 
@@ -62,7 +62,7 @@ namespace OnlineShopWebApp.Tests.Services
         public async Task GetAllAsync_WhenUserHasNoComparisons_ReturnsEmpty()
         {
             // Arrange
-            var anotherUserId = Guid.NewGuid();
+            var anotherUserId = Guid.NewGuid().ToString();
             _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
                                       .ReturnsAsync(_fakeComparisonProducts);
 
@@ -99,7 +99,7 @@ namespace OnlineShopWebApp.Tests.Services
         public async Task GetGroupsAsync_WhenUserHasNoComparisons_ReturnsEmpty()
         {
             // Arrange
-            var anotherUserId = Guid.NewGuid();
+            var anotherUserId = Guid.NewGuid().ToString();
             _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
                                       .ReturnsAsync(_fakeComparisonProducts);
 

@@ -1,19 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
+    [Authorize]
     public class ComparisonController : Controller
     {
-        private Guid _userId = new Guid("74f1f6b5-083a-4677-8f68-8255caa77965"); //Временный guid для тестирования
+        private string? _userId;
         private readonly ComparisonsService _comparisonsService;
 
-        public ComparisonController(ComparisonsService comparisonsService)
+        public ComparisonController(ComparisonsService comparisonsService, IHttpContextAccessor httpContextAccessor)
         {
             _comparisonsService = comparisonsService;
+            _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         /// <summary>

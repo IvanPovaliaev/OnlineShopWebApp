@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Db;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
@@ -9,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(Constants.AdminRoleName)]
+    [Authorize(Roles = Constants.AdminRoleName)]
     public class ProductController : Controller
     {
         private readonly ProductsService _productsService;
@@ -115,7 +118,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             var stream = await _productsService.ExportAllToExcelAsync();
 
-            var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
+            var downloadFileStream = new FileStreamResult(stream, Formats.ExcelFileContentType)
             {
                 FileDownloadName = "Products.xlsx"
             };
