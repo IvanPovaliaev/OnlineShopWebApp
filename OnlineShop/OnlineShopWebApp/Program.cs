@@ -60,6 +60,7 @@ builder.Services.AddIdentity<User, Role>()
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.ExpireTimeSpan = TimeSpan.FromHours(24);
+    options.LoginPath = "/Account/Unauthorized";
     options.Cookie = new CookieBuilder
     {
         IsEssential = true
@@ -95,6 +96,7 @@ builder.Services.AddScoped<IUsersRepository, UsersDbRepository>();
 builder.Services.AddTransient<AccountsService>();
 
 builder.Services.AddTransient<HashService>();
+builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
 
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 

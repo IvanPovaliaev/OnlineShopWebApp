@@ -57,7 +57,7 @@
                                     <td>@user.Email</td>
                                     <td>@user.Name</td>
                                     <td>@user.Phone</td>
-                                    <td>@user.Role.Name</td>
+                                    <td>@user.Role?.Name</td>
                                     <td>
                                         <a class="btn btn-main justify-content-center align-items-center mt-auto"
                                            asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@user.Id" role="button">

@@ -4,7 +4,6 @@ using OnlineShop.Db;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Services;
-using System;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
@@ -63,7 +62,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admin Users View</returns>
         /// <param name="id">Target user Id</param>
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(string id)
         {
             var user = await _accountsService.GetAsync(id);
             if (user is null)
@@ -126,7 +125,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admins users View</returns>
         /// <param name="id">Target user Id</param>  
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
             await _accountsService.DeleteAsync(id);
             return RedirectToAction("Index");

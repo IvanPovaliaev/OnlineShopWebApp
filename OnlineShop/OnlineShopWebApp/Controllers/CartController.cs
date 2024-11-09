@@ -17,7 +17,7 @@ namespace OnlineShopWebApp.Controllers
         public CartController(CartsService cartsService, IHttpContextAccessor httpContextAccessor)
         {
             _cartsService = cartsService;
-            _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
         }
 
         /// <summary>

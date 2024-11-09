@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
@@ -44,7 +45,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>List of all UserViewModel from repository</returns>
         public virtual async Task<List<UserViewModel>> GetAllAsync()
         {
-            var users = await _usersRepository.GetAllAsync();
+            var users = await _userManager.Users.ToListAsync();
             return users.Select(_mapper.Map<UserViewModel>)
                         .ToList();
         }
@@ -53,10 +54,10 @@ namespace OnlineShopWebApp.Services
         /// Get user from repository by GUID
         /// </summary>
         /// <returns>UserViewModel; returns null if user not found</returns>
-        /// <param name="id">Target user id (GUID)</param>
-        public virtual async Task<UserViewModel> GetAsync(Guid id)
+        /// <param name="id">Target user id</param>
+        public virtual async Task<UserViewModel> GetAsync(string id)
         {
-            var userDb = await _usersRepository.GetAsync(id);
+            var userDb = await _userManager.FindByIdAsync(id);
             return _mapper.Map<UserViewModel>(userDb);
         }
 
@@ -86,7 +87,7 @@ namespace OnlineShopWebApp.Services
         public virtual async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
         {
             var userId = changePassword.UserId;
-            var user = await _usersRepository.GetAsync(changePassword.UserId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user is null)
             {
@@ -105,7 +106,7 @@ namespace OnlineShopWebApp.Services
         public virtual async Task UpdateInfoAsync(AdminEditUserViewModel editUser)
         {
             var userId = editUser.UserId;
-            var user = await _usersRepository.GetAsync(editUser.UserId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user is null)
             {
@@ -119,14 +120,18 @@ namespace OnlineShopWebApp.Services
             user.FullName = editUser.Name;
             //user.Role = role;
 
-            await _usersRepository.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
         }
 
         /// <summary>
         /// Delete user from repository by id
         /// </summary>
         /// <param name="id">Target user id (GUID)</param>
-        public virtual async Task DeleteAsync(Guid id) => await _usersRepository.DeleteAsync(id);
+        public virtual async Task DeleteAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            await _userManager.DeleteAsync(user!);
+        }
 
         /// <summary>
         /// Validates the user login model

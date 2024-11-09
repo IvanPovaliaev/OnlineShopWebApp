@@ -14,6 +14,11 @@ namespace OnlineShopWebApp.Controllers
             _accountsService = accountService;
         }
 
+        public IActionResult Unauthorized(string returnUrl)
+        {
+            return View();
+        }
+
         /// <summary>
         /// Login as user
         /// </summary>
@@ -28,7 +33,7 @@ namespace OnlineShopWebApp.Controllers
                 return PartialView("_LoginForm", login);
             }
 
-            var redirectUrl = Url.Action("Index", "Home");
+            var redirectUrl = login.ReturnUrl;
 
             return Json(new { redirectUrl });
         }
