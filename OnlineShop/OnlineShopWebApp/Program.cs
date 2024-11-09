@@ -89,10 +89,8 @@ builder.Services.AddTransient<ComparisonsService>();
 builder.Services.AddScoped<IFavoritesRepository, FavoritesDbRepository>();
 builder.Services.AddTransient<FavoritesService>();
 
-builder.Services.AddScoped<IRolesRepository, RolesDbRepository>();
 builder.Services.AddTransient<RolesService>();
 
-builder.Services.AddScoped<IUsersRepository, UsersDbRepository>();
 builder.Services.AddTransient<AccountsService>();
 
 builder.Services.AddTransient<HashService>();

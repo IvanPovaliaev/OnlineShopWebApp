@@ -1,5 +1,4 @@
 ﻿using OnlineShopWebApp.Helpers;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopWebApp.Areas.Admin.Models
@@ -17,6 +16,6 @@ namespace OnlineShopWebApp.Areas.Admin.Models
         public string? Phone { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле")]
-        public Guid RoleId { get; set; }
+        public string RoleId { get; set; }
     }
 }

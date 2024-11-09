@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
 using OnlineShopWebApp.Services;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +15,7 @@ namespace OnlineShopWebApp.Areas.Admin.Views.User.Components.RolesSelection
         /// </summary>
         /// <returns>RoleSelectionViewComponent</returns>
         /// <param name="selectedRoleId">Target selected role id</param> 
-        public async Task<IViewComponentResult> InvokeAsync(Guid selectedRoleId)
+        public async Task<IViewComponentResult> InvokeAsync(string selectedRoleId)
         {
             var roles = await _rolesService.GetAllAsync();
             var defaultRoleId = roles.First(r => r.Name == Constants.UserRoleName).Id;

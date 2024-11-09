@@ -3,13 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db;
-using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Models.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -20,7 +18,6 @@ namespace OnlineShopWebApp.Services
 {
     public class AccountsService
     {
-        private readonly IUsersRepository _usersRepository;
         private readonly IMapper _mapper;
         private readonly RolesService _rolesService;
         private readonly HashService _hashService;
@@ -28,9 +25,8 @@ namespace OnlineShopWebApp.Services
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
-        public AccountsService(IUsersRepository usersRepository, IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager)
+        public AccountsService(IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager)
         {
-            _usersRepository = usersRepository;
             _mapper = mapper;
             _rolesService = rolesService;
             _hashService = hashService;
@@ -96,7 +92,7 @@ namespace OnlineShopWebApp.Services
 
             user.PasswordHash = _hashService.GenerateHash(changePassword.Password);
 
-            await _usersRepository.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
         }
 
         /// <summary>
@@ -118,7 +114,6 @@ namespace OnlineShopWebApp.Services
             user.Email = editUser.Email;
             user.PhoneNumber = editUser.Phone;
             user.FullName = editUser.Name;
-            //user.Role = role;
 
             await _userManager.UpdateAsync(user);
         }
@@ -212,13 +207,13 @@ namespace OnlineShopWebApp.Services
         /// Change all users role related to role Id to user Role.
         /// </summary>
         /// <param name="oldRoleId">Target old role Id (guid)</param>
-        public async Task ChangeRolesToUserAsync(Guid oldRoleId)
+        public async Task ChangeRolesToUserAsync(string oldRoleId)
         {
-            var userRoleId = (await _rolesService.GetAllAsync())
-                                                 .FirstOrDefault(r => r.Name == Constants.UserRoleName)!
-                                                 .Id;
+            var oldRole = (await _rolesService.GetAllAsync())
+                                                 .FirstOrDefault(r => r.Id == oldRoleId)!
+                                                 .Name;
 
-            await _usersRepository.ChangeRolesToUserAsync(oldRoleId, userRoleId);
+            var users = await _userManager.GetUsersInRoleAsync(oldRole);
         }
 
         /// <summary>
@@ -236,7 +231,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>Associated Role Id; Return Role User Id as default</returns>
         /// <param name="register">Target register model</param>
-        private async Task<Guid> GetRegisterRoleIdAsync(RegisterViewModel register)
+        private async Task<string> GetRegisterRoleIdAsync(RegisterViewModel register)
         {
             if (register is AdminRegisterViewModel)
             {
@@ -266,7 +261,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>true if exists; otherwise false</returns>
         /// <param name="roleId">Target role id (GUID)</param>
-        private async Task<bool> IsRoleExistAsync(Guid roleId)
+        private async Task<bool> IsRoleExistAsync(string roleId)
         {
             var role = await _rolesService.GetAsync(roleId);
 
