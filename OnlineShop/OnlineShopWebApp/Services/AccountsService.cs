@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
@@ -23,14 +24,16 @@ namespace OnlineShopWebApp.Services
         private readonly RolesService _rolesService;
         private readonly HashService _hashService;
         private readonly IExcelService _excelService;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountsService(IUsersRepository usersRepository, IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService)
+        public AccountsService(IUsersRepository usersRepository, IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService, SignInManager<User> signInManager)
         {
             _usersRepository = usersRepository;
             _mapper = mapper;
             _rolesService = rolesService;
             _hashService = hashService;
             _excelService = excelService;
+            _signInManager = signInManager;
         }
 
         /// <summary>
@@ -132,20 +135,13 @@ namespace OnlineShopWebApp.Services
         /// <param name="login">Target login model</param>
         public virtual async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
         {
-            var user = await _usersRepository.GetByEmailAsync(login.Email);
+            var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.KeepMeLogged, false);
 
-            if (user is null)
-            {
-                modelState.AddModelError(string.Empty, "Неверный логин или пароль");
-                return modelState.IsValid;
-            }
-
-            var isPasswordsEquals = _hashService.IsEquals(login.Password, user.PasswordHash!);
-
-            if (!isPasswordsEquals)
+            if (!result.Succeeded)
             {
                 modelState.AddModelError(string.Empty, "Неверный логин или пароль");
             }
+
             return modelState.IsValid;
         }
 
@@ -199,6 +195,11 @@ namespace OnlineShopWebApp.Services
             }
 
             return modelState.IsValid;
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
         }
 
         /// <summary>

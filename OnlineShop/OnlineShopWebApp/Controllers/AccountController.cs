@@ -19,7 +19,7 @@ namespace OnlineShopWebApp.Controllers
         /// </summary>
         /// <returns>Home page</returns>
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel login, bool keepMeLogged)
+        public async Task<IActionResult> Login(LoginViewModel login)
         {
             var isModelValid = await _accountsService.IsLoginValidAsync(ModelState, login);
 
@@ -31,6 +31,17 @@ namespace OnlineShopWebApp.Controllers
             var redirectUrl = Url.Action("Index", "Home");
 
             return Json(new { redirectUrl });
+        }
+
+        /// <summary>
+        /// Logout as user
+        /// </summary>
+        /// <returns>Home page</returns>
+        public async Task<IActionResult> Logout()
+        {
+            await _accountsService.LogoutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>

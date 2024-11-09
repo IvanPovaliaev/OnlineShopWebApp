@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
 using System;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private Guid _userId = new Guid("74f1f6b5-083a-4677-8f68-8255caa77965"); //Временный guid для тестирования

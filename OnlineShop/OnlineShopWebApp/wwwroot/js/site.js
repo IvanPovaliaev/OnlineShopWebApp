@@ -8,6 +8,11 @@ $(document).on('click', '[data-bs-target="#loginModal"]', function () {
     $('#loginModal').appendTo('body');
 });
 
+//Скрипт для переноса модального окна выхода в конец body (для корректной работы окна)
+$(document).on('click', '[data-bs-target="#logoutModal"]', function () {
+    $('#logoutModal').appendTo('body');
+});
+
 //Скрипт для переноса модального окна регистрации в конец body (для корректной работы окна)
 $(document).on('click', '[data-bs-target="#registrationModal"]', function () {
     $('#registrationModal').appendTo('body');
