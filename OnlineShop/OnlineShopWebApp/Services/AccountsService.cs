@@ -66,10 +66,10 @@ namespace OnlineShopWebApp.Services
             var user = new User
             {
                 Email = register.Email,
-                Password = _hashService.GenerateHash(register.Password),
-                Name = register.Name,
-                Phone = register.Phone,
-                Role = await _rolesService.GetAsync(roleId)
+                PasswordHash = _hashService.GenerateHash(register.Password),
+                FullName = register.Name,
+                PhoneNumber = register.Phone,
+                //Role = await _rolesService.GetAsync(roleId)
             };
 
             await _usersRepository.AddAsync(user);
@@ -89,7 +89,7 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            user.Password = _hashService.GenerateHash(changePassword.Password);
+            user.PasswordHash = _hashService.GenerateHash(changePassword.Password);
 
             await _usersRepository.UpdateAsync(user);
         }
@@ -111,9 +111,9 @@ namespace OnlineShopWebApp.Services
             var role = await _rolesService.GetAsync(editUser.RoleId);
 
             user.Email = editUser.Email;
-            user.Phone = editUser.Phone;
-            user.Name = editUser.Name;
-            user.Role = role;
+            user.PhoneNumber = editUser.Phone;
+            user.FullName = editUser.Name;
+            //user.Role = role;
 
             await _usersRepository.UpdateAsync(user);
         }
@@ -140,7 +140,7 @@ namespace OnlineShopWebApp.Services
                 return modelState.IsValid;
             }
 
-            var isPasswordsEquals = _hashService.IsEquals(login.Password, user.Password);
+            var isPasswordsEquals = _hashService.IsEquals(login.Password, user.PasswordHash!);
 
             if (!isPasswordsEquals)
             {

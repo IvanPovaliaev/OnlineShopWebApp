@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShop.Db;
 using OnlineShop.Db.Interfaces;
+using OnlineShop.Db.Models;
 using OnlineShop.Db.Repositories;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
@@ -37,16 +40,31 @@ switch (databaseType.ToLower())
 {
     case "postgresql":
         builder.Services.AddDbContext<DatabaseContext, PostgreSQLContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
+        builder.Services.AddDbContext<IdentityContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
         break;
     case "mssql":
         builder.Services.AddDbContext<DatabaseContext, MsSQLContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
+        builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
         break;
     case "mysql":
         builder.Services.AddDbContext<DatabaseContext, MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)), ServiceLifetime.Scoped);
+        builder.Services.AddDbContext<IdentityContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)), ServiceLifetime.Scoped);
         break;
     default:
         throw new InvalidOperationException("Invalid database type");
 }
+
+builder.Services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<IdentityContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromHours(24);
+    options.Cookie = new CookieBuilder
+    {
+        IsEssential = true
+    };
+});
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -115,6 +133,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -124,5 +143,13 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var services = serviceScope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var rolesManager = services.GetRequiredService<RoleManager<Role>>();
+    await IdentityInitializer.InitializeAsync(userManager, rolesManager);
+}
 
 app.Run();
