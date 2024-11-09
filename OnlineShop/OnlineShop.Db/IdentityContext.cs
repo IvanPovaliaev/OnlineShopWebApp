@@ -4,11 +4,10 @@ using OnlineShop.Db.Models;
 
 namespace OnlineShop.Db
 {
-    public class IdentityContext : IdentityDbContext<User, Role, string>
+    public abstract class IdentityContext : IdentityDbContext<User, Role, string>
     {
-        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
+        public IdentityContext(DbContextOptions options) : base(options)
         {
-            Database.Migrate();
         }
     }
 }

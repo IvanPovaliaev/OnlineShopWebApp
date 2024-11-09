@@ -40,15 +40,15 @@ switch (databaseType.ToLower())
 {
     case "postgresql":
         builder.Services.AddDbContext<DatabaseContext, PostgreSQLContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
-        builder.Services.AddDbContext<IdentityContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
+        builder.Services.AddDbContext<IdentityContext, PostgreSQLIdentityContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
         break;
     case "mssql":
         builder.Services.AddDbContext<DatabaseContext, MsSQLContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
-        builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
+        builder.Services.AddDbContext<IdentityContext, MsSQLIdentityContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
         break;
     case "mysql":
         builder.Services.AddDbContext<DatabaseContext, MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)), ServiceLifetime.Scoped);
-        builder.Services.AddDbContext<IdentityContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)), ServiceLifetime.Scoped);
+        builder.Services.AddDbContext<IdentityContext, MySQLIdentityContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)), ServiceLifetime.Scoped);
         break;
     default:
         throw new InvalidOperationException("Invalid database type");

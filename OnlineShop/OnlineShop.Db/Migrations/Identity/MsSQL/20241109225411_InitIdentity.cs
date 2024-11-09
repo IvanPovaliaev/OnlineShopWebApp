@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace OnlineShop.Db.Migrations.Identity
+namespace OnlineShop.Db.Migrations.Identity.MsSQL
 {
     /// <inheritdoc />
     public partial class InitIdentity : Migration
