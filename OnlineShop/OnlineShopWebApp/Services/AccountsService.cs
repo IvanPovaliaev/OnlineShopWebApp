@@ -19,16 +19,14 @@ namespace OnlineShopWebApp.Services
     {
         private readonly IMapper _mapper;
         private readonly RolesService _rolesService;
-        private readonly HashService _hashService;
         private readonly IExcelService _excelService;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
-        public AccountsService(IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager)
+        public AccountsService(IMapper mapper, RolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _mapper = mapper;
             _rolesService = rolesService;
-            _hashService = hashService;
             _excelService = excelService;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -47,7 +45,7 @@ namespace OnlineShopWebApp.Services
             {
                 var roles = await _userManager.GetRolesAsync(user);
                 var userVM = _mapper.Map<UserViewModel>(user);
-                userVM.RoleName = roles.First();
+                userVM.RoleName = roles.FirstOrDefault()!;
                 usersViewModels.Add(userVM);
             }
 
@@ -84,8 +82,14 @@ namespace OnlineShopWebApp.Services
             };
 
             await _userManager.CreateAsync(user, register.Password);
-            await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
-            await _signInManager.SignInAsync(user, false);
+
+            var roleName = await GetRegisterRoleNameAsync(register);
+            await _userManager.AddToRoleAsync(user, roleName);
+
+            if (register is not AdminRegisterViewModel)
+            {
+                await _signInManager.SignInAsync(user, false);
+            }
         }
 
         /// <summary>
@@ -122,23 +126,33 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            var role = await _rolesService.GetAsync(editUser.RoleId);
-
             user.Email = editUser.Email;
             user.PhoneNumber = editUser.Phone;
             user.FullName = editUser.Name;
 
             await _userManager.UpdateAsync(user);
+
+            var role = await _rolesService.GetAsync(editUser.RoleId);
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.AddToRoleAsync(user, role.Name);
+            await _userManager.RemoveFromRolesAsync(user, userRoles);
         }
 
         /// <summary>
-        /// Delete user from repository by id
+        /// Delete user from repository by id. Admin can't be deleted
         /// </summary>
         /// <param name="id">Target user id (GUID)</param>
         public virtual async Task DeleteAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            await _userManager.DeleteAsync(user!);
+
+            var isAdmin = await _userManager.IsInRoleAsync(user!, Constants.AdminRoleName);
+
+            if (!isAdmin)
+            {
+                await _userManager.DeleteAsync(user!);
+            }
         }
 
         /// <summary>
@@ -177,7 +191,6 @@ namespace OnlineShopWebApp.Services
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
-
             if (register is AdminRegisterViewModel { RoleId: var roleId } && !await IsRoleExistAsync(roleId))
             {
                 modelState.AddModelError(string.Empty, "Роль не существует!");
@@ -211,10 +224,10 @@ namespace OnlineShopWebApp.Services
             return modelState.IsValid;
         }
 
-        public async Task LogoutAsync()
-        {
-            await _signInManager.SignOutAsync();
-        }
+        /// <summary>
+        /// Logout user
+        /// </summary>
+        public async Task LogoutAsync() => await _signInManager.SignOutAsync();
 
         /// <summary>
         /// Change all users role related to role Id to user Role.
@@ -240,21 +253,20 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Get a role for new user based on register model
+        /// Get a role name for new user based on register model
         /// </summary>        
-        /// <returns>Associated Role Id; Return Role User Id as default</returns>
+        /// <returns>Associated Role name; Return User role name as default</returns>
         /// <param name="register">Target register model</param>
-        private async Task<string> GetRegisterRoleIdAsync(RegisterViewModel register)
+        private async Task<string> GetRegisterRoleNameAsync(RegisterViewModel register)
         {
             if (register is AdminRegisterViewModel)
             {
                 var adminRegister = register as AdminRegisterViewModel;
-                return adminRegister!.RoleId;
+                var role = await _rolesService.GetAsync(adminRegister!.RoleId);
+                return role?.Name ?? Constants.UserRoleName;
             }
 
-            var roles = await _rolesService.GetAllAsync();
-            return roles.First(r => r.Name == Constants.UserRoleName)
-                        .Id;
+            return Constants.UserRoleName;
         }
 
         /// <summary>
