@@ -61,6 +61,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.ExpireTimeSpan = TimeSpan.FromHours(24);
     options.LoginPath = "/Account/Unauthorized";
+    options.LogoutPath = "/Account/Unauthorized";
     options.Cookie = new CookieBuilder
     {
         IsEssential = true

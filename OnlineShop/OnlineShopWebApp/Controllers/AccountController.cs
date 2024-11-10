@@ -14,6 +14,10 @@ namespace OnlineShopWebApp.Controllers
             _accountsService = accountService;
         }
 
+        /// <summary>
+        /// Open unauthorized page
+        /// </summary>
+        /// <returns>Unauthorized page</returns>
         public IActionResult Unauthorized(string returnUrl)
         {
             return View();
@@ -65,7 +69,7 @@ namespace OnlineShopWebApp.Controllers
 
             await _accountsService.AddAsync(register);
 
-            var redirectUrl = Url.Action("Index", "Home");
+            var redirectUrl = register.ReturnUrl;
 
             return Json(new { redirectUrl });
         }
