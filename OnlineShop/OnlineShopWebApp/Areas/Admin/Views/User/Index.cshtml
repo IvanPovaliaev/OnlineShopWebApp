@@ -59,10 +59,35 @@
                                     <td>@user.PhoneNumber</td>
                                     <td>@user.RoleName</td>
                                     <td>
-                                        <a class="btn btn-main justify-content-center align-items-center mt-auto"
-                                           asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@user.Id" role="button">
-                                            Подробнее
-                                        </a>
+                                        <div class="dropdown d-flex align-items-stretch justify-content-center h-100">
+                                            <button class="btn btn-main dropdown-toggle d-flex align-items-center justify-content-between"
+                                                    type="button"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                Опции
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li>
+                                                    <a class="dropdown-item text-dark"
+                                                       asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@user.Id">
+                                                        Подробнее
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    @{
+                                                        var message = $"Вы уверены, что хотите удалить пользователя <span class=\"fw-bold\">{user.Email}</span>?<br /> Это действие нельзя отменить";
+                                                    }
+
+                                                    <button class="dropdown-item text-dark"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteModal"
+                                                            data-url="@Url.Action("Delete", "User", new { id = user.Id })"
+                                                            data-message="@message">
+                                                        Удалить
+                                                    </button>                                        
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -73,5 +98,5 @@
         </div>
 
     </div>
-
+    @await Html.PartialAsync("_DeleteModal")
 </section>
