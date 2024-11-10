@@ -9,7 +9,6 @@ using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Models.Abstractions;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,8 +41,17 @@ namespace OnlineShopWebApp.Services
         public virtual async Task<List<UserViewModel>> GetAllAsync()
         {
             var users = await _userManager.Users.ToListAsync();
-            return users.Select(_mapper.Map<UserViewModel>)
-                        .ToList();
+            var usersViewModels = new List<UserViewModel>(users.Count);
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var userVM = _mapper.Map<UserViewModel>(user);
+                userVM.RoleName = roles.First();
+                usersViewModels.Add(userVM);
+            }
+
+            return usersViewModels;
         }
 
         /// <summary>
@@ -54,7 +62,11 @@ namespace OnlineShopWebApp.Services
         public virtual async Task<UserViewModel> GetAsync(string id)
         {
             var userDb = await _userManager.FindByIdAsync(id);
-            return _mapper.Map<UserViewModel>(userDb);
+            var roles = await _userManager.GetRolesAsync(userDb!);
+            var userVM = _mapper.Map<UserViewModel>(userDb);
+            userVM.RoleName = roles.First();
+
+            return userVM;
         }
 
         /// <summary>
@@ -68,12 +80,12 @@ namespace OnlineShopWebApp.Services
                 Email = register.Email,
                 UserName = register.Email,
                 FullName = register.Name,
-                PhoneNumber = register.Phone
+                PhoneNumber = register.PhoneNumber
             };
 
             await _userManager.CreateAsync(user, register.Password);
-            await _signInManager.SignInAsync(user, false);
             await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
+            await _signInManager.SignInAsync(user, false);
         }
 
         /// <summary>
@@ -90,7 +102,8 @@ namespace OnlineShopWebApp.Services
                 return;
             }
 
-            user.PasswordHash = _hashService.GenerateHash(changePassword.Password);
+            var newPasswordHash = _userManager.PasswordHasher.HashPassword(user, changePassword.Password);
+            user.PasswordHash = newPasswordHash;
 
             await _userManager.UpdateAsync(user);
         }
