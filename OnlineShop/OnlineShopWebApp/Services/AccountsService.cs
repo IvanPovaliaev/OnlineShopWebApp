@@ -132,10 +132,8 @@ namespace OnlineShopWebApp.Services
 
             await _userManager.UpdateAsync(user);
 
-            var role = await _rolesService.GetAsync(editUser.RoleId);
-
             var userRoles = await _userManager.GetRolesAsync(user);
-            await _userManager.AddToRoleAsync(user, role.Name);
+            await _userManager.AddToRoleAsync(user, editUser.RoleName);
             await _userManager.RemoveFromRolesAsync(user, userRoles);
         }
 
@@ -214,7 +212,7 @@ namespace OnlineShopWebApp.Services
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
-            var isRoleExist = await IsRoleExistAsync(editUser.RoleId);
+            var isRoleExist = await IsRoleExistAsync(editUser.RoleName);
 
             if (!isRoleExist)
             {
@@ -262,7 +260,7 @@ namespace OnlineShopWebApp.Services
             if (register is AdminRegisterViewModel)
             {
                 var adminRegister = register as AdminRegisterViewModel;
-                var role = await _rolesService.GetAsync(adminRegister!.RoleId);
+                var role = await _rolesService.GetByIdAsync(adminRegister!.RoleId);
                 return role?.Name ?? Constants.UserRoleName;
             }
 
@@ -282,15 +280,15 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Checks if a role with the given id exists.
+        /// Checks if a role with the given name exists.
         /// </summary>        
         /// <returns>true if exists; otherwise false</returns>
-        /// <param name="roleId">Target role id (GUID)</param>
-        private async Task<bool> IsRoleExistAsync(string roleId)
+        /// <param name="roleName">Target role name (GUID)</param>
+        private async Task<bool> IsRoleExistAsync(string roleName)
         {
-            var role = await _rolesService.GetAsync(roleId);
+            var role = await _rolesService.GetByNameAsync(roleName);
 
-            return role != null;
+            return role is not null;
         }
     }
 }
