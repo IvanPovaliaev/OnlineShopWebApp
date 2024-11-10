@@ -48,10 +48,10 @@ namespace OnlineShopWebApp.Services
         public virtual async Task<Role?> GetByIdAsync(string id) => await _roleManager.FindByIdAsync(id);
 
         /// <summary>
-        /// Get role from repository by id
+        /// Get role from repository by name
         /// </summary>
         /// <returns>Role; returns null if role not found</returns>
-        /// <param name="id">Target role id (GUID)</param>
+        /// <param name="name">Target role name</param>
         public virtual async Task<Role?> GetByNameAsync(string name) => await _roleManager.FindByNameAsync(name);
 
         /// <summary>
