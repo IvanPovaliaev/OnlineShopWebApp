@@ -72,20 +72,23 @@
                                                        asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@user.Id">
                                                         Подробнее
                                                     </a>
-                                                </li>
-                                                <li>
-                                                    @{
-                                                        var message = $"Вы уверены, что хотите удалить пользователя <span class=\"fw-bold\">{user.Email}</span>?<br /> Это действие нельзя отменить";
-                                                    }
+                                                </li>                                               
+                                                @if (user.RoleName != Constants.AdminRoleName)
+                                                {
 
+                                                var message = $"Вы уверены, что хотите удалить пользователя <span class=\"fw-bold\">{user.Email}</span>?<br /> Это действие нельзя отменить";
+
+                                                <li>
                                                     <button class="dropdown-item text-dark"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#deleteModal"
                                                             data-url="@Url.Action("Delete", "User", new { id = user.Id })"
                                                             data-message="@message">
                                                         Удалить
-                                                    </button>                                        
+                                                    </button>
                                                 </li>
+
+                                                }                                    
                                             </ul>
                                         </div>
                                     </td>

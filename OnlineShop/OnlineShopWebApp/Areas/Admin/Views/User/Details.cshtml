@@ -72,19 +72,20 @@
                             </form>
                         </li>
 
-                        <li>
-                            @{
-                                var message = $"Вы уверены, что хотите удалить пользователя <span class=\"fw-bold\">{Model.FullName}</span>?<br /> Это действие нельзя отменить";
-                            }
+                        @if (Model.RoleName != Constants.AdminRoleName)
+                        {
+                            var message = $"Вы уверены, что хотите удалить пользователя <span class=\"fw-bold\">{Model.Email}</span>?<br /> Это действие нельзя отменить";
 
-                            <button class="dropdown-item text-dark"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal"
-                                    data-url="@Url.Action("Delete", "User", new {id = Model.Id})"
-                                    data-message="@message">
-                                Удалить
-                            </button>                    
-                        </li>
+                            <li>
+                                <button class="dropdown-item text-dark"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-url="@Url.Action("Delete", "User", new { id = Model.Id })"
+                                        data-message="@message">
+                                    Удалить
+                                </button>
+                            </li>
+                        }                       
                     </ul>
                 </div>
                 <div>
