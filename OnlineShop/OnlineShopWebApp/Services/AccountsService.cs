@@ -228,16 +228,18 @@ namespace OnlineShopWebApp.Services
         public async Task LogoutAsync() => await _signInManager.SignOutAsync();
 
         /// <summary>
-        /// Change all users role related to role Id to user Role.
+        /// Change all users role related to role name to user Role.
         /// </summary>
-        /// <param name="oldRoleId">Target old role Id (guid)</param>
-        public async Task ChangeRolesToUserAsync(string oldRoleId)
+        /// <param name="oldRoleName">Target old role name</param>
+        public async Task ChangeRolesToUserAsync(string oldRoleName)
         {
-            var oldRole = (await _rolesService.GetAllAsync())
-                                                 .FirstOrDefault(r => r.Id == oldRoleId)!
-                                                 .Name;
+            var users = await _userManager.GetUsersInRoleAsync(oldRoleName);
 
-            var users = await _userManager.GetUsersInRoleAsync(oldRole);
+            foreach (var user in users)
+            {
+                await _userManager.RemoveFromRoleAsync(user, oldRoleName);
+                await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
+            }
         }
 
         /// <summary>
@@ -283,7 +285,7 @@ namespace OnlineShopWebApp.Services
         /// Checks if a role with the given name exists.
         /// </summary>        
         /// <returns>true if exists; otherwise false</returns>
-        /// <param name="roleName">Target role name (GUID)</param>
+        /// <param name="roleName">Target role name</param>
         private async Task<bool> IsRoleExistAsync(string roleName)
         {
             var role = await _rolesService.GetByNameAsync(roleName);

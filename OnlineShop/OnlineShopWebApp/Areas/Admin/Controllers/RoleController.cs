@@ -35,7 +35,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// <returns>Admin Roles View</returns>
         /// <param name="role">Target role</param>  
         [HttpPost]
-        public async Task<IActionResult> Add(RoleViewModel role)
+        public async Task<IActionResult> Add(AddRoleViewModel role)
         {
             var isModelValid = await _rolesService.IsNewValidAsync(ModelState, role);
 
@@ -52,13 +52,13 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// Delete role by Id
+        /// Delete role by name
         /// </summary>
         /// <returns>Admins roles View</returns>
-        /// <param name="id">Target role Id</param>  
-        public async Task<IActionResult> Delete(string id)
+        /// <param name="name">Target role name</param>  
+        public async Task<IActionResult> Delete(string name)
         {
-            await _rolesService.DeleteAsync(id);
+            await _rolesService.DeleteAsync(name);
             return RedirectToAction("Index");
         }
 

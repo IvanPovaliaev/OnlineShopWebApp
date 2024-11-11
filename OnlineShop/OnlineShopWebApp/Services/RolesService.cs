@@ -41,13 +41,6 @@ namespace OnlineShopWebApp.Services
         }
 
         /// <summary>
-        /// Get role from repository by id
-        /// </summary>
-        /// <returns>Role; returns null if role not found</returns>
-        /// <param name="id">Target role id (GUID)</param>
-        public virtual async Task<Role?> GetByIdAsync(string id) => await _roleManager.FindByIdAsync(id);
-
-        /// <summary>
         /// Get role from repository by name
         /// </summary>
         /// <returns>Role; returns null if role not found</returns>
@@ -55,27 +48,16 @@ namespace OnlineShopWebApp.Services
         public virtual async Task<Role?> GetByNameAsync(string name) => await _roleManager.FindByNameAsync(name);
 
         /// <summary>
-        /// Get role from repository by id
-        /// </summary>
-        /// <returns>RoleViewModel; returns null if role not found</returns>
-        /// <param name="id">Target role id (GUID)</param>
-        public async Task<RoleViewModel> GetViewModelAsync(string id)
-        {
-            var roleDb = await GetByIdAsync(id);
-            return _mapper.Map<RoleViewModel>(roleDb);
-        }
-
-        /// <summary>
         /// Validates the new role model
         /// </summary>        
         /// <returns>true if model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="role">Target role model</param>
-        public virtual async Task<bool> IsNewValidAsync(ModelStateDictionary modelState, RoleViewModel role)
+        public virtual async Task<bool> IsNewValidAsync(ModelStateDictionary modelState, AddRoleViewModel role)
         {
             var repositoryRoles = await _roleManager.Roles.ToListAsync();
 
-            if (repositoryRoles.Any(r => r.Name.ToLower() == role.Name.ToLower()))
+            if (repositoryRoles.Any(r => r.Name?.ToLower() == role.Name.ToLower()))
             {
                 modelState.AddModelError(string.Empty, "Роль с таким именем уже существует!");
             }
@@ -87,7 +69,7 @@ namespace OnlineShopWebApp.Services
         /// Add role to repository
         /// </summary>
         /// <param name="role">Target role</param>
-        public virtual async Task AddAsync(RoleViewModel role)
+        public virtual async Task AddAsync(AddRoleViewModel role)
         {
             var roleDb = _mapper.Map<Role>(role);
             await _roleManager.CreateAsync(roleDb);
@@ -96,17 +78,18 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Delete role from repository by id if it can be deleted
         /// </summary>
-        /// <param name="id">Target role id (GUID)</param>
-        public virtual async Task DeleteAsync(string id)
+        /// <param name="name">Target role id (GUID)</param>
+        public virtual async Task DeleteAsync(string name)
         {
-            var canBeDeleted = await CanBeDeletedAsync(id);
+            var canBeDeleted = await CanBeDeletedAsync(name);
             if (!canBeDeleted)
             {
                 return;
             }
 
-            await _mediator.Publish(new RoleDeletedNotification(id));
-            var role = await _roleManager.FindByIdAsync(id);
+            await _mediator.Publish(new RoleDeletedNotification(name));
+
+            var role = await GetByNameAsync(name);
             await _roleManager.DeleteAsync(role!);
         }
 
@@ -120,10 +103,15 @@ namespace OnlineShopWebApp.Services
             return _excelService.ExportRoles(roles);
         }
 
-        private async Task<bool> CanBeDeletedAsync(string id)
+        /// <summary>
+        /// Checks if a role with the given name can be deleted.
+        /// </summary>        
+        /// <returns>true if can; otherwise false</returns>
+        /// <param name="name">Target role name</param>
+        private async Task<bool> CanBeDeletedAsync(string name)
         {
-            var role = await GetByIdAsync(id);
-            return role.CanBeDeleted;
+            var role = await GetByNameAsync(name);
+            return role?.CanBeDeleted ?? false;
         }
     }
 }
