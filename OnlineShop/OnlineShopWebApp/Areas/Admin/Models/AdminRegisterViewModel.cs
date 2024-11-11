@@ -4,6 +4,6 @@ namespace OnlineShopWebApp.Areas.Admin.Models
 {
     public class AdminRegisterViewModel : RegisterViewModel
     {
-        public string RoleId { get; set; }
+        public string RoleName { get; set; }
     }
 }

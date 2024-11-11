@@ -189,7 +189,7 @@ namespace OnlineShopWebApp.Services
                 modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
             }
 
-            if (register is AdminRegisterViewModel { RoleId: var roleId } && !await IsRoleExistAsync(roleId))
+            if (register is AdminRegisterViewModel { RoleName: var roleName } && !await IsRoleExistAsync(roleName))
             {
                 modelState.AddModelError(string.Empty, "Роль не существует!");
             }
@@ -260,7 +260,7 @@ namespace OnlineShopWebApp.Services
             if (register is AdminRegisterViewModel)
             {
                 var adminRegister = register as AdminRegisterViewModel;
-                var role = await _rolesService.GetByIdAsync(adminRegister!.RoleId);
+                var role = await _rolesService.GetByNameAsync(adminRegister!.RoleName);
                 return role?.Name ?? Constants.UserRoleName;
             }
 
