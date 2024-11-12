@@ -6,32 +6,32 @@ using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Tests.Helpers
 {
-    public static class FakerProvider
+    public class FakerProvider
     {
-        public static string UserId { get; }
-        public static Faker<Product> ProductFaker { get; }
-        public static Faker<CartPosition> CartPositionFaker { get; }
-        public static Faker<ComparisonProduct> ComparisonProductFaker { get; }
-        public static Faker<FavoriteProduct> FavoriteProductFaker { get; }
-        public static Faker<Order> OrderFaker { get; }
-        public static Faker<UserDeliveryInfo> UserDeliveryInfoFaker { get; }
-        public static Faker<Role> RoleFaker { get; }
-        public static Faker<User> UserFaker { get; }
+        public string UserId { get; }
+        public Faker<Product> ProductFaker { get; }
+        public Faker<CartPosition> CartPositionFaker { get; }
+        public Faker<ComparisonProduct> ComparisonProductFaker { get; }
+        public Faker<FavoriteProduct> FavoriteProductFaker { get; }
+        public Faker<Order> OrderFaker { get; }
+        public Faker<UserDeliveryInfo> UserDeliveryInfoFaker { get; }
+        public Faker<Role> RoleFaker { get; }
+        public Faker<User> UserFaker { get; }
 
         public const int PositionsCount = 10;
         public const int ProductsCount = 10;
         public const int OrdersCount = 10;
         public const int RolesCount = 10;
         public const int UsersCount = 10;
-        public static Cart FakeCart { get; }
-        public static List<Product> FakeProducts { get; }
-        public static List<ComparisonProduct> FakeComparisonProducts { get; }
-        public static List<FavoriteProduct> FakeFavoriteProducts { get; }
-        public static List<Order> FakeOrders { get; }
-        public static List<Role> FakeRoles { get; }
-        public static List<User> FakeUsers { get; }
+        public Cart FakeCart { get; }
+        public List<Product> FakeProducts { get; }
+        public List<ComparisonProduct> FakeComparisonProducts { get; }
+        public List<FavoriteProduct> FakeFavoriteProducts { get; }
+        public List<Order> FakeOrders { get; }
+        public List<Role> FakeRoles { get; }
+        public List<User> FakeUsers { get; }
 
-        static FakerProvider()
+        public FakerProvider()
         {
             UserId = Guid.NewGuid().ToString();
 

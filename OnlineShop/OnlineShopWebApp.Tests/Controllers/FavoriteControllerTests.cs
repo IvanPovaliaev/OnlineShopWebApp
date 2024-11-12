@@ -10,7 +10,6 @@ using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -24,25 +23,15 @@ namespace OnlineShopWebApp.Tests.Controllers
         private readonly IMapper _mapper;
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
 
-        public FavoriteControllerTests()
+        public FavoriteControllerTests(IMapper mapper, Mock<IHttpContextAccessor> httpContextAccessorMock, FakerProvider fakerProvider)
         {
-            _userId = FakerProvider.UserId;
+            _userId = fakerProvider.UserId;
 
             _favoritesServiceMock = new Mock<FavoritesService>(null!, null!, null!);
+            _controller = new FavoriteController(_favoritesServiceMock.Object, httpContextAccessorMock.Object);
 
-            var httpContextAccessor = new Mock<IHttpContextAccessor>();
-            var claims = new List<Claim> { new(ClaimTypes.NameIdentifier, _userId!) };
-            var identity = new ClaimsIdentity(claims, "TestAuthType");
-            var claimsPrincipal = new ClaimsPrincipal(identity);
-
-            httpContextAccessor.Setup(_ => _.HttpContext.User).Returns(claimsPrincipal);
-
-            _controller = new FavoriteController(_favoritesServiceMock.Object, httpContextAccessor.Object);
-
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
-            _mapper = config.CreateMapper();
-
-            _fakeFavoriteProducts = FakerProvider.FakeFavoriteProducts;
+            _mapper = mapper;
+            _fakeFavoriteProducts = fakerProvider.FakeFavoriteProducts;
         }
 
         [Fact]

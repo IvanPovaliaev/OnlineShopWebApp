@@ -21,15 +21,13 @@ namespace OnlineShopWebApp.Tests.Controllers
         private readonly IMapper _mapper;
         private readonly List<Product> _fakeProducts;
 
-        public HomeControllerTests()
+        public HomeControllerTests(IMapper mapper, FakerProvider fakerProvider)
         {
             _mockProductsService = new Mock<ProductsService>(null!, null!, null!, null!);
             _controller = new HomeController(_mockProductsService.Object);
 
-            _fakeProducts = FakerProvider.FakeProducts;
-
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
-            _mapper = config.CreateMapper();
+            _mapper = mapper;
+            _fakeProducts = fakerProvider.FakeProducts;
         }
 
         [Fact]

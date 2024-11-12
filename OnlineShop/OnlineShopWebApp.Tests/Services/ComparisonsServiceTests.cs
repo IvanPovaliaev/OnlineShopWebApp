@@ -24,7 +24,7 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly List<ComparisonProduct> _fakeComparisonProducts;
         private readonly Faker<Product> _productsFaker;
 
-        public ComparisonsServiceTests()
+        public ComparisonsServiceTests(FakerProvider fakerProvider)
         {
             _comparisonsRepositoryMock = new Mock<IComparisonsRepository>();
             _productsServiceMock = new Mock<ProductsService>(null!, null!, null!, null!);
@@ -37,9 +37,9 @@ namespace OnlineShopWebApp.Tests.Services
                 _mapper,
                 _productsServiceMock.Object);
 
-            _userId = FakerProvider.UserId;
-            _productsFaker = FakerProvider.ProductFaker;
-            _fakeComparisonProducts = FakerProvider.FakeComparisonProducts;
+            _userId = fakerProvider.UserId;
+            _productsFaker = fakerProvider.ProductFaker;
+            _fakeComparisonProducts = fakerProvider.FakeComparisonProducts;
         }
 
         [Fact]

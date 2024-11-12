@@ -25,7 +25,7 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
         private readonly Faker<Product> _productFaker;
 
-        public FavoritesServiceTests()
+        public FavoritesServiceTests(FakerProvider fakerProvider)
         {
             _favoritesRepositoryMock = new Mock<IFavoritesRepository>();
             _productsServiceMock = new Mock<ProductsService>(null!, null!, null!, null!);
@@ -38,9 +38,9 @@ namespace OnlineShopWebApp.Tests.Services
                 _mapper,
                 _productsServiceMock.Object);
 
-            _userId = FakerProvider.UserId;
-            _productFaker = FakerProvider.ProductFaker;
-            _fakeFavoriteProducts = FakerProvider.FakeFavoriteProducts;
+            _userId = fakerProvider.UserId;
+            _productFaker = fakerProvider.ProductFaker;
+            _fakeFavoriteProducts = fakerProvider.FakeFavoriteProducts;
         }
 
         [Fact]

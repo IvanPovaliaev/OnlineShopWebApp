@@ -27,7 +27,7 @@ namespace OnlineShopWebApp.Tests.Services
 
         private readonly List<Product> _fakeProducts;
 
-        public ProductsServiceTests()
+        public ProductsServiceTests(FakerProvider fakerProvider)
         {
             _productsRepositoryMock = new Mock<IProductsRepository>();
             _excelServiceMock = new Mock<IExcelService>();
@@ -43,7 +43,7 @@ namespace OnlineShopWebApp.Tests.Services
                 rules
             );
 
-            _fakeProducts = FakerProvider.FakeProducts;
+            _fakeProducts = fakerProvider.FakeProducts;
         }
 
         [Fact]
