@@ -1,18 +1,10 @@
 ﻿@model LoginViewModel
-@{
-    var returnUrl = Context.Request.Query["ReturnUrl"].ToString();
-
-    if (string.IsNullOrEmpty(returnUrl))
-    {
-        returnUrl = ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString;
-    }
-}
 
 @* Форма входа *@
 <form method="post" id="loginForm" asp-area="" asp-controller="Account" asp-action="Login">
     <div class="mb-3">
         <input type="hidden" class="form-control input-field"
-               asp-for="ReturnUrl" value="@returnUrl">
+               asp-for="ReturnUrl" value="@Model.ReturnUrl">
         <input class="form-control input-field"
             asp-for="Email"
             placeholder="Email"
