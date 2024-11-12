@@ -8,7 +8,7 @@ using OnlineShop.Db;
 
 #nullable disable
 
-namespace OnlineShop.Db.Migrations
+namespace OnlineShop.Db.Migrations.Database.MsSQL
 {
     [DbContext(typeof(MsSQLContext))]
     partial class MsSQLContextModelSnapshot : ModelSnapshot
@@ -28,8 +28,9 @@ namespace OnlineShop.Db.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -69,8 +70,9 @@ namespace OnlineShop.Db.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -88,8 +90,9 @@ namespace OnlineShop.Db.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -113,8 +116,9 @@ namespace OnlineShop.Db.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -157,6 +161,7 @@ namespace OnlineShop.Db.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Cost")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Description")
@@ -268,68 +273,6 @@ namespace OnlineShop.Db.Migrations
                             Name = "750W Be Quiet System Power 10",
                             SpecificationsJson = "{\"Manufacturer\":\"Be Quiet\",\"ManufacturerCode\":\"BN329\",\"Power\":\"750 Вт\",\"PFC\":\"активный\",\"FanSize\":\"120 мм\"}"
                         });
-                });
-
-            modelBuilder.Entity("OnlineShop.Db.Models.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("CanBeDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d0febec9-d438-4436-a720-a6026465357d"),
-                            CanBeDeleted = false,
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("e56b2b3c-4b78-4e69-a130-e9fd96dbc98f"),
-                            CanBeDeleted = false,
-                            Name = "User"
-                        });
-                });
-
-            modelBuilder.Entity("OnlineShop.Db.Models.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("OnlineShop.Db.Models.UserDeliveryInfo", b =>
@@ -451,17 +394,6 @@ namespace OnlineShop.Db.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("OnlineShop.Db.Models.User", b =>
-                {
-                    b.HasOne("OnlineShop.Db.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("OnlineShop.Db.Models.Cart", b =>

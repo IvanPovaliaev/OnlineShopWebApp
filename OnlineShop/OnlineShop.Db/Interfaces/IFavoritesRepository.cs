@@ -35,7 +35,7 @@ namespace OnlineShop.Db.Interfaces
         /// <summary>
         /// Delete all FavoriteProducts by userId.
         /// </summary>
-        /// <param name="userId">User Id (guid)</param>
-        Task DeleteAllAsync(Guid userId);
+        /// <param name="userId">User Id</param>
+        Task DeleteAllAsync(string userId);
     }
 }

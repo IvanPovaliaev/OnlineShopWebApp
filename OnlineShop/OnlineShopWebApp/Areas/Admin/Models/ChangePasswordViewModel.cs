@@ -1,12 +1,11 @@
 ﻿using OnlineShopWebApp.Helpers;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopWebApp.Areas.Admin.Models
 {
     public class ChangePasswordViewModel
     {
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Введите пароль")]
         [PasswordValidation()]

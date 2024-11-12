@@ -1,12 +1,11 @@
 ﻿using OnlineShopWebApp.Helpers;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopWebApp.Areas.Admin.Models
 {
     public class AdminEditUserViewModel
     {
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Не указан Email")]
         [EmailAddress(ErrorMessage = "Неверный адрес электронной почты")]
@@ -17,6 +16,6 @@ namespace OnlineShopWebApp.Areas.Admin.Models
         public string? Phone { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле")]
-        public Guid RoleId { get; set; }
+        public string RoleId { get; set; }
     }
 }

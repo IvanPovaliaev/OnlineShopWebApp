@@ -14,12 +14,17 @@ namespace OnlineShopWebApp.Controllers
             _accountsService = accountService;
         }
 
+        public IActionResult Unauthorized(string returnUrl)
+        {
+            return View();
+        }
+
         /// <summary>
         /// Login as user
         /// </summary>
         /// <returns>Home page</returns>
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel login, bool keepMeLogged)
+        public async Task<IActionResult> Login(LoginViewModel login)
         {
             var isModelValid = await _accountsService.IsLoginValidAsync(ModelState, login);
 
@@ -28,9 +33,20 @@ namespace OnlineShopWebApp.Controllers
                 return PartialView("_LoginForm", login);
             }
 
-            var redirectUrl = Url.Action("Index", "Home");
+            var redirectUrl = login.ReturnUrl;
 
             return Json(new { redirectUrl });
+        }
+
+        /// <summary>
+        /// Logout user
+        /// </summary>
+        /// <returns>Home page</returns>
+        public async Task<IActionResult> Logout()
+        {
+            await _accountsService.LogoutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>

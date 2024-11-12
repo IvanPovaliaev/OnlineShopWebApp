@@ -12,8 +12,6 @@ namespace OnlineShop.Db
         public DbSet<FavoriteProduct> FavoriteProducts { get; set; }
         public DbSet<ComparisonProduct> ComparisonProducts { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
 
         public DatabaseContext(DbContextOptions options) : base(options) { }
 
@@ -21,7 +19,6 @@ namespace OnlineShop.Db
         {
             base.OnModelCreating(modelBuilder);
             InitializeInitialProducts(modelBuilder);
-            InitializeInitialRoles(modelBuilder);
         }
 
         private void InitializeInitialProducts(ModelBuilder modelBuilder)
@@ -149,24 +146,6 @@ namespace OnlineShop.Db
                 fifthRam,
                 cpu,
                 powerSupply
-            });
-        }
-        private void InitializeInitialRoles(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Role>().HasData(new List<Role>()
-            {
-                new()
-                {
-                    Id = new Guid("d0febec9-d438-4436-a720-a6026465357d"),
-                    Name = "Admin",
-                    CanBeDeleted = false
-                },
-                new()
-                {
-                    Id = new Guid("e56b2b3c-4b78-4e69-a130-e9fd96dbc98f"),
-                    Name = "User",
-                    CanBeDeleted = false
-                }
             });
         }
     }

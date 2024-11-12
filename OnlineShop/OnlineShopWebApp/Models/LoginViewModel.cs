@@ -10,5 +10,9 @@ namespace OnlineShopWebApp.Models
 
         [Required(ErrorMessage = "Введите пароль")]
         public string Password { get; init; }
+
+        public bool KeepMeLogged { get; init; }
+
+        public string ReturnUrl { get; set; }
     }
 }

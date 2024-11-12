@@ -36,6 +36,6 @@ namespace OnlineShop.Db.Interfaces
         /// Delete all ComparisonProducts by userId.
         /// </summary>
         /// <param name="userId">User Id (guid)</param>
-        Task DeleteAllAsync(Guid userId);
+        Task DeleteAllAsync(string userId);
     }
 }

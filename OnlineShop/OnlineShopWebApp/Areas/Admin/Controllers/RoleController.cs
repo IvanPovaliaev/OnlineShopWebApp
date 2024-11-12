@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Db;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Services;
-using System;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(Constants.AdminRoleName)]
+    [Authorize(Roles = Constants.AdminRoleName)]
     public class RoleController : Controller
     {
         private readonly RolesService _rolesService;
@@ -54,7 +56,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         /// </summary>
         /// <returns>Admins roles View</returns>
         /// <param name="id">Target role Id</param>  
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
             await _rolesService.DeleteAsync(id);
             return RedirectToAction("Index");
@@ -68,7 +70,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         {
             var stream = await _rolesService.ExportAllToExcelAsync();
 
-            var downloadFileStream = new FileStreamResult(stream, Constants.ExcelFileContentType)
+            var downloadFileStream = new FileStreamResult(stream, Formats.ExcelFileContentType)
             {
                 FileDownloadName = "Roles.xlsx"
             };

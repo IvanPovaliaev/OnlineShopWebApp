@@ -1,18 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Services;
-using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Views.Shared.Components.Cart
 {
     public class CartViewComponent : ViewComponent
     {
-        private Guid _userId = new Guid("74f1f6b5-083a-4677-8f68-8255caa77965"); //Временный guid для тестирования
+        private string? _userId;
         private readonly CartsService _cartsService;
 
-        public CartViewComponent(CartsService cartsService)
+        public CartViewComponent(CartsService cartsService, IHttpContextAccessor httpContextAccessor)
         {
             _cartsService = cartsService;
+            _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         /// <summary>

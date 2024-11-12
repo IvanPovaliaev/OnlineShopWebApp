@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace OnlineShop.Db.Models
 {
-    public class Role
+    public class Role : IdentityRole
     {
-        public Guid Id { get; init; }
-        public string Name { get; set; }
         public bool CanBeDeleted { get; init; } = true;
     }
 }

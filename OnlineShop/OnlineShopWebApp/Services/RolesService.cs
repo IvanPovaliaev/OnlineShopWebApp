@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using OnlineShop.Db.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,14 +16,14 @@ namespace OnlineShopWebApp.Services
 {
     public class RolesService
     {
-        private readonly IRolesRepository _rolesRepository;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IMediator _mediator;
         private readonly IExcelService _excelService;
         private readonly IMapper _mapper;
 
-        public RolesService(IRolesRepository rolesRepository, IMediator mediator, IMapper mapper, IExcelService excelService)
+        public RolesService(RoleManager<Role> roleManager, IMediator mediator, IMapper mapper, IExcelService excelService)
         {
-            _rolesRepository = rolesRepository;
+            _roleManager = roleManager;
             _mediator = mediator;
             _excelService = excelService;
             _mapper = mapper;
@@ -35,7 +35,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>List of all RolesViewModel from repository</returns>
         public virtual async Task<List<RoleViewModel>> GetAllAsync()
         {
-            var roles = await _rolesRepository.GetAllAsync();
+            var roles = await _roleManager.Roles.ToListAsync();
             return roles.Select(_mapper.Map<RoleViewModel>)
                         .ToList();
         }
@@ -45,14 +45,14 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>Role; returns null if role not found</returns>
         /// <param name="id">Target role id (GUID)</param>
-        public virtual async Task<Role> GetAsync(Guid id) => await _rolesRepository.GetAsync(id);
+        public virtual async Task<Role?> GetAsync(string id) => await _roleManager.FindByIdAsync(id);
 
         /// <summary>
         /// Get role from repository by id
         /// </summary>
         /// <returns>RoleViewModel; returns null if role not found</returns>
         /// <param name="id">Target role id (GUID)</param>
-        public async Task<RoleViewModel> GetViewModelAsync(Guid id)
+        public async Task<RoleViewModel> GetViewModelAsync(string id)
         {
             var roleDb = await GetAsync(id);
             return _mapper.Map<RoleViewModel>(roleDb);
@@ -66,7 +66,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="role">Target role model</param>
         public virtual async Task<bool> IsNewValidAsync(ModelStateDictionary modelState, RoleViewModel role)
         {
-            var repositoryRoles = await _rolesRepository.GetAllAsync();
+            var repositoryRoles = await _roleManager.Roles.ToListAsync();
 
             if (repositoryRoles.Any(r => r.Name.ToLower() == role.Name.ToLower()))
             {
@@ -83,14 +83,14 @@ namespace OnlineShopWebApp.Services
         public virtual async Task AddAsync(RoleViewModel role)
         {
             var roleDb = _mapper.Map<Role>(role);
-            await _rolesRepository.AddAsync(roleDb);
+            await _roleManager.CreateAsync(roleDb);
         }
 
         /// <summary>
         /// Delete role from repository by id if it can be deleted
         /// </summary>
         /// <param name="id">Target role id (GUID)</param>
-        public virtual async Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(string id)
         {
             var canBeDeleted = await CanBeDeletedAsync(id);
             if (!canBeDeleted)
@@ -99,7 +99,8 @@ namespace OnlineShopWebApp.Services
             }
 
             await _mediator.Publish(new RoleDeletedNotification(id));
-            await _rolesRepository.DeleteAsync(id);
+            var role = await _roleManager.FindByIdAsync(id);
+            await _roleManager.DeleteAsync(role!);
         }
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace OnlineShopWebApp.Services
             return _excelService.ExportRoles(roles);
         }
 
-        private async Task<bool> CanBeDeletedAsync(Guid id)
+        private async Task<bool> CanBeDeletedAsync(string id)
         {
             var role = await GetAsync(id);
             return role.CanBeDeleted;

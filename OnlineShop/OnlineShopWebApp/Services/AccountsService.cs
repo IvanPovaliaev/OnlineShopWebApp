@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using OnlineShop.Db.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using OnlineShop.Db;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
-using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Models.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -18,19 +18,21 @@ namespace OnlineShopWebApp.Services
 {
     public class AccountsService
     {
-        private readonly IUsersRepository _usersRepository;
         private readonly IMapper _mapper;
         private readonly RolesService _rolesService;
         private readonly HashService _hashService;
         private readonly IExcelService _excelService;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
 
-        public AccountsService(IUsersRepository usersRepository, IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService)
+        public AccountsService(IMapper mapper, RolesService rolesService, HashService hashService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager)
         {
-            _usersRepository = usersRepository;
             _mapper = mapper;
             _rolesService = rolesService;
             _hashService = hashService;
             _excelService = excelService;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace OnlineShopWebApp.Services
         /// <returns>List of all UserViewModel from repository</returns>
         public virtual async Task<List<UserViewModel>> GetAllAsync()
         {
-            var users = await _usersRepository.GetAllAsync();
+            var users = await _userManager.Users.ToListAsync();
             return users.Select(_mapper.Map<UserViewModel>)
                         .ToList();
         }
@@ -48,10 +50,10 @@ namespace OnlineShopWebApp.Services
         /// Get user from repository by GUID
         /// </summary>
         /// <returns>UserViewModel; returns null if user not found</returns>
-        /// <param name="id">Target user id (GUID)</param>
-        public virtual async Task<UserViewModel> GetAsync(Guid id)
+        /// <param name="id">Target user id</param>
+        public virtual async Task<UserViewModel> GetAsync(string id)
         {
-            var userDb = await _usersRepository.GetAsync(id);
+            var userDb = await _userManager.FindByIdAsync(id);
             return _mapper.Map<UserViewModel>(userDb);
         }
 
@@ -61,18 +63,17 @@ namespace OnlineShopWebApp.Services
         /// <param name="register">Target register model</param>
         public virtual async Task AddAsync(RegisterViewModel register)
         {
-            var roleId = await GetRegisterRoleIdAsync(register);
-
             var user = new User
             {
                 Email = register.Email,
-                Password = _hashService.GenerateHash(register.Password),
-                Name = register.Name,
-                Phone = register.Phone,
-                Role = await _rolesService.GetAsync(roleId)
+                UserName = register.Email,
+                FullName = register.Name,
+                PhoneNumber = register.Phone
             };
 
-            await _usersRepository.AddAsync(user);
+            await _userManager.CreateAsync(user, register.Password);
+            await _signInManager.SignInAsync(user, false);
+            await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
         }
 
         /// <summary>
@@ -82,16 +83,16 @@ namespace OnlineShopWebApp.Services
         public virtual async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
         {
             var userId = changePassword.UserId;
-            var user = await _usersRepository.GetAsync(changePassword.UserId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user is null)
             {
                 return;
             }
 
-            user.Password = _hashService.GenerateHash(changePassword.Password);
+            user.PasswordHash = _hashService.GenerateHash(changePassword.Password);
 
-            await _usersRepository.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace OnlineShopWebApp.Services
         public virtual async Task UpdateInfoAsync(AdminEditUserViewModel editUser)
         {
             var userId = editUser.UserId;
-            var user = await _usersRepository.GetAsync(editUser.UserId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user is null)
             {
@@ -111,18 +112,21 @@ namespace OnlineShopWebApp.Services
             var role = await _rolesService.GetAsync(editUser.RoleId);
 
             user.Email = editUser.Email;
-            user.Phone = editUser.Phone;
-            user.Name = editUser.Name;
-            user.Role = role;
+            user.PhoneNumber = editUser.Phone;
+            user.FullName = editUser.Name;
 
-            await _usersRepository.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
         }
 
         /// <summary>
         /// Delete user from repository by id
         /// </summary>
         /// <param name="id">Target user id (GUID)</param>
-        public virtual async Task DeleteAsync(Guid id) => await _usersRepository.DeleteAsync(id);
+        public virtual async Task DeleteAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            await _userManager.DeleteAsync(user!);
+        }
 
         /// <summary>
         /// Validates the user login model
@@ -132,20 +136,13 @@ namespace OnlineShopWebApp.Services
         /// <param name="login">Target login model</param>
         public virtual async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
         {
-            var user = await _usersRepository.GetByEmailAsync(login.Email);
+            var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.KeepMeLogged, false);
 
-            if (user is null)
-            {
-                modelState.AddModelError(string.Empty, "Неверный логин или пароль");
-                return modelState.IsValid;
-            }
-
-            var isPasswordsEquals = _hashService.IsEquals(login.Password, user.Password);
-
-            if (!isPasswordsEquals)
+            if (!result.Succeeded)
             {
                 modelState.AddModelError(string.Empty, "Неверный логин или пароль");
             }
+
             return modelState.IsValid;
         }
 
@@ -201,17 +198,22 @@ namespace OnlineShopWebApp.Services
             return modelState.IsValid;
         }
 
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
         /// <summary>
         /// Change all users role related to role Id to user Role.
         /// </summary>
         /// <param name="oldRoleId">Target old role Id (guid)</param>
-        public async Task ChangeRolesToUserAsync(Guid oldRoleId)
+        public async Task ChangeRolesToUserAsync(string oldRoleId)
         {
-            var userRoleId = (await _rolesService.GetAllAsync())
-                                                 .FirstOrDefault(r => r.Name == Constants.UserRoleName)!
-                                                 .Id;
+            var oldRole = (await _rolesService.GetAllAsync())
+                                                 .FirstOrDefault(r => r.Id == oldRoleId)!
+                                                 .Name;
 
-            await _usersRepository.ChangeRolesToUserAsync(oldRoleId, userRoleId);
+            var users = await _userManager.GetUsersInRoleAsync(oldRole);
         }
 
         /// <summary>
@@ -229,7 +231,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>Associated Role Id; Return Role User Id as default</returns>
         /// <param name="register">Target register model</param>
-        private async Task<Guid> GetRegisterRoleIdAsync(RegisterViewModel register)
+        private async Task<string> GetRegisterRoleIdAsync(RegisterViewModel register)
         {
             if (register is AdminRegisterViewModel)
             {
@@ -249,9 +251,9 @@ namespace OnlineShopWebApp.Services
         /// <param name="email">Target email</param>
         private async Task<bool> IsEmailExistAsync(string email)
         {
-            var users = await _usersRepository.GetAllAsync();
+            var user = await _userManager.FindByEmailAsync(email);
 
-            return users.Any(users => users.Email == email);
+            return user is not null;
         }
 
         /// <summary>
@@ -259,7 +261,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <returns>true if exists; otherwise false</returns>
         /// <param name="roleId">Target role id (GUID)</param>
-        private async Task<bool> IsRoleExistAsync(Guid roleId)
+        private async Task<bool> IsRoleExistAsync(string roleId)
         {
             var role = await _rolesService.GetAsync(roleId);
 
