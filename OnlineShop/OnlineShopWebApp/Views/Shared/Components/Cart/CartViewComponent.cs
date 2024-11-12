@@ -8,7 +8,7 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
 {
     public class CartViewComponent : ViewComponent
     {
-        private string? _userId;
+        private readonly string? _userId;
         private readonly CartsService _cartsService;
 
         public CartViewComponent(CartsService cartsService, IHttpContextAccessor httpContextAccessor)
@@ -23,7 +23,7 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
         /// <returns>CartViewComponent</returns>
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var cart = await _cartsService.GetViewModelAsync(_userId);
+            var cart = await _cartsService.GetViewModelAsync(_userId!);
             var productsCount = cart?.TotalQuantity ?? 0;
 
             return View("Cart", productsCount);

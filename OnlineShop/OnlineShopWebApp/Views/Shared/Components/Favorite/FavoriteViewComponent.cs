@@ -8,7 +8,7 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
 {
     public class FavoriteViewComponent : ViewComponent
     {
-        private string? _userId;
+        private readonly string? _userId;
         private readonly FavoritesService _favoritesService;
 
         public FavoriteViewComponent(FavoritesService favoritesService, IHttpContextAccessor httpContextAccessor)
@@ -23,7 +23,7 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
         /// <returns>CartViewComponent</returns>
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var favoritesCount = (await _favoritesService.GetAllAsync(_userId))
+            var favoritesCount = (await _favoritesService.GetAllAsync(_userId!))
                                                          .Count;
 
             return View("Favorite", favoritesCount);
