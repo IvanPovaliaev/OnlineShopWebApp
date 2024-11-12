@@ -27,10 +27,10 @@ namespace OnlineShopWebApp.Tests.Services
 
         private readonly List<Product> _fakeProducts;
 
-        public ProductsServiceTests(IMapper mapper, FakerProvider fakerProvider)
+        public ProductsServiceTests(IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock)
         {
             _productsRepositoryMock = new Mock<IProductsRepository>();
-            _excelServiceMock = new Mock<IExcelService>();
+            _excelServiceMock = excelServiceMock;
             _mapper = mapper;
 
             var rules = new List<IProductSpecificationsRules>();

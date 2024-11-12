@@ -28,10 +28,10 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly List<Order> _fakeOrders;
         private readonly List<OrderViewModel> _fakeOrderViewModels;
 
-        public OrdersServiceTests(IMapper mapper, FakerProvider fakerProvider)
+        public OrdersServiceTests(IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock)
         {
             _ordersRepositoryMock = new Mock<IOrdersRepository>();
-            _excelServiceMock = new Mock<IExcelService>();
+            _excelServiceMock = excelServiceMock;
             _mapper = mapper;
 
             _ordersService = new OrdersService(_ordersRepositoryMock.Object, _excelServiceMock.Object, _mapper);
