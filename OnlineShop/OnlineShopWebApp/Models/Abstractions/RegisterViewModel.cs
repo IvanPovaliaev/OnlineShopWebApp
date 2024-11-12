@@ -19,6 +19,6 @@ namespace OnlineShopWebApp.Models.Abstractions
         public string? Name { get; set; }
 
         [PhoneValidation()]
-        public string? Phone { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }

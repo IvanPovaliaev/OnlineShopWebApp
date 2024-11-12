@@ -32,15 +32,15 @@
                             </tr>
                             <tr>
                                 <th class="col-4">Имя</th>
-                                <td class="col-8">@Model.Name</td>
+                                <td class="col-8">@Model.FullName</td>
                             </tr>
                             <tr>
                                 <th class="col-4">Телефон</th>
-                                <td class="col-8">@Model.Phone</td>
+                                <td class="col-8">@Model.PhoneNumber</td>
                             </tr>
                         <tr>
                             <th class="col-4">Роль</th>
-                            <td class="col-8">@Model.Role.Name</td>
+                            <td class="col-8">@Model.RoleName</td>
                         </tr>
                     </tbody>
                 </table>
@@ -62,9 +62,9 @@
 
                                 <input type="hidden" name="UserId" value="@Model.Id"/>
                                 <input type="hidden" name="Email" value="@Model.Email"/>
-                                <input type="hidden" name="Name" value="@Model.Name"/>
-                                <input type="hidden" name="Phone" value="@Model.Phone"/>
-                                <input type="hidden" name="RoleId" value="@Model.Role.Id"/>
+                                <input type="hidden" name="Name" value="@Model.FullName"/>
+                                <input type="hidden" name="Phone" value="@Model.PhoneNumber"/>
+                                <input type="hidden" name="RoleName" value="@Model.RoleName"/>
 
                                 <button class="dropdown-item text-dark" type="submit">
                                     Редактировать
@@ -72,19 +72,20 @@
                             </form>
                         </li>
 
-                        <li>
-                            @{
-                                var message = $"Вы уверены, что хотите удалить пользователя <span class=\"fw-bold\">{Model.Name}</span>?<br /> Это действие нельзя отменить";
-                            }
+                        @if (Model.RoleName != Constants.AdminRoleName)
+                        {
+                            var message = $"Вы уверены, что хотите удалить пользователя <span class=\"fw-bold\">{Model.Email}</span>?<br /> Это действие нельзя отменить";
 
-                            <button class="dropdown-item text-dark"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal"
-                                    data-url="@Url.Action("Delete", "User", new {id = Model.Id})"
-                                    data-message="@message">
-                                Удалить
-                            </button>                    
-                        </li>
+                            <li>
+                                <button class="dropdown-item text-dark"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-url="@Url.Action("Delete", "User", new { id = Model.Id })"
+                                        data-message="@message">
+                                    Удалить
+                                </button>
+                            </li>
+                        }                       
                     </ul>
                 </div>
                 <div>

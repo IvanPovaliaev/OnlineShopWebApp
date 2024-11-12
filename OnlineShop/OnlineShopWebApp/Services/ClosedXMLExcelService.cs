@@ -32,9 +32,9 @@ namespace OnlineShopWebApp.Services
                 {
                     worksheet.Cell(rowNumber, 1).Value = user.Id.ToString();
                     worksheet.Cell(rowNumber, 2).Value = user.Email;
-                    worksheet.Cell(rowNumber, 3).Value = user.Name;
-                    worksheet.Cell(rowNumber, 4).Value = user.Phone;
-                    worksheet.Cell(rowNumber, 5).Value = user.Role.Name;
+                    worksheet.Cell(rowNumber, 3).Value = user.FullName;
+                    worksheet.Cell(rowNumber, 4).Value = user.PhoneNumber;
+                    worksheet.Cell(rowNumber, 5).Value = user.RoleName;
                     rowNumber++;
                 }
 

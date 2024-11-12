@@ -11,23 +11,23 @@ namespace OnlineShopWebApp.Areas.Admin.Views.User.Components.RolesSelection
         private readonly RolesService _rolesService = rolesService;
 
         /// <summary>
-        /// Return selection ViewComponent with initial role by selectedRoleId;
+        /// Return selection ViewComponent with initial role by selectedRoleName;
         /// </summary>
         /// <returns>RoleSelectionViewComponent</returns>
-        /// <param name="selectedRoleId">Target selected role id</param> 
-        public async Task<IViewComponentResult> InvokeAsync(string selectedRoleId)
+        /// <param name="selectedRoleName">Target selected role name</param> 
+        public async Task<IViewComponentResult> InvokeAsync(string selectedRoleName)
         {
             var roles = await _rolesService.GetAllAsync();
-            var defaultRoleId = roles.First(r => r.Name == Constants.UserRoleName).Id;
+            var defaultRoleName = Constants.UserRoleName;
 
-            if (roles.Any(r => r.Id == selectedRoleId))
+            if (roles.Any(r => r.Name == selectedRoleName))
             {
-                defaultRoleId = selectedRoleId;
+                defaultRoleName = selectedRoleName;
             }
 
-            var rolesWithDefaultId = (roles, defaultRoleId);
+            var rolesWithDefaultName = (roles, defaultRoleName);
 
-            return View("RolesSelection", rolesWithDefaultId);
+            return View("RolesSelection", rolesWithDefaultName);
         }
     }
 }

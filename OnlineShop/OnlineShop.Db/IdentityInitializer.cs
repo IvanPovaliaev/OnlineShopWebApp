@@ -8,9 +8,6 @@ namespace OnlineShop.Db
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            var adminEmail = "PCDdream@gmail.com";
-            var password = "Qwerty123!";
-
             if (await roleManager.FindByNameAsync(Constants.AdminRoleName) is null)
             {
                 var adminRole = new Role()
@@ -18,6 +15,7 @@ namespace OnlineShop.Db
                     Name = Constants.AdminRoleName,
                     CanBeDeleted = false
                 };
+
                 await roleManager.CreateAsync(adminRole);
             }
 
@@ -28,17 +26,19 @@ namespace OnlineShop.Db
                     Name = Constants.UserRoleName,
                     CanBeDeleted = false
                 };
+
                 await roleManager.CreateAsync(userRole);
             }
 
-            if (await userManager.FindByEmailAsync(adminEmail) is null)
+            if (await userManager.FindByEmailAsync(Constants.AdminEmail) is null)
             {
                 var admin = new User
                 {
-                    Email = adminEmail,
-                    UserName = adminEmail
+                    Email = Constants.AdminEmail,
+                    UserName = Constants.AdminEmail
                 };
-                var result = await userManager.CreateAsync(admin, password);
+
+                var result = await userManager.CreateAsync(admin, Constants.AdminPassword);
 
                 if (result.Succeeded)
                 {

@@ -16,6 +16,6 @@ namespace OnlineShopWebApp.Areas.Admin.Models
         public string? Phone { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле")]
-        public string RoleId { get; set; }
+        public string RoleName { get; set; }
     }
 }
