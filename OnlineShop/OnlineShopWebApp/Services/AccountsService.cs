@@ -225,7 +225,7 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Logout user
         /// </summary>
-        public async Task LogoutAsync() => await _signInManager.SignOutAsync();
+        public virtual async Task LogoutAsync() => await _signInManager.SignOutAsync();
 
         /// <summary>
         /// Change all users role related to role name to user Role.
