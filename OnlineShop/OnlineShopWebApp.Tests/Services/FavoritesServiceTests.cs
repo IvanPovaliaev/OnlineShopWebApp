@@ -25,13 +25,12 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
         private readonly Faker<Product> _productFaker;
 
-        public FavoritesServiceTests(FakerProvider fakerProvider)
+        public FavoritesServiceTests(IMapper mapper, FakerProvider fakerProvider)
         {
             _favoritesRepositoryMock = new Mock<IFavoritesRepository>();
             _productsServiceMock = new Mock<ProductsService>(null!, null!, null!, null!);
 
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
-            _mapper = config.CreateMapper();
+            _mapper = mapper;
 
             _favoritesService = new FavoritesService(
                 _favoritesRepositoryMock.Object,

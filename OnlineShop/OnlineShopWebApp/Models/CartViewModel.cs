@@ -7,7 +7,7 @@ namespace OnlineShopWebApp.Models
     public class CartViewModel
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; } //Для дальнейшей привязки пользователя
+        public string UserId { get; set; }
         public List<CartPositionViewModel> Positions { get; set; } = [];
         public decimal TotalCost
         {
