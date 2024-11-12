@@ -11,7 +11,7 @@ namespace OnlineShopWebApp.Controllers
     [Authorize]
     public class FavoriteController : Controller
     {
-        private string? _userId;
+        private readonly string? _userId;
         private readonly FavoritesService _favoritesService;
 
         public FavoriteController(FavoritesService favoritesService, IHttpContextAccessor httpContextAccessor)
