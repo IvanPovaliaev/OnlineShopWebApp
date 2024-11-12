@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="modal-body" id="addRoleFormWrapper">
-                                   @await Html.PartialAsync("_AddForm", new RoleViewModel())
+                                   @await Html.PartialAsync("_AddForm", new AddRoleViewModel())
                             </div>
 
                             <div class="modal-footer">
@@ -82,7 +82,7 @@
                                                 <a class="align-content-center"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal"
-                                                        data-url="@Url.Action("Delete", "Role", new { id = role.Id })"
+                                                        data-url="@Url.Action("Delete", "Role", new { name = role.Name })"
                                                         data-message="@message">
 
                                                     <svg class="icon-inactive role-delete-icon">

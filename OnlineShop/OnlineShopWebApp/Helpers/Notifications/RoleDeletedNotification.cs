@@ -4,11 +4,11 @@ namespace OnlineShopWebApp.Helpers.Notifications
 {
     public class RoleDeletedNotification : INotification
     {
-        public string RoleId { get; }
+        public string RoleName { get; }
 
-        public RoleDeletedNotification(string roleId)
+        public RoleDeletedNotification(string roleName)
         {
-            RoleId = roleId;
+            RoleName = roleName;
         }
     }
 }
