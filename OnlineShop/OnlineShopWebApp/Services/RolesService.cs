@@ -45,7 +45,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <returns>Role; returns null if role not found</returns>
         /// <param name="name">Target role name</param>
-        public virtual async Task<Role?> GetByNameAsync(string name) => await _roleManager.FindByNameAsync(name);
+        public virtual async Task<Role?> GetAsync(string name) => await _roleManager.FindByNameAsync(name);
 
         /// <summary>
         /// Validates the new role model
@@ -89,8 +89,8 @@ namespace OnlineShopWebApp.Services
 
             await _mediator.Publish(new RoleDeletedNotification(name));
 
-            var role = await GetByNameAsync(name);
-            await _roleManager.DeleteAsync(role!);
+            var role = await GetAsync(name);
+            var s = await _roleManager.DeleteAsync(role!);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="name">Target role name</param>
         private async Task<bool> CanBeDeletedAsync(string name)
         {
-            var role = await GetByNameAsync(name);
+            var role = await GetAsync(name);
             return role?.CanBeDeleted ?? false;
         }
     }

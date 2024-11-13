@@ -21,10 +21,6 @@ namespace OnlineShopWebApp.Tests
             services.AddTransient<Mock<IUrlHelper>>();
             services.AddTransient<Mock<IExcelService>>();
             services.AddTransient<Mock<IMediator>>();
-
-            //var roleManager = new RoleManager<Role>(null!, null!,null!, null!, null!);
-            //services.AddTransient<Mock<RoleManager<Role>>, roleManagerMock>();
-
         }
     }
 }

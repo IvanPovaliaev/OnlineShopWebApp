@@ -60,9 +60,16 @@ namespace OnlineShopWebApp.Services
         public virtual async Task<UserViewModel> GetAsync(string id)
         {
             var userDb = await _userManager.FindByIdAsync(id);
+
+            if (userDb is null)
+            {
+                return null!;
+            }
+
             var roles = await _userManager.GetRolesAsync(userDb!);
+
             var userVM = _mapper.Map<UserViewModel>(userDb);
-            userVM.RoleName = roles.First();
+            userVM.RoleName = roles.FirstOrDefault()!;
 
             return userVM;
         }
@@ -262,7 +269,7 @@ namespace OnlineShopWebApp.Services
             if (register is AdminRegisterViewModel)
             {
                 var adminRegister = register as AdminRegisterViewModel;
-                var role = await _rolesService.GetByNameAsync(adminRegister!.RoleName);
+                var role = await _rolesService.GetAsync(adminRegister!.RoleName);
                 return role?.Name ?? Constants.UserRoleName;
             }
 
@@ -288,7 +295,7 @@ namespace OnlineShopWebApp.Services
         /// <param name="roleName">Target role name</param>
         private async Task<bool> IsRoleExistAsync(string roleName)
         {
-            var role = await _rolesService.GetByNameAsync(roleName);
+            var role = await _rolesService.GetAsync(roleName);
 
             return role is not null;
         }
