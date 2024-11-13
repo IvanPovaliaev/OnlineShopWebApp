@@ -12,7 +12,7 @@ namespace OnlineShopWebApp.Controllers
     [Authorize]
     public class ComparisonController : Controller
     {
-        private string? _userId;
+        private readonly string? _userId;
         private readonly ComparisonsService _comparisonsService;
 
         public ComparisonController(ComparisonsService comparisonsService, IHttpContextAccessor httpContextAccessor)
