@@ -90,7 +90,7 @@ namespace OnlineShopWebApp.Services
             await _mediator.Publish(new RoleDeletedNotification(name));
 
             var role = await GetAsync(name);
-            var s = await _roleManager.DeleteAsync(role!);
+            await _roleManager.DeleteAsync(role!);
         }
 
         /// <summary>
