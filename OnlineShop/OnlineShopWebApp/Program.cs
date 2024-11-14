@@ -80,6 +80,7 @@ builder.Services.AddTransient<ProductsService>();
 
 builder.Services.AddScoped<ICartsRepository, CartsDbRepository>();
 builder.Services.AddTransient<CartsService>();
+builder.Services.AddTransient<CookieCartsService>();
 
 builder.Services.AddScoped<IOrdersRepository, OrdersDbRepository>();
 builder.Services.AddTransient<OrdersService>();
