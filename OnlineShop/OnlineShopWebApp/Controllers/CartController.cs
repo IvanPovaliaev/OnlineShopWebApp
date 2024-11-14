@@ -47,10 +47,12 @@ namespace OnlineShopWebApp.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 await _cartsService.AddAsync(productId, _userId);
-                return PartialView("_NavUserIcons");
+            }
+            else
+            {
+                await _cookiesCartService.AddAsync(productId);
             }
 
-            await _cookiesCartService.AddAsync(productId);
             return PartialView("_NavUserIcons");
         }
 
@@ -63,11 +65,13 @@ namespace OnlineShopWebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                await _cartsService.IncreasePositionAsync(_userId, positionId);
-                return RedirectToAction("Index");
+                await _cartsService.IncreasePositionAsync(_userId!, positionId);
+            }
+            else
+            {
+                await _cookiesCartService.IncreasePositionAsync(positionId);
             }
 
-            await _cookiesCartService.IncreasePositionAsync(positionId);
             return RedirectToAction("Index");
 
         }
@@ -82,10 +86,12 @@ namespace OnlineShopWebApp.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 await _cartsService.DecreasePosition(_userId, positionId);
-                return RedirectToAction("Index");
+            }
+            else
+            {
+                await _cookiesCartService.DecreasePosition(positionId);
             }
 
-            await _cookiesCartService.DecreasePosition(positionId);
             return RedirectToAction("Index");
         }
 
@@ -98,10 +104,13 @@ namespace OnlineShopWebApp.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 await _cartsService.DeleteAsync(_userId);
-                return RedirectToAction("Index");
+            }
+            else
+            {
+                _cookiesCartService.Delete();
             }
 
-            _cookiesCartService.Delete();
+
             return RedirectToAction("Index");
         }
 
@@ -114,11 +123,13 @@ namespace OnlineShopWebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                await _cartsService.DeletePositionAsync(_userId, positionId);
-                return RedirectToAction("Index");
+                await _cartsService.DeletePositionAsync(_userId!, positionId);
+            }
+            else
+            {
+                await _cookiesCartService.DeletePositionAsync(positionId);
             }
 
-            await _cookiesCartService.DeletePositionAsync(positionId);
             return RedirectToAction("Index");
         }
     }

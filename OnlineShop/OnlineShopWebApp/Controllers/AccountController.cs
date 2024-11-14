@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System.Threading.Tasks;
@@ -8,10 +10,12 @@ namespace OnlineShopWebApp.Controllers
     public class AccountController : Controller
     {
         private readonly AccountsService _accountsService;
+        private readonly IMediator _mediator;
 
-        public AccountController(AccountsService accountService)
+        public AccountController(AccountsService accountService, IMediator mediator)
         {
             _accountsService = accountService;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -38,6 +42,8 @@ namespace OnlineShopWebApp.Controllers
             }
 
             var redirectUrl = login.ReturnUrl;
+
+            await _mediator.Publish(new UserSignInNotification());
 
             return Json(new { redirectUrl });
         }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
@@ -39,7 +38,7 @@ namespace OnlineShop.Db.Repositories
 
             foreach (var cartPosition in cart.Positions)
             {
-                var existingPosition = repositoryCart.Positions.FirstOrDefault(p => p.Product.Id == cartPosition.Product.Id);
+                var existingPosition = repositoryCart.Positions.Find(p => p.Product.Id == cartPosition.Product.Id);
 
                 if (existingPosition is null)
                 {
