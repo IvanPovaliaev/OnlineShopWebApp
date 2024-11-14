@@ -322,6 +322,10 @@ footer {
   background-color: #729FD8;
 }
 
+.warning-toast {
+  background-color: #8c6642;
+}
+
 .icon-inactive {
   fill: #D9D9D9;
 }

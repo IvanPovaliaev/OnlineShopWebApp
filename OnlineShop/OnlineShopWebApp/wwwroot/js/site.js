@@ -147,7 +147,7 @@ $(document).ready(function () {
     });
 });
 
-//Скрипт для обновления иконок в шапке при добавлении в корзину, избранное и в сравнение
+//Скрипт для обновления иконок в шапке при добавлении в корзину, избранное и в сравнение. При статус коде 401 выводим уведомление
 $(document).ready(function () {
     $(document).on('click', '.addToCart, .addToFavorites, .addToComparisons', function (event) {
         event.preventDefault();
@@ -158,6 +158,14 @@ $(document).ready(function () {
 
             success: function (response) {
                 $('#navUserIcons').html(response);
+            },
+            error: function (response) {
+                if (response.status === 401) {
+                    
+                    var toastElement = document.getElementById('unauthorizedToast');
+                    var toast = new bootstrap.Toast(toastElement);
+                    toast.show();
+                }
             }
         });
     });
