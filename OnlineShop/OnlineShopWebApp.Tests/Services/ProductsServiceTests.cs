@@ -27,12 +27,11 @@ namespace OnlineShopWebApp.Tests.Services
 
         private readonly List<Product> _fakeProducts;
 
-        public ProductsServiceTests()
+        public ProductsServiceTests(IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock)
         {
             _productsRepositoryMock = new Mock<IProductsRepository>();
-            _excelServiceMock = new Mock<IExcelService>();
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<TestMappingProfile>());
-            _mapper = config.CreateMapper();
+            _excelServiceMock = excelServiceMock;
+            _mapper = mapper;
 
             var rules = new List<IProductSpecificationsRules>();
 
@@ -43,7 +42,7 @@ namespace OnlineShopWebApp.Tests.Services
                 rules
             );
 
-            _fakeProducts = FakerProvider.FakeProducts;
+            _fakeProducts = fakerProvider.FakeProducts;
         }
 
         [Fact]

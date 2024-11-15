@@ -11,7 +11,7 @@ namespace OnlineShopWebApp.Controllers
     [Authorize]
     public class CartController : Controller
     {
-        private string? _userId;
+        private readonly string? _userId;
         private readonly CartsService _cartsService;
 
         public CartController(CartsService cartsService, IHttpContextAccessor httpContextAccessor)

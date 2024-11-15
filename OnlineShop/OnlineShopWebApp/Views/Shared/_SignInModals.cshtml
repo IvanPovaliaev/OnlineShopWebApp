@@ -1,0 +1,71 @@
+﻿@{
+    if (User.Identity.IsAuthenticated)
+    {
+        return;
+    }
+
+    var returnUrl = Context.Request.Query["ReturnUrl"].ToString();
+    if (string.IsNullOrEmpty(returnUrl))
+
+    returnUrl = ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString;
+}
+
+@* Окно входа *@
+<div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered w-25">
+        <div class="modal-content account-modal">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="loginModalLabel">Вход</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="modal-body" id="loginFormWrapper">
+                @await Html.PartialAsync("_LoginForm", new LoginViewModel() { ReturnUrl = returnUrl })
+            </div>
+
+            <div class="modal-footer d-flex flex-column">
+                <button class="btn btn-main btn-login-modal w-100 mb-3" type="submit" form="loginForm">
+                    Войти
+                </button>
+                <div class=" row align-content-center justify-content-center mb-3">
+                    <span class="text-blue">Забыли пароль?</span>
+                </div>
+                <div class="row align-content-center justify-content-center">
+                    <span class="modal-toggle" data-bs-target="#registrationModal" data-bs-toggle="modal">
+                        Регистрация
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Окно регистрации *@
+<div class="modal fade" id="registrationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered w-25">
+        <div class="modal-content account-modal">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="registrationModalLabel">Регистрация</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="modal-body" id="registrationFormWrapper">
+                @await Html.PartialAsync("_RegistrationForm", new UserRegisterViewModel() { ReturnUrl = returnUrl })
+            </div>
+
+            <div class="modal-footer d-flex flex-column">
+                <button class="btn btn-main btn-login-modal w-100 mb-3" type="submit" form="registrationForm">
+                    Зарегистрироваться
+                </button>
+
+                <div class="row align-content-center justify-content-center">
+                    <span class="modal-toggle" data-bs-target="#loginModal" data-bs-toggle="modal">
+                        У Вас уже есть аккаунт?
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

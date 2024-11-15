@@ -8,7 +8,7 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
 {
     public class ComparisonViewComponent : ViewComponent
     {
-        private string _userId;
+        private readonly string _userId;
         private readonly ComparisonsService _comparisonsService;
 
         public ComparisonViewComponent(ComparisonsService comparisonsService, IHttpContextAccessor httpContextAccessor)

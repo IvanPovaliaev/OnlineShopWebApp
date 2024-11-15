@@ -150,8 +150,11 @@ using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
-    var rolesManager = services.GetRequiredService<RoleManager<Role>>();
-    await IdentityInitializer.InitializeAsync(userManager, rolesManager);
+    var roleManager = services.GetRequiredService<RoleManager<Role>>();
+    var configuration = services.GetRequiredService<IConfiguration>();
+
+    var identityInitializer = new IdentityInitializer(configuration);
+    await identityInitializer.InitializeAsync(userManager, roleManager);
 }
 
 app.Run();
