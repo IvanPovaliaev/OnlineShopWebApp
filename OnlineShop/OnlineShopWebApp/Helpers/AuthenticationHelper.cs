@@ -41,6 +41,7 @@ namespace OnlineShopWebApp.Helpers
             if (isAuthenticated)
             {
                 await authenticatedAction();
+                return;
             }
 
             await unauthenticatedAction();
@@ -59,6 +60,7 @@ namespace OnlineShopWebApp.Helpers
             if (user?.Identity?.IsAuthenticated == true)
             {
                 await authenticatedAction();
+                return;
             }
 
             unauthenticatedAction();

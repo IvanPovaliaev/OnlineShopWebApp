@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Moq;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
@@ -16,6 +17,7 @@ namespace OnlineShopWebApp.Tests.Views.Components.Cart
     {
         private readonly string? _userId;
         private readonly Mock<CartsService> _cartsServiceMock;
+        private readonly Mock<CookieCartsService> _cookieCartsServiceMock;
         private readonly CartViewComponent _viewComponent;
         private readonly CartViewModel _fakeCartViewModel;
 
@@ -24,7 +26,10 @@ namespace OnlineShopWebApp.Tests.Views.Components.Cart
             _userId = fakerProvider.UserId;
 
             _cartsServiceMock = new Mock<CartsService>(null!, null!, null!);
-            _viewComponent = new CartViewComponent(_cartsServiceMock.Object, httpContextAccessorMock.Object);
+            _cookieCartsServiceMock = new Mock<CookieCartsService>(null!, null!, null!);
+            var authenticationHelper = new Mock<AuthenticationHelper>(null!);
+
+            _viewComponent = new CartViewComponent(_cartsServiceMock.Object, _cookieCartsServiceMock.Object, httpContextAccessorMock.Object, authenticationHelper.Object);
 
             _fakeCartViewModel = mapper.Map<CartViewModel>(fakerProvider.FakeCart);
         }
