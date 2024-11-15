@@ -92,7 +92,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="userId">UserId</param>
         /// <param name="positionId">Id of cart position</param>
-        public virtual async Task DecreasePosition(string userId, Guid positionId)
+        public virtual async Task DecreasePositionAsync(string userId, Guid positionId)
         {
             var cart = await _cartsRepository.GetAsync(userId);
 
@@ -135,6 +135,49 @@ namespace OnlineShopWebApp.Services
             }
 
             cart!.Positions.Remove(position);
+            await _cartsRepository.UpdateAsync(cart);
+        }
+
+        /// <summary>
+        /// Replace user cart to cart from cookies (if exist)
+        /// </summary>        
+        /// <param name="userId">Target UserId</param>
+        /// <param name="cookieCart">Target cookieCart model</param>
+        public virtual async Task ReplaceFromCookieAsync(CartViewModel cookieCart, string userId)
+        {
+            if (cookieCart is null || cookieCart.Positions.Count == 0)
+            {
+                return;
+            }
+
+            var cart = await _cartsRepository.GetAsync(userId);
+
+            cart ??= new Cart()
+            {
+                UserId = userId
+            };
+
+            cart.Positions.Clear();
+
+            foreach (var position in cookieCart.Positions)
+            {
+                var productDb = await _productsService.GetAsync(position.Product.Id);
+                var newCartPosition = new CartPosition()
+                {
+                    Product = productDb,
+                    Quantity = position.Quantity,
+                    Cart = cart
+                };
+
+                cart.Positions.Add(newCartPosition);
+            }
+
+            if (cart.Id == new Guid())
+            {
+                await _cartsRepository.CreateAsync(cart);
+                return;
+            }
+
             await _cartsRepository.UpdateAsync(cart);
         }
 

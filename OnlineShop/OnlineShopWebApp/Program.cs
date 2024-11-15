@@ -80,6 +80,7 @@ builder.Services.AddTransient<ProductsService>();
 
 builder.Services.AddScoped<ICartsRepository, CartsDbRepository>();
 builder.Services.AddTransient<CartsService>();
+builder.Services.AddTransient<CookieCartsService>();
 
 builder.Services.AddScoped<IOrdersRepository, OrdersDbRepository>();
 builder.Services.AddTransient<OrdersService>();
@@ -98,6 +99,8 @@ builder.Services.AddTransient<HashService>();
 builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
 
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
+builder.Services.AddTransient<AuthenticationHelper>();
+
 
 builder.Services.Scan(scan => scan
                 .FromAssemblyOf<IProductSpecificationsRules>()

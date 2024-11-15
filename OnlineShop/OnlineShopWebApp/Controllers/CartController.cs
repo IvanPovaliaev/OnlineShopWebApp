@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Services;
 using System;
 using System.Security.Claims;
@@ -8,15 +8,18 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
-    [Authorize]
     public class CartController : Controller
     {
         private readonly string? _userId;
         private readonly CartsService _cartsService;
+        private readonly CookieCartsService _cookiesCartService;
+        private readonly AuthenticationHelper _authenticationHelper;
 
-        public CartController(CartsService cartsService, IHttpContextAccessor httpContextAccessor)
+        public CartController(CartsService cartsService, CookieCartsService cookieCartsService, IHttpContextAccessor httpContextAccessor, AuthenticationHelper authenticationHelper)
         {
             _cartsService = cartsService;
+            _cookiesCartService = cookieCartsService;
+            _authenticationHelper = authenticationHelper;
             _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
         }
 
@@ -26,7 +29,10 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Users cart View</returns>
         public async Task<IActionResult> Index()
         {
-            var cart = await _cartsService.GetViewModelAsync(_userId);
+            var cart = await _authenticationHelper.ExecuteBasedOnAuthenticationAsync(
+                () => _cartsService.GetViewModelAsync(_userId!),
+                _cookiesCartService.GetViewModelAsync);
+
             return View(cart);
         }
 
@@ -37,7 +43,10 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="productId">Product id (guid)</param>
         public async Task<IActionResult> Add(Guid productId)
         {
-            await _cartsService.AddAsync(productId, _userId);
+            await _authenticationHelper.ExecuteBasedOnAuthenticationAsync(
+                () => _cartsService.AddAsync(productId, _userId!),
+                () => _cookiesCartService.AddAsync(productId));
+
             return PartialView("_NavUserIcons");
         }
 
@@ -48,8 +57,13 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="positionId">Position ID (GUID)</param>
         public async Task<IActionResult> Increase(Guid positionId)
         {
-            await _cartsService.IncreasePositionAsync(_userId, positionId);
+            await _authenticationHelper.ExecuteBasedOnAuthenticationAsync(
+                () => _cartsService.IncreasePositionAsync(_userId!, positionId),
+                () => _cookiesCartService.IncreasePositionAsync(positionId)
+            );
+
             return RedirectToAction("Index");
+
         }
 
         /// <summary>
@@ -59,7 +73,11 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="positionId">Position ID (GUID)</param>
         public async Task<IActionResult> Decrease(Guid positionId)
         {
-            await _cartsService.DecreasePosition(_userId, positionId);
+            await _authenticationHelper.ExecuteBasedOnAuthenticationAsync(
+                    () => _cartsService.DecreasePositionAsync(_userId!, positionId),
+                    () => _cookiesCartService.DecreasePositionAsync(positionId)
+                );
+
             return RedirectToAction("Index");
         }
 
@@ -69,7 +87,11 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Users cart View</returns>
         public async Task<IActionResult> Delete()
         {
-            await _cartsService.DeleteAsync(_userId);
+            await _authenticationHelper.ExecuteBasedOnAuthenticationAsync(
+                    async () => await _cartsService.DeleteAsync(_userId!),
+                    _cookiesCartService.Delete
+                );
+
             return RedirectToAction("Index");
         }
 
@@ -80,7 +102,11 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="positionId">Position ID (GUID)</param>
         public async Task<IActionResult> DeletePosition(Guid positionId)
         {
-            await _cartsService.DeletePositionAsync(_userId, positionId);
+            await _authenticationHelper.ExecuteBasedOnAuthenticationAsync(
+                () => _cartsService.DeletePositionAsync(_userId!, positionId),
+                () => _cookiesCartService.DeletePositionAsync(positionId)
+            );
+
             return RedirectToAction("Index");
         }
     }

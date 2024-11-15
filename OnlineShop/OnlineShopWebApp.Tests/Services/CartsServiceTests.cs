@@ -172,7 +172,7 @@ namespace OnlineShopWebApp.Tests.Services
                                 .ReturnsAsync(_fakeCart);
 
             // Act
-            await _cartsService.DecreasePosition(_userId!, position.Id);
+            await _cartsService.DecreasePositionAsync(_userId!, position.Id);
 
             // Assert
             Assert.DoesNotContain(position, _fakeCart.Positions);
@@ -189,7 +189,7 @@ namespace OnlineShopWebApp.Tests.Services
                                 .ReturnsAsync(_fakeCart);
 
             // Act
-            await _cartsService.DecreasePosition(_userId!, fakePosition.Id);
+            await _cartsService.DecreasePositionAsync(_userId!, fakePosition.Id);
 
             // Assert
             Assert.Contains(fakePosition, _fakeCart.Positions);
@@ -211,7 +211,7 @@ namespace OnlineShopWebApp.Tests.Services
                                 .ReturnsAsync(_fakeCart);
 
             // Act
-            await _cartsService.DecreasePosition(_userId!, fakePosition.Id);
+            await _cartsService.DecreasePositionAsync(_userId!, fakePosition.Id);
 
             // Assert
             _cartsRepositoryMock.Verify(repo => repo.UpdateAsync(_fakeCart), Times.Never);

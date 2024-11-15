@@ -20,7 +20,7 @@ namespace OnlineShop.Db.Repositories
 
         public async Task<Product> GetAsync(Guid id)
         {
-            return await _databaseContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+            return await _databaseContext.Products.FindAsync(id);
         }
 
         public async Task AddRangeAsync(List<Product> products)
