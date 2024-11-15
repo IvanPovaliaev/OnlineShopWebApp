@@ -92,7 +92,7 @@ namespace OnlineShopWebApp.Services
         /// </summary>        
         /// <param name="userId">UserId</param>
         /// <param name="positionId">Id of cart position</param>
-        public virtual async Task DecreasePosition(string userId, Guid positionId)
+        public virtual async Task DecreasePositionAsync(string userId, Guid positionId)
         {
             var cart = await _cartsRepository.GetAsync(userId);
 

@@ -99,6 +99,8 @@ builder.Services.AddTransient<HashService>();
 builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
 
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
+builder.Services.AddTransient<AuthenticationHelper>();
+
 
 builder.Services.Scan(scan => scan
                 .FromAssemblyOf<IProductSpecificationsRules>()

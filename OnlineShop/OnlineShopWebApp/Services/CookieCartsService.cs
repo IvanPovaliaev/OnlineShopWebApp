@@ -104,7 +104,7 @@ namespace OnlineShopWebApp.Services
         /// Decrease position quantity in cookie cart by 1. If quantity should become 0, deletes this position.
         /// </summary>        
         /// <param name="positionId">Id of cart position</param>
-        public virtual async Task DecreasePosition(Guid positionId)
+        public virtual async Task DecreasePositionAsync(Guid positionId)
         {
             var cart = await GetViewModelAsync();
 
