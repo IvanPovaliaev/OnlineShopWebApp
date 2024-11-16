@@ -449,3 +449,8 @@ footer {
   width: 1.75rem;
   fill: white;
 }
+
+.input-field::-webkit-file-upload-button {
+  height: auto;
+  padding: 0.375rem 0.75rem;
+}

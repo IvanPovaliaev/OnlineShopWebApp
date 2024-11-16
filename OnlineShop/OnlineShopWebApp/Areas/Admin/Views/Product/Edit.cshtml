@@ -27,6 +27,7 @@
                     <div class="row">
 
                         <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
 
                         <div class="mb-3 col-6">
                             <label asp-for="Name" class="form-label">Наименование</label>
@@ -41,9 +42,7 @@
                                 asp-for="Category"
                                 readonly>
                             <span asp-validation-for="Category" class="validation-error-message"></span>
-                        </div>
-
-                        <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+                        </div>                        
                     </div>
                     
                     <div class="mb-3">
