@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 
 namespace OnlineShop.Db
 {
-    public abstract class DatabaseContext : DbContext
+    public abstract class DatabaseContext : IdentityDbContext<User, Role, string>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }

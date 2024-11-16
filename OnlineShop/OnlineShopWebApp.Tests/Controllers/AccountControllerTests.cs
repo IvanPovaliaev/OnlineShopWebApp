@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
@@ -18,14 +19,16 @@ namespace OnlineShopWebApp.Tests.Controllers
     {
         private readonly Mock<AccountsService> _accountsServiceMock;
         private readonly Mock<IUrlHelper> _urlHelperMock;
+        private readonly Mock<IMediator> _mediatorMock;
         private readonly AccountController _controller;
         private readonly List<User> _fakeUsers;
 
-        public AccountControllerTests(FakerProvider fakerProvider, Mock<IUrlHelper> urlHelperMock)
+        public AccountControllerTests(FakerProvider fakerProvider, Mock<IUrlHelper> urlHelperMock, Mock<IMediator> mediatorMock)
         {
             _accountsServiceMock = new Mock<AccountsService>(null!, null!, null!, null!, null!);
             _urlHelperMock = urlHelperMock;
-            _controller = new AccountController(_accountsServiceMock.Object)
+            _mediatorMock = mediatorMock;
+            _controller = new AccountController(_accountsServiceMock.Object, _mediatorMock.Object)
             {
                 Url = _urlHelperMock.Object
             };

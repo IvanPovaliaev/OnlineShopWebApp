@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Bogus;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
@@ -32,6 +34,8 @@ namespace OnlineShopWebApp.Tests.Services
             _productsRepositoryMock = new Mock<IProductsRepository>();
             _excelServiceMock = excelServiceMock;
             _mapper = mapper;
+            var configurationMock = new Mock<IConfiguration>();
+            var imageProviderMock = new Mock<ImagesProvider>();
 
             var rules = new List<IProductSpecificationsRules>();
 
@@ -39,7 +43,9 @@ namespace OnlineShopWebApp.Tests.Services
                 _productsRepositoryMock.Object,
                 _mapper,
                 _excelServiceMock.Object,
-                rules
+                rules,
+                configurationMock.Object,
+                imageProviderMock.Object
             );
 
             _fakeProducts = fakerProvider.FakeProducts;
