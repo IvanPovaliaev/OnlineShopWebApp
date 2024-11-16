@@ -135,6 +135,9 @@ namespace OnlineShopWebApp.Services
         public virtual async Task UpdateAsync(EditProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
+            var imageUrl = _imageProvider.Save(product.UploadedImage, _productsImagesStoragePath);
+            productDb.ImageUrl = imageUrl;
+
             await _productsRepository.UpdateAsync(productDb);
         }
 

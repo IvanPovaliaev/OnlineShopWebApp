@@ -16,18 +16,32 @@
 		<div class="col">
             <div class="row">
                 <h2>Изменить товар</h2>
-                <hr class="border-brown mb-3" />
-                <div class="d-flex justify-content-center">
-                    <img class="admin-product-add-image" src="@productImageUrl" alt="Изображение товара">
-                </div>
+                <hr class="border-brown mb-3" />                
             </div>
             <div class="row">
-                <form method="post" id="addProductForm" asp-area="Admin" asp-controller="Product" asp-action="Update">
+                <form method="post" id="editProductForm"
+                    asp-area="Admin" asp-controller="Product" asp-action="Update"
+                      enctype="multipart/form-data">
                     @* Общие свойства товара *@
                     <div class="row">
 
                         <input type="hidden" name="Id" value="@Model.Id" />
                         <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+
+                        <div class="row mb-3">
+                            <div class="d-flex col-12 justify-content-center">
+                                <img id="imagePreview" class="admin-product-add-image"
+                                     src="@productImageUrl" alt="Изображение товара">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="d-flex col-12">
+                                <label asp-for="UploadedImage" class="form-label"> Заменить изображение</label>
+                                <input asp-for="UploadedImage"
+                                       type="file" class="form-control input-field" />
+                            </div>
+                        </div>
 
                         <div class="mb-3 col-6">
                             <label asp-for="Name" class="form-label">Наименование</label>

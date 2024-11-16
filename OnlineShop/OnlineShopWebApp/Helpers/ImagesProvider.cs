@@ -6,14 +6,9 @@ using System.Linq;
 
 namespace OnlineShopWebApp.Helpers
 {
-    public class ImagesProvider
+    public class ImagesProvider(IWebHostEnvironment appEnvironment)
     {
-        private readonly IWebHostEnvironment _appEnvironment;
-
-        public ImagesProvider(IWebHostEnvironment appEnvironment)
-        {
-            _appEnvironment = appEnvironment;
-        }
+        private readonly IWebHostEnvironment _appEnvironment = appEnvironment;
 
         public string? Save(IFormFile? image, string folderPath)
         {
