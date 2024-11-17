@@ -22,7 +22,7 @@ namespace OnlineShopWebApp.Areas.Admin.Models
 
         [Required(ErrorMessage = "Обязательное поле")]
         public ProductCategoriesViewModel Category { get; set; }
-        public string? ImageUrl { get; set; }
+        public List<ImageViewModel> Images { get; set; } = [];
 
         [SpecificationsValidation]
         public Dictionary<string, string> Specifications { get; set; }

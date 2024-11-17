@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using OnlineShop.Db.Interfaces;
@@ -122,8 +123,8 @@ namespace OnlineShopWebApp.Services
         public virtual async Task AddAsync(AddProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
-            //var imageUrl = _imageProvider.Save(product.UploadedImages, _productsImagesStoragePath);
-            //productDb.ImageUrl = imageUrl;
+            var images = SaveImages(productDb.Id, product.UploadedImages!);
+            productDb.Images = images;
 
             await _productsRepository.AddAsync(productDb);
         }
@@ -135,8 +136,8 @@ namespace OnlineShopWebApp.Services
         public virtual async Task UpdateAsync(EditProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
-            //var imageUrl = _imageProvider.Save(product.UploadedImage, _productsImagesStoragePath);
-            //productDb.ImageUrl = imageUrl;
+            var images = SaveImages(productDb.Id, product.UploadedImages!);
+            productDb.Images = images;
 
             await _productsRepository.UpdateAsync(productDb);
         }
@@ -205,6 +206,24 @@ namespace OnlineShopWebApp.Services
             var result = product.Article.ToString()
                                         .Contains(targetNumber);
             return result;
+        }
+
+        private List<ProductImage> SaveImages(Guid productId, ICollection<IFormFile> uploadedImages)
+        {
+            var imagesUrls = _imageProvider.SaveAll(uploadedImages, _productsImagesStoragePath);
+            var images = new List<ProductImage>(imagesUrls.Count);
+
+            foreach (var imageUrl in imagesUrls)
+            {
+                var image = new ProductImage()
+                {
+                    Url = imageUrl,
+                    ProductId = productId
+                };
+                images.Add(image);
+            }
+
+            return images;
         }
     }
 }
