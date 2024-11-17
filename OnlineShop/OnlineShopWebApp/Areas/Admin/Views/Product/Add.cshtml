@@ -19,19 +19,43 @@
                     enctype="multipart/form-data">
 
                     @* Общие свойства товара *@
+                    <div class="row mb-3 d-flex justify-content-center">
+                        <div class="d-flex justify-content-center admin-product-add-image-carousel-wrapper">
 
-                    <div class="row mb-3">
-                        <div class="d-flex col-12 justify-content-center">
-                            <img id="imagePreview" class="admin-product-add-image"
-                                 src="/img/DefaultProductImage.png" alt="Изображение товара">
+                            @* Карусель для предварительного просмотра изображений *@
+                            <div id="addProductImagesCarousel" class="carousel slide carousel-fade">
+                                <div class="carousel-inner">
+                                    @for (int i = 0; i < Model?.ImageUrls.Count; i++)
+                                    {
+                                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                                            <img src="@Model.ImageUrls[i]" class="admin-product-add-image" alt="Изображение товара">
+                                        </div>
+                                    }
+                                </div>
+
+                                <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#addProductImagesCarousel"
+                                        data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Предыдущее</span>
+                                </button>
+
+                                <button class="carousel-control-next" type="button"
+                                        data-bs-target="#addProductImagesCarousel"
+                                        data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Следующее</span>
+                                </button>
+
+                            </div>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="d-flex col-12">
-                            <label asp-for="UploadedImage" class="form-label">Загрузить изображение</label>
-                            <input asp-for="UploadedImage"
-                                   type="file" class="form-control input-field" />
+                            <label asp-for="UploadedImages" class="form-label">Загрузить изображение</label>
+                            <input asp-for="UploadedImages"
+                                   type="file" class="form-control input-field" multiple />
                         </div>
                     </div>
 
@@ -117,6 +141,28 @@
                     }
                 });
             });
-        });        
+        });
+
+        $(document).ready(function () {
+            $('#UploadedImages').on('change', function (event) {
+                const files = Array.from(event.target.files);
+                const carouselInner = $('#addProductImagesCarousel .carousel-inner');
+
+                carouselInner.empty();
+
+                files.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const isActive = index === 0 ? 'active' : '';
+                        const carouselItem = `
+                            <div class="carousel-item ${isActive}">
+                                <img src="${e.target.result}" class="admin-product-add-image" alt="Изображение товара">
+                            </div>`;
+                        carouselInner.append(carouselItem);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        });
     </script>
 }
