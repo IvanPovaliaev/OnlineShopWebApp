@@ -208,6 +208,11 @@ namespace OnlineShopWebApp.Services
             return result;
         }
 
+        /// <summary>
+        /// Save images to local storage and return List of related ProductImage
+        /// </summary>
+        /// <param name="productId">Related product Id</param>
+        /// <param name="uploadedImages">Target collection of images</param>
         private List<ProductImage> SaveImages(Guid productId, ICollection<IFormFile> uploadedImages)
         {
             var imagesUrls = _imageProvider.SaveAll(uploadedImages, _productsImagesStoragePath);
