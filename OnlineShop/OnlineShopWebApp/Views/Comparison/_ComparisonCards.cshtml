@@ -9,7 +9,8 @@
         <div class="card card-comparison d-flex flex-column">
             <div class="card-image-container position-relative">
                 @{
-                    var productImageUrl = product.ImageUrl ?? "/img/DefaultProductImage.png";
+                    var firstImage = product.Images.FirstOrDefault();
+                    var productImageUrl = firstImage?.Url ?? "/img/DefaultProductImage.png";
                 }
 
                 @* Иконка удаления *@
