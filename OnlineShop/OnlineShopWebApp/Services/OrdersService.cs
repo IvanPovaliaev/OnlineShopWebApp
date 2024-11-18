@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
-using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -35,6 +34,19 @@ namespace OnlineShopWebApp.Services
             var orders = await _ordersRepository.GetAllAsync();
             return orders.Select(_mapper.Map<OrderViewModel>)
                          .ToList();
+        }
+
+        /// <summary>
+        /// Get all orders for related user
+        /// </summary>
+        /// <returns>List of all OrderViewModel from repository for related user</returns>
+        public virtual async Task<List<OrderViewModel>> GetAllAsync(string userId)
+        {
+            var orders = (await _ordersRepository.GetAllAsync())
+                                                 .Where(order => order.UserId == userId)
+                                                 .Select(_mapper.Map<OrderViewModel>)
+                                                 .ToList();
+            return orders;
         }
 
         /// <summary>
