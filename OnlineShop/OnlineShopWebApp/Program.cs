@@ -40,22 +40,19 @@ switch (databaseType.ToLower())
 {
     case "postgresql":
         builder.Services.AddDbContext<DatabaseContext, PostgreSQLContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
-        builder.Services.AddDbContext<IdentityContext, PostgreSQLIdentityContext>(options => options.UseNpgsql(connection), ServiceLifetime.Scoped);
         break;
     case "mssql":
         builder.Services.AddDbContext<DatabaseContext, MsSQLContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
-        builder.Services.AddDbContext<IdentityContext, MsSQLIdentityContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
         break;
     case "mysql":
         builder.Services.AddDbContext<DatabaseContext, MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)), ServiceLifetime.Scoped);
-        builder.Services.AddDbContext<IdentityContext, MySQLIdentityContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)), ServiceLifetime.Scoped);
         break;
     default:
         throw new InvalidOperationException("Invalid database type");
 }
 
 builder.Services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<IdentityContext>();
+                .AddEntityFrameworkStores<DatabaseContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -101,6 +98,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 builder.Services.AddTransient<AuthenticationHelper>();
 
+builder.Services.AddTransient<ImagesProvider>();
 
 builder.Services.Scan(scan => scan
                 .FromAssemblyOf<IProductSpecificationsRules>()

@@ -170,3 +170,22 @@ $(document).ready(function () {
         });
     });
 });
+
+//Скрипт для загрузки изображение и отображения их
+$(document).ready(function () {
+    $('#UploadedImage').on('change', function (event) {
+        const fileInput = event.target;
+        const preview = $('#imagePreview');
+
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.attr('src', e.target.result);
+                preview.show();
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    });
+});

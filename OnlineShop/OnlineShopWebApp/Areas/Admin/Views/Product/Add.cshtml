@@ -11,13 +11,30 @@
             <div class="row">
                 <h2>Добавить товар</h2>
                 <hr class="border-brown mb-3" />
-                <div class="d-flex justify-content-center">
-                    <img class="admin-product-add-image" src="/img/DefaultProductImage.png" alt="Стандартная картинка">
-                </div>
+
             </div>
             <div class="row">
-                <form method="post" id="addProductForm" asp-area="Admin" asp-controller="Product" asp-action="Add">                    
+                <form method="post" id="addProductForm"
+                    asp-area="Admin" asp-controller="Product" asp-action="Add"
+                    enctype="multipart/form-data">
+
                     @* Общие свойства товара *@
+
+                    <div class="row mb-3">
+                        <div class="d-flex col-12 justify-content-center">
+                            <img id="imagePreview" class="admin-product-add-image"
+                                 src="/img/DefaultProductImage.png" alt="Изображение товара">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="d-flex col-12">
+                            <label asp-for="UploadedImage" class="form-label">Загрузить изображение</label>
+                            <input asp-for="UploadedImage"
+                                   type="file" class="form-control input-field" />
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="mb-3 col-6">
                             <label asp-for="Name" class="form-label">Наименование</label>
@@ -100,6 +117,6 @@
                     }
                 });
             });
-        });
+        });        
     </script>
 }

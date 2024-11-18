@@ -1,8 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Configuration;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -19,13 +21,18 @@ namespace OnlineShopWebApp.Services
         private readonly IExcelService _excelService;
         private readonly IEnumerable<IProductSpecificationsRules> _specificationsRules;
         private readonly IMapper _mapper;
+        private readonly ImagesProvider _imageProvider;
+        private readonly string _productsImagesStoragePath;
 
-        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules)
+        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider)
         {
             _productsRepository = productsRepository;
             _mapper = mapper;
             _excelService = excelService;
             _specificationsRules = specificationsRules;
+
+            _productsImagesStoragePath = configuration["ImagesStorage:Products"]!;
+            _imageProvider = imagesProvider;
         }
 
         /// <summary>
@@ -115,6 +122,9 @@ namespace OnlineShopWebApp.Services
         public virtual async Task AddAsync(AddProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
+            var imageUrl = _imageProvider.Save(product.UploadedImage, _productsImagesStoragePath);
+            productDb.ImageUrl = imageUrl;
+
             await _productsRepository.AddAsync(productDb);
         }
 
@@ -125,6 +135,9 @@ namespace OnlineShopWebApp.Services
         public virtual async Task UpdateAsync(EditProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
+            var imageUrl = _imageProvider.Save(product.UploadedImage, _productsImagesStoragePath);
+            productDb.ImageUrl = imageUrl;
+
             await _productsRepository.UpdateAsync(productDb);
         }
 

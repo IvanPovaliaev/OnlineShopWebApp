@@ -77,6 +77,8 @@ namespace OnlineShopWebApp.Controllers
 
             var redirectUrl = register.ReturnUrl;
 
+            await _mediator.Publish(new UserSignInNotification());
+
             return Json(new { redirectUrl });
         }
     }
