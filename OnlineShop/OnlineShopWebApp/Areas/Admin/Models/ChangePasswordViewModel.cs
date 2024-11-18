@@ -3,16 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopWebApp.Areas.Admin.Models
 {
-    public class ChangePasswordViewModel
-    {
-        public string UserId { get; set; }
+	public class ChangePasswordViewModel
+	{
+		public string UserId { get; init; }
 
-        [Required(ErrorMessage = "Введите пароль")]
-        [PasswordValidation()]
-        public string Password { get; set; }
+		[Required(ErrorMessage = "Введите новый пароль")]
+		[PasswordValidation()]
+		public string Password { get; init; }
 
-        [Required(ErrorMessage = "Введите пароль")]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
-        public string ConfirmPassword { get; set; }
-    }
+		[Required(ErrorMessage = "Повторите новый пароль")]
+		[Compare("Password", ErrorMessage = "Пароли не совпадают")]
+		public string ConfirmPassword { get; init; }
+	}
 }

@@ -271,10 +271,10 @@ namespace OnlineShopWebApp.Tests.Services
             var fakeRoleNames = _fakeRoles.Select(r => r.Name);
             var editUser = new AdminEditUserViewModel
             {
-                UserId = fakeUser.Id,
+                Id = fakeUser.Id,
                 Email = "updated@example.com",
-                Name = "Updated Name",
-                Phone = "9876543210",
+                FullName = "Updated Name",
+                PhoneNumber = "9876543210",
                 RoleName = fakeRole.Name
             };
 
@@ -294,10 +294,10 @@ namespace OnlineShopWebApp.Tests.Services
             await _accountsService.UpdateInfoAsync(editUser);
 
             // Assert
-            Assert.Equal(editUser.UserId, fakeUser.Id);
+            Assert.Equal(editUser.Id, fakeUser.Id);
             Assert.Equal(editUser.Email, fakeUser.Email);
-            Assert.Equal(editUser.Name, fakeUser.FullName);
-            Assert.Equal(editUser.Phone, fakeUser.PhoneNumber);
+            Assert.Equal(editUser.FullName, fakeUser.FullName);
+            Assert.Equal(editUser.PhoneNumber, fakeUser.PhoneNumber);
             _userManagerMock.Verify(repo => repo.UpdateAsync(fakeUser), Times.Once);
         }
 
@@ -309,10 +309,10 @@ namespace OnlineShopWebApp.Tests.Services
             var fakeRole = _fakeRoles.First();
             var editUser = new AdminEditUserViewModel
             {
-                UserId = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 Email = "updated@example.com",
-                Name = "Updated Name",
-                Phone = "9876543210",
+                FullName = "Updated Name",
+                PhoneNumber = "9876543210",
                 RoleName = fakeRole.Name
             };
 
@@ -508,10 +508,10 @@ namespace OnlineShopWebApp.Tests.Services
             var fakeUser = _fakeUsers.First();
             var editUser = new AdminEditUserViewModel
             {
-                UserId = fakeUser.Id,
+                Id = fakeUser.Id,
                 Email = fakeUser.Email!,
-                Name = fakeUser.FullName,
-                Phone = fakeUser.PhoneNumber,
+                FullName = fakeUser.FullName,
+                PhoneNumber = fakeUser.PhoneNumber,
                 RoleName = _fakeRoles.First().Name!
             };
 
@@ -523,7 +523,7 @@ namespace OnlineShopWebApp.Tests.Services
             _userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<User>()))
                             .ReturnsAsync(fakeRolesNames!);
 
-            _userManagerMock.Setup(repo => repo.FindByIdAsync(editUser.UserId))
+            _userManagerMock.Setup(repo => repo.FindByIdAsync(editUser.Id))
                             .ReturnsAsync(fakeUser);
 
             _userManagerMock.Setup(repo => repo.FindByEmailAsync(editUser.Email))
@@ -548,10 +548,10 @@ namespace OnlineShopWebApp.Tests.Services
             var anotherFakeUser = _fakeUsers[1];
             var editUser = new AdminEditUserViewModel
             {
-                UserId = fakeUser.Id,
+                Id = fakeUser.Id,
                 Email = anotherFakeUser.Email!,
-                Name = fakeUser.FullName,
-                Phone = fakeUser.PhoneNumber,
+                FullName = fakeUser.FullName,
+                PhoneNumber = fakeUser.PhoneNumber,
                 RoleName = _fakeRoles.First().Name!
             };
 
@@ -563,7 +563,7 @@ namespace OnlineShopWebApp.Tests.Services
             _userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<User>()))
                             .ReturnsAsync(fakeRolesNames!);
 
-            _userManagerMock.Setup(repo => repo.FindByIdAsync(editUser.UserId))
+            _userManagerMock.Setup(repo => repo.FindByIdAsync(editUser.Id))
                             .ReturnsAsync(fakeUser);
 
             _userManagerMock.Setup(repo => repo.FindByEmailAsync(editUser.Email))
@@ -587,10 +587,10 @@ namespace OnlineShopWebApp.Tests.Services
             var fakeUser = _fakeUsers.First();
             var editUser = new AdminEditUserViewModel
             {
-                UserId = fakeUser.Id,
+                Id = fakeUser.Id,
                 Email = fakeUser.Email!,
-                Name = new Faker().Name.FullName(),
-                Phone = new Faker().Phone.PhoneNumber(),
+                FullName = new Faker().Name.FullName(),
+                PhoneNumber = new Faker().Phone.PhoneNumber(),
                 RoleName = _fakeRoles.First().Name!
             };
 
@@ -602,7 +602,7 @@ namespace OnlineShopWebApp.Tests.Services
             _userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<User>()))
                             .ReturnsAsync(fakeRolesNames!);
 
-            _userManagerMock.Setup(repo => repo.FindByIdAsync(editUser.UserId))
+            _userManagerMock.Setup(repo => repo.FindByIdAsync(editUser.Id))
                             .ReturnsAsync(fakeUser);
 
             _userManagerMock.Setup(repo => repo.FindByEmailAsync(editUser.Email))
