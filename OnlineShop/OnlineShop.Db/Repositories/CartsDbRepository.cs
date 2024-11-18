@@ -18,6 +18,7 @@ namespace OnlineShop.Db.Repositories
         {
             return await _databaseContext.Carts.Include(cart => cart.Positions)
                                                .ThenInclude(position => position.Product)
+                                               .ThenInclude(p => p.Images)
                                                .FirstOrDefaultAsync(cart => cart.UserId == userId);
         }
 
