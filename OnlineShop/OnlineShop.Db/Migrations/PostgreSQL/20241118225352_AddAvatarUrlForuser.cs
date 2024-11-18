@@ -5,7 +5,7 @@
 namespace OnlineShop.Db.Migrations.PostgreSQL
 {
     /// <inheritdoc />
-    public partial class AddAvatarUrlForuser : Migration
+    public partial class AddAvatarUrlForUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -13,7 +13,7 @@ namespace OnlineShop.Db.Migrations.MsSQL
 {
     [DbContext(typeof(MsSQLContext))]
     [Migration("20241118215605_AddAvatarUrlForuser")]
-    partial class AddAvatarUrlForuser
+    partial class AddAvatarUrlForUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
