@@ -9,10 +9,10 @@ namespace OnlineShopWebApp.Models
         public string Name { get; set; }
         public decimal Cost { get; set; }
         public string Description { get; set; }
-        public ProductCategoriesViewModel Category { get; set; }
-        public string? ImageUrl { get; set; }
-        public long Article => GetArticle();
+        public ProductCategoriesViewModel Category { get; init; }
+        public List<ImageViewModel> Images { get; init; } = [];
         public Dictionary<string, string> Specifications { get; set; }
+        public long Article => GetArticle();
 
         /// <summary>
         /// Get Article

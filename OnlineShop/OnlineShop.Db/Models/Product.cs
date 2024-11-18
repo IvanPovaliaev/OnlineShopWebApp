@@ -10,9 +10,9 @@ namespace OnlineShop.Db.Models
         public decimal Cost { get; set; }
         public string Description { get; set; }
         public ProductCategories Category { get; set; }
-        public string? ImageUrl { get; set; }
+        public List<ProductImage> Images { get; set; } = [];
         public string SpecificationsJson { get; set; }
 
-        public List<CartPosition> CartPositions { get; set; }
+        public List<CartPosition> CartPositions { get; set; } = [];
     }
 }

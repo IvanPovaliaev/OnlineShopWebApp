@@ -20,13 +20,15 @@ namespace OnlineShop.Db.Repositories
         public async Task<List<ComparisonProduct>> GetAllAsync()
         {
             return await _databaseContext.ComparisonProducts.Include(c => c.Product)
+                                                            .ThenInclude(p => p.Images)
                                                             .ToListAsync();
         }
 
         public async Task<ComparisonProduct> GetAsync(Guid id)
         {
             return await _databaseContext.ComparisonProducts.Include(c => c.Product)
-                                                     .FirstOrDefaultAsync(c => c.Id == id);
+                                                            .ThenInclude(p => p.Images)
+                                                            .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task CreateAsync(ComparisonProduct product)

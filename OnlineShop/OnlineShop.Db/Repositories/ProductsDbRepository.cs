@@ -16,11 +16,14 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<List<Product>> GetAllAsync() => await _databaseContext.Products.ToListAsync();
+        public async Task<List<Product>> GetAllAsync() => await _databaseContext.Products
+                                                                                .Include(p => p.Images)
+                                                                                .ToListAsync();
 
         public async Task<Product> GetAsync(Guid id)
         {
-            return await _databaseContext.Products.FindAsync(id);
+            return await _databaseContext.Products.Include(p => p.Images)
+                                                  .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task AddRangeAsync(List<Product> products)
@@ -60,7 +63,7 @@ namespace OnlineShop.Db.Repositories
             repositoryProduct.Name = product.Name;
             repositoryProduct.Cost = product.Cost;
             repositoryProduct.Description = product.Description;
-            repositoryProduct.ImageUrl = product.ImageUrl;
+            repositoryProduct.Images = product.Images;
             repositoryProduct.SpecificationsJson = product.SpecificationsJson;
 
             await _databaseContext.SaveChangesAsync();

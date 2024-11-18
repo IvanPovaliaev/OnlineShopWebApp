@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -10,13 +11,20 @@ namespace OnlineShopWebApp.Helpers
     {
         private readonly IWebHostEnvironment _appEnvironment = appEnvironment;
 
-        public string? Save(IFormFile? image, string folderPath)
+        /// <summary>
+        /// Save target images to root folder path
+        /// </summary>        
+        /// <returns>Collections of images urls</returns>
+        /// <param name="images">Target images collection</param>
+        /// <param name="folderPath">Target folderPath</param>
+        public List<string> SaveAll(ICollection<IFormFile>? images, string folderPath)
         {
-            if (image is null)
+            if (images is null)
             {
-                return null;
+                return [];
             }
 
+            var imagesUrls = new List<string>(images.Count);
             var localFolderPath = Path.Combine(_appEnvironment.WebRootPath + folderPath);
 
             if (!Directory.Exists(localFolderPath))
@@ -24,18 +32,23 @@ namespace OnlineShopWebApp.Helpers
                 Directory.CreateDirectory(localFolderPath);
             }
 
-            var imageType = image.FileName.Split('.')
-                                          .Last();
-
-            var imageName = $"{Guid.NewGuid()}.{imageType}";
-            var imagePath = Path.Combine(localFolderPath, imageName);
-
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            foreach (var image in images)
             {
-                image.CopyTo(fileStream);
-            }
+                var imageType = image.FileName.Split('.')
+                                              .Last();
 
-            return Path.Combine(folderPath, imageName);
+                var imageName = $"{Guid.NewGuid()}.{imageType}";
+                var localImagePath = Path.Combine(localFolderPath, imageName);
+
+                using (var fileStream = new FileStream(localImagePath, FileMode.Create))
+                {
+                    image.CopyTo(fileStream);
+                }
+
+                var imagePath = Path.Combine(folderPath, imageName);
+                imagesUrls.Add(imagePath);
+            }
+            return imagesUrls;
         }
     }
 }

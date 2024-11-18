@@ -18,20 +18,13 @@
                     asp-area="Admin" asp-controller="Product" asp-action="Add"
                     enctype="multipart/form-data">
 
-                    @* Общие свойства товара *@
-
-                    <div class="row mb-3">
-                        <div class="d-flex col-12 justify-content-center">
-                            <img id="imagePreview" class="admin-product-add-image"
-                                 src="/img/DefaultProductImage.png" alt="Изображение товара">
-                        </div>
-                    </div>
+                    @await Html.PartialAsync("_UploadImagesCarousel", Model?.Images)
 
                     <div class="row mb-3">
                         <div class="d-flex col-12">
-                            <label asp-for="UploadedImage" class="form-label">Загрузить изображение</label>
-                            <input asp-for="UploadedImage"
-                                   type="file" class="form-control input-field" />
+                            <label asp-for="UploadedImages" class="form-label">Загрузить изображения</label>
+                            <input asp-for="UploadedImages"
+                                   type="file" class="form-control input-field" multiple />
                         </div>
                     </div>
 
@@ -117,6 +110,28 @@
                     }
                 });
             });
-        });        
+        });
+
+        $(document).ready(function () {
+            $('#UploadedImages').on('change', function (event) {
+                const files = Array.from(event.target.files);
+                const carouselInner = $('#addProductImagesCarousel .carousel-inner');
+
+                carouselInner.empty();
+
+                files.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const isActive = index === 0 ? 'active' : '';
+                        const carouselItem = `
+                            <div class="carousel-item ${isActive}">
+                                <img src="${e.target.result}" class="admin-product-add-image" alt="Изображение товара">
+                            </div>`;
+                        carouselInner.append(carouselItem);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        });
     </script>
 }

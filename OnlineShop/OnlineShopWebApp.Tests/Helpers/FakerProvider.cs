@@ -40,8 +40,8 @@ namespace OnlineShopWebApp.Tests.Helpers
                                 .RuleFor(p => p.Name, f => f.Commerce.ProductName())
                                 .RuleFor(p => p.Cost, f => f.Finance.Amount())
                                 .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
-                                .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>())
-                                .RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl());
+                                .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>());
+            //.RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl());
 
             CartPositionFaker = new Faker<CartPosition>()
                 .RuleFor(p => p.Id, f => Guid.NewGuid())

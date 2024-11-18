@@ -139,7 +139,9 @@ namespace OnlineShopWebApp.Services
                     worksheet.Cell(rowNumber, 4).Value = product.Category.ToString();
                     worksheet.Cell(rowNumber, 5).Value = product.Cost;
                     worksheet.Cell(rowNumber, 6).Value = product.Description;
-                    worksheet.Cell(rowNumber, 7).Value = product.ImageUrl;
+
+                    var imagesUrls = product.Images.Select(img => img.Url);
+                    worksheet.Cell(rowNumber, 7).Value = string.Join("\n", imagesUrls);
 
                     var formattedSpecifications = product.Specifications.Select(s => $"{s.Key}{_entityValuesSeparator}{s.Value}");
                     worksheet.Cell(rowNumber, 8).Value = string.Join("\n", formattedSpecifications);

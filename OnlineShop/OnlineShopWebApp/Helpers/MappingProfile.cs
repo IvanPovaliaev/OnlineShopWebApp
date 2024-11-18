@@ -29,6 +29,8 @@ namespace OnlineShopWebApp.Helpers
                 .ForMember(destination => destination.Specifications,
                             option => option.MapFrom(source => JsonConvert.DeserializeObject<Dictionary<string, string>>(source.SpecificationsJson)));
 
+            CreateMap<ProductImage, ImageViewModel>();
+
             CreateMap<CartViewModel, Cart>().ReverseMap();
             CreateMap<CartPositionViewModel, CartPosition>().ReverseMap();
 
