@@ -1,12 +1,12 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace OnlineShop.Db.Migrations.PostgreSQL
+namespace OnlineShop.Db.Migrations.MySQL
 {
     /// <inheritdoc />
     public partial class InitDb : Migration
@@ -14,106 +14,143 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    CanBeDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CanBeDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FullName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Carts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carts", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Cost = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Category = table.Column<int>(type: "integer", nullable: false),
-                    SpecificationsJson = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Cost = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    SpecificationsJson = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "UserDeliveryInfo",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    Entrance = table.Column<int>(type: "integer", nullable: true),
-                    Floor = table.Column<int>(type: "integer", nullable: true),
-                    Apartment = table.Column<int>(type: "integer", nullable: true),
-                    PostCode = table.Column<string>(type: "text", nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    Phone = table.Column<string>(type: "text", nullable: false),
-                    ReservePhone = table.Column<string>(type: "text", nullable: true),
-                    AdditionalInfo = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    City = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Address = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Entrance = table.Column<int>(type: "int", nullable: true),
+                    Floor = table.Column<int>(type: "int", nullable: true),
+                    Apartment = table.Column<int>(type: "int", nullable: true),
+                    PostCode = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FullName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Phone = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ReservePhone = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AdditionalInfo = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserDeliveryInfo", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<string>(type: "text", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimType = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -124,17 +161,21 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimType = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -145,16 +186,21 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<string>(type: "text", nullable: false)
+                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderKey = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderDisplayName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -165,14 +211,17 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    RoleId = table.Column<string>(type: "text", nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -189,16 +238,21 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: true)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -209,16 +263,17 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CartPosition",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    CartId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    CartId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -235,15 +290,17 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "ComparisonProducts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -254,15 +311,17 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "FavoriteProducts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -273,15 +332,17 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "ProductImage",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Url = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -292,17 +353,19 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    InfoId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    InfoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -313,16 +376,17 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "UserDeliveryInfo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "OrderPosition",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -339,7 +403,8 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -353,7 +418,7 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                     { new Guid("c643c046-93df-4d0f-ba01-224b689eca0f"), 1, 15870m, "Процессор Intel Core i5-12400F OEM\r\n\r\nИщете эффективное и современное решение для вашего компьютера? Процессор Intel Core i5-12400F — ваш идеальный выбор! Эта модель прекрасно подходит как для повседневных задач, так и для игр и программ, требующих высокой производительности.\r\n\r\nОсновные характеристики:\r\n- Количество ядер: 6\r\n- Количество потоков: 12\r\n- Базовая частота: 2.5 ГГц\r\n- Максимальная турбо-частота: 4.4 ГГц\r\n- Тип памяти: поддержка DDR4 и DDR5\r\n- Сокет: LGA 1700\r\n\r\nПреимущества:\r\n- Высокая производительность: Благодаря шести ядрам и двенадцати потокам, этот процессор обеспечивает отличную многоядерную производительность, что делает его отличным выбором для многозадачности и требовательных приложений.\r\n- Энергоэффективность: Intel Core i5-12400F оптимизирован для эффективного потребления энергии, что помогает снизить нагрев и увеличить срок службы компонентов.\r\n- Поддержка современных технологий: Процессор поддерживает последние стандарты памяти DDR4 и DDR5, что обеспечивает улучшенную производительность и скорость передачи данных.\r\n- Совместимость: Сокет LGA 1700 гарантирует широкую совместимость с новейшими материнскими платами.\r\n\r\nВыбирая Intel Core i5-12400F, вы получаете надежный и мощный процессор, который прослужит вам долгие годы. Улучшите свой компьютер сегодня и наслаждайтесь быстродействием и стабильностью на новом уровне!", "Intel Core i5 - 12400F OEM", "{\"Manufacturer\":\"Intel\",\"ManufacturerCode\":\"CM8071504555318/CM8071504650609\",\"Model\":\"Core i5 12400F\",\"Socket\":\"LGA 1700\",\"Architecture\":\"Alder Lake\",\"CoresCount\":\"6\",\"ThreadsCount\":\"12\",\"ClockSpeed\":\"2500 МГц\"}" },
                     { new Guid("d13b5481-bfe0-4d5c-885b-1d43df8aa6b9"), 5, 20790m, "Оперативная память 64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT) – это высокопроизводительный комплект памяти, который обеспечит быструю и надежную работу вашего компьютера. Этот набор памяти состоит из двух модулей по 32 Гб каждый, общий объем которых составляет 64 Гб.\r\n\r\nОсновные характеристики этой оперативной памяти включают в себя форм-фактор DIMM, тип памяти DDR5 и тактовую частоту 5600 МГц. С такими параметрами, эта память обладает высокой пропускной способностью в 44800 Мб/с, что позволяет быстро обрабатывать данные и выполнять сложные вычисления.\r\n\r\nПомимо этого, оперативная память ADATA XPG Lancer имеет низкую задержку CAS Latency (CL) в 36 тактов, что также сказывается на скорости работы системы. Система охлаждения этой памяти выполнена в виде пассивного радиатора, который обеспечивает эффективное отвод тепла и защиту от перегрева.\r\n\r\nОсобенностью этой оперативной памяти является также наличие активной системы охлаждения с вентилятором. Радиатор изготовлен из меди, что обеспечивает отличное теплопроводность. Вентилятор имеет размер 80x80 мм и оснащен подшипником скольжения для бесшумной работы. Регулятор оборотов PWM позволяет настраивать скорость вращения вентилятора в зависимости от температуры памяти.\r\n\r\nЭтот комплект оперативной памяти ADATA XPG Lancer предназначен для использования в системах, где требуется высокая производительность и стабильная работа. Благодаря высокой тактовой частоте и эффективной системе охлаждения, эта память подойдет как для геймеров, так и для профессиональных пользователей, занимающихся ресурсоемкими задачами.\r\n\r\nЕсли вам необходима надежная и мощная оперативная память для вашего компьютера, то ADATA XPG Lancer 64Gb DDR5 5600MHz станет отличным выбором. Обеспечивая высокую производительность и эффективное охлаждение, этот комплект памяти позволит вам насладиться быстрым и плавным функционированием вашей системы.", "64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT)", "{\"Manufacturer\":\"ADATA\",\"ManufacturerCode\":\"AX5U5600C3632G-DCLABK\",\"FormFactor\":\"DIMM\",\"MemoryType\":\"DDR5\",\"MemorySize\":\"64 Гб\",\"ModulesCount\":\"2\",\"ClockSpeed\":\"5600 МГц\"}" },
                     { new Guid("db040c0c-f8f4-48fd-8be4-3040caaa722e"), 5, 3970m, "Оперативная память Netac Shadow II (NTSWD4P32DP-16W) представляет собой высококачественный и надежный комплект из двух модулей по 8 Гб каждый, общим объемом 16 Гб. Этот комплект идеально подходит для апгрейда вашего компьютера, обеспечивая ему стабильную и быструю работу.\r\n\r\nОперативная память выполнена в форм-факторе DIMM и использует технологию DDR4, что обеспечивает высокую скорость передачи данных и энергоэффективность. Тактовая частота модулей составляет 3200 МГц, что позволяет им работать на максимальной производительности. Пропускная способность оперативной памяти составляет 25600 Мб/с, что гарантирует быструю передачу данных и отличную отзывчивость системы.\r\n\r\nХарактеристики оперативной памяти Netac Shadow II включают в себя следующие параметры: CAS Latency (CL) - 16, RAS to CAS Delay (tRCD) - 20, Row Precharge Delay (tRP) - 20, Activate to Precharge Delay (tRAS) - 40. Эти параметры обеспечивают стабильную и эффективную работу оперативной памяти, что в свою очередь повышает производительность вашего компьютера.\r\n\r\nКроме того, оперативная память Netac Shadow II оснащена радиатором для passivной системы охлаждения, который помогает поддерживать низкую температуру модулей во время работы. Это позволяет избежать перегрева и обеспечивает долгий срок службы оперативной памяти.\r\n\r\nОбщий объем памяти 16 Гб позволяет запускать множество приложений одновременно, обеспечивая плавную и быструю работу вашего компьютера. Благодаря высокой производительности и надежности, оперативная память Netac Shadow II является идеальным выбором для тех, кто ценит качество и эффективность.\r\n\r\nПриобретите оперативную память Netac Shadow II (NTSWD4P32DP-16W) и наслаждайтесь быстрой и стабильной работой вашего компьютера без каких-либо задержек и сбоев. Этот комплект станет надежным партнером в вашем повседневном использовании компьютера и поможет вам достичь максимальной производительности.", "16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT)", "{\"Manufacturer\":\"Netac\",\"ManufacturerCode\":\"NTSWD4P32DP-16W\",\"FormFactor\":\"DIMM\",\"MemoryType\":\"DDR4\",\"MemorySize\":\"16 Гб\",\"ModulesCount\":\"2\",\"ClockSpeed\":\"3200 МГц\"}" },
-                    { new Guid("fa991ad4-510b-47d2-848c-130aadd43838"), 3, 7050m, "M.2 накопитель Kingston NV2 – компактное устройство, способное эффективно справляться с требовательными ресурсоемкими задачами и увеличить отзывчивость системы. Накопитель ориентирован на создание контента с разрешением 4K+ и запуск игр. Благодаря объему 1000 ГБ Kingston NV2 предоставляет достаточно пространства для хранения игр, мультимедийных и прочих файлов. Форм-фактор M.2 гарантирует широкую совместимость с настольными ПК и ноутбуками. Интерфейс подключения PCI-E 4.0 x4 и технология 3D NAND гарантируют скорость в пределах 3500 Мбайт/сек.", "SSD 1Tb Kingston NV2 (SNV2S/1000G)", "{\"Manufacturer\":\"Kingston\",\"ManufacturerCode\":\"SNV2S/1000G\",\"FormFactor\":\"M.2\",\"Capacity\":\"1000 Гб\"}" },
+                    { new Guid("fa991ad4-510b-47d2-848c-130aadd43838"), 3, 7050m, "M.2 накопитель Kingston NV2 – компактное устройство, способное эффективно справляться с требовательными ресурсоемкими задачами и увеличить отзывчивость системы. Накопитель ориентирован на создание контента с разрешением 4K+ и запуск игр. Благодаря объему 1000 ГБ Kingston NV2 предоставляет достаточно пространства для хранения игр, мультимедийных и прочих файлов. Форм-фактор M.2 гарантирует широкую совместимость с настольными ПК и ноутбуками. Интерфейс подключения PCI-E 4.0 x4 и технология 3D NAND гарантируют скорость в пределах 3500 Мбайт/сек.", "SSD 1Tb Kingston NV2 (SNV2S/1000G)", "{\"Manufacturer\":\"Kingston\",\"ManufacturerCode\":\"SNV2S/1000G\",\"FormFactor\":\"M.2 2280\",\"Capacity\":\"1000 Гб\"}" },
                     { new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), 5, 8450m, "Оперативная память Patriot Viper Steel RGB (PVSR432G360C0K) - это идеальное решение для тех, кто ищет надежный и быстродействующий компонент для своего ПК. Этот набор памяти состоит из двух модулей по 16 Гб каждый, обеспечивая общий объем впечатляющих 32 Гб.\r\n\r\nСтильный и эффективный дизайн Patriot Viper Steel RGB подарит вашему компьютеру не только высокую производительность, но и стильный внешний вид благодаря встроенной подсветке RGB. Кроме того, радиаторы на модулях памяти обеспечивают эффективное охлаждение, что позволяет поддерживать стабильную работу даже в условиях интенсивной нагрузки.\r\n\r\nС тактовой частотой 3600 МГц и пропускной способностью 28800 Мб/с, память Patriot Viper Steel RGB обеспечивает высокую скорость передачи данных, что делает ее идеальным выбором для геймеров, видеомонтажеров и других пользователей, которым необходимы высокие показатели производительности.\r\n\r\nКроме того, характеристики памяти включают в себя параметры CAS Latency (CL) 20, RAS to CAS Delay (tRCD) 26, Row Precharge Delay (tRP) 26, Activate to Precharge Delay (tRAS) 46, что гарантирует быструю реакцию и эффективную работу в самых требовательных условиях.\r\n\r\nБлагодаря форм-фактору DIMM и поддержке DDR4, установка и настройка памяти Patriot Viper Steel RGB не представляют сложностей, а совместимость с большинством современных материнских плат обеспечивает широкий спектр возможностей для использования.\r\n\r\nНе сомневайтесь в качестве и надежности памяти Patriot Viper Steel RGB - это надежный и высокопроизводительный компонент, который поможет вам справиться с самыми тяжелыми задачами и наслаждаться плавным и быстрым функционированием вашего ПК.", "32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)", "{\"Manufacturer\":\"Patriot MemoryPatriot Memory\",\"ManufacturerCode\":\"PVSR432G360C0K\",\"FormFactor\":\"DIMM\",\"MemoryType\":\"DDR4\",\"MemorySize\":\"32 Гб\",\"ModulesCount\":\"2\",\"ClockSpeed\":\"3600 МГц\"}" }
                 });
 
@@ -362,22 +427,22 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
                 columns: new[] { "Id", "ProductId", "Url" },
                 values: new object[,]
                 {
-                    { new Guid("289501cc-95bb-4001-afd2-71ba7fe05787"), new Guid("0025491a-1eeb-4e6d-8dc9-26fc69ecb1b0"), "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp" },
-                    { new Guid("2cd355ce-2626-47cf-842b-07d87991c79e"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_5.webp" },
-                    { new Guid("314c83f0-b1e6-4fb1-98ee-e04c5a09e444"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_6.webp" },
-                    { new Guid("35bfe7ab-4c99-4831-b6cd-d0ba684ca527"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_3.webp" },
-                    { new Guid("375239da-e25f-4f90-bafa-c5ffc68202d8"), new Guid("fa991ad4-510b-47d2-848c-130aadd43838"), "/img/products/SSD-1Tb-Kingston-NV2_2.webp" },
-                    { new Guid("5251f9d5-d6cd-4a56-8720-0d3728432997"), new Guid("fa991ad4-510b-47d2-848c-130aadd43838"), "/img/products/SSD-1Tb-Kingston-NV2_3.webp" },
-                    { new Guid("630245fe-d2b8-4dbf-9bce-6e050be485af"), new Guid("c643c046-93df-4d0f-ba01-224b689eca0f"), "/img/products/Intel-Core-i5-12400F-OEM.webp" },
-                    { new Guid("64d8c464-c7b7-4651-aa4d-1d9428a3b5e9"), new Guid("db040c0c-f8f4-48fd-8be4-3040caaa722e"), "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp" },
-                    { new Guid("7af9a436-515e-473b-8080-bd8acab842d7"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_2.webp" },
-                    { new Guid("8a597635-891a-4835-b586-5d095d0c2014"), new Guid("202d752c-be4e-4f32-a7a0-433bcc1f2bb4"), "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp" },
-                    { new Guid("98a187e4-5dba-4dc1-a4aa-db01648f4a1a"), new Guid("5c2a6e43-0e05-47a2-9c92-eb839f0b3e63"), "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp" },
-                    { new Guid("bcb40663-f812-475d-8848-a41b9d6718ea"), new Guid("fa991ad4-510b-47d2-848c-130aadd43838"), "/img/products/SSD-1Tb-Kingston-NV2_1.webp" },
-                    { new Guid("bf02c75e-95b0-4165-997e-09e93cb854dc"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_4.webp" },
-                    { new Guid("eb418590-c189-4bd9-a221-cf1b973acbfe"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_7.webp" },
-                    { new Guid("ee54809f-ff05-4afc-b7e3-cb9b62d61b5b"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_1.webp" },
-                    { new Guid("ee6b0a96-4521-427e-a195-1abfd62c7698"), new Guid("d13b5481-bfe0-4d5c-885b-1d43df8aa6b9"), "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp" }
+                    { new Guid("11ea3f23-f3d7-4834-ab3d-247f41517da2"), new Guid("fa991ad4-510b-47d2-848c-130aadd43838"), "/img/products/SSD-1Tb-Kingston-NV2_1.webp" },
+                    { new Guid("25838ade-3806-4c3a-aa0d-c40dcacd85a4"), new Guid("202d752c-be4e-4f32-a7a0-433bcc1f2bb4"), "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp" },
+                    { new Guid("28e4cb3c-bc99-4cca-b9c4-e3ffa9388199"), new Guid("5c2a6e43-0e05-47a2-9c92-eb839f0b3e63"), "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp" },
+                    { new Guid("3ae92c1f-4766-48d7-b092-1dd59139d0b4"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_2.webp" },
+                    { new Guid("4cc140dc-410b-4a1f-8e57-8c11c8debe8d"), new Guid("fa991ad4-510b-47d2-848c-130aadd43838"), "/img/products/SSD-1Tb-Kingston-NV2_2.webp" },
+                    { new Guid("55e9fd3c-fe9c-49a2-9bb6-a06a7d875bca"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_7.webp" },
+                    { new Guid("6437661e-8697-4d5b-aaf5-8e67d881a242"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_3.webp" },
+                    { new Guid("6b118de3-c6dc-494e-a85a-8d9abe0a7dc0"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_1.webp" },
+                    { new Guid("74ed4cdd-15f5-4e6c-91f8-f55018b70ce6"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_4.webp" },
+                    { new Guid("9b76b53b-1b1e-4d12-a6e5-31f70c441477"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_6.webp" },
+                    { new Guid("b4a9b1dc-8bad-4ac7-b90f-95fbae374c3f"), new Guid("0025491a-1eeb-4e6d-8dc9-26fc69ecb1b0"), "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp" },
+                    { new Guid("cde81600-f21b-41a7-a783-01d11e7108ce"), new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"), "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_5.webp" },
+                    { new Guid("dce54a16-c12d-42a4-bc65-f367e241c11c"), new Guid("db040c0c-f8f4-48fd-8be4-3040caaa722e"), "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp" },
+                    { new Guid("dd884e39-e72b-400f-807c-654c695ec89a"), new Guid("c643c046-93df-4d0f-ba01-224b689eca0f"), "/img/products/Intel-Core-i5-12400F-OEM.webp" },
+                    { new Guid("e9e3f538-c2ed-4f93-8424-72e1d1ac4b79"), new Guid("fa991ad4-510b-47d2-848c-130aadd43838"), "/img/products/SSD-1Tb-Kingston-NV2_3.webp" },
+                    { new Guid("f654e5f2-ce2e-4e14-b1b6-cd8080c45079"), new Guid("d13b5481-bfe0-4d5c-885b-1d43df8aa6b9"), "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp" }
                 });
 
             migrationBuilder.CreateIndex(

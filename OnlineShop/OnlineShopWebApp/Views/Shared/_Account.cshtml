@@ -1,16 +1,16 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-    <div class="col-3 d-flex align-items-center justify-content-end flex-column h-100">
+    <a asp-area ="" asp-controller="Account" asp-action="Index"
+        class="col-3 d-flex align-items-center justify-content-end flex-column h-100">
         <span>
             <svg class="nav-icon">
                 <use href="/icons/AccountIcon.svg#account-icon" />
             </svg>
         </span>
-        <a asp-area="" asp-controller="Account" asp-action="Index" asp-route-user="@null";
-           class="text-black">
+        <span class="text-black">
             Кабинет
-        </a>
-    </div>
+        </span>
+    </a>
 }
 else
 {

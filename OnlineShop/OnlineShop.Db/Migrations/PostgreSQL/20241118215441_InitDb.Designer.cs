@@ -2,17 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OnlineShop.Db;
 
 #nullable disable
 
-namespace OnlineShop.Db.Migrations.MsSQL
+namespace OnlineShop.Db.Migrations.PostgreSQL
 {
-    [DbContext(typeof(MsSQLContext))]
-    [Migration("20241117145053_InitDb")]
+    [DbContext(typeof(PostgreSQLContext))]
+    [Migration("20241118215441_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -21,27 +21,27 @@ namespace OnlineShop.Db.Migrations.MsSQL
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -54,19 +54,19 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -78,17 +78,17 @@ namespace OnlineShop.Db.Migrations.MsSQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -100,10 +100,10 @@ namespace OnlineShop.Db.Migrations.MsSQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -115,16 +115,16 @@ namespace OnlineShop.Db.Migrations.MsSQL
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -135,11 +135,11 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -150,16 +150,16 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("CartId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -174,14 +174,14 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -194,14 +194,14 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -214,20 +214,20 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("InfoId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -240,16 +240,16 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -264,26 +264,26 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Category")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("Cost")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("SpecificationsJson")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -297,7 +297,7 @@ namespace OnlineShop.Db.Migrations.MsSQL
                             Cost = 7050m,
                             Description = "M.2 накопитель Kingston NV2 – компактное устройство, способное эффективно справляться с требовательными ресурсоемкими задачами и увеличить отзывчивость системы. Накопитель ориентирован на создание контента с разрешением 4K+ и запуск игр. Благодаря объему 1000 ГБ Kingston NV2 предоставляет достаточно пространства для хранения игр, мультимедийных и прочих файлов. Форм-фактор M.2 гарантирует широкую совместимость с настольными ПК и ноутбуками. Интерфейс подключения PCI-E 4.0 x4 и технология 3D NAND гарантируют скорость в пределах 3500 Мбайт/сек.",
                             Name = "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
-                            SpecificationsJson = "{\"Manufacturer\":\"Kingston\",\"ManufacturerCode\":\"SNV2S/1000G\",\"FormFactor\":\"M.2\",\"Capacity\":\"1000 Гб\"}"
+                            SpecificationsJson = "{\"Manufacturer\":\"Kingston\",\"ManufacturerCode\":\"SNV2S/1000G\",\"FormFactor\":\"M.2 2280\",\"Capacity\":\"1000 Гб\"}"
                         },
                         new
                         {
@@ -377,14 +377,14 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -395,97 +395,97 @@ namespace OnlineShop.Db.Migrations.MsSQL
                     b.HasData(
                         new
                         {
-                            Id = new Guid("40c1bdd3-06d6-46bc-a250-d3a86bd21fe0"),
+                            Id = new Guid("11ea3f23-f3d7-4834-ab3d-247f41517da2"),
                             ProductId = new Guid("fa991ad4-510b-47d2-848c-130aadd43838"),
                             Url = "/img/products/SSD-1Tb-Kingston-NV2_1.webp"
                         },
                         new
                         {
-                            Id = new Guid("eafba8c6-5caf-4db1-8134-0bdc387b19ad"),
+                            Id = new Guid("4cc140dc-410b-4a1f-8e57-8c11c8debe8d"),
                             ProductId = new Guid("fa991ad4-510b-47d2-848c-130aadd43838"),
                             Url = "/img/products/SSD-1Tb-Kingston-NV2_2.webp"
                         },
                         new
                         {
-                            Id = new Guid("f8899e85-779a-4296-a146-cbf93700cd6c"),
+                            Id = new Guid("e9e3f538-c2ed-4f93-8424-72e1d1ac4b79"),
                             ProductId = new Guid("fa991ad4-510b-47d2-848c-130aadd43838"),
                             Url = "/img/products/SSD-1Tb-Kingston-NV2_3.webp"
                         },
                         new
                         {
-                            Id = new Guid("a259b84e-cfaa-4437-9e54-1d7a603c8034"),
+                            Id = new Guid("b4a9b1dc-8bad-4ac7-b90f-95fbae374c3f"),
                             ProductId = new Guid("0025491a-1eeb-4e6d-8dc9-26fc69ecb1b0"),
                             Url = "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp"
                         },
                         new
                         {
-                            Id = new Guid("5dab7259-a5ee-4769-b9c1-f0dfbad2af45"),
+                            Id = new Guid("28e4cb3c-bc99-4cca-b9c4-e3ffa9388199"),
                             ProductId = new Guid("5c2a6e43-0e05-47a2-9c92-eb839f0b3e63"),
                             Url = "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp"
                         },
                         new
                         {
-                            Id = new Guid("8be67c4b-258a-450f-84c9-5429ba948768"),
+                            Id = new Guid("25838ade-3806-4c3a-aa0d-c40dcacd85a4"),
                             ProductId = new Guid("202d752c-be4e-4f32-a7a0-433bcc1f2bb4"),
                             Url = "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp"
                         },
                         new
                         {
-                            Id = new Guid("83669809-8738-423a-bc4d-28d87ea15134"),
+                            Id = new Guid("dce54a16-c12d-42a4-bc65-f367e241c11c"),
                             ProductId = new Guid("db040c0c-f8f4-48fd-8be4-3040caaa722e"),
                             Url = "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp"
                         },
                         new
                         {
-                            Id = new Guid("6df92fbc-f54e-4a65-897c-9b7242cc5a5d"),
+                            Id = new Guid("6b118de3-c6dc-494e-a85a-8d9abe0a7dc0"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_1.webp"
                         },
                         new
                         {
-                            Id = new Guid("91080666-5021-4144-9f3c-8111614a47ba"),
+                            Id = new Guid("3ae92c1f-4766-48d7-b092-1dd59139d0b4"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_2.webp"
                         },
                         new
                         {
-                            Id = new Guid("546f1ea4-5e88-4ae7-9f03-bf3848cb2070"),
+                            Id = new Guid("6437661e-8697-4d5b-aaf5-8e67d881a242"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_3.webp"
                         },
                         new
                         {
-                            Id = new Guid("d6ce2c57-73f6-4936-9a39-6e8106885682"),
+                            Id = new Guid("74ed4cdd-15f5-4e6c-91f8-f55018b70ce6"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_4.webp"
                         },
                         new
                         {
-                            Id = new Guid("a3119b1c-15dd-41d8-b65f-ad0395aee2c3"),
+                            Id = new Guid("cde81600-f21b-41a7-a783-01d11e7108ce"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_5.webp"
                         },
                         new
                         {
-                            Id = new Guid("83ae7f4b-8890-42d1-8562-38596bbf3dd1"),
+                            Id = new Guid("9b76b53b-1b1e-4d12-a6e5-31f70c441477"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_6.webp"
                         },
                         new
                         {
-                            Id = new Guid("9bc208a1-ed8b-44c0-9850-5b83dd39db71"),
+                            Id = new Guid("55e9fd3c-fe9c-49a2-9bb6-a06a7d875bca"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_7.webp"
                         },
                         new
                         {
-                            Id = new Guid("3d2de27d-7b3a-4a03-ae72-fe4a0ef66f84"),
+                            Id = new Guid("f654e5f2-ce2e-4e14-b1b6-cd8080c45079"),
                             ProductId = new Guid("d13b5481-bfe0-4d5c-885b-1d43df8aa6b9"),
                             Url = "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp"
                         },
                         new
                         {
-                            Id = new Guid("351a1ae5-8ae6-4aee-8b04-4cd934a8d13c"),
+                            Id = new Guid("dd884e39-e72b-400f-807c-654c695ec89a"),
                             ProductId = new Guid("c643c046-93df-4d0f-ba01-224b689eca0f"),
                             Url = "/img/products/Intel-Core-i5-12400F-OEM.webp"
                         });
@@ -494,29 +494,28 @@ namespace OnlineShop.Db.Migrations.MsSQL
             modelBuilder.Entity("OnlineShop.Db.Models.Role", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("CanBeDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
@@ -524,57 +523,57 @@ namespace OnlineShop.Db.Migrations.MsSQL
             modelBuilder.Entity("OnlineShop.Db.Models.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -583,8 +582,7 @@ namespace OnlineShop.Db.Migrations.MsSQL
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -593,46 +591,46 @@ namespace OnlineShop.Db.Migrations.MsSQL
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("AdditionalInfo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int?>("Apartment")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int?>("Entrance")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("Floor")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PostCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ReservePhone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

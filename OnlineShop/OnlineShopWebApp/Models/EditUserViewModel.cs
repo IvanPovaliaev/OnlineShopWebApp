@@ -1,4 +1,5 @@
-﻿using OnlineShopWebApp.Helpers;
+﻿using Microsoft.AspNetCore.Http;
+using OnlineShopWebApp.Helpers;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopWebApp.Models
@@ -15,5 +16,7 @@ namespace OnlineShopWebApp.Models
 
 		[PhoneValidation()]
 		public string? PhoneNumber { get; set; }
+		public string? AvatarUrl { get; set; }
+		public IFormFile? UploadedImage { get; init; }
 	}
 }

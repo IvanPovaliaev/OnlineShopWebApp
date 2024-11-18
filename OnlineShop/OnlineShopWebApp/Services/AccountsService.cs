@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using OnlineShop.Db;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Models.Abstractions;
@@ -22,14 +24,19 @@ namespace OnlineShopWebApp.Services
 		private readonly IExcelService _excelService;
 		private readonly SignInManager<User> _signInManager;
 		private readonly UserManager<User> _userManager;
+		private readonly ImagesProvider _imageProvider;
+		private readonly string _usersAvatarsStoragePath;
 
-		public AccountsService(IMapper mapper, RolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager)
+		public AccountsService(IMapper mapper, RolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, ImagesProvider imagesProvider)
 		{
 			_mapper = mapper;
 			_rolesService = rolesService;
 			_excelService = excelService;
 			_signInManager = signInManager;
 			_userManager = userManager;
+
+			_usersAvatarsStoragePath = configuration["ImagesStorage:Avatars"]!;
+			_imageProvider = imagesProvider;
 		}
 
 		/// <summary>
@@ -153,6 +160,12 @@ namespace OnlineShopWebApp.Services
 			user.UserName = editUser.Email;
 			user.PhoneNumber = editUser.PhoneNumber;
 			user.FullName = editUser.FullName;
+			var avatarUrl = _imageProvider.Save(editUser.UploadedImage, _usersAvatarsStoragePath);
+
+			if (avatarUrl != null)
+			{
+				user.AvatarUrl = avatarUrl;
+			}
 
 			await _userManager.UpdateAsync(user);
 

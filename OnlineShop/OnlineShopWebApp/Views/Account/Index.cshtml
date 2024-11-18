@@ -1,37 +1,41 @@
 ﻿@model EditUserViewModel
 
 @{
-	var userChangePasswordModel = new UserChangePasswordViewModel()
-	{
-		UserId = Model.Id
-	};
+	var avatarUrl = Model.AvatarUrl ?? @"/img/DefaultUserAvatar.jpg";
 }
+
 <section>
 	<div class="row">
 		<div class="col-3">
-			@* Блок с итоговой стоймостью и кнопкам *@
-			<div class="account-navigation-panel border-1 border-brown p-3">
-
-				<h3 class="text-center text-blue mb-3">@User.Identity.Name</h3>
-
-				<a class="btn btn-main w-100 mb-3" asp-area="" asp-controller="Account" asp-action="Index">
-					Профиль          
-				</a>				
-
-				<a class="btn btn-main w-100"data-bs-toggle="modal" data-bs-target="#logoutModal">
-					Выйти из профиля       
-				</a>
-
-			</div>
+			@await Html.PartialAsync("_NavAccountPanel")
 		</div>
 
 		<div class="col">
 			<h4 class="mb-3">Профиль</h4>
 
-			<form method="post" asp-area="" asp-controller="Account" asp-action="Update" class="p-3">
+			<form method="post" asp-area="" asp-controller="Account" asp-action="Update"
+				  class="p-3"
+			      enctype="multipart/form-data">
+
 				<div class="row mb-3">
 					<div class="col">
 						<input type="hidden" asp-for="Id" value="@Model.Id" />
+						<input type="hidden" asp-for="AvatarUrl" value="@Model.AvatarUrl" />
+
+						<div class="row mb-3">
+							<div class="d-flex justify-content-center">
+								<img id="imagePreview" class="border-main avatar avatar-change-image"
+									 src="@avatarUrl" alt="User Avatar">
+							</div>
+						</div>
+
+						<div class="row d-flex justify-content-center mb-3">
+							<div class="col-6">
+								<label asp-for="UploadedImage" class="form-label">Заменить аватар</label>
+								<input asp-for="UploadedImage"
+									   type="file" class="form-control input-field" />
+							</div>
+						</div>
 
 						<div class="row mb-3">
 							<div class="col-6">
@@ -71,32 +75,3 @@
 		</div>
 	</div>
 </section>
-
-@* Окно выхода *@
-<div class="modal fade" id="logoutModal"
-        tabindex="-1" aria-labelledby="logoutModalLabel"
-        aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title fs-5" id="logoutModalLabel">Выход</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-            </div>
-
-            <div class="modal-body">
-                <div>
-                    <p> Вы уверены, что хотите выйти?</p>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <a class="btn btn-main" id="confirmLogoutBtn" asp-area="" asp-controller="Account" asp-action="Logout">
-                    Выйти
-                </a>
-            </div>
-
-        </div>
-    </div>
-</div>

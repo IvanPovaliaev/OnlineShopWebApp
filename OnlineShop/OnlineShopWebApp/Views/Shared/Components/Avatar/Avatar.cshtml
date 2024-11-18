@@ -1,0 +1,6 @@
+﻿@model string?
+@{
+	var avatarUrl = Model ?? @"/img/DefaultUserAvatar.jpg";
+}
+
+<img src="@avatarUrl" alt="User Avatar" class="border-main avatar w-50">

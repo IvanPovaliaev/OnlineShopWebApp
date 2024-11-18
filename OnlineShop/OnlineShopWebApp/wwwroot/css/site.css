@@ -471,3 +471,14 @@ footer {
   top: 80px;
   z-index: 10;
 }
+
+.avatar {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-change-image {
+  height: 10rem;
+  aspect-ratio: 1/1;
+}

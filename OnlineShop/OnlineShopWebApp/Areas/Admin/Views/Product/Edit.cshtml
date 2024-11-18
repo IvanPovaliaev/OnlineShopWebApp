@@ -24,7 +24,8 @@
                     @* Общие свойства товара *@
                     <div class="row">
 
-                        <input type="hidden" name="Id" value="@Model?.Id" />
+                        <input type="hidden" asp-for="Id" value="@Model?.Id" />
+                        <input type="hidden" asp-for="Images" value="@Model?.Images" />
 
                         @await Html.PartialAsync("_UploadImagesCarousel", Model?.Images)
 

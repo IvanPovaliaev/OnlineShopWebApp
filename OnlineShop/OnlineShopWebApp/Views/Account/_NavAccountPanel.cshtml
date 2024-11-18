@@ -1,0 +1,46 @@
+﻿<div class="account-navigation-panel border-1 border-brown p-3">
+
+	<div class="d-flex justify-content-center mb-3">
+        @await Component.InvokeAsync("Avatar")
+	</div>
+
+	<p class="text-center text-blue mb-3">@User.Identity.Name</p>
+
+	<a class="btn btn-main w-100 mb-3" asp-area="" asp-controller="Account" asp-action="Index">
+		Профиль
+	</a>
+
+	<a class="btn btn-main w-100" data-bs-toggle="modal" data-bs-target="#logoutModal">
+		Выйти из профиля
+	</a>
+
+</div>
+
+@* Окно выхода *@
+<div class="modal fade" id="logoutModal"
+     tabindex="-1" aria-labelledby="logoutModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title fs-5" id="logoutModalLabel">Выход</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <p> Вы уверены, что хотите выйти?</p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a class="btn btn-main" id="confirmLogoutBtn" asp-area="" asp-controller="Account" asp-action="Logout">
+                    Выйти
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

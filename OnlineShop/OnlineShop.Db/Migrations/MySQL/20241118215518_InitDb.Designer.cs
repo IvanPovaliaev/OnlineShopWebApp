@@ -12,7 +12,7 @@ using OnlineShop.Db;
 namespace OnlineShop.Db.Migrations.MySQL
 {
     [DbContext(typeof(MySQLContext))]
-    [Migration("20241117164503_InitDb")]
+    [Migration("20241118215518_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -297,7 +297,7 @@ namespace OnlineShop.Db.Migrations.MySQL
                             Cost = 7050m,
                             Description = "M.2 накопитель Kingston NV2 – компактное устройство, способное эффективно справляться с требовательными ресурсоемкими задачами и увеличить отзывчивость системы. Накопитель ориентирован на создание контента с разрешением 4K+ и запуск игр. Благодаря объему 1000 ГБ Kingston NV2 предоставляет достаточно пространства для хранения игр, мультимедийных и прочих файлов. Форм-фактор M.2 гарантирует широкую совместимость с настольными ПК и ноутбуками. Интерфейс подключения PCI-E 4.0 x4 и технология 3D NAND гарантируют скорость в пределах 3500 Мбайт/сек.",
                             Name = "SSD 1Tb Kingston NV2 (SNV2S/1000G)",
-                            SpecificationsJson = "{\"Manufacturer\":\"Kingston\",\"ManufacturerCode\":\"SNV2S/1000G\",\"FormFactor\":\"M.2\",\"Capacity\":\"1000 Гб\"}"
+                            SpecificationsJson = "{\"Manufacturer\":\"Kingston\",\"ManufacturerCode\":\"SNV2S/1000G\",\"FormFactor\":\"M.2 2280\",\"Capacity\":\"1000 Гб\"}"
                         },
                         new
                         {
@@ -395,97 +395,97 @@ namespace OnlineShop.Db.Migrations.MySQL
                     b.HasData(
                         new
                         {
-                            Id = new Guid("426e763a-44c2-4ed5-81a6-fa019892ed76"),
+                            Id = new Guid("11ea3f23-f3d7-4834-ab3d-247f41517da2"),
                             ProductId = new Guid("fa991ad4-510b-47d2-848c-130aadd43838"),
                             Url = "/img/products/SSD-1Tb-Kingston-NV2_1.webp"
                         },
                         new
                         {
-                            Id = new Guid("05841475-b22c-4373-87f0-23620a58166e"),
+                            Id = new Guid("4cc140dc-410b-4a1f-8e57-8c11c8debe8d"),
                             ProductId = new Guid("fa991ad4-510b-47d2-848c-130aadd43838"),
                             Url = "/img/products/SSD-1Tb-Kingston-NV2_2.webp"
                         },
                         new
                         {
-                            Id = new Guid("73de5e98-174e-423b-976f-53e86e926b97"),
+                            Id = new Guid("e9e3f538-c2ed-4f93-8424-72e1d1ac4b79"),
                             ProductId = new Guid("fa991ad4-510b-47d2-848c-130aadd43838"),
                             Url = "/img/products/SSD-1Tb-Kingston-NV2_3.webp"
                         },
                         new
                         {
-                            Id = new Guid("1bc697fc-8ea7-4360-aa33-1387f1c7b7c6"),
+                            Id = new Guid("b4a9b1dc-8bad-4ac7-b90f-95fbae374c3f"),
                             ProductId = new Guid("0025491a-1eeb-4e6d-8dc9-26fc69ecb1b0"),
                             Url = "/img/products/2Tb-SATA-III-Seagate-Barracuda.webp"
                         },
                         new
                         {
-                            Id = new Guid("37bd06ad-bf63-46c6-b055-90e708b91f1d"),
+                            Id = new Guid("28e4cb3c-bc99-4cca-b9c4-e3ffa9388199"),
                             ProductId = new Guid("5c2a6e43-0e05-47a2-9c92-eb839f0b3e63"),
                             Url = "/img/products/32Gb-DDR5-6000MHz-Team-T-Create-Expert-_2x16Gb-KIT.webp"
                         },
                         new
                         {
-                            Id = new Guid("525d9b26-7a77-4d09-a833-1f819af3288c"),
+                            Id = new Guid("25838ade-3806-4c3a-aa0d-c40dcacd85a4"),
                             ProductId = new Guid("202d752c-be4e-4f32-a7a0-433bcc1f2bb4"),
                             Url = "/img/products/32Gb DDR5 6000MHz Kingston Fury Beast (KF560C40BBK2-32) (2x16Gb KIT).webp"
                         },
                         new
                         {
-                            Id = new Guid("b3d9c69a-b31d-4c51-be7e-f4643d5252b8"),
+                            Id = new Guid("dce54a16-c12d-42a4-bc65-f367e241c11c"),
                             ProductId = new Guid("db040c0c-f8f4-48fd-8be4-3040caaa722e"),
                             Url = "/img/products/16Gb DDR4 3200MHz Netac Shadow II (NTSWD4P32DP-16W) (2x8Gb KIT).webp"
                         },
                         new
                         {
-                            Id = new Guid("782ae3ba-62a1-4c69-a303-9550c57b3f6f"),
+                            Id = new Guid("6b118de3-c6dc-494e-a85a-8d9abe0a7dc0"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_1.webp"
                         },
                         new
                         {
-                            Id = new Guid("711a8e20-f66d-441e-8a15-2490cbb1667a"),
+                            Id = new Guid("3ae92c1f-4766-48d7-b092-1dd59139d0b4"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_2.webp"
                         },
                         new
                         {
-                            Id = new Guid("2e055202-0231-4722-bea2-ea0520b726bd"),
+                            Id = new Guid("6437661e-8697-4d5b-aaf5-8e67d881a242"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_3.webp"
                         },
                         new
                         {
-                            Id = new Guid("0296de11-f903-4846-aa95-097fc8179884"),
+                            Id = new Guid("74ed4cdd-15f5-4e6c-91f8-f55018b70ce6"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_4.webp"
                         },
                         new
                         {
-                            Id = new Guid("b1afde92-bd8d-47d9-bfe3-1dc00d48964f"),
+                            Id = new Guid("cde81600-f21b-41a7-a783-01d11e7108ce"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_5.webp"
                         },
                         new
                         {
-                            Id = new Guid("68818ff6-7736-470b-94be-bcd61241390b"),
+                            Id = new Guid("9b76b53b-1b1e-4d12-a6e5-31f70c441477"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_6.webp"
                         },
                         new
                         {
-                            Id = new Guid("3aa1e61f-b3f5-40a8-936f-ab354f1f8279"),
+                            Id = new Guid("55e9fd3c-fe9c-49a2-9bb6-a06a7d875bca"),
                             ProductId = new Guid("ffc4ec07-f264-4930-8892-e22cad344f51"),
                             Url = "/img/products/32Gb DDR4 3600MHz Patriot Viper Steel RGB (PVSR432G360C0K) (2x16Gb KIT)_7.webp"
                         },
                         new
                         {
-                            Id = new Guid("a3182054-b266-4447-85c4-e37428b47b76"),
+                            Id = new Guid("f654e5f2-ce2e-4e14-b1b6-cd8080c45079"),
                             ProductId = new Guid("d13b5481-bfe0-4d5c-885b-1d43df8aa6b9"),
                             Url = "/img/products/64Gb DDR5 5600MHz ADATA XPG Lancer (AX5U5600C3632G-DCLABK) (2x32Gb KIT).webp"
                         },
                         new
                         {
-                            Id = new Guid("ab1ef41c-81a2-4a09-ae64-62dd7c2a10b5"),
+                            Id = new Guid("dd884e39-e72b-400f-807c-654c695ec89a"),
                             ProductId = new Guid("c643c046-93df-4d0f-ba01-224b689eca0f"),
                             Url = "/img/products/Intel-Core-i5-12400F-OEM.webp"
                         });
