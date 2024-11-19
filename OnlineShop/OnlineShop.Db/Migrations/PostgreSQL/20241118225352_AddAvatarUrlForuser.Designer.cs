@@ -13,7 +13,7 @@ namespace OnlineShop.Db.Migrations.PostgreSQL
 {
     [DbContext(typeof(PostgreSQLContext))]
     [Migration("20241118225352_AddAvatarUrlForuser")]
-    partial class AddAvatarUrlForuser
+    partial class AddAvatarUrlForUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
