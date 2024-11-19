@@ -1,17 +1,14 @@
 ﻿@model ICollection<OrderViewModel>
 
-<section class="container flex-row">
+<section>
 	<div class="row">
-
-		<div class="col-3 flex-column">
+		<div class="col-3">
             @await Html.PartialAsync("_NavAccountPanel")
 		</div>
 
 		<div class="col">
-            <div class="row">
-                <h2>Список заказов</h2>
-                <hr class="border-brown mb-3" />
-            </div>
+            <h2 class="mb-3">Список заказов</h2>
+            <hr class="border-brown mb-3" />
 
             @if (@Model.Count != 0)
             {
