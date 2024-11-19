@@ -63,7 +63,12 @@ namespace OnlineShop.Db.Repositories
             repositoryProduct.Name = product.Name;
             repositoryProduct.Cost = product.Cost;
             repositoryProduct.Description = product.Description;
-            repositoryProduct.Images = product.Images;
+
+            if (product.Images.Count > 0)
+            {
+                repositoryProduct.Images = product.Images;
+            }
+
             repositoryProduct.SpecificationsJson = product.SpecificationsJson;
 
             await _databaseContext.SaveChangesAsync();

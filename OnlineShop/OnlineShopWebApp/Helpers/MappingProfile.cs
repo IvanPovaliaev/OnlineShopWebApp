@@ -45,6 +45,7 @@ namespace OnlineShopWebApp.Helpers
             CreateMap<AddRoleViewModel, Role>();
 
             CreateMap<UserViewModel, User>().ReverseMap();
+            CreateMap<User, EditUserViewModel>();
         }
     }
 }

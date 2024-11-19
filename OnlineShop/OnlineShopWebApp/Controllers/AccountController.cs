@@ -1,85 +1,128 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Helpers.Notifications;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
-    public class AccountController : Controller
-    {
-        private readonly AccountsService _accountsService;
-        private readonly IMediator _mediator;
+	public class AccountController : Controller
+	{
+		private readonly string? _userId;
+		private readonly AccountsService _accountsService;
+		private readonly IMediator _mediator;
 
-        public AccountController(AccountsService accountService, IMediator mediator)
-        {
-            _accountsService = accountService;
-            _mediator = mediator;
-        }
+		public AccountController(AccountsService accountService, IMediator mediator, IHttpContextAccessor httpContextAccessor)
+		{
+			_accountsService = accountService;
+			_mediator = mediator;
+			_userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
+		}
 
-        /// <summary>
-        /// Open unauthorized page
-        /// </summary>
-        /// <returns>Unauthorized page</returns>
-        public IActionResult Unauthorized(string returnUrl)
-        {
-            return View();
-        }
+		/// <summary>
+		/// Open unauthorized page
+		/// </summary>
+		/// <returns>Unauthorized page</returns>
+		public IActionResult Unauthorized(string returnUrl)
+		{
+			return View();
+		}
 
-        /// <summary>
-        /// Login as user
-        /// </summary>
-        /// <returns>Home page</returns>
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel login)
-        {
-            var isModelValid = await _accountsService.IsLoginValidAsync(ModelState, login);
+		/// <summary>
+		/// Open Index account page for currentUser
+		/// </summary>
+		/// <returns>Account index page</returns>
+		/// <param name="user">Target EditUser model</param>  
+		[Authorize]
+		public async Task<IActionResult> Index(EditUserViewModel user)
+		{
+			if (user.Id is null)
+			{
+				ModelState.Clear();
+				user = await _accountsService.GetEditViewModelAsync(_userId!);
+			}
 
-            if (!isModelValid)
-            {
-                return PartialView("_LoginForm", login);
-            }
+			return View(user);
+		}
 
-            var redirectUrl = login.ReturnUrl;
+		/// <summary>
+		/// Update target user
+		/// </summary>
+		/// <returns>Account index page</returns>
+		/// <param name="editUser">Target EditUser model</param>		
+		[HttpPost]
+		[Authorize]
+		public async Task<IActionResult> Update(EditUserViewModel editUser)
+		{
+			var isModelValid = await _accountsService.IsEditUserValidAsync(ModelState, editUser);
 
-            await _mediator.Publish(new UserSignInNotification());
+			if (!isModelValid)
+			{
+				return View(nameof(Index), editUser);
+			}
 
-            return Json(new { redirectUrl });
-        }
+			await _accountsService.UpdateInfoAsync(editUser);
 
-        /// <summary>
-        /// Logout user
-        /// </summary>
-        /// <returns>Home page</returns>
-        public async Task<IActionResult> Logout()
-        {
-            await _accountsService.LogoutAsync();
+			return RedirectToAction(nameof(Index));
+		}
 
-            return RedirectToAction("Index", "Home");
-        }
+		/// <summary>
+		/// Login as user
+		/// </summary>
+		/// <returns>Home page</returns>
+		[HttpPost]
+		public async Task<IActionResult> Login(LoginViewModel login)
+		{
+			var isModelValid = await _accountsService.IsLoginValidAsync(ModelState, login);
 
-        /// <summary>
-        /// Register a new user
-        /// </summary>
-        /// <returns>Home page</returns>
-        [HttpPost]
-        public async Task<IActionResult> Register(UserRegisterViewModel register)
-        {
-            var isModelValid = await _accountsService.IsRegisterValidAsync(ModelState, register);
+			if (!isModelValid)
+			{
+				return PartialView("_LoginForm", login);
+			}
 
-            if (!isModelValid)
-            {
-                return PartialView("_RegistrationForm", register);
-            }
+			var redirectUrl = login.ReturnUrl;
 
-            await _accountsService.AddAsync(register);
+			await _mediator.Publish(new UserSignInNotification());
 
-            var redirectUrl = register.ReturnUrl;
+			return Json(new { redirectUrl });
+		}
 
-            await _mediator.Publish(new UserSignInNotification());
+		/// <summary>
+		/// Logout user
+		/// </summary>
+		/// <returns>Home page</returns>
+		public async Task<IActionResult> Logout()
+		{
+			await _accountsService.LogoutAsync();
 
-            return Json(new { redirectUrl });
-        }
-    }
+			return RedirectToAction("Index", "Home");
+		}
+
+		/// <summary>
+		/// Register a new user
+		/// </summary>
+		/// <returns>Home page</returns>
+		[HttpPost]
+		public async Task<IActionResult> Register(UserRegisterViewModel register)
+		{
+			var isModelValid = await _accountsService.IsRegisterValidAsync(ModelState, register);
+
+			if (!isModelValid)
+			{
+				return PartialView("_RegistrationForm", register);
+			}
+
+			await _accountsService.AddAsync(register);
+
+			var redirectUrl = register.ReturnUrl;
+
+			await _mediator.Publish(new UserSignInNotification());
+
+			return Json(new { redirectUrl });
+		}
+	}
 }

@@ -171,7 +171,7 @@ $(document).ready(function () {
     });
 });
 
-//Скрипт для загрузки изображение и отображения их
+//Скрипт для загрузки изображения и отображения
 $(document).ready(function () {
     $('#UploadedImage').on('change', function (event) {
         const fileInput = event.target;
