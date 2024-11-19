@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
-using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
+using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using System;
 using System.Threading.Tasks;

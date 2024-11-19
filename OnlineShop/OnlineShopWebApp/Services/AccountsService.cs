@@ -17,341 +17,341 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
-	public class AccountsService
-	{
-		private readonly IMapper _mapper;
-		private readonly RolesService _rolesService;
-		private readonly IExcelService _excelService;
-		private readonly SignInManager<User> _signInManager;
-		private readonly UserManager<User> _userManager;
-		private readonly ImagesProvider _imageProvider;
-		private readonly string _usersAvatarsStoragePath;
+    public class AccountsService
+    {
+        private readonly IMapper _mapper;
+        private readonly RolesService _rolesService;
+        private readonly IExcelService _excelService;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly ImagesProvider _imageProvider;
+        private readonly string _usersAvatarsStoragePath;
 
-		public AccountsService(IMapper mapper, RolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, ImagesProvider imagesProvider)
-		{
-			_mapper = mapper;
-			_rolesService = rolesService;
-			_excelService = excelService;
-			_signInManager = signInManager;
-			_userManager = userManager;
+        public AccountsService(IMapper mapper, RolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, ImagesProvider imagesProvider)
+        {
+            _mapper = mapper;
+            _rolesService = rolesService;
+            _excelService = excelService;
+            _signInManager = signInManager;
+            _userManager = userManager;
 
-			_usersAvatarsStoragePath = configuration["ImagesStorage:Avatars"]!;
-			_imageProvider = imagesProvider;
-		}
+            _usersAvatarsStoragePath = configuration["ImagesStorage:Avatars"]!;
+            _imageProvider = imagesProvider;
+        }
 
-		/// <summary>
-		/// Get all users from repository
-		/// </summary>
-		/// <returns>List of all UserViewModel from repository</returns>
-		public virtual async Task<List<UserViewModel>> GetAllAsync()
-		{
-			var users = await _userManager.Users.ToListAsync();
-			var usersViewModels = new List<UserViewModel>(users.Count);
+        /// <summary>
+        /// Get all users from repository
+        /// </summary>
+        /// <returns>List of all UserViewModel from repository</returns>
+        public virtual async Task<List<UserViewModel>> GetAllAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var usersViewModels = new List<UserViewModel>(users.Count);
 
-			foreach (var user in users)
-			{
-				var roles = await _userManager.GetRolesAsync(user);
-				var userVM = _mapper.Map<UserViewModel>(user);
-				userVM.RoleName = roles.FirstOrDefault()!;
-				usersViewModels.Add(userVM);
-			}
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var userVM = _mapper.Map<UserViewModel>(user);
+                userVM.RoleName = roles.FirstOrDefault()!;
+                usersViewModels.Add(userVM);
+            }
 
-			return usersViewModels;
-		}
+            return usersViewModels;
+        }
 
-		/// <summary>
-		/// Get user from repository by id
-		/// </summary>
-		/// <returns>UserViewModel; returns null if user not found</returns>
-		/// <param name="id">Target user id</param>
-		public virtual async Task<UserViewModel> GetAsync(string id)
-		{
-			var userDb = await _userManager.FindByIdAsync(id);
+        /// <summary>
+        /// Get user from repository by id
+        /// </summary>
+        /// <returns>UserViewModel; returns null if user not found</returns>
+        /// <param name="id">Target user id</param>
+        public virtual async Task<UserViewModel> GetAsync(string id)
+        {
+            var userDb = await _userManager.FindByIdAsync(id);
 
-			if (userDb is null)
-			{
-				return null!;
-			}
+            if (userDb is null)
+            {
+                return null!;
+            }
 
-			var roles = await _userManager.GetRolesAsync(userDb!);
+            var roles = await _userManager.GetRolesAsync(userDb!);
 
-			var userVM = _mapper.Map<UserViewModel>(userDb);
-			userVM.RoleName = roles.FirstOrDefault()!;
+            var userVM = _mapper.Map<UserViewModel>(userDb);
+            userVM.RoleName = roles.FirstOrDefault()!;
 
-			return userVM;
-		}
+            return userVM;
+        }
 
-		/// <summary>
-		/// Get EditUserViewModel by id
-		/// </summary>
-		/// <returns>EditUserViewModel; returns null if user not found</returns>
-		/// <param name="id">Target user id</param>
-		public async Task<EditUserViewModel> GetEditViewModelAsync(string id)
-		{
-			var userDb = await _userManager.FindByIdAsync(id);
-			if (userDb is null)
-			{
-				return null!;
-			}
+        /// <summary>
+        /// Get EditUserViewModel by id
+        /// </summary>
+        /// <returns>EditUserViewModel; returns null if user not found</returns>
+        /// <param name="id">Target user id</param>
+        public async Task<EditUserViewModel> GetEditViewModelAsync(string id)
+        {
+            var userDb = await _userManager.FindByIdAsync(id);
+            if (userDb is null)
+            {
+                return null!;
+            }
 
-			return _mapper.Map<EditUserViewModel>(userDb);
-		}
+            return _mapper.Map<EditUserViewModel>(userDb);
+        }
 
-		/// <summary>
-		/// Add a new user to repository based on register info
-		/// </summary>        
-		/// <param name="register">Target register model</param>
-		public virtual async Task AddAsync(RegisterViewModel register)
-		{
-			var user = new User
-			{
-				Email = register.Email,
-				UserName = register.Email,
-				FullName = register.Name,
-				PhoneNumber = register.PhoneNumber
-			};
+        /// <summary>
+        /// Add a new user to repository based on register info
+        /// </summary>        
+        /// <param name="register">Target register model</param>
+        public virtual async Task AddAsync(RegisterViewModel register)
+        {
+            var user = new User
+            {
+                Email = register.Email,
+                UserName = register.Email,
+                FullName = register.Name,
+                PhoneNumber = register.PhoneNumber
+            };
 
-			await _userManager.CreateAsync(user, register.Password);
+            await _userManager.CreateAsync(user, register.Password);
 
-			var roleName = await GetRegisterRoleNameAsync(register);
-			await _userManager.AddToRoleAsync(user, roleName);
+            var roleName = await GetRegisterRoleNameAsync(register);
+            await _userManager.AddToRoleAsync(user, roleName);
 
-			if (register is not AdminRegisterViewModel)
-			{
-				await _signInManager.SignInAsync(user, false);
-			}
-		}
+            if (register is not AdminRegisterViewModel)
+            {
+                await _signInManager.SignInAsync(user, false);
+            }
+        }
 
-		/// <summary>
-		/// Change password for related user if user exist
-		/// </summary>        
-		/// <param name="changePassword">Target ChangePassword model</param>
-		public virtual async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
-		{
-			var userId = changePassword.UserId;
-			var user = await _userManager.FindByIdAsync(userId);
+        /// <summary>
+        /// Change password for related user if user exist
+        /// </summary>        
+        /// <param name="changePassword">Target ChangePassword model</param>
+        public virtual async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
+        {
+            var userId = changePassword.UserId;
+            var user = await _userManager.FindByIdAsync(userId);
 
-			if (user is null)
-			{
-				return;
-			}
+            if (user is null)
+            {
+                return;
+            }
 
-			var newPasswordHash = _userManager.PasswordHasher.HashPassword(user, changePassword.Password);
-			user.PasswordHash = newPasswordHash;
+            var newPasswordHash = _userManager.PasswordHasher.HashPassword(user, changePassword.Password);
+            user.PasswordHash = newPasswordHash;
 
-			await _userManager.UpdateAsync(user);
-		}
+            await _userManager.UpdateAsync(user);
+        }
 
-		/// <summary>
-		/// Update info for related user if user exist
-		/// </summary>        
-		/// <param name="editUser">Target editUser model</param>
-		public virtual async Task UpdateInfoAsync(EditUserViewModel editUser)
-		{
-			var userId = editUser.Id;
-			var user = await _userManager.FindByIdAsync(userId);
+        /// <summary>
+        /// Update info for related user if user exist
+        /// </summary>        
+        /// <param name="editUser">Target editUser model</param>
+        public virtual async Task UpdateInfoAsync(EditUserViewModel editUser)
+        {
+            var userId = editUser.Id;
+            var user = await _userManager.FindByIdAsync(userId);
 
-			if (user is null)
-			{
-				return;
-			}
+            if (user is null)
+            {
+                return;
+            }
 
-			user.Email = editUser.Email;
-			user.UserName = editUser.Email;
-			user.PhoneNumber = editUser.PhoneNumber;
-			user.FullName = editUser.FullName;
-			var avatarUrl = _imageProvider.Save(editUser.UploadedImage, _usersAvatarsStoragePath);
+            user.Email = editUser.Email;
+            user.UserName = editUser.Email;
+            user.PhoneNumber = editUser.PhoneNumber;
+            user.FullName = editUser.FullName;
+            var avatarUrl = _imageProvider.Save(editUser.UploadedImage, _usersAvatarsStoragePath);
 
-			if (avatarUrl != null)
-			{
-				user.AvatarUrl = avatarUrl;
-			}
+            if (avatarUrl != null)
+            {
+                user.AvatarUrl = avatarUrl;
+            }
 
-			await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
 
-			if (editUser is AdminEditUserViewModel adminEditUser)
-			{
-				await ChangeRole(user, adminEditUser.RoleName);
-				return;
-			}
+            if (editUser is AdminEditUserViewModel adminEditUser)
+            {
+                await ChangeRoleAsync(user, adminEditUser.RoleName);
+                return;
+            }
 
-			await _signInManager.RefreshSignInAsync(user);
-		}
+            await _signInManager.RefreshSignInAsync(user);
+        }
 
-		/// <summary>
-		/// Delete user from repository by id. Admin can't be deleted
-		/// </summary>
-		/// <param name="id">Target user id (GUID)</param>
-		public virtual async Task DeleteAsync(string id)
-		{
-			var user = await _userManager.FindByIdAsync(id);
+        /// <summary>
+        /// Delete user from repository by id. Admin can't be deleted
+        /// </summary>
+        /// <param name="id">Target user id (GUID)</param>
+        public virtual async Task DeleteAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
 
-			var isAdmin = await _userManager.IsInRoleAsync(user!, Constants.AdminRoleName);
+            var isAdmin = await _userManager.IsInRoleAsync(user!, Constants.AdminRoleName);
 
-			if (!isAdmin)
-			{
-				await _userManager.DeleteAsync(user!);
-			}
-		}
+            if (!isAdmin)
+            {
+                await _userManager.DeleteAsync(user!);
+            }
+        }
 
-		/// <summary>
-		/// Validates the user login model
-		/// </summary>        
-		/// <returns>true if login model is valid; otherwise false</returns>
-		/// <param name="modelState">Current model state</param>
-		/// <param name="login">Target login model</param>
-		public virtual async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
-		{
-			var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.KeepMeLogged, false);
+        /// <summary>
+        /// Validates the user login model
+        /// </summary>        
+        /// <returns>true if login model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="login">Target login model</param>
+        public virtual async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
+        {
+            var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.KeepMeLogged, false);
 
-			if (!result.Succeeded)
-			{
-				modelState.AddModelError(string.Empty, "Неверный логин или пароль");
-			}
+            if (!result.Succeeded)
+            {
+                modelState.AddModelError(string.Empty, "Неверный логин или пароль");
+            }
 
-			return modelState.IsValid;
-		}
+            return modelState.IsValid;
+        }
 
-		/// <summary>
-		/// Validates the registration model
-		/// </summary>        
-		/// <returns>true if registration model is valid; otherwise false</returns>
-		/// <param name="modelState">Current model state</param>
-		/// <param name="register">Target register model</param>
-		public virtual async Task<bool> IsRegisterValidAsync(ModelStateDictionary modelState, RegisterViewModel register)
-		{
-			if (register.Email == register.Password)
-			{
-				modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать!");
-			}
+        /// <summary>
+        /// Validates the registration model
+        /// </summary>        
+        /// <returns>true if registration model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="register">Target register model</param>
+        public virtual async Task<bool> IsRegisterValidAsync(ModelStateDictionary modelState, RegisterViewModel register)
+        {
+            if (register.Email == register.Password)
+            {
+                modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать!");
+            }
 
-			if (await IsEmailExistAsync(register.Email))
-			{
-				modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
-			}
+            if (await IsEmailExistAsync(register.Email))
+            {
+                modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
+            }
 
-			if (register is AdminRegisterViewModel { RoleName: var roleName } && !await IsRoleExistAsync(roleName))
-			{
-				modelState.AddModelError(string.Empty, "Роль не существует!");
-			}
+            if (register is AdminRegisterViewModel { RoleName: var roleName } && !await IsRoleExistAsync(roleName))
+            {
+                modelState.AddModelError(string.Empty, "Роль не существует!");
+            }
 
-			return modelState.IsValid;
-		}
+            return modelState.IsValid;
+        }
 
-		/// <summary>
-		/// Validates the user edit model
-		/// </summary>        
-		/// <returns>true if edit model is valid; otherwise false</returns>
-		/// <param name="modelState">Current model state</param>
-		/// <param name="editUser">Target edit model</param>
-		public virtual async Task<bool> IsEditUserValidAsync(ModelStateDictionary modelState, EditUserViewModel editUser)
-		{
-			var repositoryUser = await GetAsync(editUser.Id);
+        /// <summary>
+        /// Validates the user edit model
+        /// </summary>        
+        /// <returns>true if edit model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="editUser">Target edit model</param>
+        public virtual async Task<bool> IsEditUserValidAsync(ModelStateDictionary modelState, EditUserViewModel editUser)
+        {
+            var repositoryUser = await GetAsync(editUser.Id);
 
-			if (repositoryUser.Email != editUser.Email & await IsEmailExistAsync(editUser.Email))
-			{
-				modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
-			}
+            if (repositoryUser.Email != editUser.Email & await IsEmailExistAsync(editUser.Email))
+            {
+                modelState.AddModelError(string.Empty, "Email уже зарегистрирован!");
+            }
 
-			if (editUser is AdminEditUserViewModel adminEditUser)
-			{
-				var isRoleExist = await IsRoleExistAsync(adminEditUser.RoleName);
+            if (editUser is AdminEditUserViewModel adminEditUser)
+            {
+                var isRoleExist = await IsRoleExistAsync(adminEditUser.RoleName);
 
-				if (!isRoleExist)
-				{
-					modelState.AddModelError(string.Empty, "Роль не существует!");
-				}
-			}
+                if (!isRoleExist)
+                {
+                    modelState.AddModelError(string.Empty, "Роль не существует!");
+                }
+            }
 
-			return modelState.IsValid;
-		}
+            return modelState.IsValid;
+        }
 
-		/// <summary>
-		/// Logout user
-		/// </summary>
-		public virtual async Task LogoutAsync() => await _signInManager.SignOutAsync();
+        /// <summary>
+        /// Logout user
+        /// </summary>
+        public virtual async Task LogoutAsync() => await _signInManager.SignOutAsync();
 
-		/// <summary>
-		/// Change all users role related to role name to user Role.
-		/// </summary>
-		/// <param name="oldRoleName">Target old role name</param>
-		public async Task ChangeRolesToUserAsync(string oldRoleName)
-		{
-			var users = await _userManager.GetUsersInRoleAsync(oldRoleName);
+        /// <summary>
+        /// Change all users role related to role name to user Role.
+        /// </summary>
+        /// <param name="oldRoleName">Target old role name</param>
+        public async Task ChangeRolesToUserAsync(string oldRoleName)
+        {
+            var users = await _userManager.GetUsersInRoleAsync(oldRoleName);
 
-			foreach (var user in users)
-			{
-				await _userManager.RemoveFromRoleAsync(user, oldRoleName);
-				await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
-			}
-		}
+            foreach (var user in users)
+            {
+                await _userManager.RemoveFromRoleAsync(user, oldRoleName);
+                await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
+            }
+        }
 
-		/// <summary>
-		/// Get MemoryStream for all users export to Excel 
-		/// </summary>
-		/// <returns>MemoryStream Excel file with users info</returns>
-		public virtual async Task<MemoryStream> ExportAllToExcelAsync()
-		{
-			var users = await GetAllAsync();
-			return _excelService.ExportUsers(users);
-		}
+        /// <summary>
+        /// Get MemoryStream for all users export to Excel 
+        /// </summary>
+        /// <returns>MemoryStream Excel file with users info</returns>
+        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
+        {
+            var users = await GetAllAsync();
+            return _excelService.ExportUsers(users);
+        }
 
-		/// <summary>
-		/// Get a role name for new user based on register model
-		/// </summary>        
-		/// <returns>Associated Role name; Return User role name as default</returns>
-		/// <param name="register">Target register model</param>
-		private async Task<string> GetRegisterRoleNameAsync(RegisterViewModel register)
-		{
-			if (register is AdminRegisterViewModel)
-			{
-				var adminRegister = register as AdminRegisterViewModel;
-				var role = await _rolesService.GetAsync(adminRegister!.RoleName);
-				return role?.Name ?? Constants.UserRoleName;
-			}
+        /// <summary>
+        /// Get a role name for new user based on register model
+        /// </summary>        
+        /// <returns>Associated Role name; Return User role name as default</returns>
+        /// <param name="register">Target register model</param>
+        private async Task<string> GetRegisterRoleNameAsync(RegisterViewModel register)
+        {
+            if (register is AdminRegisterViewModel)
+            {
+                var adminRegister = register as AdminRegisterViewModel;
+                var role = await _rolesService.GetAsync(adminRegister!.RoleName);
+                return role?.Name ?? Constants.UserRoleName;
+            }
 
-			return Constants.UserRoleName;
-		}
+            return Constants.UserRoleName;
+        }
 
-		/// <summary>
-		/// Checks if a user with the given address exists.
-		/// </summary>        
-		/// <returns>true if user with target email already exists; otherwise false</returns>
-		/// <param name="email">Target email</param>
-		private async Task<bool> IsEmailExistAsync(string email)
-		{
-			var user = await _userManager.FindByEmailAsync(email);
+        /// <summary>
+        /// Checks if a user with the given address exists.
+        /// </summary>        
+        /// <returns>true if user with target email already exists; otherwise false</returns>
+        /// <param name="email">Target email</param>
+        private async Task<bool> IsEmailExistAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
 
-			return user is not null;
-		}
+            return user is not null;
+        }
 
-		/// <summary>
-		/// Checks if a role with the given name exists.
-		/// </summary>        
-		/// <returns>true if exists; otherwise false</returns>
-		/// <param name="roleName">Target role name</param>
-		private async Task<bool> IsRoleExistAsync(string roleName)
-		{
-			var role = await _rolesService.GetAsync(roleName);
+        /// <summary>
+        /// Checks if a role with the given name exists.
+        /// </summary>        
+        /// <returns>true if exists; otherwise false</returns>
+        /// <param name="roleName">Target role name</param>
+        private async Task<bool> IsRoleExistAsync(string roleName)
+        {
+            var role = await _rolesService.GetAsync(roleName);
 
-			return role is not null;
-		}
+            return role is not null;
+        }
 
-		/// <summary>
-		/// Change role for related user to role with given name
-		/// </summary>
-		/// <param name="user">Target user</param>
-		/// <param name="newRoleName">Target new role name</param>
-		private async Task ChangeRole(User user, string newRoleName)
-		{
-			var userRoles = await _userManager.GetRolesAsync(user);
-			if (userRoles.Contains(newRoleName))
-			{
-				return;
-			}
+        /// <summary>
+        /// Change role for related user to role with given name
+        /// </summary>
+        /// <param name="user">Target user</param>
+        /// <param name="newRoleName">Target new role name</param>
+        private async Task ChangeRoleAsync(User user, string newRoleName)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            if (userRoles.Contains(newRoleName))
+            {
+                return;
+            }
 
-			await _userManager.RemoveFromRolesAsync(user, userRoles);
-			await _userManager.AddToRoleAsync(user, newRoleName);
-		}
-	}
+            await _userManager.RemoveFromRolesAsync(user, userRoles);
+            await _userManager.AddToRoleAsync(user, newRoleName);
+        }
+    }
 }

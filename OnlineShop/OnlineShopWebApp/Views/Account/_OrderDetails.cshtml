@@ -1,0 +1,88 @@
+﻿@model OrderViewModel
+
+@{
+    var getMessageIfNull = (object value) =>
+            {
+                return value is null ? "-" : value;
+            };
+}
+
+<button type="button" class="btn btn-main" data-bs-toggle="modal" data-bs-target="#modal-@Model.Article">
+    Детали заказа
+</button>
+
+<div class="modal fade" id="modal-@Model.Article" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-@Model.Article-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal-@Model.Article-label">Заказ №@Model.Article</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+
+                    <table class="table table-hover">
+                        <tr>
+                            <td class="col-6">Город</td>
+                            <td class="col">@Model.Info.City</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Адрес</td>
+                            <td class=col>@Model.Info.Address</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Подъезд</td>
+                            <td class=col>@getMessageIfNull(Model.Info.Entrance!)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Этаж</td>
+                            <td class=col>@getMessageIfNull(Model.Info.Floor!)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Индекс</td>
+                            <td class=col>@Model.Info.PostCode</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">ФИО</td>
+                            <td class=col>@Model.Info.FullName</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Email</td>
+                            <td class=col>@Model.Info.Email</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Телефон</td>
+                            <td class=col>@Model.Info.Phone</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Телефон(дополнительный)</td>
+                            <td class=col>@getMessageIfNull(Model.Info.ReservePhone!)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Дополнительная информация</td>
+                            <td class=col>@getMessageIfNull(Model.Info.AdditionalInfo!)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Стоимость, ₽</td>
+                            <td class=col>@Model.TotalCost.ToString("0.##")</td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-6">Статус</td>
+                            <td class=col>@Model.Status.GetDisplayAttributeName()</td>
+                        </tr>
+                    </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
