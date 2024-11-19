@@ -73,7 +73,7 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Open Orders apage for currentUser
+        /// Open Orders page for current user
         /// </summary>
         /// <returns>Orders page</returns>
         /// <param name="user">Target EditUser model</param>  
