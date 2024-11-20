@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -9,9 +9,9 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
     public class ComparisonViewComponent : ViewComponent
     {
         private readonly string _userId;
-        private readonly ComparisonsService _comparisonsService;
+        private readonly IComparisonsService _comparisonsService;
 
-        public ComparisonViewComponent(ComparisonsService comparisonsService, IHttpContextAccessor httpContextAccessor)
+        public ComparisonViewComponent(IComparisonsService comparisonsService, IHttpContextAccessor httpContextAccessor)
         {
             _comparisonsService = comparisonsService;
             _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);

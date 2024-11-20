@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Areas.Admin.Views.Product.Components.SpecificationsForm
 {
     public class SpecificationsFormViewComponent : ViewComponent
     {
-        private readonly ProductsService _productsService;
+        private readonly IProductsService _productsService;
 
-        public SpecificationsFormViewComponent(ProductsService productsService)
+        public SpecificationsFormViewComponent(IProductsService productsService)
         {
             _productsService = productsService;
         }

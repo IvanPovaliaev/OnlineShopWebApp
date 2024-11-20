@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ProductsService _productsService;
+        private readonly IProductsService _productsService;
 
-        public HomeController(ProductsService productsService)
+        public HomeController(IProductsService productsService)
         {
             _productsService = productsService;
         }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
-    public class OrdersService
+    public class OrdersService : IOrdersService
     {
         private readonly IOrdersRepository _ordersRepository;
         private readonly IExcelService _excelService;
@@ -25,22 +25,14 @@ namespace OnlineShopWebApp.Services
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Get all orders from repository
-        /// </summary>
-        /// <returns>List of all OrderViewModel from repository</returns>
-        public virtual async Task<List<OrderViewModel>> GetAllAsync()
+        public async Task<List<OrderViewModel>> GetAllAsync()
         {
             var orders = await _ordersRepository.GetAllAsync();
             return orders.Select(_mapper.Map<OrderViewModel>)
                          .ToList();
         }
 
-        /// <summary>
-        /// Get all orders for related user
-        /// </summary>
-        /// <returns>List of all OrderViewModel from repository for related user</returns>
-        public virtual async Task<List<OrderViewModel>> GetAllAsync(string userId)
+        public async Task<List<OrderViewModel>> GetAllAsync(string userId)
         {
             var orders = (await _ordersRepository.GetAllAsync())
                                                  .Where(order => order.UserId == userId)
@@ -49,23 +41,13 @@ namespace OnlineShopWebApp.Services
             return orders;
         }
 
-        /// <summary>
-        /// Get last user order from repository 
-        /// </summary>
-        /// <returns>OrderViewModel; returns null if user doesn't have any orders</returns>
-        public virtual async Task<OrderViewModel> GetLastAsync(string userId)
+        public async Task<OrderViewModel> GetLastAsync(string userId)
         {
             var orders = await GetAllAsync();
             return orders.LastOrDefault(o => o.UserId == userId)!;
         }
 
-        /// <summary>
-        /// Create new order in repository
-        /// </summary>
-        /// <param name="userId">Target user ID</param>
-        /// <param name="deliveryInfo">Related UserDeliveryInfoViewModel </param>
-        /// <param name="positions">Target CartPosition List</param>
-        public virtual async Task CreateAsync(string userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)
+        public async Task CreateAsync(string userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)
         {
             var deliveryInfoDb = _mapper.Map<UserDeliveryInfo>(deliveryInfo);
             var order = new Order
@@ -84,13 +66,7 @@ namespace OnlineShopWebApp.Services
             await _ordersRepository.CreateAsync(order);
         }
 
-        /// <summary>
-        /// Validates the order creation model
-        /// </summary>        
-        /// <returns>true if creation model is valid; otherwise false</returns>
-        /// <param name="modelState">Current model state</param>
-        /// <param name="positions">Target cart positions</param>
-        public virtual bool IsCreationValid(ModelStateDictionary modelState, List<CartPosition> positions)
+        public bool IsCreationValid(ModelStateDictionary modelState, List<CartPosition> positions)
         {
             if (positions.Count == 0)
             {
@@ -100,22 +76,12 @@ namespace OnlineShopWebApp.Services
             return modelState.IsValid;
         }
 
-        /// <summary>
-        /// Update target order status in repository if possible
-        /// </summary>
-        /// <returns>Admin Orders View</returns>
-        /// <param name="id">Order id (guid)</param>
-        /// <param name="newStatus">New order status</param>
-        public virtual async Task UpdateStatusAsync(Guid id, OrderStatusViewModel newStatus)
+        public async Task UpdateStatusAsync(Guid id, OrderStatusViewModel newStatus)
         {
             await _ordersRepository.UpdateStatusAsync(id, (OrderStatus)newStatus);
         }
 
-        /// <summary>
-        /// Get MemoryStream for all orders export to Excel 
-        /// </summary>
-        /// <returns>MemoryStream Excel file with users info</returns>
-        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
+        public async Task<MemoryStream> ExportAllToExcelAsync()
         {
             var orders = await GetAllAsync();
             return _excelService.ExportOrders(orders);

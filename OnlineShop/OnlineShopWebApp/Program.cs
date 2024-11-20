@@ -73,24 +73,24 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddScoped<IProductsRepository, ProductsDbRepository>();
-builder.Services.AddTransient<ProductsService>();
+builder.Services.AddTransient<IProductsService, ProductsService>();
 
 builder.Services.AddScoped<ICartsRepository, CartsDbRepository>();
-builder.Services.AddTransient<CartsService>();
-builder.Services.AddTransient<CookieCartsService>();
+builder.Services.AddTransient<ICartsService, CartsService>();
+builder.Services.AddTransient<ICookieCartsService, CookieCartsService>();
 
 builder.Services.AddScoped<IOrdersRepository, OrdersDbRepository>();
-builder.Services.AddTransient<OrdersService>();
+builder.Services.AddTransient<IOrdersService, OrdersService>();
 
 builder.Services.AddScoped<IComparisonsRepository, ComparisonsDbRepository>();
-builder.Services.AddTransient<ComparisonsService>();
+builder.Services.AddTransient<IComparisonsService, ComparisonsService>();
 
 builder.Services.AddScoped<IFavoritesRepository, FavoritesDbRepository>();
-builder.Services.AddTransient<FavoritesService>();
+builder.Services.AddTransient<IFavoritesService, FavoritesService>();
 
-builder.Services.AddTransient<RolesService>();
+builder.Services.AddTransient<IRolesService, RolesService>();
 
-builder.Services.AddTransient<AccountsService>();
+builder.Services.AddTransient<IAccountsService, AccountsService>();
 
 builder.Services.AddTransient<HashService>();
 builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();

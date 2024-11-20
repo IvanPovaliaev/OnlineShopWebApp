@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,11 +11,11 @@ namespace OnlineShopWebApp.Controllers
     public class CartController : Controller
     {
         private readonly string? _userId;
-        private readonly CartsService _cartsService;
-        private readonly CookieCartsService _cookiesCartService;
+        private readonly ICartsService _cartsService;
+        private readonly ICookieCartsService _cookiesCartService;
         private readonly AuthenticationHelper _authenticationHelper;
 
-        public CartController(CartsService cartsService, CookieCartsService cookieCartsService, IHttpContextAccessor httpContextAccessor, AuthenticationHelper authenticationHelper)
+        public CartController(ICartsService cartsService, ICookieCartsService cookieCartsService, IHttpContextAccessor httpContextAccessor, AuthenticationHelper authenticationHelper)
         {
             _cartsService = cartsService;
             _cookiesCartService = cookieCartsService;

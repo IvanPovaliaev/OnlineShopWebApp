@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OnlineShopWebApp.Areas.Admin.Models;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,7 +17,7 @@ namespace OnlineShopWebApp.Helpers
                 return new ValidationResult("Характеристики не могут отсутствовать");
             }
 
-            var productService = validationContext.GetService<ProductsService>();
+            var productService = validationContext.GetService<IProductsService>();
 
             var rules = productService
                             .GetSpecificationsRules(product.Category)
