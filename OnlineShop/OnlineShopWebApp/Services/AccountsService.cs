@@ -285,7 +285,7 @@ namespace OnlineShopWebApp.Services
         private async Task ChangeRoleAsync(User user, string newRoleName)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
-            if (userRoles.Contains(newRoleName))
+            if (userRoles is null || userRoles.Contains(newRoleName))
             {
                 return;
             }

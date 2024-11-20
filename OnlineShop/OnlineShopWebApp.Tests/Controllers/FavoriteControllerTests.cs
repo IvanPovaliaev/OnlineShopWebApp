@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Controllers;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
@@ -18,16 +18,16 @@ namespace OnlineShopWebApp.Tests.Controllers
     public class FavoriteControllerTests
     {
         private readonly string? _userId;
-        private readonly Mock<FavoritesService> _favoritesServiceMock;
+        private readonly Mock<IFavoritesService> _favoritesServiceMock;
         private readonly FavoriteController _controller;
         private readonly IMapper _mapper;
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
 
-        public FavoriteControllerTests(IMapper mapper, Mock<IHttpContextAccessor> httpContextAccessorMock, FakerProvider fakerProvider)
+        public FavoriteControllerTests(IMapper mapper, Mock<IFavoritesService> favoritesServiceMock, Mock<IHttpContextAccessor> httpContextAccessorMock, FakerProvider fakerProvider)
         {
             _userId = fakerProvider.UserId;
 
-            _favoritesServiceMock = new Mock<FavoritesService>(null!, null!, null!);
+            _favoritesServiceMock = favoritesServiceMock;
             _controller = new FavoriteController(_favoritesServiceMock.Object, httpContextAccessorMock.Object);
 
             _mapper = mapper;

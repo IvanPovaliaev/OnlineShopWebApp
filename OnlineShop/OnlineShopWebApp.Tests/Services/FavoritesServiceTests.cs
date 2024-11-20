@@ -3,6 +3,7 @@ using Bogus;
 using Moq;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
@@ -17,7 +18,7 @@ namespace OnlineShopWebApp.Tests.Services
     public class FavoritesServiceTests
     {
         private readonly Mock<IFavoritesRepository> _favoritesRepositoryMock;
-        private readonly Mock<ProductsService> _productsServiceMock;
+        private readonly Mock<IProductsService> _productsServiceMock;
         private readonly FavoritesService _favoritesService;
         private readonly IMapper _mapper;
 
@@ -25,10 +26,10 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly List<FavoriteProduct> _fakeFavoriteProducts;
         private readonly Faker<Product> _productFaker;
 
-        public FavoritesServiceTests(IMapper mapper, FakerProvider fakerProvider)
+        public FavoritesServiceTests(Mock<IFavoritesRepository> favoritesRepositoryMock, Mock<IProductsService> productsServiceMock, IMapper mapper, FakerProvider fakerProvider)
         {
-            _favoritesRepositoryMock = new Mock<IFavoritesRepository>();
-            _productsServiceMock = new Mock<ProductsService>(null!, null!, null!, null!);
+            _favoritesRepositoryMock = favoritesRepositoryMock;
+            _productsServiceMock = productsServiceMock;
 
             _mapper = mapper;
 

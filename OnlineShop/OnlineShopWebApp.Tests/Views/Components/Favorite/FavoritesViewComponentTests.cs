@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Moq;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using OnlineShopWebApp.Views.Shared.Components.Cart;
 using System;
@@ -17,14 +17,14 @@ namespace OnlineShopWebApp.Tests.Views.Components.Favorite
     public class FavoriteViewComponentTests
     {
         private readonly string? _userId;
-        private readonly Mock<FavoritesService> _favoritesServiceMock;
+        private readonly Mock<IFavoritesService> _favoritesServiceMock;
         private readonly FavoriteViewComponent _viewComponent;
         private readonly List<FavoriteProductViewModel> _fakeFavoriteProducts;
 
-        public FavoriteViewComponentTests(IMapper mapper, FakerProvider fakerProvider, Mock<IHttpContextAccessor> httpContextAccessorMock)
+        public FavoriteViewComponentTests(Mock<IFavoritesService> favoritesServiceMock, IMapper mapper, FakerProvider fakerProvider, Mock<IHttpContextAccessor> httpContextAccessorMock)
         {
             _userId = fakerProvider.UserId;
-            _favoritesServiceMock = new Mock<FavoritesService>(null!, null!, null!);
+            _favoritesServiceMock = favoritesServiceMock;
             _viewComponent = new FavoriteViewComponent(_favoritesServiceMock.Object, httpContextAccessorMock.Object);
 
             _fakeFavoriteProducts = fakerProvider.FakeFavoriteProducts.Select(mapper.Map<FavoriteProductViewModel>)

@@ -62,7 +62,7 @@ namespace OnlineShopWebApp.Controllers
                 () => _cookiesCartService.IncreasePositionAsync(positionId)
             );
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
 
         }
 
@@ -78,7 +78,7 @@ namespace OnlineShopWebApp.Controllers
                     () => _cookiesCartService.DecreasePositionAsync(positionId)
                 );
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace OnlineShopWebApp.Controllers
                     _cookiesCartService.Delete
                 );
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace OnlineShopWebApp.Controllers
                 () => _cookiesCartService.DeletePositionAsync(positionId)
             );
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -4,7 +4,6 @@ using OnlineShopWebApp.Areas.Admin.Views.Product.Components.SpecificationsForm;
 using OnlineShopWebApp.Helpers.SpecificationsRules;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using System.Collections.Generic;
 using Xunit;
 
@@ -12,12 +11,12 @@ namespace OnlineShopWebApp.Tests.Areas.Views.Product.Components.SpecificationsFo
 {
     public class SpecificationsFormViewComponentTests
     {
-        private readonly Mock<ProductsService> _productsServiceMock;
+        private readonly Mock<IProductsService> _productsServiceMock;
         private readonly SpecificationsFormViewComponent _viewComponent;
 
-        public SpecificationsFormViewComponentTests()
+        public SpecificationsFormViewComponentTests(Mock<IProductsService> productsServiceMock)
         {
-            _productsServiceMock = new Mock<ProductsService>(null!, null!, null!, null!);
+            _productsServiceMock = productsServiceMock;
             _viewComponent = new SpecificationsFormViewComponent(_productsServiceMock.Object);
         }
 

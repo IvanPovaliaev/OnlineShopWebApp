@@ -43,9 +43,10 @@ namespace OnlineShopWebApp.Tests.Helpers
             CreateMap<OrderPositionViewModel, OrderPosition>().ReverseMap();
 
             CreateMap<RoleViewModel, Role>().ReverseMap();
-            CreateMap<AddRoleViewModel, Role>();
+            CreateMap<AddRoleViewModel, Role>().ReverseMap();
 
             CreateMap<UserViewModel, User>().ReverseMap();
+            CreateMap<EditUserViewModel, User>().ReverseMap();
         }
     }
 }

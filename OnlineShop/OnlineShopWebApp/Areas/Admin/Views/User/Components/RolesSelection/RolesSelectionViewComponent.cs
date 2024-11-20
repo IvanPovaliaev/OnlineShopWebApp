@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Views.User.Components.RolesSelection
 {
-    public class RolesSelectionViewComponent(RolesService rolesService) : ViewComponent
+    public class RolesSelectionViewComponent(IRolesService rolesService) : ViewComponent
     {
-        private readonly RolesService _rolesService = rolesService;
+        private readonly IRolesService _rolesService = rolesService;
 
         /// <summary>
         /// Return selection ViewComponent with initial role by selectedRoleName;

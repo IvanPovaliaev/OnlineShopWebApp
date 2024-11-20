@@ -27,9 +27,9 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly List<Order> _fakeOrders;
         private readonly List<OrderViewModel> _fakeOrderViewModels;
 
-        public OrdersServiceTests(IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock)
+        public OrdersServiceTests(Mock<IOrdersRepository> ordersRepositoryMock, IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock)
         {
-            _ordersRepositoryMock = new Mock<IOrdersRepository>();
+            _ordersRepositoryMock = ordersRepositoryMock;
             _excelServiceMock = excelServiceMock;
             _mapper = mapper;
 

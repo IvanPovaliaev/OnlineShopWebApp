@@ -41,7 +41,6 @@ namespace OnlineShopWebApp.Tests.Helpers
                                 .RuleFor(p => p.Cost, f => f.Finance.Amount())
                                 .RuleFor(p => p.Description, f => f.Lorem.Paragraph())
                                 .RuleFor(p => p.Category, f => f.PickRandom<ProductCategories>());
-            //.RuleFor(p => p.ImageUrl, f => f.Image.PicsumUrl());
 
             CartPositionFaker = new Faker<CartPosition>()
                 .RuleFor(p => p.Id, f => Guid.NewGuid())
@@ -106,7 +105,8 @@ namespace OnlineShopWebApp.Tests.Helpers
                 .RuleFor(u => u.UserName, (f, u) => u.Email)
                 .RuleFor(u => u.PasswordHash, f => f.Internet.Password())
                 .RuleFor(u => u.FullName, f => f.Name.FullName())
-                .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber());
+                .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber())
+                .RuleFor(u => u.AvatarUrl, f => f.Image.PicsumUrl());
 
             FakeUsers = UserFaker.Generate(UsersCount);
         }

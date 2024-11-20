@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Moq;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using OnlineShopWebApp.Views.Shared.Components.Cart;
 using System;
@@ -17,14 +17,14 @@ namespace OnlineShopWebApp.Tests.Views.Components.Comparison
     public class ComparisonViewComponentTests
     {
         private readonly string? _userId;
-        private readonly Mock<ComparisonsService> _comparisonsServiceMock;
+        private readonly Mock<IComparisonsService> _comparisonsServiceMock;
         private readonly ComparisonViewComponent _viewComponent;
         private readonly List<ComparisonProductViewModel> _fakeComparisonProducts;
 
-        public ComparisonViewComponentTests(IMapper mapper, FakerProvider fakerProvider, Mock<IHttpContextAccessor> httpContextAccessorMock)
+        public ComparisonViewComponentTests(Mock<IComparisonsService> comparisonsServiceMock, IMapper mapper, FakerProvider fakerProvider, Mock<IHttpContextAccessor> httpContextAccessorMock)
         {
             _userId = fakerProvider.UserId;
-            _comparisonsServiceMock = new Mock<ComparisonsService>(null!, null!, null!);
+            _comparisonsServiceMock = comparisonsServiceMock;
             _viewComponent = new ComparisonViewComponent(_comparisonsServiceMock.Object, httpContextAccessorMock.Object);
 
             _fakeComparisonProducts = fakerProvider.FakeComparisonProducts.Select(mapper.Map<ComparisonProductViewModel>)

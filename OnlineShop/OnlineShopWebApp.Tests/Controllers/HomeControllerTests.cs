@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Controllers;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
@@ -16,15 +16,15 @@ namespace OnlineShopWebApp.Tests.Controllers
 {
     public class HomeControllerTests
     {
-        private readonly Mock<ProductsService> _mockProductsService;
+        private readonly Mock<IProductsService> _productsServiceMock;
         private readonly HomeController _controller;
         private readonly IMapper _mapper;
         private readonly List<Product> _fakeProducts;
 
-        public HomeControllerTests(IMapper mapper, FakerProvider fakerProvider)
+        public HomeControllerTests(IMapper mapper, Mock<IProductsService> productsServiceMock, FakerProvider fakerProvider)
         {
-            _mockProductsService = new Mock<ProductsService>(null!, null!, null!, null!);
-            _controller = new HomeController(_mockProductsService.Object);
+            _productsServiceMock = productsServiceMock;
+            _controller = new HomeController(_productsServiceMock.Object);
 
             _mapper = mapper;
             _fakeProducts = fakerProvider.FakeProducts;
@@ -38,7 +38,7 @@ namespace OnlineShopWebApp.Tests.Controllers
             var fakeProducts = _fakeProducts.Select(_mapper.Map<ProductViewModel>)
                                             .ToList();
 
-            _mockProductsService.Setup(s => s.GetAllAsync())
+            _productsServiceMock.Setup(s => s.GetAllAsync())
                                 .ReturnsAsync(fakeProducts);
 
             // Act

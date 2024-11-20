@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Controllers;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,19 +16,19 @@ namespace OnlineShopWebApp.Tests.Controllers
 {
     public class OrderControllerTests
     {
-        private string _userId;
-        private readonly Mock<CartsService> _cartsServiceMock;
-        private readonly Mock<OrdersService> _ordersServiceMock;
+        private readonly string _userId;
+        private readonly Mock<ICartsService> _cartsServiceMock;
+        private readonly Mock<IOrdersService> _ordersServiceMock;
         private readonly OrderController _controller;
         private readonly IMapper _mapper;
         private readonly Cart _fakeCart;
         private readonly Faker<UserDeliveryInfo> _userDeliveryInfoFaker;
 
-        public OrderControllerTests(IMapper mapper, Mock<IHttpContextAccessor> httpContextAccessorMock, FakerProvider fakerProvider)
+        public OrderControllerTests(IMapper mapper, Mock<ICartsService> cartsServiceMock, Mock<IOrdersService> ordersServiceMock, Mock<IHttpContextAccessor> httpContextAccessorMock, FakerProvider fakerProvider)
         {
             _userId = fakerProvider.UserId;
-            _cartsServiceMock = new Mock<CartsService>(null!, null!, null!);
-            _ordersServiceMock = new Mock<OrdersService>(null!, null!, null!);
+            _cartsServiceMock = cartsServiceMock;
+            _ordersServiceMock = ordersServiceMock;
             _controller = new OrderController(_cartsServiceMock.Object, _ordersServiceMock.Object, httpContextAccessorMock.Object);
 
             _mapper = mapper;

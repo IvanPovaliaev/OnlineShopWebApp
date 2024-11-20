@@ -3,6 +3,7 @@ using Bogus;
 using Moq;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
@@ -16,7 +17,7 @@ namespace OnlineShopWebApp.Tests.Services
     public class ComparisonsServiceTests
     {
         private readonly Mock<IComparisonsRepository> _comparisonsRepositoryMock;
-        private readonly Mock<ProductsService> _productsServiceMock;
+        private readonly Mock<IProductsService> _productsServiceMock;
         private readonly ComparisonsService _comparisonsService;
         private readonly IMapper _mapper;
 
@@ -24,10 +25,10 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly List<ComparisonProduct> _fakeComparisonProducts;
         private readonly Faker<Product> _productsFaker;
 
-        public ComparisonsServiceTests(IMapper mapper, FakerProvider fakerProvider)
+        public ComparisonsServiceTests(Mock<IComparisonsRepository> comparisonsRepositoryMock, Mock<IProductsService> productsServiceMock, IMapper mapper, FakerProvider fakerProvider)
         {
-            _comparisonsRepositoryMock = new Mock<IComparisonsRepository>();
-            _productsServiceMock = new Mock<ProductsService>(null!, null!, null!, null!);
+            _comparisonsRepositoryMock = comparisonsRepositoryMock;
+            _productsServiceMock = productsServiceMock;
 
             _mapper = mapper;
 
