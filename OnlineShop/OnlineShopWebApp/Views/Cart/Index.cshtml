@@ -4,6 +4,52 @@
     var isCartExist = Model is not null && Model.Positions.Count != 0;
 }
 
+@if (!isCartExist)
+{
+    <div class="row position-relative">
+        <section>
+            <div class="d-flex justify-content-between">
+                <div class="col-6">
+                    <h2>Корзина</h2>
+                </div>
+            </div>
+
+            <hr class="border-brown" />
+
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-center align-content-center">
+                        <svg class="icon-main m-1" width="200px" height="200px">
+                            <use href="/icons/CartIcon.svg#cart-icon" />
+                        </svg>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-content-center">
+                        В корзине ещё нет товаров
+                    </div>
+
+                    <div class="d-flex justify-content-center align-content-center mb-5">
+                        <span>Нажмите</span>
+
+                        <svg class="icon-inactive cart-icon m-1">
+                            <use href="/icons/CartIcon.svg#cart-icon" />
+                        </svg>
+
+                        <span>для добавления товаров в корзину</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-content-center">
+                        <a class="btn btn-main justify-content-center align-items-center mt-auto"
+                            asp-area="" asp-controller="Home" asp-action="Index" role="button">
+                            Продолжить покупки
+                        </a>
+                    </div>
+                </div>
+        </section>
+    </div>    
+    return;
+}
+
+
 <div class="row position-relative">
     <div class="col-9">
         <section>
@@ -11,34 +57,29 @@
                 <div class="col-6">
                     <h2>Корзина</h2>
                 </div>
-                @if (isCartExist)
-                {
+
+                @{
                     var message = $"Вы уверены, что хотите <span class=\"fw-bold\">очистить корзину</span>?<br /> Это действие нельзя отменить.";
-
-                    <span class="col-6 d-flex align-content-center justify-content-end">
-
-                            <a class="align-content-center"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteModal"
-                                data-url="@Url.Action("Delete", "Cart")"
-                                data-message="@message">
-
-                                <svg class="icon-inactive heading-icon">
-                                    <use href="/icons/TrashIcon.svg#trash-icon" />
-                                </svg>
-                            </a>
-                        
-                    </span>
                 }
+
+                <span class="col-6 d-flex align-content-center justify-content-end">
+
+                        <a class="align-content-center"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-url="@Url.Action("Delete", "Cart")"
+                            data-message="@message">
+
+                            <svg class="icon-inactive heading-icon">
+                                <use href="/icons/TrashIcon.svg#trash-icon" />
+                            </svg>
+                        </a>
+                        
+                </span>
+
             </div>
 
             <hr class="border-brown" />
-
-            @if (!isCartExist)
-            {
-                <p>Корзина пуста</p>
-                return;
-            }
                 
             <div class="col">
                 @await Html.PartialAsync("_PositionsRows", Model!.Positions)
