@@ -4,104 +4,101 @@
     var isCartExist = Model is not null && Model.Positions.Count != 0;
 }
 
-<div class="container">
-    <div class="row position-relative">
-        <div class="col-9">
-            <section>
-                <div class="d-flex justify-content-between">
-                    <div class="col-6">
-                        <h2>Корзина</h2>
-                    </div>
-                    @if (isCartExist)
-                    {
-                        var message = $"Вы уверены, что хотите <span class=\"fw-bold\">очистить корзину</span>?<br /> Это действие нельзя отменить.";
-
-                        <span class="col-6 d-flex align-content-center justify-content-end">
-
-                                <a class="align-content-center"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#deleteModal"
-                                   data-url="@Url.Action("Delete", "Cart")"
-                                   data-message="@message">
-
-                                    <svg class="icon-inactive heading-icon">
-                                        <use href="/icons/TrashIcon.svg#trash-icon" />
-                                    </svg>
-                                </a>
-                        
-                        </span>
-                    }
+<div class="row position-relative">
+    <div class="col-9">
+        <section>
+            <div class="d-flex justify-content-between">
+                <div class="col-6">
+                    <h2>Корзина</h2>
                 </div>
+                @if (isCartExist)
+                {
+                    var message = $"Вы уверены, что хотите <span class=\"fw-bold\">очистить корзину</span>?<br /> Это действие нельзя отменить.";
 
+                    <span class="col-6 d-flex align-content-center justify-content-end">
+
+                            <a class="align-content-center"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-url="@Url.Action("Delete", "Cart")"
+                                data-message="@message">
+
+                                <svg class="icon-inactive heading-icon">
+                                    <use href="/icons/TrashIcon.svg#trash-icon" />
+                                </svg>
+                            </a>
+                        
+                    </span>
+                }
+            </div>
+
+            <hr class="border-brown" />
+
+            @if (!isCartExist)
+            {
+                <p>Корзина пуста</p>
+                return;
+            }
+                
+            <div class="col">
+                @await Html.PartialAsync("_PositionsRows", Model!.Positions)
+            </div>                
+                
+        </section>
+
+        @if(User.Identity.IsAuthenticated)
+        {
+            @* Секция с оформлением заказа *@
+            <section>
+                <h2>Оформление заказа</h2>
                 <hr class="border-brown" />
-                    @if (!isCartExist)
-                    {
-                        <p>Корзина пуста</p>
-                        return;
-                    }
-                    <div class="container p-0 m-0">
-                        <div class="col">
 
-                            @await Html.PartialAsync("_PositionsRows", Model!.Positions)                                
-
-                        </div>
-                    </div>
+                <div id="orderFormWrapper">
+                    @await Html.PartialAsync("_OrderForm", new UserDeliveryInfoViewModel())
+                </div>
                 
             </section>
+        }
+    </div>
 
-            @if(User.Identity.IsAuthenticated)
-            {
-                @* Секция с оформлением заказа *@
-                <section>
-                    <h2>Оформление заказа</h2>
-                    <hr class="border-brown" />
-
-                    <div id="orderFormWrapper">
-                        @await Html.PartialAsync("_OrderForm", new UserDeliveryInfoViewModel())
-                    </div>
-                
-                </section>
-            }
-        </div>
-
-        @* Блок с итоговой стоймостью и кнопкам *@
-        <div class="col-3">
-            <div class="order-box">
-                <h4 class="text-center">Ваш заказ</h4>
-                <div class="border-1 border-brown p-3">
-                    <div class="d-flex justify-content-between">
-                        <p>Ваши товары (@Model.Positions.Sum(p => p.Quantity))</p>
-                        <span>@Model.TotalCost.ToString("0.##") ₽</span>
-                    </div>
-                    <hr class="border-brown" />
-
-                    <div class="d-flex justify-content-between">
-                        <p class="h5">Итого к оплате:</p>
-                        <span class="h5">@Model.TotalCost.ToString("0.##") ₽</span>
-                    </div>
-
-                    @if(User.Identity.IsAuthenticated)
-                    {
-                        <button class="btn btn-main w-100 mb-3" type="submit" form="orderForm">
-                            Оформить заказ
-                        </button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-main w-100 mb-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            Войти для оформления
-                        </button>
-                    }
-
-                    <a class="btn btn-main w-100"
-                       asp-area="" asp-controller="Home" asp-action="Index" role="button">
-                        Продолжить покупки
-                    </a>
+    @* Блок с итоговой стоймостью и кнопкам *@
+    <div class="col-3">
+        <div class="order-box">
+            <h4 class="text-center">Ваш заказ</h4>
+            <div class="border-1 border-brown p-3">
+                <div class="d-flex justify-content-between">
+                    <p>Ваши товары (@Model.Positions.Sum(p => p.Quantity))</p>
+                    <span>@Model.TotalCost.ToString("0.##") ₽</span>
                 </div>
-            </div>            
-        </div>
-    </div>    
-</div>
+                <hr class="border-brown" />
+
+                <div class="d-flex justify-content-between">
+                    <p class="h5">Итого к оплате:</p>
+                    <span class="h5">@Model.TotalCost.ToString("0.##") ₽</span>
+                </div>
+
+                @if(User.Identity.IsAuthenticated)
+                {
+                    <button class="btn btn-main w-100 mb-3" type="submit" form="orderForm">
+                        Оформить заказ
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-main w-100 mb-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Войти для оформления
+                    </button>
+                }
+
+                <a class="btn btn-main w-100"
+                    asp-area="" asp-controller="Home" asp-action="Index" role="button">
+                    Продолжить покупки
+                </a>
+            </div>
+        </div>            
+    </div>
+</div>    
+
 
 @await Html.PartialAsync("_DeleteModal")
 
