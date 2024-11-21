@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -10,10 +10,10 @@ namespace OnlineShopWebApp.Controllers
     public class OrderController : Controller
     {
         private string _userId;
-        private readonly CartsService _cartsService;
-        private readonly OrdersService _ordersService;
+        private readonly ICartsService _cartsService;
+        private readonly IOrdersService _ordersService;
 
-        public OrderController(CartsService cartsService, OrdersService ordersService, IHttpContextAccessor httpContextAccessor)
+        public OrderController(ICartsService cartsService, IOrdersService ordersService, IHttpContextAccessor httpContextAccessor)
         {
             _cartsService = cartsService;
             _ordersService = ordersService;

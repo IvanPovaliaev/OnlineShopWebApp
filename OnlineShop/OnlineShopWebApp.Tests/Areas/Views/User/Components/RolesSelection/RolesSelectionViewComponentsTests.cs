@@ -4,7 +4,7 @@ using Moq;
 using OnlineShop.Db;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Areas.Admin.Views.User.Components.RolesSelection;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
@@ -16,13 +16,13 @@ namespace OnlineShopWebApp.Tests.Areas.Views.User.Components.RolesSelection
 {
     public class RolesSelectionViewComponentTests
     {
-        private readonly Mock<RolesService> _rolesServiceMock;
+        private readonly Mock<IRolesService> _rolesServiceMock;
         private readonly RolesSelectionViewComponent _viewComponent;
         private readonly List<RoleViewModel> _fakeRoles;
 
-        public RolesSelectionViewComponentTests(IMapper mapper, FakerProvider fakerProvider)
+        public RolesSelectionViewComponentTests(Mock<IRolesService> rolesServiceMock, IMapper mapper, FakerProvider fakerProvider)
         {
-            _rolesServiceMock = new Mock<RolesService>(null!, null!, null!, null!);
+            _rolesServiceMock = rolesServiceMock;
             _viewComponent = new RolesSelectionViewComponent(_rolesServiceMock.Object);
 
             _fakeRoles = fakerProvider.FakeRoles.Select(mapper.Map<RoleViewModel>)

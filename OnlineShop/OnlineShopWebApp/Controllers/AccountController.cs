@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShopWebApp.Helpers.Notifications;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -13,11 +13,11 @@ namespace OnlineShopWebApp.Controllers
     public class AccountController : Controller
     {
         private readonly string? _userId;
-        private readonly AccountsService _accountsService;
-        private readonly OrdersService _ordersService;
+        private readonly IAccountsService _accountsService;
+        private readonly IOrdersService _ordersService;
         private readonly IMediator _mediator;
 
-        public AccountController(AccountsService accountService, OrdersService ordersService, IMediator mediator, IHttpContextAccessor httpContextAccessor)
+        public AccountController(IAccountsService accountService, IOrdersService ordersService, IMediator mediator, IHttpContextAccessor httpContextAccessor)
         {
             _accountsService = accountService;
             _ordersService = ordersService;

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
@@ -12,9 +12,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     [Authorize(Roles = Constants.AdminRoleName)]
     public class RoleController : Controller
     {
-        private readonly RolesService _rolesService;
+        private readonly IRolesService _rolesService;
 
-        public RoleController(RolesService rolesService)
+        public RoleController(IRolesService rolesService)
         {
             _rolesService = rolesService;
         }

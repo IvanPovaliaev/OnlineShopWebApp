@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Linq;
@@ -8,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
-    public class CookieCartsService
+    public class CookieCartsService : ICookieCartsService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
-        private readonly ProductsService _productsService;
+        private readonly IProductsService _productsService;
         private readonly string CookieCartKey;
         private readonly int ExpiresTime;
 
-        public CookieCartsService(IHttpContextAccessor httpContextAccessor, IConfiguration configuration, ProductsService productsService)
+        public CookieCartsService(IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IProductsService productsService)
         {
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
@@ -26,11 +27,7 @@ namespace OnlineShopWebApp.Services
             ExpiresTime = Convert.ToInt32(_configuration["CookiesSettings:ExpiresTime"]);
         }
 
-        /// <summary>
-        /// Get cart from Cookie
-        /// </summary>        
-        /// <returns>CartViewModel from Cookie</returns>
-        public virtual async Task<CartViewModel> GetViewModelAsync()
+        public async Task<CartViewModel> GetViewModelAsync()
         {
             var cartJson = _httpContextAccessor.HttpContext?.Items[CookieCartKey]?.ToString();
             cartJson ??= _httpContextAccessor.HttpContext?.Request.Cookies[CookieCartKey] ?? string.Empty;
@@ -60,11 +57,7 @@ namespace OnlineShopWebApp.Services
             return cartVM;
         }
 
-        /// <summary>
-        /// Add product to users cart.
-        /// </summary>        
-        /// <param name="productId">Product Id (GUID)</param>
-        public virtual async Task AddAsync(Guid productId)
+        public async Task AddAsync(Guid productId)
         {
             var cart = await GetViewModelAsync();
 
@@ -80,11 +73,7 @@ namespace OnlineShopWebApp.Services
             await IncreasePositionAsync(position.Id);
         }
 
-        /// <summary>
-        /// Increase quantity of cookie cart position by 1
-        /// </summary>        
-        /// <param name="positionId">Id of cart position</param>
-        public virtual async Task IncreasePositionAsync(Guid positionId)
+        public async Task IncreasePositionAsync(Guid positionId)
         {
             var cart = await GetViewModelAsync();
 
@@ -100,11 +89,7 @@ namespace OnlineShopWebApp.Services
             SaveChanges(cart);
         }
 
-        /// <summary>
-        /// Decrease position quantity in cookie cart by 1. If quantity should become 0, deletes this position.
-        /// </summary>        
-        /// <param name="positionId">Id of cart position</param>
-        public virtual async Task DecreasePositionAsync(Guid positionId)
+        public async Task DecreasePositionAsync(Guid positionId)
         {
             var cart = await GetViewModelAsync();
 
@@ -125,19 +110,12 @@ namespace OnlineShopWebApp.Services
             SaveChanges(cart);
         }
 
-        /// <summary>
-        /// Delete cookie cart
-        /// </summary>
-        public virtual void Delete()
+        public void Delete()
         {
             _httpContextAccessor.HttpContext?.Response.Cookies.Delete(CookieCartKey);
         }
 
-        /// <summary>
-        /// Delete target position in cookie users
-        /// </summary>
-        /// <param name="positionId">Target positionId</param>
-        public virtual async Task DeletePositionAsync(Guid positionId)
+        public async Task DeletePositionAsync(Guid positionId)
         {
             var cart = await GetViewModelAsync();
             var position = cart.Positions.FirstOrDefault(pos => pos.Id == positionId);

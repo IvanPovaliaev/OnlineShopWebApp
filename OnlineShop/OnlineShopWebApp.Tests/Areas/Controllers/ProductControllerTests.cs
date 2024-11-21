@@ -7,8 +7,8 @@ using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Controllers;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System.Collections.Generic;
 using System.IO;
@@ -20,16 +20,16 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
 {
     public class ProductControllerTests
     {
-        private readonly Mock<ProductsService> _productsServiceMock;
+        private readonly Mock<IProductsService> _productsServiceMock;
         private readonly ProductController _controller;
         private readonly IMapper _mapper;
 
         private readonly Faker<Product> _productFaker;
         private readonly List<Product> _fakeProducts;
 
-        public ProductControllerTests(IMapper mapper, FakerProvider fakerProvider)
+        public ProductControllerTests(Mock<IProductsService> productsServiceMock, IMapper mapper, FakerProvider fakerProvider)
         {
-            _productsServiceMock = new Mock<ProductsService>(null!, null!, null!, null!);
+            _productsServiceMock = productsServiceMock;
             _controller = new ProductController(_productsServiceMock.Object);
 
             _mapper = mapper;

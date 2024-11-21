@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -9,9 +9,9 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
     public class FavoriteViewComponent : ViewComponent
     {
         private readonly string? _userId;
-        private readonly FavoritesService _favoritesService;
+        private readonly IFavoritesService _favoritesService;
 
-        public FavoriteViewComponent(FavoritesService favoritesService, IHttpContextAccessor httpContextAccessor)
+        public FavoriteViewComponent(IFavoritesService favoritesService, IHttpContextAccessor httpContextAccessor)
         {
             _favoritesService = favoritesService;
             _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);

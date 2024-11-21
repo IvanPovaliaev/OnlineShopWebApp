@@ -17,17 +17,17 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
-    public class AccountsService
+    public class AccountsService : IAccountsService
     {
         private readonly IMapper _mapper;
-        private readonly RolesService _rolesService;
+        private readonly IRolesService _rolesService;
         private readonly IExcelService _excelService;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly ImagesProvider _imageProvider;
         private readonly string _usersAvatarsStoragePath;
 
-        public AccountsService(IMapper mapper, RolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, ImagesProvider imagesProvider)
+        public AccountsService(IMapper mapper, IRolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, ImagesProvider imagesProvider)
         {
             _mapper = mapper;
             _rolesService = rolesService;
@@ -39,11 +39,7 @@ namespace OnlineShopWebApp.Services
             _imageProvider = imagesProvider;
         }
 
-        /// <summary>
-        /// Get all users from repository
-        /// </summary>
-        /// <returns>List of all UserViewModel from repository</returns>
-        public virtual async Task<List<UserViewModel>> GetAllAsync()
+        public async Task<List<UserViewModel>> GetAllAsync()
         {
             var users = await _userManager.Users.ToListAsync();
             var usersViewModels = new List<UserViewModel>(users.Count);
@@ -59,12 +55,7 @@ namespace OnlineShopWebApp.Services
             return usersViewModels;
         }
 
-        /// <summary>
-        /// Get user from repository by id
-        /// </summary>
-        /// <returns>UserViewModel; returns null if user not found</returns>
-        /// <param name="id">Target user id</param>
-        public virtual async Task<UserViewModel> GetAsync(string id)
+        public async Task<UserViewModel> GetAsync(string id)
         {
             var userDb = await _userManager.FindByIdAsync(id);
 
@@ -81,11 +72,6 @@ namespace OnlineShopWebApp.Services
             return userVM;
         }
 
-        /// <summary>
-        /// Get EditUserViewModel by id
-        /// </summary>
-        /// <returns>EditUserViewModel; returns null if user not found</returns>
-        /// <param name="id">Target user id</param>
         public async Task<EditUserViewModel> GetEditViewModelAsync(string id)
         {
             var userDb = await _userManager.FindByIdAsync(id);
@@ -97,11 +83,7 @@ namespace OnlineShopWebApp.Services
             return _mapper.Map<EditUserViewModel>(userDb);
         }
 
-        /// <summary>
-        /// Add a new user to repository based on register info
-        /// </summary>        
-        /// <param name="register">Target register model</param>
-        public virtual async Task AddAsync(RegisterViewModel register)
+        public async Task AddAsync(RegisterViewModel register)
         {
             var user = new User
             {
@@ -122,11 +104,7 @@ namespace OnlineShopWebApp.Services
             }
         }
 
-        /// <summary>
-        /// Change password for related user if user exist
-        /// </summary>        
-        /// <param name="changePassword">Target ChangePassword model</param>
-        public virtual async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
+        public async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
         {
             var userId = changePassword.UserId;
             var user = await _userManager.FindByIdAsync(userId);
@@ -142,11 +120,7 @@ namespace OnlineShopWebApp.Services
             await _userManager.UpdateAsync(user);
         }
 
-        /// <summary>
-        /// Update info for related user if user exist
-        /// </summary>        
-        /// <param name="editUser">Target editUser model</param>
-        public virtual async Task UpdateInfoAsync(EditUserViewModel editUser)
+        public async Task UpdateInfoAsync(EditUserViewModel editUser)
         {
             var userId = editUser.Id;
             var user = await _userManager.FindByIdAsync(userId);
@@ -178,11 +152,7 @@ namespace OnlineShopWebApp.Services
             await _signInManager.RefreshSignInAsync(user);
         }
 
-        /// <summary>
-        /// Delete user from repository by id. Admin can't be deleted
-        /// </summary>
-        /// <param name="id">Target user id (GUID)</param>
-        public virtual async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -194,13 +164,7 @@ namespace OnlineShopWebApp.Services
             }
         }
 
-        /// <summary>
-        /// Validates the user login model
-        /// </summary>        
-        /// <returns>true if login model is valid; otherwise false</returns>
-        /// <param name="modelState">Current model state</param>
-        /// <param name="login">Target login model</param>
-        public virtual async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
+        public async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginViewModel login)
         {
             var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.KeepMeLogged, false);
 
@@ -211,14 +175,7 @@ namespace OnlineShopWebApp.Services
 
             return modelState.IsValid;
         }
-
-        /// <summary>
-        /// Validates the registration model
-        /// </summary>        
-        /// <returns>true if registration model is valid; otherwise false</returns>
-        /// <param name="modelState">Current model state</param>
-        /// <param name="register">Target register model</param>
-        public virtual async Task<bool> IsRegisterValidAsync(ModelStateDictionary modelState, RegisterViewModel register)
+        public async Task<bool> IsRegisterValidAsync(ModelStateDictionary modelState, RegisterViewModel register)
         {
             if (register.Email == register.Password)
             {
@@ -238,13 +195,7 @@ namespace OnlineShopWebApp.Services
             return modelState.IsValid;
         }
 
-        /// <summary>
-        /// Validates the user edit model
-        /// </summary>        
-        /// <returns>true if edit model is valid; otherwise false</returns>
-        /// <param name="modelState">Current model state</param>
-        /// <param name="editUser">Target edit model</param>
-        public virtual async Task<bool> IsEditUserValidAsync(ModelStateDictionary modelState, EditUserViewModel editUser)
+        public async Task<bool> IsEditUserValidAsync(ModelStateDictionary modelState, EditUserViewModel editUser)
         {
             var repositoryUser = await GetAsync(editUser.Id);
 
@@ -266,15 +217,8 @@ namespace OnlineShopWebApp.Services
             return modelState.IsValid;
         }
 
-        /// <summary>
-        /// Logout user
-        /// </summary>
-        public virtual async Task LogoutAsync() => await _signInManager.SignOutAsync();
+        public async Task LogoutAsync() => await _signInManager.SignOutAsync();
 
-        /// <summary>
-        /// Change all users role related to role name to user Role.
-        /// </summary>
-        /// <param name="oldRoleName">Target old role name</param>
         public async Task ChangeRolesToUserAsync(string oldRoleName)
         {
             var users = await _userManager.GetUsersInRoleAsync(oldRoleName);
@@ -286,11 +230,7 @@ namespace OnlineShopWebApp.Services
             }
         }
 
-        /// <summary>
-        /// Get MemoryStream for all users export to Excel 
-        /// </summary>
-        /// <returns>MemoryStream Excel file with users info</returns>
-        public virtual async Task<MemoryStream> ExportAllToExcelAsync()
+        public async Task<MemoryStream> ExportAllToExcelAsync()
         {
             var users = await GetAllAsync();
             return _excelService.ExportUsers(users);
@@ -345,7 +285,7 @@ namespace OnlineShopWebApp.Services
         private async Task ChangeRoleAsync(User user, string newRoleName)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
-            if (userRoles.Contains(newRoleName))
+            if (userRoles is null || userRoles.Contains(newRoleName))
             {
                 return;
             }

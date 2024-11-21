@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -9,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
-    public class ComparisonsService
+    public class ComparisonsService : IComparisonsService
     {
         private readonly IComparisonsRepository _comparisonsRepository;
         private readonly IMapper _mapper;
-        private readonly ProductsService _productsService;
+        private readonly IProductsService _productsService;
 
-        public ComparisonsService(IComparisonsRepository comparisonsRepository, IMapper mapper, ProductsService productsService)
+        public ComparisonsService(IComparisonsRepository comparisonsRepository, IMapper mapper, IProductsService productsService)
         {
             _comparisonsRepository = comparisonsRepository;
             _mapper = mapper;

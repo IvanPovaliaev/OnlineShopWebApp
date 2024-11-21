@@ -1,14 +1,14 @@
 ﻿using MediatR;
 using OnlineShopWebApp.Helpers.Notifications;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Helpers.Handlers
 {
-    public class UsersOnRoleDeletedHandler(AccountsService accountsService) : INotificationHandler<RoleDeletedNotification>
+    public class UsersOnRoleDeletedHandler(IAccountsService accountsService) : INotificationHandler<RoleDeletedNotification>
     {
-        private readonly AccountsService _accountsService = accountsService;
+        private readonly IAccountsService _accountsService = accountsService;
 
         public async Task Handle(RoleDeletedNotification notification, CancellationToken cancellationToken)
         {

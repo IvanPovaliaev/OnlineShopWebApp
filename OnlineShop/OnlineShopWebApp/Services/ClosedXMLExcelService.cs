@@ -10,7 +10,7 @@ namespace OnlineShopWebApp.Services
 {
     public class ClosedXMLExcelService : IExcelService
     {
-        private string _entityValuesSeparator = @"........";
+        private readonly string _entityValuesSeparator = @"........";
 
         public MemoryStream ExportUsers(IEnumerable<UserViewModel> users)
         {

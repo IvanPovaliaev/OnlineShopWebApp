@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -9,9 +9,9 @@ namespace OnlineShopWebApp.Views.Shared.Components.Cart
     public class AvatarViewComponent : ViewComponent
     {
         private readonly string _userId;
-        private readonly AccountsService _accountsService;
+        private readonly IAccountsService _accountsService;
 
-        public AvatarViewComponent(AccountsService accountsService, IHttpContextAccessor httpContextAccessor)
+        public AvatarViewComponent(IAccountsService accountsService, IHttpContextAccessor httpContextAccessor)
         {
             _accountsService = accountsService;
             _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);

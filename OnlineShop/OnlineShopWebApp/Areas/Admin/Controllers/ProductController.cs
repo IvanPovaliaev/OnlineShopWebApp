@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,9 +15,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     [Authorize(Roles = Constants.AdminRoleName)]
     public class ProductController : Controller
     {
-        private readonly ProductsService _productsService;
+        private readonly IProductsService _productsService;
 
-        public ProductController(ProductsService productsService)
+        public ProductController(IProductsService productsService)
         {
             _productsService = productsService;
         }

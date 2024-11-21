@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShopWebApp.Services;
+using OnlineShopWebApp.Interfaces;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,9 +12,9 @@ namespace OnlineShopWebApp.Controllers
     public class FavoriteController : Controller
     {
         private readonly string? _userId;
-        private readonly FavoritesService _favoritesService;
+        private readonly IFavoritesService _favoritesService;
 
-        public FavoriteController(FavoritesService favoritesService, IHttpContextAccessor httpContextAccessor)
+        public FavoriteController(IFavoritesService favoritesService, IHttpContextAccessor httpContextAccessor)
         {
             _favoritesService = favoritesService;
             _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);

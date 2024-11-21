@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -9,25 +10,20 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Services
 {
-    public class FavoritesService
+    public class FavoritesService : IFavoritesService
     {
         private readonly IFavoritesRepository _favoritesRepository;
         private readonly IMapper _mapper;
-        private readonly ProductsService _productsService;
+        private readonly IProductsService _productsService;
 
-        public FavoritesService(IFavoritesRepository favoritesRepository, IMapper mapper, ProductsService productsService)
+        public FavoritesService(IFavoritesRepository favoritesRepository, IMapper mapper, IProductsService productsService)
         {
             _favoritesRepository = favoritesRepository;
             _mapper = mapper;
             _productsService = productsService;
         }
 
-        /// <summary>
-        /// Get all Favorites for target user by Id
-        /// </summary>
-        /// <returns>List of FavoriteProductViewModel for target user</returns>
-        /// <param name="userId">User Id (GUID)</param>
-        public virtual async Task<List<FavoriteProductViewModel>> GetAllAsync(string userId)
+        public async Task<List<FavoriteProductViewModel>> GetAllAsync(string userId)
         {
             var favorites = await _favoritesRepository.GetAllAsync();
 
@@ -36,12 +32,7 @@ namespace OnlineShopWebApp.Services
                             .ToList();
         }
 
-        /// <summary>
-        /// Create a new FavoriteProduct for related user.
-        /// </summary>        
-        /// <param name="productId">Product Id (GUID)</param>
-        /// <param name="userId">User Id (GUID)</param>
-        public virtual async Task CreateAsync(Guid productId, string userId)
+        public async Task CreateAsync(Guid productId, string userId)
         {
             var product = await _productsService.GetAsync(productId);
 
@@ -59,20 +50,12 @@ namespace OnlineShopWebApp.Services
             await _favoritesRepository.CreateAsync(favorite);
         }
 
-        /// <summary>
-        /// Delete target FavoriteProduct by Id
-        /// </summary>        
-        /// <param name="id">FavoriteProduct Id (GUID)</param>
-        public virtual async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             await _favoritesRepository.DeleteAsync(id);
         }
 
-        /// <summary>
-        /// Delete all FavoriteProducts for related user.
-        /// </summary>        
-        /// <param name="userId">User Id (GUID)</param>
-        public virtual async Task DeleteAllAsync(string userId)
+        public async Task DeleteAllAsync(string userId)
         {
             await _favoritesRepository.DeleteAllAsync(userId);
         }

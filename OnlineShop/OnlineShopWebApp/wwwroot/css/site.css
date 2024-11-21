@@ -104,6 +104,20 @@ footer {
   background-color: #C9E0F2;
 }
 
+.btn-inactive {
+  color: #fff;
+  background-color: #C9E0F2;
+  border: none;
+  pointer-events: none;
+  cursor: default;
+}
+
+.btn-inactive:hover {
+  color: #fff;
+  background-color: #C9E0F2;
+  border: none;
+}
+
 .btn-card-home {
   font-size: 1rem;
   align-self: flex-end;
@@ -353,6 +367,11 @@ footer {
 .comparison-icon {
   height: 1.75em;
   width: 1.75em;
+}
+
+.cart-icon {
+  height: 1.25em;
+  width: 1.25em;
 }
 
 .product-card-icon {

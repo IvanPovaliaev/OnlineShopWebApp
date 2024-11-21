@@ -4,8 +4,8 @@
 {
     var product = position.Product;
 
-    <div class="row favorite-row position-relative pb-3 mb-3 ">
-        <div class="col-2 d-flex justify-content-center align-content-center h-100">
+    <div class="row favorite-row pb-3 mb-3 g-0">
+        <div class="col-2 justify-content-center align-content-center h-100">
             @{
                 var firstImage = product.Images.FirstOrDefault();
                 var productImageUrl = firstImage?.Url ?? "/img/DefaultProductImage.png";

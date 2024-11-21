@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,9 +13,9 @@ namespace OnlineShopWebApp.Controllers
     public class ComparisonController : Controller
     {
         private readonly string? _userId;
-        private readonly ComparisonsService _comparisonsService;
+        private readonly IComparisonsService _comparisonsService;
 
-        public ComparisonController(ComparisonsService comparisonsService, IHttpContextAccessor httpContextAccessor)
+        public ComparisonController(IComparisonsService comparisonsService, IHttpContextAccessor httpContextAccessor)
         {
             _comparisonsService = comparisonsService;
             _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -3,6 +3,7 @@ using Bogus;
 using Moq;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
@@ -15,7 +16,7 @@ namespace OnlineShopWebApp.Tests.Services
     public class CartsServiceTests
     {
         private readonly Mock<ICartsRepository> _cartsRepositoryMock;
-        private readonly Mock<ProductsService> _productsServiceMock;
+        private readonly Mock<IProductsService> _productsServiceMock;
         private readonly IMapper _mapper;
         private readonly CartsService _cartsService;
 
@@ -24,10 +25,10 @@ namespace OnlineShopWebApp.Tests.Services
         private readonly Faker<Product> _productFaker;
         private readonly Cart _fakeCart;
 
-        public CartsServiceTests(IMapper mapper, FakerProvider fakerProvider)
+        public CartsServiceTests(Mock<ICartsRepository> cartsRepositoryMock, Mock<IProductsService> productsServiceMock, IMapper mapper, FakerProvider fakerProvider)
         {
-            _cartsRepositoryMock = new Mock<ICartsRepository>();
-            _productsServiceMock = new Mock<ProductsService>(null!, null!, null!, null!);
+            _cartsRepositoryMock = cartsRepositoryMock;
+            _productsServiceMock = productsServiceMock;
 
             _mapper = mapper;
 

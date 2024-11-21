@@ -4,8 +4,8 @@ using Moq;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Controllers;
 using OnlineShopWebApp.Helpers;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
@@ -18,14 +18,14 @@ namespace OnlineShopWebApp.Tests.Areas.Controllers
 {
     public class OrderControllerTests
     {
-        private readonly Mock<OrdersService> _ordersServiceMock;
+        private readonly Mock<IOrdersService> _ordersServiceMock;
         private readonly OrderController _controller;
         private readonly IMapper _mapper;
         private readonly List<Order> _fakeOrders;
 
-        public OrderControllerTests(IMapper mapper, FakerProvider fakerProvider)
+        public OrderControllerTests(Mock<IOrdersService> ordersServiceMock, IMapper mapper, FakerProvider fakerProvider)
         {
-            _ordersServiceMock = new Mock<OrdersService>(null!, null!, null!);
+            _ordersServiceMock = ordersServiceMock;
             _controller = new OrderController(_ordersServiceMock.Object);
 
             _mapper = mapper;

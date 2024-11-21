@@ -14,7 +14,7 @@ namespace OnlineShopWebApp.Helpers
         /// <returns>T functions result</returns>
         /// <param name="authenticatedFunction">Function for authentication case(async)</param>
         /// <param name="unauthenticatedFunction">Function for unauthenticated case(async)</param>
-        public async Task<T> ExecuteBasedOnAuthenticationAsync<T>(Func<Task<T>> authenticatedFunction, Func<Task<T>> unauthenticatedFunction)
+        public virtual async Task<T> ExecuteBasedOnAuthenticationAsync<T>(Func<Task<T>> authenticatedFunction, Func<Task<T>> unauthenticatedFunction)
         {
             var user = _httpContextAccessor.HttpContext?.User;
             var isAuthenticated = user?.Identity?.IsAuthenticated ?? false;
@@ -33,7 +33,7 @@ namespace OnlineShopWebApp.Helpers
         /// <returns>Task</returns>
         /// <param name="authenticatedAction">Action for authentication case (async)</param>
         /// <param name="unauthenticatedAction">Action for unauthenticated case(async)</param>
-        public async Task ExecuteBasedOnAuthenticationAsync(Func<Task> authenticatedAction, Func<Task> unauthenticatedAction)
+        public virtual async Task ExecuteBasedOnAuthenticationAsync(Func<Task> authenticatedAction, Func<Task> unauthenticatedAction)
         {
             var user = _httpContextAccessor.HttpContext?.User;
             var isAuthenticated = user?.Identity?.IsAuthenticated ?? false;
@@ -53,7 +53,7 @@ namespace OnlineShopWebApp.Helpers
         /// <returns>Task</returns>
         /// <param name="authenticatedAction">Action for authentication case (async)</param>
         /// <param name="unauthenticatedAction">Action for unauthenticated case(sync)</param>
-        public async Task ExecuteBasedOnAuthenticationAsync(Func<Task> authenticatedAction, Action unauthenticatedAction)
+        public virtual async Task ExecuteBasedOnAuthenticationAsync(Func<Task> authenticatedAction, Action unauthenticatedAction)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 

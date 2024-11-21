@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
 using OnlineShopWebApp.Helpers;
+using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -13,9 +13,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
     [Authorize(Roles = Constants.AdminRoleName)]
     public class OrderController : Controller
     {
-        private readonly OrdersService _ordersService;
+        private readonly IOrdersService _ordersService;
 
-        public OrderController(OrdersService ordersService)
+        public OrderController(IOrdersService ordersService)
         {
             _ordersService = ordersService;
         }
