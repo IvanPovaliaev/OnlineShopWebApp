@@ -40,6 +40,7 @@ namespace OnlineShopWebApp.Tests
             services.AddTransient<Mock<ICookieCartsService>>();
 
             services.AddTransient<Mock<IRolesService>>();
+            services.AddTransient<Mock<IMailService>>();
 
 
         }

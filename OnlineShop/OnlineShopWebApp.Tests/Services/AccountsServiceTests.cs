@@ -724,5 +724,214 @@ namespace OnlineShopWebApp.Tests.Services
             _userManagerMock.Verify(repo => repo.Users, Times.Once);
             _excelServiceMock.Verify(service => service.ExportUsers(It.IsAny<List<UserViewModel>>()), Times.Once);
         }
+
+        [Fact]
+        public async Task IsForgotPasswordValidAsync_IfEmailNotExists_ReturnsFalse()
+        {
+            // Arrange
+            var forgotModel = new ForgotPasswordViewModel
+            {
+                Email = _fakeUsers.First().Email!
+            };
+
+            var modelState = new ModelStateDictionary();
+            _userManagerMock.Setup(um => um.FindByEmailAsync(forgotModel.Email))
+                            .ReturnsAsync((User)null!);
+
+            // Act
+            var result = await _accountsService.IsForgotPasswordValidAsync(modelState, forgotModel);
+
+            // Assert
+            Assert.False(result);
+            Assert.False(modelState.IsValid);
+        }
+
+        [Fact]
+        public async Task IsForgotPasswordValidAsync_IfAllDataValid_ReturnsTrue()
+        {
+            // Arrange
+            var forgotModel = new ForgotPasswordViewModel
+            {
+                Email = _fakeUsers.First().Email!
+            };
+
+            var modelState = new ModelStateDictionary();
+            _userManagerMock.Setup(um => um.FindByEmailAsync(forgotModel.Email))
+                            .ReturnsAsync(_fakeUsers.First());
+
+            // Act
+            var result = await _accountsService.IsForgotPasswordValidAsync(modelState, forgotModel);
+
+            // Assert
+            Assert.True(result);
+            Assert.True(modelState.IsValid);
+        }
+
+        [Fact]
+        public async Task IsResetPasswordValidAsync_IfEmailNotExists_ReturnsFalse()
+        {
+            // Arrange
+            var email = _fakeUsers.First().Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var resetModel = new ResetPasswordViewModel
+            {
+                Email = email!,
+                Token = token,
+                Password = "newpassword",
+                ConfirmPassword = "newpassword"
+            };
+
+            var modelState = new ModelStateDictionary();
+            _userManagerMock.Setup(um => um.FindByEmailAsync(resetModel.Email!))
+                            .ReturnsAsync((User)null!);
+
+            // Act
+            var result = await _accountsService.IsResetPasswordValidAsync(modelState, resetModel);
+
+            // Assert
+            Assert.False(result);
+            Assert.False(modelState.IsValid);
+        }
+
+        [Fact]
+        public async Task IsResetPasswordValidAsync_IfEmailAndPasswordMatch_ReturnsFalse()
+        {
+            // Arrange
+            var email = _fakeUsers.First().Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var resetModel = new ResetPasswordViewModel
+            {
+                Email = email!,
+                Token = token,
+                Password = email!,
+                ConfirmPassword = email!
+            };
+
+            var modelState = new ModelStateDictionary();
+            _userManagerMock.Setup(um => um.FindByEmailAsync(resetModel.Email!))
+                            .ReturnsAsync((User)null!);
+
+            // Act
+            var result = await _accountsService.IsResetPasswordValidAsync(modelState, resetModel);
+
+            // Assert
+            Assert.False(result);
+            Assert.False(modelState.IsValid);
+        }
+
+        [Fact]
+        public async Task IsResetPasswordValidAsync_IfAllDataValid_ReturnsTrue()
+        {
+            // Arrange
+            var email = _fakeUsers.First().Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var resetModel = new ResetPasswordViewModel
+            {
+                Email = email!,
+                Token = token,
+                Password = "newpassword",
+                ConfirmPassword = "newpassword"
+            };
+
+            var modelState = new ModelStateDictionary();
+            _userManagerMock.Setup(um => um.FindByEmailAsync(resetModel.Email!))
+                            .ReturnsAsync(_fakeUsers.First());
+
+            // Act
+            var result = await _accountsService.IsResetPasswordValidAsync(modelState, resetModel);
+
+            // Assert
+            Assert.True(result);
+            Assert.True(modelState.IsValid);
+        }
+
+        [Fact]
+        public async Task GetPasswordResetTokenAsync_WhenCalled_ReturnsToken()
+        {
+            // Arrange
+            var user = _fakeUsers.First();
+            var email = _fakeUsers.First().Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var modelState = new ModelStateDictionary();
+            _userManagerMock.Setup(um => um.FindByEmailAsync(email!))
+                            .ReturnsAsync(user);
+
+            _userManagerMock.Setup(um => um.GeneratePasswordResetTokenAsync(user))
+                            .ReturnsAsync(token);
+
+            // Act
+            var result = await _accountsService.GetPasswordResetTokenAsync(email);
+
+            // Assert
+            Assert.Equal(token, result);
+            _userManagerMock.Verify(repo => repo.FindByEmailAsync(email), Times.Once);
+            _userManagerMock.Verify(repo => repo.GeneratePasswordResetTokenAsync(user), Times.Once);
+        }
+
+        [Fact]
+        public async Task TryResetPassword_WhenResetPasswordAsyncFails_ReturnsFalse()
+        {
+            // Arrange
+            var user = _fakeUsers.First();
+            var email = user.Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var resetModel = new ResetPasswordViewModel
+            {
+                Email = email!,
+                Token = token,
+                Password = "newpassword",
+                ConfirmPassword = "newpassword"
+            };
+
+            _userManagerMock.Setup(um => um.FindByEmailAsync(email!))
+                            .ReturnsAsync(user);
+
+            _userManagerMock.Setup(um => um.ResetPasswordAsync(user, token, resetModel.Password))
+                            .ReturnsAsync(IdentityResult.Failed());
+
+            // Act
+            var result = await _accountsService.TryResetPassword(resetModel);
+
+            // Assert
+            Assert.False(result);
+            _userManagerMock.Verify(repo => repo.FindByEmailAsync(email!), Times.Once);
+            _userManagerMock.Verify(repo => repo.ResetPasswordAsync(user, token, resetModel.Password), Times.Once);
+        }
+
+        [Fact]
+        public async Task TryResetPassword_WhenResetPasswordAsyncSucceeded_ReturnsTrue()
+        {
+            // Arrange
+            var user = _fakeUsers.First();
+            var email = user.Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var resetModel = new ResetPasswordViewModel
+            {
+                Email = email!,
+                Token = token,
+                Password = "newpassword",
+                ConfirmPassword = "newpassword"
+            };
+
+            _userManagerMock.Setup(um => um.FindByEmailAsync(email!))
+                            .ReturnsAsync(user);
+
+            _userManagerMock.Setup(um => um.ResetPasswordAsync(user, token, resetModel.Password))
+                            .ReturnsAsync(IdentityResult.Success);
+
+            // Act
+            var result = await _accountsService.TryResetPassword(resetModel);
+
+            // Assert
+            Assert.True(result);
+            _userManagerMock.Verify(repo => repo.FindByEmailAsync(email!), Times.Once);
+            _userManagerMock.Verify(repo => repo.ResetPasswordAsync(user, token, resetModel.Password), Times.Once);
+        }
     }
 }

@@ -198,7 +198,7 @@ namespace OnlineShopWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            var isModelValid = await _accountsService.IsResetPasswordValid(ModelState, model);
+            var isModelValid = await _accountsService.IsResetPasswordValidAsync(ModelState, model);
 
             if (!isModelValid)
             {

@@ -116,7 +116,7 @@ namespace OnlineShopWebApp.Interfaces
         /// <returns>true if model is valid; otherwise false</returns>
         /// <param name="modelState">Current model state</param>
         /// <param name="model">Target ResetPasswordViewModel</param>
-        Task<bool> IsResetPasswordValid(ModelStateDictionary modelState, ResetPasswordViewModel model);
+        Task<bool> IsResetPasswordValidAsync(ModelStateDictionary modelState, ResetPasswordViewModel model);
 
         /// <summary>
         /// Try to reset user password

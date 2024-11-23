@@ -246,7 +246,7 @@ namespace OnlineShopWebApp.Services
             return modelState.IsValid;
         }
 
-        public async Task<bool> IsResetPasswordValid(ModelStateDictionary modelState, ResetPasswordViewModel model)
+        public async Task<bool> IsResetPasswordValidAsync(ModelStateDictionary modelState, ResetPasswordViewModel model)
         {
             if (!await IsEmailExistAsync(model.Email))
             {
@@ -273,12 +273,7 @@ namespace OnlineShopWebApp.Services
 
             var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
 
-            if (result.Succeeded)
-            {
-                return true;
-            }
-
-            return false;
+            return result.Succeeded;
         }
 
         /// <summary>
