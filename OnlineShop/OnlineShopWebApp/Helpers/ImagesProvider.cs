@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Helpers
 {
@@ -17,7 +18,7 @@ namespace OnlineShopWebApp.Helpers
         /// <returns>Image url</returns>
         /// <param name="image">Target image</param>
         /// <param name="folderPath">Target folderPath</param>
-        public string? Save(IFormFile? image, string folderPath)
+        public async Task<string?> SaveAsync(IFormFile? image, string folderPath)
         {
             if (image is null)
             {
@@ -39,7 +40,7 @@ namespace OnlineShopWebApp.Helpers
 
             using (var fileStream = new FileStream(imagePath, FileMode.Create))
             {
-                image.CopyTo(fileStream);
+                await image.CopyToAsync(fileStream);
             }
 
             return Path.Combine(folderPath, imageName);
@@ -51,7 +52,7 @@ namespace OnlineShopWebApp.Helpers
         /// <returns>Collections of images urls</returns>
         /// <param name="images">Target images collection</param>
         /// <param name="folderPath">Target folderPath</param>
-        public List<string> SaveAll(ICollection<IFormFile>? images, string folderPath)
+        public async Task<List<string>> SaveAllAsync(ICollection<IFormFile>? images, string folderPath)
         {
             if (images is null)
             {
@@ -76,7 +77,7 @@ namespace OnlineShopWebApp.Helpers
 
                 using (var fileStream = new FileStream(localImagePath, FileMode.Create))
                 {
-                    image.CopyTo(fileStream);
+                    await image.CopyToAsync(fileStream);
                 }
 
                 var imagePath = Path.Combine(folderPath, imageName);

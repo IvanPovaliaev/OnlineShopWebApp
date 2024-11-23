@@ -134,7 +134,7 @@ namespace OnlineShopWebApp.Services
             user.UserName = editUser.Email;
             user.PhoneNumber = editUser.PhoneNumber;
             user.FullName = editUser.FullName;
-            var avatarUrl = _imageProvider.Save(editUser.UploadedImage, _usersAvatarsStoragePath);
+            var avatarUrl = await _imageProvider.SaveAsync(editUser.UploadedImage, _usersAvatarsStoragePath);
 
             if (avatarUrl != null)
             {
@@ -236,6 +236,51 @@ namespace OnlineShopWebApp.Services
             return _excelService.ExportUsers(users);
         }
 
+        public async Task<bool> IsForgotPasswordValidAsync(ModelStateDictionary modelState, ForgotPasswordViewModel model)
+        {
+            if (!await IsEmailExistAsync(model.Email))
+            {
+                modelState.AddModelError(string.Empty, "Пользователь с таким Email не найден");
+            }
+
+            return modelState.IsValid;
+        }
+
+        public async Task<bool> IsResetPasswordValid(ModelStateDictionary modelState, ResetPasswordViewModel model)
+        {
+            if (!await IsEmailExistAsync(model.Email))
+            {
+                modelState.AddModelError(string.Empty, "Пользователь с таким Email не найден");
+            }
+
+            if (model.Email == model.Password)
+            {
+                modelState.AddModelError(string.Empty, "Email и пароль не должны совпадать!");
+            }
+
+            return modelState.IsValid;
+        }
+
+        public async Task<string> GetPasswordResetTokenAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return await _userManager.GeneratePasswordResetTokenAsync(user!);
+        }
+
+        public async Task<bool> TryResetPassword(ResetPasswordViewModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+            if (result.Succeeded)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Get a role name for new user based on register model
         /// </summary>        
@@ -292,16 +337,6 @@ namespace OnlineShopWebApp.Services
 
             await _userManager.RemoveFromRolesAsync(user, userRoles);
             await _userManager.AddToRoleAsync(user, newRoleName);
-        }
-
-        public async Task<bool> IsForgotPasswordValidAsync(ModelStateDictionary modelState, ForgotPasswordViewModel model)
-        {
-            if (!await IsEmailExistAsync(model.Email))
-            {
-                modelState.AddModelError(string.Empty, "Пользователь с таким Email не найден");
-            }
-
-            return modelState.IsValid;
         }
     }
 }

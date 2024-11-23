@@ -16,12 +16,14 @@ namespace OnlineShopWebApp.Controllers
         private readonly IAccountsService _accountsService;
         private readonly IOrdersService _ordersService;
         private readonly IMediator _mediator;
+        private readonly IMailService _mailService;
 
-        public AccountController(IAccountsService accountService, IOrdersService ordersService, IMediator mediator, IHttpContextAccessor httpContextAccessor)
+        public AccountController(IAccountsService accountService, IOrdersService ordersService, IMediator mediator, IMailService mailService, IHttpContextAccessor httpContextAccessor)
         {
             _accountsService = accountService;
             _ordersService = ordersService;
             _mediator = mediator;
+            _mailService = mailService;
             _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
         }
 
@@ -76,7 +78,6 @@ namespace OnlineShopWebApp.Controllers
         /// Open Orders page for current user
         /// </summary>
         /// <returns>Orders page</returns>
-        /// <param name="user">Target EditUser model</param>  
         [Authorize]
         public async Task<IActionResult> Orders()
         {
@@ -87,7 +88,7 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Login as user
         /// </summary>
-        /// <returns>Home page</returns>
+        /// <returns>Initial view</returns>
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
@@ -108,7 +109,7 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Logout user
         /// </summary>
-        /// <returns>Home page</returns>
+        /// <returns>Initial view</returns>
         public async Task<IActionResult> Logout()
         {
             await _accountsService.LogoutAsync();
@@ -119,7 +120,7 @@ namespace OnlineShopWebApp.Controllers
         /// <summary>
         /// Register a new user
         /// </summary>
-        /// <returns>Home page</returns>
+        /// <returns>Initial view</returns>
         [HttpPost]
         public async Task<IActionResult> Register(UserRegisterViewModel register)
         {
@@ -140,9 +141,9 @@ namespace OnlineShopWebApp.Controllers
         }
 
         /// <summary>
-        /// Register a new user
+        /// Starts the password reset process
         /// </summary>
-        /// <returns>ForgotPassword confirmation page</returns>
+        /// <returns>SendResetPassword url</returns>
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -153,9 +154,73 @@ namespace OnlineShopWebApp.Controllers
                 return PartialView("_ForgotPasswordForm", model);
             }
 
-            var redirectUrl = Url.Action("Index", "Home");
+            var token = await _accountsService.GetPasswordResetTokenAsync(model.Email);
+
+            var callbackUrl = Url.Action("ResetPassword", "Account", new
+            {
+                model.Email,
+                Token = token
+            }, protocol: HttpContext.Request.Scheme);
+
+            await _mailService.SendEmailAsync(model.Email, "Сброс пароля",
+    $"Ваш e-mail был указан для восстановления пароля в онлайн магазине PCDream.<br/>Для восстановления пароля перейдите, пожалуйста, <a href='{callbackUrl}'>по ссылке</a>");
+
+            var redirectUrl = Url.Action(nameof(SendResetPassword));
 
             return Json(new { redirectUrl });
         }
+
+        /// <summary>
+        /// Open SendResetPassword view
+        /// </summary>
+        /// <returns>SendResetPassword view</returns>
+        public IActionResult SendResetPassword() => View();
+
+        /// <summary>
+        /// Open ResetPassword view
+        /// </summary>
+        /// <returns>ResetPassword view</returns>
+        public IActionResult ResetPassword(string email, string token)
+        {
+            var resetModel = new ResetPasswordViewModel()
+            {
+                Email = email,
+                Token = token
+            };
+
+            return View(resetModel);
+        }
+
+        /// <summary>
+        /// Reset user password
+        /// </summary>
+        /// <returns>SuccessResetPassword View</returns>
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            var isModelValid = await _accountsService.IsResetPasswordValid(ModelState, model);
+
+            if (!isModelValid)
+            {
+                return View(model);
+            }
+
+            var result = await _accountsService.TryResetPassword(model);
+
+            if (!result)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            await _mailService.SendEmailAsync(model.Email, "Сброс пароля",
+$"Ваш пароль был успешно изменён.");
+            return RedirectToAction(nameof(SuccessResetPassword));
+        }
+
+        /// <summary>
+        /// Open SuccessResetPassword view
+        /// </summary>
+        /// <returns>SuccessResetPassword view</returns>
+        public IActionResult SuccessResetPassword() => View();
     }
 }

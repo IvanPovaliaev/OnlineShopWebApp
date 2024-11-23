@@ -93,7 +93,7 @@ namespace OnlineShopWebApp.Services
         public async Task AddAsync(AddProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
-            var images = SaveImages(productDb.Id, product.UploadedImages!);
+            var images = await SaveImagesAsync(productDb.Id, product.UploadedImages!);
             productDb.Images = images;
 
             await _productsRepository.AddAsync(productDb);
@@ -102,7 +102,7 @@ namespace OnlineShopWebApp.Services
         public async Task UpdateAsync(EditProductViewModel product)
         {
             var productDb = _mapper.Map<Product>(product);
-            var images = SaveImages(productDb.Id, product.UploadedImages!);
+            var images = await SaveImagesAsync(productDb.Id, product.UploadedImages!);
             productDb.Images = images;
 
             await _productsRepository.UpdateAsync(productDb);
@@ -161,9 +161,10 @@ namespace OnlineShopWebApp.Services
         /// </summary>
         /// <param name="productId">Related product Id</param>
         /// <param name="uploadedImages">Target collection of images</param>
-        private List<ProductImage> SaveImages(Guid productId, ICollection<IFormFile> uploadedImages)
+        private async Task<List<ProductImage>> SaveImagesAsync(Guid productId, ICollection<IFormFile> uploadedImages)
         {
-            var imagesUrls = _imageProvider.SaveAll(uploadedImages, _productsImagesStoragePath);
+            var imagesUrls = await _imageProvider.SaveAllAsync(uploadedImages, _productsImagesStoragePath);
+
             var images = new List<ProductImage>(imagesUrls.Count);
 
             foreach (var imageUrl in imagesUrls)
