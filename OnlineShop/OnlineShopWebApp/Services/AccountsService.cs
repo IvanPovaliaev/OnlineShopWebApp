@@ -293,5 +293,15 @@ namespace OnlineShopWebApp.Services
             await _userManager.RemoveFromRolesAsync(user, userRoles);
             await _userManager.AddToRoleAsync(user, newRoleName);
         }
+
+        public async Task<bool> IsForgotPasswordValidAsync(ModelStateDictionary modelState, ForgotPasswordViewModel model)
+        {
+            if (!await IsEmailExistAsync(model.Email))
+            {
+                modelState.AddModelError(string.Empty, "Пользователь с таким Email не найден");
+            }
+
+            return modelState.IsValid;
+        }
     }
 }

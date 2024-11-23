@@ -52,7 +52,8 @@ switch (databaseType.ToLower())
 }
 
 builder.Services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<DatabaseContext>();
+                .AddEntityFrameworkStores<DatabaseContext>()
+                .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -99,6 +100,11 @@ builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 builder.Services.AddTransient<AuthenticationHelper>();
 
 builder.Services.AddTransient<ImagesProvider>();
+
+var mailSetting = builder.Configuration.GetSection("MailSettings");
+builder.Services.Configure<MailSettings>(mailSetting);
+
+builder.Services.AddTransient<IMailService, EmailService>();
 
 builder.Services.Scan(scan => scan
                 .FromAssemblyOf<IProductSpecificationsRules>()

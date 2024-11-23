@@ -94,5 +94,13 @@ namespace OnlineShopWebApp.Interfaces
         /// </summary>
         /// <returns>MemoryStream Excel file with users info</returns>
         Task<MemoryStream> ExportAllToExcelAsync();
+
+        /// <summary>
+        /// Validates the ForgotPasswordViewModel
+        /// </summary>        
+        /// <returns>true if model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="model">Target ForgotPasswordViewModel</param>
+        Task<bool> IsForgotPasswordValidAsync(ModelStateDictionary modelState, ForgotPasswordViewModel model);
     }
 }

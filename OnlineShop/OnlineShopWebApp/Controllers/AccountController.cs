@@ -138,5 +138,24 @@ namespace OnlineShopWebApp.Controllers
 
             return Json(new { redirectUrl });
         }
+
+        /// <summary>
+        /// Register a new user
+        /// </summary>
+        /// <returns>ForgotPassword confirmation page</returns>
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            var isModelValid = await _accountsService.IsForgotPasswordValidAsync(ModelState, model);
+
+            if (!isModelValid)
+            {
+                return PartialView("_ForgotPasswordForm", model);
+            }
+
+            var redirectUrl = Url.Action("Index", "Home");
+
+            return Json(new { redirectUrl });
+        }
     }
 }

@@ -2,17 +2,10 @@
 
 namespace OnlineShopWebApp.Models
 {
-    public class LoginViewModel
+    public class ForgotPasswordViewModel
     {
         [Required(ErrorMessage = "Не указан Email")]
         [EmailAddress(ErrorMessage = "Неверный адрес электронной почты")]
         public string Email { get; init; }
-
-        [Required(ErrorMessage = "Введите пароль")]
-        public string Password { get; init; }
-
-        public bool KeepMeLogged { get; init; }
-
-        public string ReturnUrl { get; set; }
     }
 }
