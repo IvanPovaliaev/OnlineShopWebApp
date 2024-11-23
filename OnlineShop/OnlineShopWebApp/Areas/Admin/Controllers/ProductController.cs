@@ -55,7 +55,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             }
 
             await _productsService.AddAsync(product);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             }
 
             await _productsService.UpdateAsync(product);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _productsService.DeleteAsync(id);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>

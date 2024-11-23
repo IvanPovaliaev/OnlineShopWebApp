@@ -28,7 +28,7 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="category">Product category</param>
         public async Task<IActionResult> Index(ProductCategoriesViewModel? category)
         {
-            var comparisonsGroups = await _comparisonsService.GetGroupsAsync(_userId);
+            var comparisonsGroups = await _comparisonsService.GetGroupsAsync(_userId!);
 
             var comparisonsGroupsWithCategory = (comparisonsGroups, category);
 
@@ -42,7 +42,7 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="productId">Product id (GUID)</param>
         public async Task<IActionResult> Add(Guid productId)
         {
-            await _comparisonsService.CreateAsync(productId, _userId);
+            await _comparisonsService.CreateAsync(productId, _userId!);
             return PartialView("_NavUserIcons");
         }
 
@@ -54,7 +54,7 @@ namespace OnlineShopWebApp.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _comparisonsService.DeleteAsync(id);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Users comparison View</returns>
         public async Task<IActionResult> DeleteAll()
         {
-            await _comparisonsService.DeleteAllAsync(_userId);
-            return RedirectToAction("Index");
+            await _comparisonsService.DeleteAllAsync(_userId!);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

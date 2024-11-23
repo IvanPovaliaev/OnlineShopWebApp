@@ -26,7 +26,7 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Users favorites View</returns>
         public async Task<IActionResult> Index()
         {
-            var favorites = await _favoritesService.GetAllAsync(_userId);
+            var favorites = await _favoritesService.GetAllAsync(_userId!);
             return View(favorites);
         }
 
@@ -37,7 +37,7 @@ namespace OnlineShopWebApp.Controllers
         /// <param name="productId">Product id (GUID)</param>
         public async Task<IActionResult> Add(Guid productId)
         {
-            await _favoritesService.CreateAsync(productId, _userId);
+            await _favoritesService.CreateAsync(productId, _userId!);
             return PartialView("_NavUserIcons");
         }
 
@@ -49,7 +49,7 @@ namespace OnlineShopWebApp.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _favoritesService.DeleteAsync(id);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Users comparison View</returns>
         public async Task<IActionResult> DeleteAll()
         {
-            await _favoritesService.DeleteAllAsync(_userId);
-            return RedirectToAction("Index");
+            await _favoritesService.DeleteAllAsync(_userId!);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -39,7 +39,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateStatus(Guid id, OrderStatusViewModel status)
         {
             await _ordersService.UpdateStatusAsync(id, status);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
