@@ -21,11 +21,6 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((context, configuration) => configuration
-            .ReadFrom.Configuration(context.Configuration)
-            .Enrich.FromLogContext()
-            .Enrich.WithProperty("ApplicationName", "Online Shop"));
-
 var databaseProvider = builder.Configuration["DatabaseProvider"];
 var connection = builder.Configuration.GetConnectionString(databaseProvider!);
 var databaseTypes = builder.Configuration.GetSection("DatabaseTypes")
@@ -50,6 +45,12 @@ switch (databaseType.ToLower())
     default:
         throw new InvalidOperationException("Invalid database type");
 }
+
+builder.Host.UseSerilog((context, configuration) => configuration
+            .ReadFrom.Configuration(context.Configuration)
+            .Enrich.FromLogContext()
+            .Enrich.WithProperty("ApplicationName", "Online Shop")
+            .WriteToDatabase(databaseType.ToLower(), connection!));
 
 builder.Services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
