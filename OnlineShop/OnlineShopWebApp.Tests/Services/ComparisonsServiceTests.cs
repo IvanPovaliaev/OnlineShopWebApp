@@ -64,8 +64,8 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var anotherUserId = Guid.NewGuid().ToString();
-            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
-                                      .ReturnsAsync(_fakeComparisonProducts);
+            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<ComparisonProduct>>()))
+                                      .ReturnsAsync([]);
 
             // Act
             var result = await _comparisonsService.GetAllAsync(anotherUserId);
@@ -78,7 +78,7 @@ namespace OnlineShopWebApp.Tests.Services
         public async Task GetGroupsAsync_WhenUserHasComparisons_ReturnsProductsGroupedByCategory()
         {
             // Arrange
-            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<ComparisonProduct>>()))
                                       .ReturnsAsync(_fakeComparisonProducts);
 
             // Act
@@ -101,8 +101,8 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var anotherUserId = Guid.NewGuid().ToString();
-            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
-                                      .ReturnsAsync(_fakeComparisonProducts);
+            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<ComparisonProduct>>()))
+                                      .ReturnsAsync([]);
 
             // Act
             var result = await _comparisonsService.GetGroupsAsync(anotherUserId);
@@ -118,7 +118,7 @@ namespace OnlineShopWebApp.Tests.Services
             var fakeProduct = _productsFaker.Generate();
             _productsServiceMock.Setup(service => service.GetAsync(fakeProduct.Id))
                                 .ReturnsAsync(fakeProduct);
-            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<ComparisonProduct>>()))
                                 .ReturnsAsync(_fakeComparisonProducts);
 
             // Act
@@ -135,7 +135,7 @@ namespace OnlineShopWebApp.Tests.Services
             var fakeProduct = _fakeComparisonProducts.First().Product;
             _productsServiceMock.Setup(service => service.GetAsync(fakeProduct.Id))
                                 .ReturnsAsync(fakeProduct);
-            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<ComparisonProduct>>()))
                                 .ReturnsAsync(_fakeComparisonProducts);
 
             // Act

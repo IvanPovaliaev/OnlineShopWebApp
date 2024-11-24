@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LinqSpecs;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using OnlineShop.Db.Interfaces;
@@ -45,7 +46,7 @@ namespace OnlineShopWebApp.Tests.Services
         public async Task GetAllAsync_WhenCalled_ReturnsOrderViewModelsList()
         {
             // Arrange
-            _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _ordersRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Order>>()))
                                  .ReturnsAsync(_fakeOrders);
 
             // Act
@@ -68,7 +69,7 @@ namespace OnlineShopWebApp.Tests.Services
                 Assert.Equal(_fakeOrderViewModels[i].Info.Phone, result[i].Info.Phone);
             }
 
-            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Order>>()), Times.Once);
         }
 
 
@@ -77,8 +78,11 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var userId = _fakeOrders[0].UserId;
-            _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
-                                 .ReturnsAsync(_fakeOrders);
+            var expectedOrders = _fakeOrders.Where(o => o.UserId == userId)
+                                            .ToList();
+
+            _ordersRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Order>>()))
+                                 .ReturnsAsync(expectedOrders);
 
             // Act
             var result = await _ordersService.GetLastAsync(userId);
@@ -87,7 +91,7 @@ namespace OnlineShopWebApp.Tests.Services
             Assert.NotNull(result);
             Assert.Equal(userId, result.UserId);
 
-            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Order>>()), Times.Once);
         }
 
         [Fact]
@@ -95,15 +99,15 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var userId = Guid.NewGuid().ToString();
-            _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
-                                 .ReturnsAsync(_fakeOrders);
+            _ordersRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Order>>()))
+                                 .ReturnsAsync([]);
 
             // Act
             var result = await _ordersService.GetLastAsync(userId);
 
             // Assert
             Assert.Null(result);
-            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Order>>()), Times.Once);
         }
 
         [Fact]
@@ -177,7 +181,7 @@ namespace OnlineShopWebApp.Tests.Services
             // Arrange
             var memoryStream = new MemoryStream();
 
-            _ordersRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _ordersRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Order>>()))
                                  .ReturnsAsync(_fakeOrders);
 
             _excelServiceMock.Setup(service => service.ExportOrders(It.IsAny<List<OrderViewModel>>()))
@@ -188,7 +192,7 @@ namespace OnlineShopWebApp.Tests.Services
 
             // Assert
             Assert.IsType<MemoryStream>(result);
-            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _ordersRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Order>>()), Times.Once);
             _excelServiceMock.Verify(service => service.ExportOrders(It.IsAny<List<OrderViewModel>>()), Times.Once);
         }
     }

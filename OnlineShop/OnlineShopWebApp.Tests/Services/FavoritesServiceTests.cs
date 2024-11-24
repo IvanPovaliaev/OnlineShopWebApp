@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bogus;
+using LinqSpecs;
 using Moq;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
@@ -48,7 +49,7 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var expectedCount = _fakeFavoriteProducts.Count;
-            _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<FavoriteProduct>>()))
                                     .ReturnsAsync(_fakeFavoriteProducts);
 
             // Act
@@ -65,8 +66,8 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var anotherUserId = Guid.NewGuid().ToString();
-            _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync())
-                                    .ReturnsAsync(_fakeFavoriteProducts);
+            _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<FavoriteProduct>>()))
+                                    .ReturnsAsync([]);
 
             // Act
             var result = await _favoritesService.GetAllAsync(anotherUserId);
@@ -83,7 +84,7 @@ namespace OnlineShopWebApp.Tests.Services
 
             _productsServiceMock.Setup(service => service.GetAsync(fakeProduct.Id))
                                 .ReturnsAsync(fakeProduct);
-            _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<FavoriteProduct>>()))
                                     .ReturnsAsync(_fakeFavoriteProducts);
 
             // Act
@@ -101,7 +102,7 @@ namespace OnlineShopWebApp.Tests.Services
 
             _productsServiceMock.Setup(service => service.GetAsync(fakeProduct.Id))
                                 .ReturnsAsync(fakeProduct);
-            _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<FavoriteProduct>>()))
                                     .ReturnsAsync(_fakeFavoriteProducts);
 
             // Act

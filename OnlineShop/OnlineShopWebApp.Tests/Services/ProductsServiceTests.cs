@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bogus;
+using LinqSpecs;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -55,7 +56,7 @@ namespace OnlineShopWebApp.Tests.Services
         public async Task GetAllAsync_WhenCalled_ReturnAllProducts()
         {
             // Arrange
-            _productsRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _productsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()))
                                    .ReturnsAsync(_fakeProducts);
 
             // Act
@@ -63,7 +64,7 @@ namespace OnlineShopWebApp.Tests.Services
 
             // Assert
             Assert.Equal(_fakeProducts.Count, result.Count);
-            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()), Times.Once);
         }
 
         [Fact]
@@ -71,16 +72,18 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var category = new Faker().PickRandom<ProductCategoriesViewModel>();
+            var expectedProducts = _fakeProducts.Where(p => p.Category == (ProductCategories)category)
+                                                .ToList();
 
-            _productsRepositoryMock.Setup(repo => repo.GetAllAsync())
-                                   .ReturnsAsync(_fakeProducts);
+            _productsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()))
+                                   .ReturnsAsync(expectedProducts);
 
             // Act
             var result = await _productsService.GetAllAsync(category);
 
             // Assert
             Assert.All(result, p => Assert.Equal(category, p.Category));
-            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()), Times.Once);
         }
 
         [Fact]
@@ -102,14 +105,14 @@ namespace OnlineShopWebApp.Tests.Services
                 _fakeProducts[i].Name = _fakeProducts[i].Name.Insert(0, query);
             }
 
-            _productsRepositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(_fakeProducts);
+            _productsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>())).ReturnsAsync(_fakeProducts);
 
             // Act
             var result = await _productsService.GetAllFromSearchAsync(query);
 
             // Assert
             Assert.Contains(result, p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
-            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()), Times.Once);
         }
 
         [Fact]
@@ -368,7 +371,7 @@ namespace OnlineShopWebApp.Tests.Services
             // Arrange
             var memoryStream = new MemoryStream();
 
-            _productsRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _productsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()))
                                    .ReturnsAsync(_fakeProducts);
 
             _excelServiceMock.Setup(service => service.ExportProducts(It.IsAny<List<ProductViewModel>>()))
@@ -379,7 +382,7 @@ namespace OnlineShopWebApp.Tests.Services
 
             // Assert
             Assert.IsType<MemoryStream>(result);
-            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()), Times.Once);
             _excelServiceMock.Verify(service => service.ExportProducts(It.IsAny<List<ProductViewModel>>()), Times.Once);
         }
     }
