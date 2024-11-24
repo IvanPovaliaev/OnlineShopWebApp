@@ -49,8 +49,7 @@ switch (databaseType.ToLower())
 builder.Host.UseSerilog((context, configuration) => configuration
             .ReadFrom.Configuration(context.Configuration)
             .Enrich.FromLogContext()
-            .Enrich.WithProperty("ApplicationName", "Online Shop")
-            .WriteToDatabase(databaseType.ToLower(), connection!));
+            .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
 builder.Services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
@@ -163,6 +162,16 @@ using (var serviceScope = app.Services.CreateScope())
 
     var identityInitializer = new IdentityInitializer(configuration);
     await identityInitializer.InitializeAsync(userManager, roleManager);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration)
+        .Enrich.FromLogContext()
+        .Enrich.WithProperty("ApplicationName", "Online Shop")
+        .WriteToDatabase(databaseType.ToLower(), connection!)
+        .CreateLogger();
 }
 
 app.Run();
