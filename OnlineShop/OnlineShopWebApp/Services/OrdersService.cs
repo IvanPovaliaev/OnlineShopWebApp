@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Helpers.Specifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -34,17 +35,18 @@ namespace OnlineShopWebApp.Services
 
         public async Task<List<OrderViewModel>> GetAllAsync(string userId)
         {
-            var orders = (await _ordersRepository.GetAllAsync())
-                                                 .Where(order => order.UserId == userId)
-                                                 .Select(_mapper.Map<OrderViewModel>)
-                                                 .ToList();
-            return orders;
+            var specification = new OrdersByUserIdSpecification(userId);
+
+            var orders = await _ordersRepository.GetAllAsync(specification);
+            return orders.Select(_mapper.Map<OrderViewModel>)
+                         .ToList();
         }
 
         public async Task<OrderViewModel> GetLastAsync(string userId)
         {
-            var orders = await GetAllAsync();
-            return orders.LastOrDefault(o => o.UserId == userId)!;
+            var orders = await GetAllAsync(userId);
+            return orders.OrderByDescending(order => order.CreationDate)
+                         .FirstOrDefault()!;
         }
 
         public async Task CreateAsync(string userId, UserDeliveryInfoViewModel deliveryInfo, List<CartPosition> positions)

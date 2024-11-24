@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Helpers.Specifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -25,10 +26,10 @@ namespace OnlineShopWebApp.Services
 
         public async Task<List<FavoriteProductViewModel>> GetAllAsync(string userId)
         {
-            var favorites = await _favoritesRepository.GetAllAsync();
+            var specification = new FavoritesByUserIdSpecification(userId);
 
-            return favorites.Where(c => c.UserId == userId)
-                            .Select(_mapper.Map<FavoriteProductViewModel>)
+            var favorites = await _favoritesRepository.GetAllAsync(specification);
+            return favorites.Select(_mapper.Map<FavoriteProductViewModel>)
                             .ToList();
         }
 

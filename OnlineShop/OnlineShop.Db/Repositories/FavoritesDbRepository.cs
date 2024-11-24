@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqSpecs;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
@@ -17,11 +18,18 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<List<FavoriteProduct>> GetAllAsync()
+        public async Task<List<FavoriteProduct>> GetAllAsync(Specification<FavoriteProduct>? specification = null)
         {
-            return await _databaseContext.FavoriteProducts.Include(f => f.Product)
-                                                          .ThenInclude(p => p.Images)
-                                                          .ToListAsync();
+            var query = _databaseContext.FavoriteProducts.AsQueryable();
+
+            if (specification is not null)
+            {
+                query = query.Where(specification.ToExpression());
+            }
+
+            return await query.Include(f => f.Product)
+                              .ThenInclude(p => p.Images)
+                              .ToListAsync();
         }
 
         public async Task<FavoriteProduct> GetAsync(Guid id)

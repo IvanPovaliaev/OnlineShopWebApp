@@ -6,6 +6,7 @@ using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
+using OnlineShopWebApp.Helpers.Specifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -45,8 +46,10 @@ namespace OnlineShopWebApp.Services
 
         public async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
         {
-            var products = await GetAllAsync();
-            return products.Where(p => p.Category == category)
+            var specification = new ProductByCategorySpecification((ProductCategories)category);
+
+            var products = await _productsRepository.GetAllAsync(specification);
+            return products.Select(_mapper.Map<ProductViewModel>)
                            .ToList();
         }
 

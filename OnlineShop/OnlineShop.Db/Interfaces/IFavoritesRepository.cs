@@ -1,4 +1,5 @@
-﻿using OnlineShop.Db.Models;
+﻿using LinqSpecs;
+using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace OnlineShop.Db.Interfaces
         /// Get all FavoriteProducts
         /// </summary>
         /// <returns>List of all products</returns>
-        Task<List<FavoriteProduct>> GetAllAsync();
+        /// <param name="specification">Specification for favorites</param>
+        Task<List<FavoriteProduct>> GetAllAsync(Specification<FavoriteProduct>? specification = null);
 
         /// <summary>
         /// Get a FavoriteProducts by Id

@@ -1,4 +1,5 @@
-﻿using OnlineShop.Db.Models;
+﻿using LinqSpecs;
+using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace OnlineShop.Db.Interfaces
         /// Get all orders
         /// </summary>
         /// <returns>List of all orders</returns>
-        Task<List<Order>> GetAllAsync();
+        /// <param name="specification">Specification for orders</param>
+        Task<List<Order>> GetAllAsync(Specification<Order>? specification = null);
 
         /// <summary>
         /// Get order by GUID

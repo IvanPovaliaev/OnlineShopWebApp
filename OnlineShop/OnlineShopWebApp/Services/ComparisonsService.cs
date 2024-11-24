@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Helpers.Specifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
 using System;
@@ -30,10 +31,11 @@ namespace OnlineShopWebApp.Services
         /// <param name="userId">User Id (GUID)</param>
         public virtual async Task<List<ComparisonProductViewModel>> GetAllAsync(string userId)
         {
-            return (await _comparisonsRepository.GetAllAsync())
-                                                .Where(c => c.UserId == userId)
-                                                .Select(_mapper.Map<ComparisonProductViewModel>)
-                                                .ToList();
+            var specification = new ComparisonsByUserIdSpecification(userId);
+
+            var comparisons = await _comparisonsRepository.GetAllAsync(specification);
+            return comparisons.Select(_mapper.Map<ComparisonProductViewModel>)
+                              .ToList();
         }
 
         /// <summary>

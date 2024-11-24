@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bogus;
+using LinqSpecs;
 using Moq;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
@@ -47,7 +48,7 @@ namespace OnlineShopWebApp.Tests.Services
         {
             // Arrange
             var expectedCount = _fakeComparisonProducts.Count;
-            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync())
+            _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<ComparisonProduct>>()))
                                       .ReturnsAsync(_fakeComparisonProducts);
 
             // Act

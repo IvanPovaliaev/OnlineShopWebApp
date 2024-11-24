@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqSpecs;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
@@ -16,17 +18,24 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<List<Order>> GetAllAsync()
+        public async Task<List<Order>> GetAllAsync(Specification<Order>? specification = null)
         {
-            return await _databaseContext.Orders.Include(order => order.Info)
-                                          .Include(order => order.Positions)
-                                          .ThenInclude(position => position.Product)
-                                          .ToListAsync();
+            var query = _databaseContext.Orders.AsQueryable();
+
+            if (specification is not null)
+            {
+                query = query.Where(specification.ToExpression());
+            }
+
+            return await query.Include(order => order.Info)
+                              .Include(order => order.Positions)
+                              .ThenInclude(position => position.Product)
+                              .ToListAsync();
         }
 
         public async Task<Order> GetAsync(Guid id)
         {
-            return await _databaseContext.Orders.FirstOrDefaultAsync(o => o.Id == id);
+            return await _databaseContext.Orders.FindAsync(id);
         }
 
         public async Task CreateAsync(Order order)

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqSpecs;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
@@ -17,11 +18,18 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<List<ComparisonProduct>> GetAllAsync()
+        public async Task<List<ComparisonProduct>> GetAllAsync(Specification<ComparisonProduct>? specification = null)
         {
-            return await _databaseContext.ComparisonProducts.Include(c => c.Product)
-                                                            .ThenInclude(p => p.Images)
-                                                            .ToListAsync();
+            var query = _databaseContext.ComparisonProducts.AsQueryable();
+
+            if (specification is not null)
+            {
+                query = query.Where(specification.ToExpression());
+            }
+
+            return await query.Include(f => f.Product)
+                              .ThenInclude(p => p.Images)
+                              .ToListAsync();
         }
 
         public async Task<ComparisonProduct> GetAsync(Guid id)

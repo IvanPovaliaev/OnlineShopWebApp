@@ -1,4 +1,5 @@
-﻿using OnlineShop.Db.Models;
+﻿using LinqSpecs;
+using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace OnlineShop.Db.Interfaces
         /// Get all ComparisonsProduct
         /// </summary>
         /// <returns>List of all products</returns>
-        Task<List<ComparisonProduct>> GetAllAsync();
+        /// <param name="specification">Specification for comparisons</param>
+        Task<List<ComparisonProduct>> GetAllAsync(Specification<ComparisonProduct>? specification = null);
 
         /// <summary>
         /// Get a ComparisonProduct by Id

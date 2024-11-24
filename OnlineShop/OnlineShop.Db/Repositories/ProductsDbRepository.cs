@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LinqSpecs;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories
@@ -16,14 +18,24 @@ namespace OnlineShop.Db.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<List<Product>> GetAllAsync() => await _databaseContext.Products
-                                                                                .Include(p => p.Images)
-                                                                                .ToListAsync();
+        public async Task<List<Product>> GetAllAsync(Specification<Product>? specification = null)
+        {
+            var query = _databaseContext.Products.AsQueryable();
+
+            if (specification is not null)
+            {
+                query = query.Where(specification);
+            }
+
+            return await query.Include(p => p.Images)
+                              .ToListAsync();
+        }
 
         public async Task<Product> GetAsync(Guid id)
         {
-            return await _databaseContext.Products.Include(p => p.Images)
-                                                  .FirstOrDefaultAsync(p => p.Id == id);
+            return await _databaseContext.Products
+                                         .Include(p => p.Images)
+                                         .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task AddRangeAsync(List<Product> products)
