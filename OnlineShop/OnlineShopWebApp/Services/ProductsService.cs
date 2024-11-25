@@ -80,23 +80,12 @@ namespace OnlineShopWebApp.Services
                 return [];
             }
 
-            var isProductInfoContainsString = IsNameContainsString;
+            var searchSpecification = new ProductsBySearchSpecification(searchQuery);
 
-            var isNumber = long.TryParse(searchQuery, out _);
+            var products = await _productsRepository.GetAllAsync(searchSpecification);
 
-            if (isNumber)
-            {
-                isProductInfoContainsString = (ProductViewModel product, string targetString) =>
-                {
-                    var result = IsNameContainsString(product, targetString) || IsArticleContainsNumber(product, targetString);
-                    return result;
-                };
-            }
-
-            var products = await GetAllAsync();
-
-            return products.Where(p => isProductInfoContainsString(p, searchQuery))
-                           .ToList(); ;
+            return products.Select(_mapper.Map<ProductViewModel>)
+                           .ToList();
         }
 
         public async Task<Product> GetAsync(Guid id) => await _productsRepository.GetAsync(id);
@@ -170,28 +159,6 @@ namespace OnlineShopWebApp.Services
         {
             var products = await GetAllAsync();
             return _excelService.ExportProducts(products);
-        }
-
-        /// <summary>
-        /// Check is Product Name contains a string
-        /// </summary>
-        /// <param name="product">Target product</param>
-        /// <param name="targetString">Target string</param>
-        private bool IsNameContainsString(ProductViewModel product, string targetString)
-        {
-            return product.Name.Contains(targetString);
-        }
-
-        /// <summary>
-        /// Check is Article contains a number string
-        /// </summary>
-        /// <param name="product">Target product</param>
-        /// <param name="targetNumber">Target string number</param>
-        private bool IsArticleContainsNumber(ProductViewModel product, string targetNumber)
-        {
-            var result = product.Article.ToString()
-                                        .Contains(targetNumber);
-            return result;
         }
 
         /// <summary>
