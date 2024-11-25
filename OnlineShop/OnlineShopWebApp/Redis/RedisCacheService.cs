@@ -90,5 +90,4 @@ namespace OnlineShopWebApp.Redis
             return true;
         }
     }
-
 }

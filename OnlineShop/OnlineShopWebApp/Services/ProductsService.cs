@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
@@ -27,9 +28,10 @@ namespace OnlineShopWebApp.Services
         private readonly IMapper _mapper;
         private readonly ImagesProvider _imageProvider;
         private readonly string _productsImagesStoragePath;
-        private readonly RedisCacheService _redisCacheService;
+        private readonly RedisHashService _redisHashService;
+        private readonly string _redisProductsHashKey = "products_list";
 
-        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider, RedisCacheService redisCacheService)
+        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider, RedisHashService redisCacheService)
         {
             _productsRepository = productsRepository;
             _mapper = mapper;
@@ -38,27 +40,26 @@ namespace OnlineShopWebApp.Services
 
             _productsImagesStoragePath = configuration["ImagesStorage:Products"]!;
             _imageProvider = imagesProvider;
-            _redisCacheService = redisCacheService;
+            _redisHashService = redisCacheService;
         }
 
         public async Task<List<ProductViewModel>> GetAllAsync()
         {
-            var cachedProducts = await _redisCacheService.TryGetAsync("products_list");
-            List<ProductViewModel> productViewModels;
+            var cachedProducts = await _redisHashService.GetAllValuesAsync(_redisProductsHashKey);
 
-            if (!string.IsNullOrEmpty(cachedProducts))
+            if (!cachedProducts.IsNullOrEmpty())
             {
-                productViewModels = JsonConvert.DeserializeObject<List<ProductViewModel>>(cachedProducts);
+                return cachedProducts!.Select(JsonConvert.DeserializeObject<ProductViewModel>)
+                                                   .ToList()!;
             }
-            else
-            {
-                var products = await _productsRepository.GetAllAsync();
-                productViewModels = products.Select(_mapper.Map<ProductViewModel>)
+
+            var products = await _productsRepository.GetAllAsync();
+            var productViewModels = products.Select(_mapper.Map<ProductViewModel>)
                                             .ToList();
 
-                var productJson = JsonConvert.SerializeObject(productViewModels);
-                await _redisCacheService.SetAsync("products_list", productJson);
-            }
+            var productsDictionary = productViewModels.ToDictionary(x => x.Id.ToString(), JsonConvert.SerializeObject);
+            await _redisHashService.SetHashFieldsAsync(_redisProductsHashKey, productsDictionary);
+
 
             return productViewModels!;
         }
@@ -102,6 +103,13 @@ namespace OnlineShopWebApp.Services
 
         public async Task<ProductViewModel> GetViewModelAsync(Guid id)
         {
+            var cachedProduct = await _redisHashService.TryGetHashFieldAsync(_redisProductsHashKey, id.ToString());
+
+            if (!string.IsNullOrEmpty(cachedProduct))
+            {
+                return JsonConvert.DeserializeObject<ProductViewModel>(cachedProduct)!;
+            }
+
             var productDb = await GetAsync(id);
             return _mapper.Map<ProductViewModel>(productDb);
         }
@@ -119,6 +127,7 @@ namespace OnlineShopWebApp.Services
             productDb.Images = images;
 
             await _productsRepository.AddAsync(productDb);
+            await CacheProduct(productDb);
         }
 
         public async Task UpdateAsync(EditProductViewModel product)
@@ -128,9 +137,16 @@ namespace OnlineShopWebApp.Services
             productDb.Images = images;
 
             await _productsRepository.UpdateAsync(productDb);
+
+            await CacheProduct(productDb);
         }
 
-        public async Task DeleteAsync(Guid id) => await _productsRepository.DeleteAsync(id);
+        public async Task DeleteAsync(Guid id)
+        {
+            await _productsRepository.DeleteAsync(id);
+
+            await _redisHashService.RemoveHashFieldAsync(_redisProductsHashKey, id.ToString());
+        }
 
         public async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)
         {
@@ -200,6 +216,12 @@ namespace OnlineShopWebApp.Services
             }
 
             return images;
+        }
+
+        private async Task CacheProduct(Product product)
+        {
+            var productVMJson = JsonConvert.SerializeObject(_mapper.Map<ProductViewModel>(product));
+            await _redisHashService.SetHashFieldAsync(_redisProductsHashKey, product.Id.ToString(), productVMJson);
         }
     }
 }
