@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Db;
 
@@ -11,9 +12,11 @@ using OnlineShop.Db;
 namespace OnlineShop.Db.Migrations.MsSQL
 {
     [DbContext(typeof(MsSQLContext))]
-    partial class MsSQLContextModelSnapshot : ModelSnapshot
+    [Migration("20241125200250_AddArticleToProduct")]
+    partial class AddArticleToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

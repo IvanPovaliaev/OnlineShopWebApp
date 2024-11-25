@@ -10,6 +10,7 @@ using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Redis;
 using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
@@ -37,6 +38,7 @@ namespace OnlineShopWebApp.Tests.Services
             _mapper = mapper;
             var configurationMock = new Mock<IConfiguration>();
             var imageProviderMock = new Mock<ImagesProvider>(null!);
+            var redisMock = new Mock<RedisCacheService>(null!);
 
             var rules = new List<IProductSpecificationsRules>();
 
@@ -46,7 +48,8 @@ namespace OnlineShopWebApp.Tests.Services
                 _excelServiceMock.Object,
                 rules,
                 configurationMock.Object,
-                imageProviderMock.Object
+                imageProviderMock.Object,
+                redisMock.Object
             );
 
             _fakeProducts = fakerProvider.FakeProducts;

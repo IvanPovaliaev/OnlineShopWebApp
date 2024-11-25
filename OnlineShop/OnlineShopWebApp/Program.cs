@@ -66,7 +66,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     return ConnectionMultiplexer.Connect(redisConfiguration);
 });
 
-builder.Services.AddSingleton<RedisHashService>();
+builder.Services.AddSingleton<RedisCacheService>();
 
 
 builder.Services.ConfigureApplicationCookie(options =>
