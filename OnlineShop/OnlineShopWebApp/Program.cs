@@ -12,8 +12,10 @@ using OnlineShop.Db.Models;
 using OnlineShop.Db.Repositories;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Redis;
 using OnlineShopWebApp.Services;
 using Serilog;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -51,9 +53,21 @@ builder.Host.UseSerilog((context, configuration) => configuration
             .Enrich.FromLogContext()
             .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
-builder.Services.AddIdentity<User, Role>()
+builder.Services.AddIdentity<User, OnlineShop.Db.Models.Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
+
+var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value);
+redisConfiguration.AbortOnConnectFail = false;
+redisConfiguration.ConnectTimeout = 10;
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    return ConnectionMultiplexer.Connect(redisConfiguration);
+});
+
+builder.Services.AddSingleton<RedisCacheService>();
+
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -157,7 +171,7 @@ using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
-    var roleManager = services.GetRequiredService<RoleManager<Role>>();
+    var roleManager = services.GetRequiredService<RoleManager<OnlineShop.Db.Models.Role>>();
     var configuration = services.GetRequiredService<IConfiguration>();
 
     var identityInitializer = new IdentityInitializer(configuration);

@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Areas.Admin.Models;
@@ -9,6 +10,7 @@ using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Helpers.Specifications;
 using OnlineShopWebApp.Interfaces;
 using OnlineShopWebApp.Models;
+using OnlineShopWebApp.Redis;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,8 +27,9 @@ namespace OnlineShopWebApp.Services
         private readonly IMapper _mapper;
         private readonly ImagesProvider _imageProvider;
         private readonly string _productsImagesStoragePath;
+        private readonly RedisCacheService _redisCacheService;
 
-        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider)
+        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider, RedisCacheService redisCacheService)
         {
             _productsRepository = productsRepository;
             _mapper = mapper;
@@ -35,13 +38,29 @@ namespace OnlineShopWebApp.Services
 
             _productsImagesStoragePath = configuration["ImagesStorage:Products"]!;
             _imageProvider = imagesProvider;
+            _redisCacheService = redisCacheService;
         }
 
         public async Task<List<ProductViewModel>> GetAllAsync()
         {
-            var products = await _productsRepository.GetAllAsync();
-            return products.Select(_mapper.Map<ProductViewModel>)
-                           .ToList();
+            var cachedProducts = await _redisCacheService.TryGetAsync("products_list");
+            List<ProductViewModel> productViewModels;
+
+            if (!string.IsNullOrEmpty(cachedProducts))
+            {
+                productViewModels = JsonConvert.DeserializeObject<List<ProductViewModel>>(cachedProducts);
+            }
+            else
+            {
+                var products = await _productsRepository.GetAllAsync();
+                productViewModels = products.Select(_mapper.Map<ProductViewModel>)
+                                            .ToList();
+
+                var productJson = JsonConvert.SerializeObject(productViewModels);
+                await _redisCacheService.SetAsync("products_list", productJson);
+            }
+
+            return productViewModels!;
         }
 
         public async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
