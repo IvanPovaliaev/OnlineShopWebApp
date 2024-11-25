@@ -218,6 +218,10 @@ namespace OnlineShopWebApp.Services
             return images;
         }
 
+        /// <summary>
+        /// Caches target product
+        /// </summary>
+        /// <param name="product">Target product</param>
         private async Task CacheProduct(Product product)
         {
             var productVMJson = JsonConvert.SerializeObject(_mapper.Map<ProductViewModel>(product));
