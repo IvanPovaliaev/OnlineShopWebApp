@@ -29,7 +29,7 @@ namespace OnlineShopWebApp.Services
         private readonly ImagesProvider _imageProvider;
         private readonly string _productsImagesStoragePath;
         private readonly IRedisCacheService _redisHashService;
-        private readonly string _redisProductsHashKey = "products_list";
+        private readonly string _redisProductsHashKey;
 
         public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider, IRedisCacheService redisCacheService)
         {
@@ -40,6 +40,8 @@ namespace OnlineShopWebApp.Services
 
             _productsImagesStoragePath = configuration["ImagesStorage:Products"]!;
             _imageProvider = imagesProvider;
+
+            _redisProductsHashKey = configuration["Redis:TableKeys:Products"]!;
             _redisHashService = redisCacheService;
         }
 
@@ -116,7 +118,7 @@ namespace OnlineShopWebApp.Services
             productDb.Images = images;
 
             await _productsRepository.AddAsync(productDb);
-            await CacheProduct(productDb);
+            await CacheProduct(productDb.Id);
         }
 
         public async Task UpdateAsync(EditProductViewModel product)
@@ -127,7 +129,7 @@ namespace OnlineShopWebApp.Services
 
             await _productsRepository.UpdateAsync(productDb);
 
-            await CacheProduct(productDb);
+            await CacheProduct(productDb.Id);
         }
 
         public async Task DeleteAsync(Guid id)
@@ -188,9 +190,10 @@ namespace OnlineShopWebApp.Services
         /// <summary>
         /// Caches target product
         /// </summary>
-        /// <param name="product">Target product</param>
-        private async Task CacheProduct(Product product)
+        /// <param name="id">Target product id</param>
+        private async Task CacheProduct(Guid id)
         {
+            var product = await _productsRepository.GetAsync(id);
             var productVMJson = JsonConvert.SerializeObject(_mapper.Map<ProductViewModel>(product));
             await _redisHashService.SetHashFieldAsync(_redisProductsHashKey, product.Id.ToString(), productVMJson);
         }

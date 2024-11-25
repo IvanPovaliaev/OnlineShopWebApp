@@ -69,10 +69,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     };
 });
 
-
 var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value);
-redisConfiguration.AbortOnConnectFail = false;
-redisConfiguration.ConnectTimeout = 10;
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 {

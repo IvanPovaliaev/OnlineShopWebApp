@@ -264,6 +264,9 @@ namespace OnlineShopWebApp.Tests.Services
             _productsRepositoryMock.Setup(repo => repo.AddAsync(mappedProduct))
                                    .Returns(Task.CompletedTask);
 
+            _productsRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Guid>()))
+                                   .ReturnsAsync(mappedProduct);
+
             // Act
             await _productsService.AddAsync(newProduct);
 
@@ -303,6 +306,9 @@ namespace OnlineShopWebApp.Tests.Services
 
             _productsRepositoryMock.Setup(repo => repo.UpdateAsync(mappedProduct))
                                    .Returns(Task.CompletedTask);
+
+            _productsRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Guid>()))
+                       .ReturnsAsync(mappedProduct);
 
             // Act
             await _productsService.UpdateAsync(product);
