@@ -50,11 +50,11 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
             if (!isModelValid)
             {
-                return View("Add", register);
+                return View(nameof(Add), register);
             }
 
             await _accountsService.AddAsync(register);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
             await _accountsService.ChangePasswordAsync(changePassword);
 
-            var redirectUrl = Url.Action("Details", new { id = changePassword.UserId });
+            var redirectUrl = Url.Action(nameof(Details), new { id = changePassword.UserId });
 
             return Json(new { redirectUrl });
         }
@@ -112,12 +112,12 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
             if (!isModelValid)
             {
-                return View("Edit", editUser);
+                return View(nameof(Edit), editUser);
             }
 
             await _accountsService.UpdateInfoAsync(editUser);
 
-            return RedirectToAction("Details", new { id = editUser.Id });
+            return RedirectToAction(nameof(Details), new { id = editUser.Id });
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             await _accountsService.DeleteAsync(id);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>

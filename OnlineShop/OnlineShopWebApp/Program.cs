@@ -21,11 +21,6 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((context, configuration) => configuration
-            .ReadFrom.Configuration(context.Configuration)
-            .Enrich.FromLogContext()
-            .Enrich.WithProperty("ApplicationName", "Online Shop"));
-
 var databaseProvider = builder.Configuration["DatabaseProvider"];
 var connection = builder.Configuration.GetConnectionString(databaseProvider!);
 var databaseTypes = builder.Configuration.GetSection("DatabaseTypes")
@@ -51,8 +46,14 @@ switch (databaseType.ToLower())
         throw new InvalidOperationException("Invalid database type");
 }
 
+builder.Host.UseSerilog((context, configuration) => configuration
+            .ReadFrom.Configuration(context.Configuration)
+            .Enrich.FromLogContext()
+            .Enrich.WithProperty("ApplicationName", "Online Shop"));
+
 builder.Services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<DatabaseContext>();
+                .AddEntityFrameworkStores<DatabaseContext>()
+                .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -99,6 +100,11 @@ builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 builder.Services.AddTransient<AuthenticationHelper>();
 
 builder.Services.AddTransient<ImagesProvider>();
+
+var mailSetting = builder.Configuration.GetSection("MailSettings");
+builder.Services.Configure<MailSettings>(mailSetting);
+
+builder.Services.AddTransient<IMailService, EmailService>();
 
 builder.Services.Scan(scan => scan
                 .FromAssemblyOf<IProductSpecificationsRules>()
@@ -156,6 +162,16 @@ using (var serviceScope = app.Services.CreateScope())
 
     var identityInitializer = new IdentityInitializer(configuration);
     await identityInitializer.InitializeAsync(userManager, roleManager);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration)
+        .Enrich.FromLogContext()
+        .Enrich.WithProperty("ApplicationName", "Online Shop")
+        .WriteToDatabase(databaseType.ToLower(), connection!)
+        .CreateLogger();
 }
 
 app.Run();

@@ -94,5 +94,35 @@ namespace OnlineShopWebApp.Interfaces
         /// </summary>
         /// <returns>MemoryStream Excel file with users info</returns>
         Task<MemoryStream> ExportAllToExcelAsync();
+
+        /// <summary>
+        /// Validates the ForgotPasswordViewModel
+        /// </summary>        
+        /// <returns>true if model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="model">Target ForgotPasswordViewModel</param>
+        Task<bool> IsForgotPasswordValidAsync(ModelStateDictionary modelState, ForgotPasswordViewModel model);
+
+        /// <summary>
+        /// Get reset password token for user with related email
+        /// </summary>        
+        /// <returns>Reset password token</returns>
+        /// <param name="email">Users email</param>
+        Task<string> GetPasswordResetTokenAsync(string email);
+
+        /// <summary>
+        /// Validates the ResetPasswordViewModel
+        /// </summary>        
+        /// <returns>true if model is valid; otherwise false</returns>
+        /// <param name="modelState">Current model state</param>
+        /// <param name="model">Target ResetPasswordViewModel</param>
+        Task<bool> IsResetPasswordValidAsync(ModelStateDictionary modelState, ResetPasswordViewModel model);
+
+        /// <summary>
+        /// Try to reset user password
+        /// </summary>        
+        /// <returns>true if success; otherwise false</returns>
+        /// <param name="model">Target ResetPasswordViewModel</param>
+        Task<bool> TryResetPassword(ResetPasswordViewModel model);
     }
 }

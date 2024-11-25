@@ -93,6 +93,10 @@ footer {
   align-items: center;
 }
 
+.btn {
+  border-radius: 0.125rem;
+}
+
 .btn-main {
   color: #fff;
   background-color: #729FD8;
@@ -149,7 +153,7 @@ footer {
 
 .btn-catalog {
   background: #729FD8;
-  border-radius: 5px;
+  border-radius: 0.25rem;
   width: 173px;
   border: none;
   font-size: 18px;
@@ -169,12 +173,12 @@ footer {
 
 .border-main {
   border: 1px solid #729FD8;
-  border-radius: 5px;
+  border-radius: 0.125rem;
 }
 
 .border-brown {
   border: 1px solid #8c6642;
-  border-radius: 5px;
+  border-radius: 0.125rem;
 }
 
 .text-blue {
@@ -276,7 +280,7 @@ footer {
 }
 
 .account-modal {
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
 }
 
 .modal-toggle {
@@ -505,4 +509,8 @@ footer {
 .nav-avatar-icon {
   height: 2rem;
   width: 4rem;
+}
+
+.form-control {
+  border-radius: 0.125rem;
 }

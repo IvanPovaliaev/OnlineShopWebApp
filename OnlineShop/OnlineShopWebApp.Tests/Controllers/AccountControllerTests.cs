@@ -26,13 +26,14 @@ namespace OnlineShopWebApp.Tests.Controllers
         private readonly Mock<IOrdersService> _ordersServiceMock;
         private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly Mock<IMediator> _mediatorMock;
+        private readonly Mock<IMailService> _mailServiceMock;
         private readonly IMapper _mapper;
         private readonly AccountController _controller;
         private readonly List<Order> _fakeOrders;
         private readonly List<User> _fakeUsers;
         private readonly Faker<User> _userFaker;
 
-        public AccountControllerTests(FakerProvider fakerProvider, Mock<IAccountsService> accountsServiceMock, Mock<IOrdersService> ordersServiceMock, Mock<IUrlHelper> urlHelperMock, Mock<IMediator> mediatorMock, Mock<IHttpContextAccessor> _httpContextAccessor, IMapper mapper)
+        public AccountControllerTests(FakerProvider fakerProvider, Mock<IAccountsService> accountsServiceMock, Mock<IOrdersService> ordersServiceMock, Mock<IUrlHelper> urlHelperMock, Mock<IMediator> mediatorMock, Mock<IMailService> mailServiceMock, Mock<IHttpContextAccessor> _httpContextAccessor, IMapper mapper)
         {
             _userId = fakerProvider.UserId;
 
@@ -40,12 +41,25 @@ namespace OnlineShopWebApp.Tests.Controllers
             _ordersServiceMock = ordersServiceMock;
             _urlHelperMock = urlHelperMock;
             _mediatorMock = mediatorMock;
+            _mailServiceMock = mailServiceMock;
 
             _mapper = mapper;
 
-            _controller = new AccountController(_accountsServiceMock.Object, _ordersServiceMock.Object, _mediatorMock.Object, _httpContextAccessor.Object)
+            var httpContextMock = new Mock<HttpContext>();
+            var requestMock = new Mock<HttpRequest>();
+            requestMock.Setup(r => r.Scheme)
+                       .Returns("https");
+
+            httpContextMock.Setup(c => c.Request)
+                           .Returns(requestMock.Object);
+
+            _controller = new AccountController(_accountsServiceMock.Object, _ordersServiceMock.Object, _mediatorMock.Object, _mailServiceMock.Object, _httpContextAccessor.Object)
             {
-                Url = _urlHelperMock.Object
+                Url = _urlHelperMock.Object,
+                ControllerContext = new ControllerContext
+                {
+                    HttpContext = httpContextMock.Object
+                }
             };
 
             _fakeOrders = fakerProvider.FakeOrders;
@@ -278,6 +292,189 @@ namespace OnlineShopWebApp.Tests.Controllers
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
+        }
+
+        [Fact]
+        public async Task ForgotPassword_WhenModelIsInvalid_ReturnsForgotPasswordForm()
+        {
+            // Arrange
+            var forgotModel = new ForgotPasswordViewModel
+            {
+                Email = _fakeUsers.First().Email!,
+            };
+
+            var modelState = new ModelStateDictionary();
+            _accountsServiceMock.Setup(s => s.IsForgotPasswordValidAsync(modelState, forgotModel))
+                                .ReturnsAsync(false);
+
+            // Act
+            var result = await _controller.ForgotPassword(forgotModel);
+
+            // Assert
+            var partialViewResult = Assert.IsType<PartialViewResult>(result);
+            Assert.Equal("_ForgotPasswordForm", partialViewResult.ViewName);
+            _accountsServiceMock.Verify(s => s.GetPasswordResetTokenAsync(forgotModel.Email), Times.Never);
+            _mailServiceMock.Verify(s => s.SendEmailAsync(forgotModel.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task ForgotPassword_WhenModelIsValid_SendMailAndReturnsRedirectUrl()
+        {
+            // Arrange
+            var forgotModel = new ForgotPasswordViewModel
+            {
+                Email = _fakeUsers.First().Email!,
+            };
+
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var modelState = new ModelStateDictionary();
+            _accountsServiceMock.Setup(s => s.IsForgotPasswordValidAsync(modelState, forgotModel))
+                                .ReturnsAsync(true);
+
+            _accountsServiceMock.Setup(s => s.GetPasswordResetTokenAsync(forgotModel.Email))
+                                .ReturnsAsync(token);
+
+            _mailServiceMock.Setup(s => s.SendEmailAsync(forgotModel.Email, It.IsAny<string>(), It.IsAny<string>()))
+                            .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.ForgotPassword(forgotModel);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            _accountsServiceMock.Verify(s => s.GetPasswordResetTokenAsync(forgotModel.Email), Times.Once);
+            _mailServiceMock.Verify(s => s.SendEmailAsync(forgotModel.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public void SendResetPassword_WhenCalled_ReturnsView()
+        {
+            // Act
+            var result = _controller.SendResetPassword();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Null(viewResult.Model);
+        }
+
+        [Fact]
+        public void ResetPassword_WhenCalled_ReturnsViewWithModel()
+        {
+            // Arrange
+            var email = _fakeUsers.First().Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            // Act
+            var result = _controller.ResetPassword(email, token);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsType<ResetPasswordViewModel>(viewResult.Model);
+            Assert.Equal(email, model.Email);
+            Assert.Equal(token, model.Token);
+        }
+
+        [Fact]
+        public async Task ResetPassword_WhenModelIsInvalid_ReturnsViewWithModel()
+        {
+            // Arrange
+            var email = _fakeUsers.First().Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var resetModel = new ResetPasswordViewModel
+            {
+                Email = email,
+                Token = token,
+                Password = "newpassword",
+                ConfirmPassword = "newpassword"
+            };
+
+            var modelState = new ModelStateDictionary();
+            _accountsServiceMock.Setup(s => s.IsResetPasswordValidAsync(modelState, resetModel))
+                                .ReturnsAsync(false);
+
+            // Act
+            var result = await _controller.ResetPassword(resetModel);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(resetModel, viewResult.Model);
+        }
+
+        [Fact]
+        public async Task ResetPassword_WhenModelIsValidButResetFails_ReturnsErrorView()
+        {
+            // Arrange
+            var email = _fakeUsers.First().Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var resetModel = new ResetPasswordViewModel
+            {
+                Email = email,
+                Token = token,
+                Password = "newpassword",
+                ConfirmPassword = "newpassword"
+            };
+
+            var modelState = new ModelStateDictionary();
+            _accountsServiceMock.Setup(s => s.IsResetPasswordValidAsync(modelState, resetModel))
+                                .ReturnsAsync(true);
+            _accountsServiceMock.Setup(s => s.TryResetPassword(resetModel))
+                                .ReturnsAsync(false);
+
+            // Act
+            var result = await _controller.ResetPassword(resetModel);
+
+            // Assert
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Error", redirectToActionResult.ActionName);
+            Assert.Equal("Home", redirectToActionResult.ControllerName);
+            _accountsServiceMock.Verify(s => s.TryResetPassword(resetModel), Times.Once);
+        }
+
+        [Fact]
+        public async Task ResetPassword_WhenModelIsValidAndResetSucceeds_SendsEmailAndReturnsSuccessView()
+        {
+            // Arrange
+            var email = _fakeUsers.First().Email;
+            var token = new Faker().Random.AlphaNumeric(32);
+
+            var resetModel = new ResetPasswordViewModel
+            {
+                Email = email,
+                Token = token,
+                Password = "newpassword",
+                ConfirmPassword = "newpassword"
+            };
+
+            var modelState = new ModelStateDictionary();
+            _accountsServiceMock.Setup(s => s.IsResetPasswordValidAsync(modelState, resetModel))
+                                .ReturnsAsync(true);
+            _accountsServiceMock.Setup(s => s.TryResetPassword(resetModel))
+                                .ReturnsAsync(true);
+            _mailServiceMock.Setup(s => s.SendEmailAsync(resetModel.Email!, It.IsAny<string>(), It.IsAny<string>()))
+                            .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.ResetPassword(resetModel);
+
+            // Assert
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal(nameof(_controller.SuccessResetPassword), redirectToActionResult.ActionName);
+            _accountsServiceMock.Verify(s => s.TryResetPassword(resetModel), Times.Once);
+            _mailServiceMock.Verify(s => s.SendEmailAsync(resetModel.Email!, It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public void SuccessResetPassword_WhenCalled_ReturnsView()
+        {
+            // Act
+            var result = _controller.SuccessResetPassword();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Null(viewResult.Model);
         }
     }
 }

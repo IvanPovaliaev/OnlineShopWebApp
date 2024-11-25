@@ -18,6 +18,11 @@ $(document).on('click', '[data-bs-target="#registrationModal"]', function () {
     $('#registrationModal').appendTo('body');
 });
 
+//Скрипт для переноса модального окна регистрации в конец body (для корректной работы окна)
+$(document).on('click', '[data-bs-target="#forgotPasswordModal"]', function () {
+    $('#forgotPasswordModal').appendTo('body');
+});
+
 //Скрипт для переноса модального окна смены пароля в конец body (для корректной работы окна)
 $(document).on('click', '[data-bs-target="#changePasswordModal"]', function () {
     $('#changePasswordModal').appendTo('body');
@@ -85,6 +90,28 @@ $(document).ready(function () {
         var toastElement = new bootstrap.Toast(document.getElementById('loginSuccessToast'));
         toastElement.show();
     }
+});
+
+//Скрипт для работы с модальным окном восстановления пароля
+$(document).ready(function () {
+    $(document).on('submit', '#forgotPasswordForm', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.redirectUrl) {
+                    window.location.href = response.redirectUrl;
+                }
+                else {
+                    $('#forgotPasswordFormWrapper').html(response);
+                    $.validator.unobtrusive.parse($("#forgotPasswordForm"));
+                }
+            }
+        });
+    });
 });
 
 //Скрипт для работы с модальным окном добавления роли

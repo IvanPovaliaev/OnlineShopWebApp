@@ -46,7 +46,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
             await _rolesService.AddAsync(role);
 
-            var redirectUrl = Url.Action("Index");
+            var redirectUrl = Url.Action(nameof(Index));
 
             return Json(new { redirectUrl });
         }
@@ -59,7 +59,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(string name)
         {
             await _rolesService.DeleteAsync(name);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
