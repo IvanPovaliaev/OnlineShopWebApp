@@ -57,17 +57,6 @@ builder.Services.AddIdentity<User, OnlineShop.Db.Models.Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
-var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value);
-redisConfiguration.AbortOnConnectFail = false;
-redisConfiguration.ConnectTimeout = 10;
-
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-{
-    return ConnectionMultiplexer.Connect(redisConfiguration);
-});
-
-builder.Services.AddSingleton<RedisCacheService>();
-
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -79,6 +68,18 @@ builder.Services.ConfigureApplicationCookie(options =>
         IsEssential = true
     };
 });
+
+
+var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value);
+redisConfiguration.AbortOnConnectFail = false;
+redisConfiguration.ConnectTimeout = 10;
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    return ConnectionMultiplexer.Connect(redisConfiguration);
+});
+
+builder.Services.AddSingleton<IRedisCacheService, RedisCacheService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

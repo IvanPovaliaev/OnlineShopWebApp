@@ -28,10 +28,10 @@ namespace OnlineShopWebApp.Services
         private readonly IMapper _mapper;
         private readonly ImagesProvider _imageProvider;
         private readonly string _productsImagesStoragePath;
-        private readonly RedisCacheService _redisHashService;
+        private readonly IRedisCacheService _redisHashService;
         private readonly string _redisProductsHashKey = "products_list";
 
-        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider, RedisCacheService redisCacheService)
+        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider, IRedisCacheService redisCacheService)
         {
             _productsRepository = productsRepository;
             _mapper = mapper;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Redis
 {
-    public class RedisCacheService
+    public class RedisCacheService : IRedisCacheService
     {
         private readonly IConnectionMultiplexer _redis;
         private readonly IDatabase _db;
@@ -19,12 +19,6 @@ namespace OnlineShopWebApp.Redis
             _db = redis.GetDatabase();
         }
 
-        /// <summary>
-        /// Caches value with key to target hash table
-        /// </summary>
-        /// <param name="hashKey">Target hash table key</param>
-        /// <param name="fieldKey">Target field key in hash table</param>
-        /// <param name="value">Value to cache</param>
         public async Task SetHashFieldAsync(string hashKey, string fieldKey, string value)
         {
             if (!IsRedisAvailable())
@@ -50,11 +44,6 @@ namespace OnlineShopWebApp.Redis
             }
         }
 
-        /// <summary>
-        /// Caches Dictionary to target hash table
-        /// </summary>
-        /// <param name="hashKey">Target hash table key</param>
-        /// <param name="fieldKeysWithValues">Dictionary witch fielKey-value for hash table</param>
         public async Task SetHashFieldsAsync(string hashKey, Dictionary<string, string> fieldKeysWithValues)
         {
             if (!IsRedisAvailable())
@@ -82,12 +71,6 @@ namespace OnlineShopWebApp.Redis
             }
         }
 
-        /// <summary>
-        /// Get value from hash table by its key
-        /// </summary>
-        /// <returns>String value</returns>
-        /// <param name="hashKey">Target hash table key</param>
-        /// <param name="fieldKey">Target field key in hash table</param>
         public async Task<string?> TryGetHashFieldAsync(string hashKey, string fieldKey)
         {
             if (!IsRedisAvailable())
@@ -107,11 +90,6 @@ namespace OnlineShopWebApp.Redis
             }
         }
 
-        /// <summary>
-        /// Get List of all values from hash table
-        /// </summary>
-        /// <returns>List of all values (string)</returns>
-        /// <param name="hashKey">Target hash table key</param>
         public async Task<List<string>?> GetAllValuesAsync(string hashKey)
         {
             if (!IsRedisAvailable())
@@ -133,11 +111,6 @@ namespace OnlineShopWebApp.Redis
             }
         }
 
-        /// <summary>
-        /// Remove target field from hash table
-        /// </summary>
-        /// <param name="hashKey">Target hash table key</param>
-        /// <param name="fieldKey">Target field key in hash table</param>
         public async Task RemoveHashFieldAsync(string hashKey, string fieldKey)
         {
             if (!IsRedisAvailable())

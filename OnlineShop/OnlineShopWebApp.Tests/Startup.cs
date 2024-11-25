@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using OnlineShop.Db.Interfaces;
 using OnlineShopWebApp.Interfaces;
+using OnlineShopWebApp.Redis;
 using OnlineShopWebApp.Tests.Helpers;
 using OnlineShopWebApp.Tests.TestModels;
 
@@ -41,6 +42,8 @@ namespace OnlineShopWebApp.Tests
 
             services.AddTransient<Mock<IRolesService>>();
             services.AddTransient<Mock<IMailService>>();
+
+            services.AddTransient<Mock<IRedisCacheService>>();
         }
     }
 }

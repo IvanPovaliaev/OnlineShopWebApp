@@ -31,14 +31,13 @@ namespace OnlineShopWebApp.Tests.Services
 
         private readonly List<Product> _fakeProducts;
 
-        public ProductsServiceTests(Mock<IProductsRepository> productsRepositoryMock, IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock)
+        public ProductsServiceTests(Mock<IProductsRepository> productsRepositoryMock, IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock, Mock<IRedisCacheService> redisCacheServiceMock)
         {
             _productsRepositoryMock = productsRepositoryMock;
             _excelServiceMock = excelServiceMock;
             _mapper = mapper;
             var configurationMock = new Mock<IConfiguration>();
             var imageProviderMock = new Mock<ImagesProvider>(null!);
-            var redisMock = new Mock<RedisCacheService>(null!);
 
             var rules = new List<IProductSpecificationsRules>();
 
@@ -49,7 +48,7 @@ namespace OnlineShopWebApp.Tests.Services
                 rules,
                 configurationMock.Object,
                 imageProviderMock.Object,
-                redisMock.Object
+                redisCacheServiceMock.Object
             );
 
             _fakeProducts = fakerProvider.FakeProducts;
@@ -116,6 +115,23 @@ namespace OnlineShopWebApp.Tests.Services
             // Assert
             Assert.Contains(result, p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
             _productsRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()), Times.Once);
+        }
+
+        [Fact]
+        public virtual async Task GetAllFromSearchAsync_WithEmptyQuery_ReturnsEmptyList()
+        {
+            // Arrange
+            var query = string.Empty;
+
+            _productsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()))
+                                   .ReturnsAsync(_fakeProducts);
+
+            // Act
+            var result = await _productsService.GetAllFromSearchAsync(query);
+
+            // Assert
+            Assert.Empty(result);
+            _productsRepositoryMock.Verify(repo => repo.GetAllAsync(It.IsAny<Specification<Product>>()), Times.Never);
         }
 
         [Fact]
