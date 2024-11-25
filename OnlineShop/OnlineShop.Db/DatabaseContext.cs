@@ -26,14 +26,9 @@ namespace OnlineShop.Db
         private void InitializeInitialProducts(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Product>(entity =>
-            {
-                entity.Property(p => p.Article)
-                      .HasComputedColumnSql("ABS(CAST(CONVERT(BINARY(8), Id) AS BIGINT))", stored: true);
-
-                entity.Property(p => p.Cost)
+            modelBuilder.Entity<Product>()
+                      .Property(p => p.Cost)
                       .HasPrecision(18, 2);
-            });
 
             var ssd = new Product()
             {
