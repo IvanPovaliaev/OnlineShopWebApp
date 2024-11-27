@@ -2,10 +2,10 @@
 using Bogus;
 using LinqSpecs;
 using Moq;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Services;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;

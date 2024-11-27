@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Redis;
 using OnlineShop.Db.Interfaces;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Redis;
 using OnlineShopWebApp.Tests.Helpers;
 using OnlineShopWebApp.Tests.TestModels;
 

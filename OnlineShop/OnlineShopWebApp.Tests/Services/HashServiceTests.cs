@@ -1,4 +1,4 @@
-using OnlineShopWebApp.Services;
+using OnlineShop.Application.Services;
 using System;
 using Xunit;
 

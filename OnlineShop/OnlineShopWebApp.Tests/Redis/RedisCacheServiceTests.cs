@@ -1,5 +1,5 @@
 ﻿using Moq;
-using OnlineShopWebApp.Redis;
+using OnlineShop.Application.Redis;
 using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Linq;

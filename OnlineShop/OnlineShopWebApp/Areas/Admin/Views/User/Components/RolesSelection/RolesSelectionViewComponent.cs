@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Application.Interfaces;
 using OnlineShop.Db;
-using OnlineShopWebApp.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
 

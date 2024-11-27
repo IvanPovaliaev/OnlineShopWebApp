@@ -2,11 +2,11 @@
 using LinqSpecs;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models;
+using OnlineShop.Application.Services;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Models;
-using OnlineShopWebApp.Services;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;

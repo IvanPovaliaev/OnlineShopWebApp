@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Moq;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Models;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models;
 using OnlineShopWebApp.Tests.Helpers;
-using OnlineShopWebApp.Views.Shared.Components.Cart;
+using OnlineShopWebApp.Views.Shared.Components.Favorite;
 using System;
 using System.Collections.Generic;
 using System.Linq;

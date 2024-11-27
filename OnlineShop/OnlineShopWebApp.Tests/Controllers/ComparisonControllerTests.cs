@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Controllers;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Models;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;

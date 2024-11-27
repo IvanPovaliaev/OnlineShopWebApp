@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Moq;
+using OnlineShop.Application.Helpers.SpecificationsRules;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models;
 using OnlineShopWebApp.Areas.Admin.Views.Product.Components.SpecificationsForm;
-using OnlineShopWebApp.Helpers.SpecificationsRules;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Models;
 using System.Collections.Generic;
 using Xunit;
 

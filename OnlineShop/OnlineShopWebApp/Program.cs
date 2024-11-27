@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -6,14 +7,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnlineShop.Application.Helpers;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Redis;
+using OnlineShop.Application.Services;
 using OnlineShop.Db;
 using OnlineShop.Db.Interfaces;
 using OnlineShop.Db.Models;
 using OnlineShop.Db.Repositories;
 using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Redis;
-using OnlineShopWebApp.Services;
 using Serilog;
 using StackExchange.Redis;
 using System;
@@ -111,6 +113,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 builder.Services.AddTransient<AuthenticationHelper>();
 
+builder.Services.AddScoped<IHostingEnvironmentService, HostingEnvironmentService>();
 builder.Services.AddTransient<ImagesProvider>();
 
 var mailSetting = builder.Configuration.GetSection("MailSettings");

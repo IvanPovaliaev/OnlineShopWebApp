@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Application.Interfaces;
 using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Interfaces;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
