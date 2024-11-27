@@ -128,7 +128,7 @@ namespace OnlineShop.Application.Services
                 {
                     Product = productDb,
                     Quantity = position.Quantity,
-                    Cart = cart
+                    CartId = cart.Id
                 };
 
                 cart.Positions.Add(newCartPosition);
@@ -172,7 +172,7 @@ namespace OnlineShop.Application.Services
             {
                 Product = product,
                 Quantity = 1,
-                Cart = cart
+                CartId = cart.Id
             };
 
             cart.Positions.Add(position);

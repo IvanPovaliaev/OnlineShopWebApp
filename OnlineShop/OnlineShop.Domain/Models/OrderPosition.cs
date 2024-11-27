@@ -7,6 +7,6 @@ namespace OnlineShop.Domain.Models
         public Guid Id { get; init; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
-        public Order Order { get; set; }
+        public Guid OrderId { get; init; }
     }
 }

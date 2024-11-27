@@ -12,7 +12,5 @@ namespace OnlineShop.Domain.Models
         public ProductCategories Category { get; set; }
         public List<ProductImage> Images { get; set; } = [];
         public string SpecificationsJson { get; set; }
-
-        public List<CartPosition> CartPositions { get; set; } = [];
     }
 }

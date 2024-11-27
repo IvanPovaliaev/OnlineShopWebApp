@@ -62,7 +62,7 @@ namespace OnlineShop.Application.Services
             {
                 Product = p.Product,
                 Quantity = p.Quantity,
-                Order = order
+                OrderId = order.Id
             }).ToList();
 
             await _ordersRepository.CreateAsync(order);

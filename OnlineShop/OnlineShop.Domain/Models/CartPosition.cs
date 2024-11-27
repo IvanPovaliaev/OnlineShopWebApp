@@ -5,8 +5,8 @@ namespace OnlineShop.Domain.Models
     public class CartPosition
     {
         public Guid Id { get; init; }
-        public Product Product { get; set; }
+        public Product Product { get; init; }
         public int Quantity { get; set; }
-        public Cart Cart { get; set; }
+        public Guid CartId { get; set; }
     }
 }
