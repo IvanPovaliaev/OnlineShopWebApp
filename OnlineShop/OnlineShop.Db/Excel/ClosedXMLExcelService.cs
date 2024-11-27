@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace OnlineShop.Application.Services
+namespace OnlineShop.Infrastructure.Excel
 {
     public class ClosedXMLExcelService : IExcelService
     {

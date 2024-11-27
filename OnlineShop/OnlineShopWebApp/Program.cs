@@ -15,6 +15,7 @@ using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.Data;
 using OnlineShop.Infrastructure.Data.Repositories;
 using OnlineShop.Infrastructure.Email;
+using OnlineShop.Infrastructure.Excel;
 using OnlineShop.Infrastructure.Redis;
 using OnlineShopWebApp.Helpers;
 using Serilog;
