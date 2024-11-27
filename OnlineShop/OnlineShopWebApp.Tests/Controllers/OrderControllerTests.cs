@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using OnlineShopWebApp.Controllers;
 using OnlineShopWebApp.Tests.Helpers;
 using System.Threading.Tasks;

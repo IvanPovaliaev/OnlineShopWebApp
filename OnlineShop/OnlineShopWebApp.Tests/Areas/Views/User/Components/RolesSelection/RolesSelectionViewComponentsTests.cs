@@ -25,8 +25,9 @@ namespace OnlineShopWebApp.Tests.Areas.Views.User.Components.RolesSelection
             _rolesServiceMock = rolesServiceMock;
             _viewComponent = new RolesSelectionViewComponent(_rolesServiceMock.Object);
 
-            _fakeRoles = fakerProvider.FakeRoles.Select(mapper.Map<RoleViewModel>)
-                                                .ToList();
+            _fakeRoles = fakerProvider.FakeRoles
+                                      .Select(mapper.Map<RoleViewModel>)
+                                      .ToList();
         }
 
         [Fact]

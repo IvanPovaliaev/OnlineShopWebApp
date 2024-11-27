@@ -6,7 +6,7 @@ using Moq;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using OnlineShopWebApp.Areas.Admin.Controllers;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Tests.Helpers;

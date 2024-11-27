@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Tests.Helpers

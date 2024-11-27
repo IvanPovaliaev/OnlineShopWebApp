@@ -9,7 +9,7 @@ using OnlineShop.Application.Helpers.Notifications;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models.Admin;
 using OnlineShop.Application.Services;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using OnlineShopWebApp.Tests.Helpers;
 using System.Collections.Generic;
 using System.IO;

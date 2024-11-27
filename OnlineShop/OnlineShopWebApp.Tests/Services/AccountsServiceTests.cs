@@ -11,7 +11,7 @@ using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
 using OnlineShop.Application.Services;
 using OnlineShop.Db;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
 using System.Collections.Generic;
