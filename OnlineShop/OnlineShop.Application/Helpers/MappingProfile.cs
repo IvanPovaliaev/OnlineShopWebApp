@@ -2,10 +2,10 @@
 using Newtonsoft.Json;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System.Collections.Generic;
 
-namespace OnlineShopWebApp.Helpers
+namespace OnlineShop.Application.Helpers
 {
     public class MappingProfile : Profile
     {

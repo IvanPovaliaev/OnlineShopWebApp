@@ -1,7 +1,7 @@
-﻿using OnlineShop.Db.Models;
+﻿using OnlineShop.Domain.Models;
 using System.Threading.Tasks;
 
-namespace OnlineShop.Db.Interfaces
+namespace OnlineShop.Domain.Interfaces
 {
     public interface ICartsRepository
     {

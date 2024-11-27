@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineShop.Db.Interfaces;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Interfaces;
+using OnlineShop.Domain.Models;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Db.Repositories

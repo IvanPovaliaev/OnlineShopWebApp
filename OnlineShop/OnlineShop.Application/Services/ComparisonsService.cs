@@ -2,8 +2,8 @@
 using OnlineShop.Application.Helpers.Specifications;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
-using OnlineShop.Db.Interfaces;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Interfaces;
+using OnlineShop.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

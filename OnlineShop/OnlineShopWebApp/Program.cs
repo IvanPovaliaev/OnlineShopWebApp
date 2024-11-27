@@ -12,9 +12,9 @@ using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Redis;
 using OnlineShop.Application.Services;
 using OnlineShop.Db;
-using OnlineShop.Db.Interfaces;
-using OnlineShop.Db.Models;
 using OnlineShop.Db.Repositories;
+using OnlineShop.Domain.Interfaces;
+using OnlineShop.Domain.Models;
 using OnlineShopWebApp.Helpers;
 using Serilog;
 using StackExchange.Redis;
@@ -55,7 +55,7 @@ builder.Host.UseSerilog((context, configuration) => configuration
             .Enrich.FromLogContext()
             .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
-builder.Services.AddIdentity<User, OnlineShop.Db.Models.Role>()
+builder.Services.AddIdentity<User, OnlineShop.Domain.Models.Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
@@ -172,7 +172,7 @@ using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
-    var roleManager = services.GetRequiredService<RoleManager<OnlineShop.Db.Models.Role>>();
+    var roleManager = services.GetRequiredService<RoleManager<OnlineShop.Domain.Models.Role>>();
     var configuration = services.GetRequiredService<IConfiguration>();
 
     var identityInitializer = new IdentityInitializer(configuration);

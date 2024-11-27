@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.Db.Models
+﻿namespace OnlineShop.Domain.Models
 {
     public enum ProductCategories
     {

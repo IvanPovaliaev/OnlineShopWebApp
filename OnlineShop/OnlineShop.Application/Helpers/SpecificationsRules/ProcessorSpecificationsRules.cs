@@ -1,6 +1,5 @@
-﻿using OnlineShop.Application.Helpers;
-using OnlineShop.Application.Interfaces;
-using OnlineShop.Db.Models;
+﻿using OnlineShop.Application.Interfaces;
+using OnlineShop.Domain.Models;
 using System.Collections.Generic;
 
 namespace OnlineShop.Application.Helpers.SpecificationsRules

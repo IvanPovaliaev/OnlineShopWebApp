@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
-using OnlineShop.Db.Interfaces;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Interfaces;
+using OnlineShop.Domain.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

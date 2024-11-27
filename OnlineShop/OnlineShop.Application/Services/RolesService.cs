@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineShop.Application.Helpers.Notifications;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models.Admin;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

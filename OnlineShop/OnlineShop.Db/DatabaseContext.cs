@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Db

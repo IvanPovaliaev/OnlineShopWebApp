@@ -1,10 +1,10 @@
 ﻿using LinqSpecs;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OnlineShop.Db.Interfaces
+namespace OnlineShop.Domain.Interfaces
 {
     public interface IComparisonsRepository
     {

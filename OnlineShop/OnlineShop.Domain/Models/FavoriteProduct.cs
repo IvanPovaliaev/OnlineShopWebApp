@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OnlineShop.Db.Models
+namespace OnlineShop.Domain.Models
 {
     public class FavoriteProduct
     {

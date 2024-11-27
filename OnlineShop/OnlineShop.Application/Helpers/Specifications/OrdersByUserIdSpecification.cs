@@ -1,5 +1,5 @@
 ﻿using LinqSpecs;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System;
 using System.Linq.Expressions;
 

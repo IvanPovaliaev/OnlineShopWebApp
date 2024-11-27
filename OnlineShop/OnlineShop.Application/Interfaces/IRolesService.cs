@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShop.Application.Models.Admin;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;

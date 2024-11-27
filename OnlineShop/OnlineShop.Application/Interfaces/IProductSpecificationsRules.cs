@@ -1,5 +1,5 @@
 ﻿using OnlineShop.Application.Helpers;
-using OnlineShop.Db.Models;
+using OnlineShop.Domain.Models;
 using System.Collections.Generic;
 
 namespace OnlineShop.Application.Interfaces

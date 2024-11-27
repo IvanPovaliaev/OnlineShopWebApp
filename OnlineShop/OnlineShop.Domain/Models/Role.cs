@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace OnlineShop.Db.Models
+namespace OnlineShop.Domain.Models
 {
     public class Role : IdentityRole
     {

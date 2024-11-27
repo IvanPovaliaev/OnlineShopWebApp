@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace OnlineShop.Db.Models
+namespace OnlineShop.Domain.Models
 {
-    public class CartPosition
+    public class OrderPosition
     {
         public Guid Id { get; init; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
-        public Cart Cart { get; set; }
+        public Order Order { get; set; }
     }
 }
