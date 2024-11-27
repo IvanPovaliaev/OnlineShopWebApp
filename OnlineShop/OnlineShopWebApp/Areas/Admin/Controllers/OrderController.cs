@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
-using OnlineShop.Db;
+using OnlineShop.Domain;
 using OnlineShopWebApp.Helpers;
 using System;
 using System.Threading.Tasks;

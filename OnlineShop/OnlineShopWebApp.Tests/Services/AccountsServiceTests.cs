@@ -10,7 +10,7 @@ using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
 using OnlineShop.Application.Services;
-using OnlineShop.Db;
+using OnlineShop.Domain;
 using OnlineShop.Domain.Models;
 using OnlineShopWebApp.Tests.Helpers;
 using System;

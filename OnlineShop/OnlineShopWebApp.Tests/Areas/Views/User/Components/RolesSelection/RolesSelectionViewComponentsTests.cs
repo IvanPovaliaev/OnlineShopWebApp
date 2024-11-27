@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Moq;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models.Admin;
-using OnlineShop.Db;
+using OnlineShop.Domain;
 using OnlineShopWebApp.Areas.Admin.Views.User.Components.RolesSelection;
 using OnlineShopWebApp.Tests.Helpers;
 using System;

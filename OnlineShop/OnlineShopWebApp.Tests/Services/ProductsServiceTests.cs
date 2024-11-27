@@ -8,7 +8,6 @@ using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
-using OnlineShop.Application.Redis;
 using OnlineShop.Application.Services;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;

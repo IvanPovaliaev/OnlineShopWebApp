@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using OnlineShop.Db;
+using OnlineShop.Domain;
 using OnlineShop.Domain.Models;
 using System;
 using System.Collections.Generic;

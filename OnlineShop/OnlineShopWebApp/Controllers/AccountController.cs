@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Helpers.Notifications;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
+using OnlineShop.Domain.Interfaces;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
+using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
 using OnlineShopWebApp.Controllers;
 using OnlineShopWebApp.Tests.Helpers;

@@ -2,14 +2,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Helpers.Specifications;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
-using OnlineShop.Application.Redis;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
 using System;
@@ -49,7 +47,7 @@ namespace OnlineShop.Application.Services
         {
             var cachedProducts = await _redisHashService.GetAllValuesAsync(_redisProductsHashKey);
 
-            if (!cachedProducts.IsNullOrEmpty())
+            if (cachedProducts is not null && cachedProducts.Count != 0)
             {
                 return cachedProducts!.Select(JsonConvert.DeserializeObject<ProductViewModel>)
                                                    .ToList()!;
