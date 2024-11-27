@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace OnlineShop.Db.Migrations.PostgreSQL
+namespace OnlineShop.Infrastructure.Migrations.PostgreSQL
 {
     /// <inheritdoc />
     public partial class AddAvatarUrlForUser : Migration

@@ -25,7 +25,6 @@ namespace OnlineShop.Infrastructure.Data
 
         private void InitializeInitialProducts(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Product>()
                       .Property(p => p.Cost)
                       .HasPrecision(18, 2);
@@ -121,7 +120,8 @@ namespace OnlineShop.Infrastructure.Data
                 SpecificationsJson = @"{""Manufacturer"":""Be Quiet"",""ManufacturerCode"":""BN329"",""Power"":""750 Вт"",""PFC"":""активный"",""FanSize"":""120 мм""}"
             };
 
-            modelBuilder.Entity<Product>().HasData(new List<Product>()
+            modelBuilder.Entity<Product>()
+                        .HasData(new List<Product>()
             {
                 ssd,
                 hdd,
@@ -273,6 +273,30 @@ namespace OnlineShop.Infrastructure.Data
 
             modelBuilder.Entity<ProductImage>()
                         .HasData(allImages);
+
+            modelBuilder.Entity<ComparisonProduct>()
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey(cp => cp.UserId)
+                        .IsRequired();
+
+            modelBuilder.Entity<FavoriteProduct>()
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey(cp => cp.UserId)
+                        .IsRequired();
+
+            modelBuilder.Entity<Cart>()
+                        .HasOne<User>()
+                        .WithOne()
+                        .HasForeignKey<Cart>(cp => cp.UserId)
+                        .IsRequired();
+
+            modelBuilder.Entity<Order>()
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey(cp => cp.UserId)
+                        .IsRequired();
         }
     }
 }

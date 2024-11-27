@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 #nullable disable
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace OnlineShop.Db.Migrations.MsSQL
+namespace OnlineShop.Infrastructure.Migrations.MsSQL
 {
     /// <inheritdoc />
     public partial class InitDb : Migration

@@ -8,7 +8,7 @@ using OnlineShop.Infrastructure.Data;
 
 #nullable disable
 
-namespace OnlineShop.Db.Migrations.MySQL
+namespace OnlineShop.Infrastructure.Migrations.MySQL
 {
     [DbContext(typeof(MySQLContext))]
     partial class MySQLContextModelSnapshot : ModelSnapshot
@@ -128,7 +128,7 @@ namespace OnlineShop.Db.Migrations.MySQL
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.Cart", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,14 +136,17 @@ namespace OnlineShop.Db.Migrations.MySQL
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.CartPosition", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.CartPosition", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -167,7 +170,7 @@ namespace OnlineShop.Db.Migrations.MySQL
                     b.ToTable("CartPosition");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.ComparisonProduct", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.ComparisonProduct", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -178,16 +181,18 @@ namespace OnlineShop.Db.Migrations.MySQL
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ComparisonProducts");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.FavoriteProduct", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.FavoriteProduct", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -198,16 +203,18 @@ namespace OnlineShop.Db.Migrations.MySQL
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("FavoriteProducts");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.Order", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -224,16 +231,18 @@ namespace OnlineShop.Db.Migrations.MySQL
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InfoId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.OrderPosition", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.OrderPosition", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -257,7 +266,7 @@ namespace OnlineShop.Db.Migrations.MySQL
                     b.ToTable("OrderPosition");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.Product", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -370,7 +379,7 @@ namespace OnlineShop.Db.Migrations.MySQL
                         });
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.ProductImage", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.ProductImage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -488,7 +497,7 @@ namespace OnlineShop.Db.Migrations.MySQL
                         });
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.Role", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.Role", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -517,7 +526,7 @@ namespace OnlineShop.Db.Migrations.MySQL
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.User", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -587,7 +596,7 @@ namespace OnlineShop.Db.Migrations.MySQL
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.UserDeliveryInfo", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.UserDeliveryInfo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -639,7 +648,7 @@ namespace OnlineShop.Db.Migrations.MySQL
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.Role", null)
+                    b.HasOne("OnlineShop.Domain.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -648,7 +657,7 @@ namespace OnlineShop.Db.Migrations.MySQL
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.User", null)
+                    b.HasOne("OnlineShop.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -657,7 +666,7 @@ namespace OnlineShop.Db.Migrations.MySQL
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.User", null)
+                    b.HasOne("OnlineShop.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -666,13 +675,13 @@ namespace OnlineShop.Db.Migrations.MySQL
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.Role", null)
+                    b.HasOne("OnlineShop.Domain.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineShop.Db.Models.User", null)
+                    b.HasOne("OnlineShop.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -681,35 +690,31 @@ namespace OnlineShop.Db.Migrations.MySQL
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.User", null)
+                    b.HasOne("OnlineShop.Domain.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.CartPosition", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.Cart", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.Cart", "Cart")
+                    b.HasOne("OnlineShop.Domain.Models.User", null)
+                        .WithOne()
+                        .HasForeignKey("OnlineShop.Domain.Models.Cart", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineShop.Domain.Models.CartPosition", b =>
+                {
+                    b.HasOne("OnlineShop.Domain.Models.Cart", null)
                         .WithMany("Positions")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineShop.Db.Models.Product", "Product")
-                        .WithMany("CartPositions")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("OnlineShop.Db.Models.ComparisonProduct", b =>
-                {
-                    b.HasOne("OnlineShop.Db.Models.Product", "Product")
+                    b.HasOne("OnlineShop.Domain.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -718,70 +723,95 @@ namespace OnlineShop.Db.Migrations.MySQL
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.FavoriteProduct", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.ComparisonProduct", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.Product", "Product")
+                    b.HasOne("OnlineShop.Domain.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShop.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.Order", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.FavoriteProduct", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.UserDeliveryInfo", "Info")
+                    b.HasOne("OnlineShop.Domain.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShop.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("OnlineShop.Domain.Models.Order", b =>
+                {
+                    b.HasOne("OnlineShop.Domain.Models.UserDeliveryInfo", "Info")
                         .WithMany()
                         .HasForeignKey("InfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShop.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Info");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.OrderPosition", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.OrderPosition", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.Order", "Order")
+                    b.HasOne("OnlineShop.Domain.Models.Order", null)
                         .WithMany("Positions")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineShop.Db.Models.Product", "Product")
+                    b.HasOne("OnlineShop.Domain.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Order");
-
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.ProductImage", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.ProductImage", b =>
                 {
-                    b.HasOne("OnlineShop.Db.Models.Product", null)
+                    b.HasOne("OnlineShop.Domain.Models.Product", null)
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.Cart", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.Cart", b =>
                 {
                     b.Navigation("Positions");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.Order", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.Order", b =>
                 {
                     b.Navigation("Positions");
                 });
 
-            modelBuilder.Entity("OnlineShop.Db.Models.Product", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Models.Product", b =>
                 {
-                    b.Navigation("CartPositions");
-
                     b.Navigation("Images");
                 });
 #pragma warning restore 612, 618

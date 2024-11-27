@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace OnlineShop.Db.Migrations.MySQL
+namespace OnlineShop.Infrastructure.Migrations.MySQL
 {
     /// <inheritdoc />
     public partial class AddAvatarUrlForuser : Migration

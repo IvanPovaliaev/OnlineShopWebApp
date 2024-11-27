@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace OnlineShop.Db.Migrations.MySQL
+namespace OnlineShop.Infrastructure.Migrations.MySQL
 {
     /// <inheritdoc />
     public partial class InitDb : Migration
