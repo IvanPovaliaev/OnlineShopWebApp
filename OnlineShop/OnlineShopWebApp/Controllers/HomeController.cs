@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using OnlineShopWebApp.Interfaces;
+using OnlineShop.Application.Interfaces;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using OnlineShop.Db.Interfaces;
-using OnlineShopWebApp.Interfaces;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Domain.Interfaces;
 using OnlineShopWebApp.Tests.Helpers;
 using OnlineShopWebApp.Tests.TestModels;
 
@@ -42,7 +42,7 @@ namespace OnlineShopWebApp.Tests
             services.AddTransient<Mock<IRolesService>>();
             services.AddTransient<Mock<IMailService>>();
 
-
+            services.AddTransient<Mock<IRedisCacheService>>();
         }
     }
 }

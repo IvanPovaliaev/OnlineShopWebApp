@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -6,14 +7,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OnlineShop.Db;
-using OnlineShop.Db.Interfaces;
-using OnlineShop.Db.Models;
-using OnlineShop.Db.Repositories;
+using OnlineShop.Application.Helpers;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Services;
+using OnlineShop.Domain.Interfaces;
+using OnlineShop.Domain.Models;
+using OnlineShop.Infrastructure.Data;
+using OnlineShop.Infrastructure.Data.Repositories;
+using OnlineShop.Infrastructure.Email;
+using OnlineShop.Infrastructure.Excel;
+using OnlineShop.Infrastructure.Redis;
 using OnlineShopWebApp.Helpers;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Services;
 using Serilog;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -51,9 +57,10 @@ builder.Host.UseSerilog((context, configuration) => configuration
             .Enrich.FromLogContext()
             .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
-builder.Services.AddIdentity<User, Role>()
+builder.Services.AddIdentity<User, OnlineShop.Domain.Models.Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
+
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -65,6 +72,15 @@ builder.Services.ConfigureApplicationCookie(options =>
         IsEssential = true
     };
 });
+
+var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value);
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    return ConnectionMultiplexer.Connect(redisConfiguration);
+});
+
+builder.Services.AddSingleton<IRedisCacheService, RedisCacheService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -99,6 +115,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 builder.Services.AddTransient<AuthenticationHelper>();
 
+builder.Services.AddScoped<IHostingEnvironmentService, HostingEnvironmentService>();
 builder.Services.AddTransient<ImagesProvider>();
 
 var mailSetting = builder.Configuration.GetSection("MailSettings");
@@ -157,7 +174,7 @@ using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
-    var roleManager = services.GetRequiredService<RoleManager<Role>>();
+    var roleManager = services.GetRequiredService<RoleManager<OnlineShop.Domain.Models.Role>>();
     var configuration = services.GetRequiredService<IConfiguration>();
 
     var identityInitializer = new IdentityInitializer(configuration);

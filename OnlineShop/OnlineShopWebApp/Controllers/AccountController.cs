@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShopWebApp.Helpers.Notifications;
-using OnlineShopWebApp.Interfaces;
-using OnlineShopWebApp.Models;
+using OnlineShop.Application.Helpers.Notifications;
+using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models;
+using OnlineShop.Domain.Interfaces;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

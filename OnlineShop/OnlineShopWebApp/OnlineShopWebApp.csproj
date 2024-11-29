@@ -38,6 +38,7 @@
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.MySQL" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.PostgreSQL" Version="2.3.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.14" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,7 +47,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OnlineShop.Db\OnlineShop.Db.csproj" />
+    <ProjectReference Include="..\OnlineShop.Application\OnlineShop.Application.csproj" />
+    <ProjectReference Include="..\OnlineShop.Db\OnlineShop.Infrastructure.csproj" />
+    <ProjectReference Include="..\OnlineShop.Domain\OnlineShop.Domain.csproj" />
   </ItemGroup>
 
 </Project>

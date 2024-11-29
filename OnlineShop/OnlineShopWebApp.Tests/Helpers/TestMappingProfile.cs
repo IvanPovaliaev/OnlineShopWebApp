@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
-using OnlineShop.Db.Models;
-using OnlineShopWebApp.Areas.Admin.Models;
-using OnlineShopWebApp.Models;
+using OnlineShop.Application.Models;
+using OnlineShop.Application.Models.Admin;
+using OnlineShop.Domain.Models;
 using System.Collections.Generic;
 
 namespace OnlineShopWebApp.Tests.Helpers

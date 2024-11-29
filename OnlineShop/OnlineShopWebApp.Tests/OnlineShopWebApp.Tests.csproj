@@ -30,7 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OnlineShop.Db\OnlineShop.Db.csproj" />
+    <ProjectReference Include="..\OnlineShop.Application\OnlineShop.Application.csproj" />
+    <ProjectReference Include="..\OnlineShop.Db\OnlineShop.Infrastructure.csproj" />
     <ProjectReference Include="..\OnlineShopWebApp\OnlineShopWebApp.csproj" />
   </ItemGroup>
 
