@@ -61,7 +61,6 @@ builder.Services.AddIdentity<User, OnlineShop.Domain.Models.Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
-
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.ExpireTimeSpan = TimeSpan.FromHours(24);

@@ -32,4 +32,8 @@
     <ProjectReference Include="..\OnlineShop.Application\OnlineShop.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Jwt\" />
+  </ItemGroup>
+
 </Project>

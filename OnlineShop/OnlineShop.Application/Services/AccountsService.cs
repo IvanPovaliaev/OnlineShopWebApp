@@ -175,6 +175,7 @@ namespace OnlineShop.Application.Services
 
             return modelState.IsValid;
         }
+
         public async Task<bool> IsRegisterValidAsync(ModelStateDictionary modelState, RegisterViewModel register)
         {
             if (register.Email == register.Password)
