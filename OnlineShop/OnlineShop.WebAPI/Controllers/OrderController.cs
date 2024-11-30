@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
+using OnlineShop.WebAPI.Helpers;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
-namespace OnlineShopWebApp.Controllers
+namespace OnlineShop.WebAPI.Controllers
 {
-    [Authorize]
+    [ApiController]
+    [Route("[controller]")]
     public class OrderController : Controller
     {
         private readonly string _userId;
@@ -26,17 +25,17 @@ namespace OnlineShopWebApp.Controllers
         /// Create user order
         /// </summary>
         /// <returns>Create order view</returns>
-        [HttpPost]
+        [HttpPost(nameof(Create))]
         public async Task<IActionResult> Create(UserDeliveryInfoViewModel deliveryInfo)
         {
             var cart = await _cartsService.GetAsync(_userId);
-            var positions = cart.Positions;
+            var positions = cart?.Positions;
 
-            var isModelValid = _ordersService.IsCreationValid(ModelState, positions);
+            var isModelValid = _ordersService.IsCreationValid(ModelState, positions!);
 
             if (!isModelValid)
             {
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid input data", Errors = ModelState.GetErrors() });
             }
 
             await _ordersService.CreateAsync(_userId, deliveryInfo, positions);
@@ -44,7 +43,7 @@ namespace OnlineShopWebApp.Controllers
 
             var order = await _ordersService.GetLastAsync(_userId);
 
-            return View(order);
+            return Ok(order);
         }
     }
 }

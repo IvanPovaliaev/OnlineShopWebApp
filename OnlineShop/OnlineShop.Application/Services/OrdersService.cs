@@ -68,9 +68,9 @@ namespace OnlineShop.Application.Services
             await _ordersRepository.CreateAsync(order);
         }
 
-        public bool IsCreationValid(ModelStateDictionary modelState, List<CartPosition> positions)
+        public bool IsCreationValid(ModelStateDictionary modelState, List<CartPosition>? positions)
         {
-            if (positions.Count == 0)
+            if (positions is null || positions.Count == 0)
             {
                 modelState.AddModelError(string.Empty, "В заказе отсутствуют товары");
             }
