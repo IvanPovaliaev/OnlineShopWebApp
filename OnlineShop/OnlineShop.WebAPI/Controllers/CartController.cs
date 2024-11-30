@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using System.Security.Claims;
 
-namespace OnlineShopWebApp.Controllers
+namespace OnlineShop.WebAPI.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("[controller]")]
+    [Authorize]
     public class CartController : Controller
     {
         private readonly string? _userId;
@@ -16,7 +16,7 @@ namespace OnlineShopWebApp.Controllers
         public CartController(ICartsService cartsService, IHttpContextAccessor httpContextAccessor)
         {
             _cartsService = cartsService;
-            _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            _userId = User.FindFirst(ClaimTypes.Email)?.Value;
         }
 
         /// <summary>

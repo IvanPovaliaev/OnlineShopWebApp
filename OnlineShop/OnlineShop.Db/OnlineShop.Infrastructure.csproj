@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.104.1" />
     <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
@@ -30,10 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.Application\OnlineShop.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Jwt\" />
   </ItemGroup>
 
 </Project>

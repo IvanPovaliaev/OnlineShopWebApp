@@ -1,8 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using OnlineShop.Application.Helpers.Notifications;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
+using OnlineShop.Infrastructure.Jwt;
 
 namespace OnlineShop.WebAPI.Controllers
 {
@@ -11,12 +10,12 @@ namespace OnlineShop.WebAPI.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountsService _accountsService;
-        private readonly IMediator _mediator;
+        private readonly JwtProvider _jwtProvider;
 
-        public AccountController(IAccountsService accountsService, IMediator mediator)
+        public AccountController(IAccountsService accountsService, JwtProvider jwtProvider)
         {
             _accountsService = accountsService;
-            _mediator = mediator;
+            _jwtProvider = jwtProvider;
         }
 
         /// <summary>
@@ -33,9 +32,9 @@ namespace OnlineShop.WebAPI.Controllers
                 return Unauthorized("Invalid username or password");
             }
 
-            await _mediator.Publish(new UserSignInNotification());
+            var token = _jwtProvider.GenerateToken(login.Email);
 
-            return Ok("Login successful");
+            return Ok(new { Token = token, Message = "Success" });
         }
     }
 }
