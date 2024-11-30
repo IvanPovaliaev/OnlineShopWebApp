@@ -19,7 +19,6 @@ using Serilog;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,8 +80,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddCommonServices(builder.Configuration);
-
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddTransient<ICookieCartsService, CookieCartsService>();
 

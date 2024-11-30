@@ -11,6 +11,7 @@ using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.Data.Repositories;
 using OnlineShop.Infrastructure.Email;
 using System.Globalization;
+using System.Reflection;
 
 namespace OnlineShop.Infrastructure.CommonDI
 {
@@ -19,6 +20,7 @@ namespace OnlineShop.Infrastructure.CommonDI
         public static IServiceCollection AddCommonServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(typeof(MappingProfile));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IProductsRepository, ProductsDbRepository>();
             services.AddTransient<IProductsService, ProductsService>();

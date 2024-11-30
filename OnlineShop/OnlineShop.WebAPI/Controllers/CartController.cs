@@ -41,7 +41,7 @@ namespace OnlineShop.WebAPI.Controllers
         {
             await _cartsService.AddAsync(productId, _userId!);
 
-            return Ok();
+            return Ok($"Product {productId} added successfully to user card");
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace OnlineShop.WebAPI.Controllers
         {
             await _cartsService.IncreasePositionAsync(_userId!, positionId);
 
-            return Ok();
+            return Ok($"Position {positionId} decreased successfully");
 
         }
 
@@ -68,31 +68,31 @@ namespace OnlineShop.WebAPI.Controllers
         {
             await _cartsService.DecreasePositionAsync(_userId!, positionId);
 
-            return Ok();
+            return Ok($"Position {positionId} decreased successfully");
         }
 
         /// <summary>
         /// Delete users cart
         /// </summary>
-        /// <returns>Users cart View</returns>
+        /// <returns>Operation StatusCode</returns>
         [HttpDelete]
         public async Task<IActionResult> Delete()
         {
             await _cartsService.DeleteAsync(_userId!);
-            return Ok();
+            return Ok($"Cart for user {_userId} deleted successfully");
         }
 
         /// <summary>
         /// Delete target position by Id
         /// </summary>
-        /// <returns>Users cart View</returns>
+        /// <returns>Operation StatusCode</returns>
         /// <param name="positionId">Position ID (GUID)</param>
         [HttpDelete("position")]
         public async Task<IActionResult> DeletePosition(Guid positionId)
         {
             await _cartsService.DeletePositionAsync(_userId!, positionId);
 
-            return Ok();
+            return Ok($"Position {positionId} deleted successfully");
         }
     }
 }

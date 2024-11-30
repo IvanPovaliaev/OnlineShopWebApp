@@ -8,6 +8,7 @@ using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.CommonDI;
 using OnlineShop.Infrastructure.Data;
+using OnlineShop.Infrastructure.Excel;
 using OnlineShop.Infrastructure.Jwt;
 using OnlineShop.Infrastructure.Redis;
 using OnlineShop.WebAPI.Helpers;
@@ -66,6 +67,8 @@ namespace OnlineShop.WebAPI
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddCommonServices(builder.Configuration);
+
+            builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 
             var jwtOptions = builder.Configuration.GetSection("JwtOptions");
             builder.Services.Configure<JwtOptions>(jwtOptions);
