@@ -1,25 +1,18 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Interfaces;
-using OnlineShop.Application.Services;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
+using OnlineShop.Infrastructure.CommonDI;
 using OnlineShop.Infrastructure.Data;
-using OnlineShop.Infrastructure.Data.Repositories;
-using OnlineShop.Infrastructure.Email;
-using OnlineShop.Infrastructure.Excel;
 using OnlineShop.Infrastructure.Jwt;
 using OnlineShop.Infrastructure.Redis;
 using OnlineShop.WebAPI.Helpers;
 using OnlineShop.WebAPI.Middleware;
 using StackExchange.Redis;
-using System.Globalization;
-using System.Reflection;
 using System.Text;
 
 namespace OnlineShop.WebAPI
@@ -71,51 +64,14 @@ namespace OnlineShop.WebAPI
 
             builder.Services.AddSingleton<IRedisCacheService, RedisCacheService>();
 
-            builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
-            builder.Services.AddScoped<IProductsRepository, ProductsDbRepository>();
-            builder.Services.AddTransient<IProductsService, ProductsService>();
-
-            builder.Services.AddScoped<ICartsRepository, CartsDbRepository>();
-            builder.Services.AddTransient<ICartsService, CartsService>();
-
-            builder.Services.AddTransient<IRolesService, RolesService>();
-            builder.Services.AddTransient<IAccountsService, AccountsService>();
-
-            builder.Services.AddTransient<HashService>();
-            builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
-
-            builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
-
-            builder.Services.AddScoped<IHostingEnvironmentService, HostingEnvironmentService>();
-            builder.Services.AddTransient<ImagesProvider>();
-
-            var mailSetting = builder.Configuration.GetSection("MailSettings");
-            builder.Services.Configure<MailSettings>(mailSetting);
-            builder.Services.AddTransient<IMailService, EmailService>();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddCommonServices(builder.Configuration);
 
             var jwtOptions = builder.Configuration.GetSection("JwtOptions");
             builder.Services.Configure<JwtOptions>(jwtOptions);
             builder.Services.AddTransient<JwtProvider>();
 
-            builder.Services.Scan(scan => scan
-                            .FromAssemblyOf<IProductSpecificationsRules>()
-                            .AddClasses(classes => classes.AssignableTo<IProductSpecificationsRules>())
-                            .AsImplementedInterfaces()
-                            .WithTransientLifetime());
-
-            builder.Services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var supportedCultures = new[]
-                {
-                    new CultureInfo("en-US")
-                };
-                options.DefaultRequestCulture = new RequestCulture("en-US");
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
+            builder.Services.AddScoped<IHostingEnvironmentService, HostingEnvironmentService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -148,9 +104,11 @@ namespace OnlineShop.WebAPI
                                     Id = "Bearer"
                                 }
                             },
-                            new string[] {}
+                            Array.Empty<string>()
                     }
                 });
+
+                swagger.UseInlineDefinitionsForEnums();
             });
 
             builder.Services.AddAuthentication(option =>
@@ -167,9 +125,9 @@ namespace OnlineShop.WebAPI
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings.Issuer,
-                    ValidAudience = jwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                    ValidIssuer = jwtSettings!.Issuer,
+                    ValidAudience = jwtSettings!.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings!.SecretKey))
                 };
             });
 
@@ -184,8 +142,8 @@ namespace OnlineShop.WebAPI
 
             app.UseHttpsRedirection();
 
-            app.UseMiddleware<JWTMiddleware>();
             app.UseAuthentication();
+            app.UseMiddleware<JWTMiddleware>();
             app.UseAuthorization();
 
             app.MapControllers();

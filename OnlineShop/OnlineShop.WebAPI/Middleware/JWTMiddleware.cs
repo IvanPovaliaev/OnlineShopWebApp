@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.Jwt;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace OnlineShop.WebAPI.Middleware
@@ -54,7 +55,13 @@ namespace OnlineShop.WebAPI.Middleware
                 var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
                 var user = await userManager.FindByEmailAsync(userEmail);
 
-                context.Items["User"] = user;
+                var claims = new List<Claim>
+                {
+                    new(ClaimTypes.NameIdentifier, user?.Id!)
+                };
+
+                var identity = new ClaimsIdentity(claims, "jwt");
+                context.User = new ClaimsPrincipal(identity);
             }
             catch
             {

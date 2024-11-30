@@ -2,19 +2,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Services;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
+using OnlineShop.Infrastructure.CommonDI;
 using OnlineShop.Infrastructure.Data;
-using OnlineShop.Infrastructure.Data.Repositories;
-using OnlineShop.Infrastructure.Email;
 using OnlineShop.Infrastructure.Excel;
 using OnlineShop.Infrastructure.Redis;
 using OnlineShopWebApp.Helpers;
@@ -22,7 +19,6 @@ using Serilog;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,63 +77,19 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 
 builder.Services.AddSingleton<IRedisCacheService, RedisCacheService>();
 
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddCommonServices(builder.Configuration);
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-builder.Services.AddScoped<IProductsRepository, ProductsDbRepository>();
-builder.Services.AddTransient<IProductsService, ProductsService>();
-
-builder.Services.AddScoped<ICartsRepository, CartsDbRepository>();
-builder.Services.AddTransient<ICartsService, CartsService>();
 builder.Services.AddTransient<ICookieCartsService, CookieCartsService>();
-
-builder.Services.AddScoped<IOrdersRepository, OrdersDbRepository>();
-builder.Services.AddTransient<IOrdersService, OrdersService>();
-
-builder.Services.AddScoped<IComparisonsRepository, ComparisonsDbRepository>();
-builder.Services.AddTransient<IComparisonsService, ComparisonsService>();
-
-builder.Services.AddScoped<IFavoritesRepository, FavoritesDbRepository>();
-builder.Services.AddTransient<IFavoritesService, FavoritesService>();
-
-builder.Services.AddTransient<IRolesService, RolesService>();
-
-builder.Services.AddTransient<IAccountsService, AccountsService>();
-
-builder.Services.AddTransient<HashService>();
-builder.Services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher<User>>();
 
 builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 builder.Services.AddTransient<AuthenticationHelper>();
 
 builder.Services.AddScoped<IHostingEnvironmentService, HostingEnvironmentService>();
-builder.Services.AddTransient<ImagesProvider>();
-
-var mailSetting = builder.Configuration.GetSection("MailSettings");
-builder.Services.Configure<MailSettings>(mailSetting);
-
-builder.Services.AddTransient<IMailService, EmailService>();
-
-builder.Services.Scan(scan => scan
-                .FromAssemblyOf<IProductSpecificationsRules>()
-                .AddClasses(classes => classes.AssignableTo<IProductSpecificationsRules>())
-                .AsImplementedInterfaces()
-                .WithTransientLifetime());
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCultures = new[]
-    {
-        new CultureInfo("en-US")
-    };
-    options.DefaultRequestCulture = new RequestCulture("en-US");
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
-});
 
 var app = builder.Build();
 
