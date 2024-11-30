@@ -36,7 +36,7 @@ namespace OnlineShop.WebAPI.Controllers
         /// </summary>
         /// <returns>Operation StatusCode</returns>
         /// <param name="productId">Product id (guid)</param>
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> Add(Guid productId)
         {
             await _cartsService.AddAsync(productId, _userId!);
@@ -54,7 +54,7 @@ namespace OnlineShop.WebAPI.Controllers
         {
             await _cartsService.IncreasePositionAsync(_userId!, positionId);
 
-            return Ok($"Position {positionId} decreased successfully");
+            return Ok($"Position {positionId} increased successfully");
 
         }
 
@@ -63,7 +63,7 @@ namespace OnlineShop.WebAPI.Controllers
         /// </summary>
         /// <returns>Operation StatusCode</returns>
         /// <param name="positionId">Position ID (GUID)</param>
-        [HttpPost("decrease")]
+        [HttpPost("Decrease")]
         public async Task<IActionResult> Decrease(Guid positionId)
         {
             await _cartsService.DecreasePositionAsync(_userId!, positionId);
@@ -79,6 +79,7 @@ namespace OnlineShop.WebAPI.Controllers
         public async Task<IActionResult> Delete()
         {
             await _cartsService.DeleteAsync(_userId!);
+
             return Ok($"Cart for user {_userId} deleted successfully");
         }
 
@@ -87,7 +88,7 @@ namespace OnlineShop.WebAPI.Controllers
         /// </summary>
         /// <returns>Operation StatusCode</returns>
         /// <param name="positionId">Position ID (GUID)</param>
-        [HttpDelete("position")]
+        [HttpDelete("Position")]
         public async Task<IActionResult> DeletePosition(Guid positionId)
         {
             await _cartsService.DeletePositionAsync(_userId!, positionId);

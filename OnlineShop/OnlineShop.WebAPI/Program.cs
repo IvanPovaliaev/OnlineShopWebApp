@@ -57,7 +57,7 @@ namespace OnlineShop.WebAPI
 
             builder.Services.AddControllers();
 
-            var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value);
+            var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value!);
             builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
                 return ConnectionMultiplexer.Connect(redisConfiguration);
@@ -140,7 +140,10 @@ namespace OnlineShop.WebAPI
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(option =>
+                {
+                    option.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+                });
             }
 
             app.UseHttpsRedirection();

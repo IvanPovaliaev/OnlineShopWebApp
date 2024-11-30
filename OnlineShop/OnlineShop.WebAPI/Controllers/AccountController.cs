@@ -73,7 +73,7 @@ namespace OnlineShop.WebAPI.Controllers
         [HttpGet("Info")]
         public async Task<IActionResult> Get()
         {
-            var user = _accountsService.GetAsync(_userId!);
+            var user = await _accountsService.GetAsync(_userId!);
             return Ok(user);
         }
 
