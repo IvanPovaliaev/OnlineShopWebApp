@@ -15,6 +15,7 @@ using OnlineShop.WebAPI.Helpers;
 using OnlineShop.WebAPI.Middleware;
 using StackExchange.Redis;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace OnlineShop.WebAPI
 {
@@ -55,7 +56,11 @@ namespace OnlineShop.WebAPI
 							.AddEntityFrameworkStores<DatabaseContext>()
 							.AddDefaultTokenProviders();
 
-			builder.Services.AddControllers();
+			builder.Services.AddControllers()
+							.AddJsonOptions(options =>
+							{
+								options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+							}); ;
 
 			var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value!);
 			builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
@@ -78,16 +83,16 @@ namespace OnlineShop.WebAPI
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen(swagger =>
+			builder.Services.AddSwaggerGen(options =>
 			{
-				swagger.SwaggerDoc("v1", new OpenApiInfo
+				options.SwaggerDoc("v1", new OpenApiInfo
 				{
 					Version = "v1",
 					Title = "OnlineShop.WebAPI",
 					Description = "OnlineShop ASP.NET Core Web API"
 				});
 
-				swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+				options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
 				{
 					Name = "Authorization",
 					Type = SecuritySchemeType.ApiKey,
@@ -97,7 +102,7 @@ namespace OnlineShop.WebAPI
 					Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
 				});
 
-				swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+				options.AddSecurityRequirement(new OpenApiSecurityRequirement
 				{
 					{
 						  new OpenApiSecurityScheme
@@ -112,7 +117,7 @@ namespace OnlineShop.WebAPI
 					}
 				});
 
-				swagger.UseInlineDefinitionsForEnums();
+				options.SchemaFilter<EnumSchemaFilter>();
 			});
 
 			builder.Services.AddAuthentication(option =>
