@@ -4,16 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OnlineShop.Application.Interfaces;
-using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.CommonDI;
 using OnlineShop.Infrastructure.Data;
-using OnlineShop.Infrastructure.Excel;
 using OnlineShop.Infrastructure.Jwt;
-using OnlineShop.Infrastructure.Redis;
 using OnlineShop.WebAPI.Helpers;
 using OnlineShop.WebAPI.Middleware;
-using StackExchange.Redis;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -24,8 +20,6 @@ namespace OnlineShop.WebAPI
 		public static async Task Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
-
-			// Add services to the container.
 
 			var databaseProvider = builder.Configuration["DatabaseProvider"];
 			var connection = builder.Configuration.GetConnectionString(databaseProvider!);
@@ -60,20 +54,10 @@ namespace OnlineShop.WebAPI
 							.AddJsonOptions(options =>
 							{
 								options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-							}); ;
-
-			var redisConfiguration = ConfigurationOptions.Parse(builder.Configuration.GetSection("Redis:ConnectionString").Value!);
-			builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-			{
-				return ConnectionMultiplexer.Connect(redisConfiguration);
-			});
-
-			builder.Services.AddSingleton<IRedisCacheService, RedisCacheService>();
+							});
 
 			builder.Services.AddHttpContextAccessor();
 			builder.Services.AddCommonServices(builder.Configuration);
-
-			builder.Services.AddTransient<IExcelService, ClosedXMLExcelService>();
 
 			var jwtOptions = builder.Configuration.GetSection("JwtOptions");
 			builder.Services.Configure<JwtOptions>(jwtOptions);

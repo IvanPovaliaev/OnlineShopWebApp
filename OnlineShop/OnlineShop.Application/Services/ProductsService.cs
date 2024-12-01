@@ -2,7 +2,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Helpers.Specifications;
 using OnlineShop.Application.Interfaces;
@@ -26,10 +25,8 @@ namespace OnlineShop.Application.Services
 		private readonly IMapper _mapper;
 		private readonly ImagesProvider _imageProvider;
 		private readonly string _productsImagesStoragePath;
-		private readonly IRedisCacheService _redisHashService;
-		private readonly string _redisProductsHashKey;
 
-		public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider, IRedisCacheService redisCacheService)
+		public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider)
 		{
 			_productsRepository = productsRepository;
 			_mapper = mapper;
@@ -38,30 +35,14 @@ namespace OnlineShop.Application.Services
 
 			_productsImagesStoragePath = configuration["ImagesStorage:Products"]!;
 			_imageProvider = imagesProvider;
-
-			_redisProductsHashKey = configuration["Redis:TableKeys:Products"]!;
-			_redisHashService = redisCacheService;
 		}
 
 		public async Task<List<ProductViewModel>> GetAllAsync()
 		{
-			var cachedProducts = await _redisHashService.GetAllValuesAsync(_redisProductsHashKey);
-
-			if (cachedProducts is not null && cachedProducts.Count != 0)
-			{
-				return cachedProducts!.Select(JsonConvert.DeserializeObject<ProductViewModel>)
-												   .ToList()!;
-			}
-
 			var products = await _productsRepository.GetAllAsync();
-			var productViewModels = products.Select(_mapper.Map<ProductViewModel>)
+
+			return products.Select(_mapper.Map<ProductViewModel>)
 											.ToList();
-
-			var productsDictionary = productViewModels.ToDictionary(x => x.Id.ToString(), JsonConvert.SerializeObject);
-			await _redisHashService.SetHashFieldsAsync(_redisProductsHashKey, productsDictionary);
-
-
-			return productViewModels!;
 		}
 
 		public async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
@@ -92,13 +73,6 @@ namespace OnlineShop.Application.Services
 
 		public async Task<ProductViewModel> GetViewModelAsync(Guid id)
 		{
-			var cachedProduct = await _redisHashService.TryGetHashFieldAsync(_redisProductsHashKey, id.ToString());
-
-			if (!string.IsNullOrEmpty(cachedProduct))
-			{
-				return JsonConvert.DeserializeObject<ProductViewModel>(cachedProduct)!;
-			}
-
 			var productDb = await GetAsync(id);
 			return _mapper.Map<ProductViewModel>(productDb);
 		}
@@ -116,7 +90,6 @@ namespace OnlineShop.Application.Services
 			productDb.Images = images;
 
 			await _productsRepository.AddAsync(productDb);
-			await CacheProduct(productDb.Id);
 		}
 
 		public async Task UpdateAsync(EditProductViewModel product)
@@ -130,15 +103,11 @@ namespace OnlineShop.Application.Services
 			}
 
 			await _productsRepository.UpdateAsync(productDb);
-
-			await CacheProduct(productDb.Id);
 		}
 
 		public async Task DeleteAsync(Guid id)
 		{
 			await _productsRepository.DeleteAsync(id);
-
-			await _redisHashService.RemoveHashFieldAsync(_redisProductsHashKey, id.ToString());
 		}
 
 		public async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)
@@ -187,17 +156,6 @@ namespace OnlineShop.Application.Services
 			}
 
 			return images;
-		}
-
-		/// <summary>
-		/// Caches target product
-		/// </summary>
-		/// <param name="id">Target product id</param>
-		private async Task CacheProduct(Guid id)
-		{
-			var product = await _productsRepository.GetAsync(id);
-			var productVMJson = JsonConvert.SerializeObject(_mapper.Map<ProductViewModel>(product));
-			await _redisHashService.SetHashFieldAsync(_redisProductsHashKey, product.Id.ToString(), productVMJson);
 		}
 	}
 }
