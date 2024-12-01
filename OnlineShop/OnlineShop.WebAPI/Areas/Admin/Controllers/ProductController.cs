@@ -23,9 +23,9 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Add a new product
 		/// </summary>
-		/// <returns>Admins products View</returns> 
+		/// <returns>Operation StatusCode</returns> 
 		/// <param name="product">Target product</param>
-		[HttpPost("Add")]
+		[HttpPost(nameof(Add))]
 		public async Task<IActionResult> Add([FromBody] AddProductViewModel product)
 		{
 			if (!ModelState.IsValid)
@@ -46,8 +46,8 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Update target product
 		/// </summary>
-		/// <returns>Admins products View</returns>
-		[HttpPost("Update")]
+		/// <returns>OperationStatusCode</returns>
+		[HttpPost(nameof(Update))]
 		public async Task<IActionResult> Update([FromBody] EditProductViewModel product)
 		{
 			var isModelValid = await _productsService.IsUpdateValidAsync(ModelState, product);
@@ -70,7 +70,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Delete product by Id
 		/// </summary>
-		/// <returns>Admins products View</returns>
+		/// <returns>Operation StatusCode</returns>
 		/// <param name="id">Target productId</param>
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(Guid id)

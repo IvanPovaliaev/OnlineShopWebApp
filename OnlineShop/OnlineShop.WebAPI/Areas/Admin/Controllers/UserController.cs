@@ -99,7 +99,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Update target user
 		/// </summary>
-		/// <returns>User Details Page if success; otherwise Edit User View</returns>
+		/// <returns>Operation StatusCode<</returns>
 		/// <param name="editUser">Target EditUser model</param>  
 		[HttpPost(nameof(Update))]
 		public async Task<IActionResult> Update([FromBody] AdminEditUserViewModel editUser)
@@ -124,7 +124,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Delete user by Id
 		/// </summary>
-		/// <returns>Admins users View</returns>
+		/// <returns>Operation StatusCode<</returns>
 		/// <param name="id">Target user Id</param>
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(string id)
