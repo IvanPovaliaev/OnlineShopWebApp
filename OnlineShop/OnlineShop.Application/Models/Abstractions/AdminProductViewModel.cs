@@ -21,7 +21,6 @@ namespace OnlineShop.Application.Models.Abstractions
 
 		[Required(ErrorMessage = "Обязательное поле")]
 		public ProductCategoriesViewModel Category { get; set; }
-		public List<ImageViewModel> Images { get; set; } = [];
 
 		[SpecificationsValidation()]
 		public Dictionary<string, string> Specifications { get; set; }
