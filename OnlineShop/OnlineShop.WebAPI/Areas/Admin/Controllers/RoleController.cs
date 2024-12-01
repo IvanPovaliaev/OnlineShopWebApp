@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models.Admin;
 using OnlineShop.Domain;
+using OnlineShop.WebAPI.Helpers;
 
 namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 {
@@ -43,12 +44,17 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 
             if (!isModelValid)
             {
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid input data", Errors = ModelState.GetErrors() });
             }
 
             await _rolesService.AddAsync(role);
 
-            return Ok();
+            var result = new
+            {
+                Message = $"Role '{role.Name}' added successfully"
+            };
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -60,7 +66,13 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(string name)
         {
             await _rolesService.DeleteAsync(name);
-            return Ok();
+
+            var result = new
+            {
+                Message = $"Role '{name}' deleted successfully"
+            };
+
+            return Ok(result);
         }
     }
 }

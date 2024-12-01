@@ -53,12 +53,17 @@ namespace OnlineShop.WebAPI.Middleware
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
-                var user = await userManager.FindByEmailAsync(userEmail);
 
-                var claims = new List<Claim>
+                var user = await userManager.FindByEmailAsync(userEmail);
+                var userClaims = await userManager.GetClaimsAsync(user!);
+                var roles = await userManager.GetRolesAsync(user!);
+
+                var claims = new List<Claim>(userClaims);
+
+                foreach (var role in roles)
                 {
-                    new(ClaimTypes.NameIdentifier, user?.Id!)
-                };
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
 
                 var identity = new ClaimsIdentity(claims, "jwt");
                 context.User = new ClaimsPrincipal(identity);

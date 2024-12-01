@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using OnlineShop.Application.Models.Abstractions;
 using System;
 using System.Collections.Generic;
 
