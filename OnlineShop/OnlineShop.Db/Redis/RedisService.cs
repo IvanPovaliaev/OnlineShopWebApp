@@ -17,6 +17,11 @@ namespace OnlineShop.Infrastructure.Redis
 			_db = redis.GetDatabase();
 		}
 
+		/// <summary>
+		/// Caches value with key
+		/// </summary>
+		/// <param name="key">Target key in cache</param>
+		/// <param name="value">Value to cache</param>
 		public async Task SetAsync(string key, string value)
 		{
 			if (!IsRedisAvailable())
@@ -42,6 +47,12 @@ namespace OnlineShop.Infrastructure.Redis
 			}
 		}
 
+
+		/// <summary>
+		/// Get value from cache by its key
+		/// </summary>
+		/// <returns>String value of cached object</returns>
+		/// <param name="key">Target key in cache</param>
 		public async Task<string?> TryGetAsync(string key)
 		{
 			if (!IsRedisAvailable())
@@ -61,6 +72,10 @@ namespace OnlineShop.Infrastructure.Redis
 			}
 		}
 
+		/// <summary>
+		/// Remove target object by key from cache
+		/// </summary>
+		/// <param name="key">Target key in cache</param>
 		public async Task RemoveAsync(string key)
 		{
 			if (!IsRedisAvailable())

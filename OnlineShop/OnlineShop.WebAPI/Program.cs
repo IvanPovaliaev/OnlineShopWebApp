@@ -10,6 +10,7 @@ using OnlineShop.Infrastructure.Data;
 using OnlineShop.Infrastructure.Jwt;
 using OnlineShop.WebAPI.Helpers;
 using OnlineShop.WebAPI.Middleware;
+using Serilog;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -46,7 +47,12 @@ namespace OnlineShop.WebAPI
 					throw new InvalidOperationException("Invalid database type");
 			}
 
-			builder.Services.AddIdentity<User, Domain.Models.Role>()
+			builder.Host.UseSerilog((context, configuration) => configuration
+						.ReadFrom.Configuration(context.Configuration)
+						.Enrich.FromLogContext()
+						.Enrich.WithProperty("ApplicationName", "OnlineShopApi"));
+
+			builder.Services.AddIdentity<User, Role>()
 							.AddEntityFrameworkStores<DatabaseContext>()
 							.AddDefaultTokenProviders();
 
@@ -137,6 +143,7 @@ namespace OnlineShop.WebAPI
 			}
 
 			app.UseHttpsRedirection();
+			app.UseSerilogRequestLogging();
 
 			app.UseAuthentication();
 			app.UseMiddleware<JWTMiddleware>();
@@ -148,11 +155,21 @@ namespace OnlineShop.WebAPI
 			{
 				var services = serviceScope.ServiceProvider;
 				var userManager = services.GetRequiredService<UserManager<User>>();
-				var roleManager = services.GetRequiredService<RoleManager<Domain.Models.Role>>();
+				var roleManager = services.GetRequiredService<RoleManager<Role>>();
 				var configuration = services.GetRequiredService<IConfiguration>();
 
 				var identityInitializer = new IdentityInitializer(configuration);
 				await identityInitializer.InitializeAsync(userManager, roleManager);
+			}
+
+			using (var scope = app.Services.CreateScope())
+			{
+				Log.Logger = new LoggerConfiguration()
+					.ReadFrom.Configuration(builder.Configuration)
+					.Enrich.FromLogContext()
+					.Enrich.WithProperty("ApplicationName", "OnlineShopApi")
+					.WriteToDatabase(databaseType.ToLower(), connection!)
+					.CreateLogger();
 			}
 
 			app.Run();

@@ -32,7 +32,7 @@ namespace OnlineShop.Infrastructure.CommonDI
 
 			services.AddScoped<IProductsRepository, ProductsDbRepository>();
 			services.AddTransient<IProductsService, ProductsService>();
-			services.Decorate<IProductsService, RedisProductsService>();
+			//services.Decorate<IProductsService, RedisProductsService>();
 
 			services.Scan(scan => scan
 					.FromAssemblyOf<IProductSpecificationsRules>()

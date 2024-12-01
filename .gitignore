@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/OnlineShop/OnlineShop.WebAPI/logs-api
