@@ -67,21 +67,21 @@ namespace OnlineShop.WebAPI.Controllers
 		}
 
 		/// <summary>
-		/// Open Orders page for current user
+		/// Get current user model
 		/// </summary>
-		/// <returns>Orders page</returns>
+		/// <returns>Operation StatusCode</returns>
 		[Authorize]
 		[HttpGet("Info")]
-		public async Task<IActionResult> Get()
+		public async Task<IActionResult> GetInfo()
 		{
 			var user = await _accountsService.GetAsync(_userId!);
 			return Ok(user);
 		}
 
 		/// <summary>
-		/// Open Orders page for current user
+		/// Get all orders related to current user
 		/// </summary>
-		/// <returns>Orders page</returns>
+		/// <returns>Collection of user orders</returns>
 		[Authorize]
 		[HttpGet(nameof(Orders))]
 		public async Task<IActionResult> Orders()
