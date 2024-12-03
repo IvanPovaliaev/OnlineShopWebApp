@@ -56,7 +56,10 @@ namespace OnlineShop.WebAPI
 							.AddEntityFrameworkStores<DatabaseContext>()
 							.AddDefaultTokenProviders();
 
-			builder.Services.AddControllers()
+			builder.Services.AddControllers(options =>
+							{
+								options.Filters.Add<GlobalExceptionFilter>();
+							})
 							.AddJsonOptions(options =>
 							{
 								options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
