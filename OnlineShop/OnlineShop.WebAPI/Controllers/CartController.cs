@@ -36,12 +36,16 @@ namespace OnlineShop.WebAPI.Controllers
 		/// </summary>
 		/// <returns>Operation StatusCode</returns>
 		/// <param name="productId">Product id (guid)</param>
-		[HttpPost("Add")]
+		[HttpPost(nameof(Add))]
 		public async Task<IActionResult> Add(Guid productId)
 		{
-			await _cartsService.AddAsync(productId, _userId!);
+			var isSuccess = await _cartsService.AddAsync(productId, _userId!);
+			if (isSuccess)
+			{
+				return Ok(new { Message = $"Product {productId} added successfully to user cart" });
+			}
 
-			return Ok($"Product {productId} added successfully to user card");
+			return NotFound(new { Message = $"Product {productId} not found" });
 		}
 
 		/// <summary>
@@ -52,10 +56,12 @@ namespace OnlineShop.WebAPI.Controllers
 		[HttpPost(nameof(Increase))]
 		public async Task<IActionResult> Increase(Guid positionId)
 		{
-			await _cartsService.IncreasePositionAsync(_userId!, positionId);
-
-			return Ok($"Position {positionId} increased successfully");
-
+			var isSuccess = await _cartsService.IncreasePositionAsync(_userId!, positionId);
+			if (isSuccess)
+			{
+				return Ok(new { Message = $"Position {positionId} increased successfully" });
+			}
+			return NotFound(new { Message = $"Position {positionId} not found" });
 		}
 
 		/// <summary>
@@ -66,9 +72,12 @@ namespace OnlineShop.WebAPI.Controllers
 		[HttpPost(nameof(Decrease))]
 		public async Task<IActionResult> Decrease(Guid positionId)
 		{
-			await _cartsService.DecreasePositionAsync(_userId!, positionId);
-
-			return Ok($"Position {positionId} decreased successfully");
+			var isSuccess = await _cartsService.DecreasePositionAsync(_userId!, positionId);
+			if (isSuccess)
+			{
+				return Ok(new { Message = $"Position {positionId} decreased successfully" });
+			}
+			return NotFound(new { Message = $"Position {positionId} not found" });
 		}
 
 		/// <summary>
@@ -78,9 +87,13 @@ namespace OnlineShop.WebAPI.Controllers
 		[HttpDelete]
 		public async Task<IActionResult> Delete()
 		{
-			await _cartsService.DeleteAsync(_userId!);
+			var isSuccess = await _cartsService.DeleteAsync(_userId!);
+			if (isSuccess)
+			{
+				return Ok(new { Message = $"Cart for user {_userId} deleted successfully" });
+			}
 
-			return Ok($"Cart for user {_userId} deleted successfully");
+			return NotFound(new { Message = $"No Cart found for user {_userId}." });
 		}
 
 		/// <summary>
@@ -91,9 +104,13 @@ namespace OnlineShop.WebAPI.Controllers
 		[HttpDelete("Position")]
 		public async Task<IActionResult> DeletePosition(Guid positionId)
 		{
-			await _cartsService.DeletePositionAsync(_userId!, positionId);
+			var isSuccess = await _cartsService.DeletePositionAsync(_userId!, positionId);
+			if (isSuccess)
+			{
+				return Ok(new { Message = $"Position {positionId} deleted successfully" });
+			}
 
-			return Ok($"Position {positionId} deleted successfully");
+			return NotFound(new { Message = $"Position {positionId} not found" });
 		}
 	}
 }

@@ -9,173 +9,185 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Application.Services
 {
-    public class CartsService : ICartsService
-    {
-        private readonly ICartsRepository _cartsRepository;
-        private readonly IMapper _mapper;
-        private readonly IProductsService _productsService;
+	public class CartsService : ICartsService
+	{
+		private readonly ICartsRepository _cartsRepository;
+		private readonly IMapper _mapper;
+		private readonly IProductsService _productsService;
 
-        public CartsService(ICartsRepository cartsRepository, IMapper mapper, IProductsService productsService)
-        {
-            _cartsRepository = cartsRepository;
-            _mapper = mapper;
-            _productsService = productsService;
-        }
+		public CartsService(ICartsRepository cartsRepository, IMapper mapper, IProductsService productsService)
+		{
+			_cartsRepository = cartsRepository;
+			_mapper = mapper;
+			_productsService = productsService;
+		}
 
-        public async Task<Cart> GetAsync(string userId) => await _cartsRepository.GetAsync(userId);
+		public async Task<Cart> GetAsync(string userId) => await _cartsRepository.GetAsync(userId);
 
-        public async Task<CartViewModel> GetViewModelAsync(string userId)
-        {
-            var cartDb = await GetAsync(userId);
-            return _mapper.Map<CartViewModel>(cartDb);
-        }
+		public async Task<CartViewModel> GetViewModelAsync(string userId)
+		{
+			var cartDb = await GetAsync(userId);
+			return _mapper.Map<CartViewModel>(cartDb);
+		}
 
-        public async Task AddAsync(Guid productId, string userId)
-        {
-            var cart = await _cartsRepository.GetAsync(userId);
+		public async Task<bool> AddAsync(Guid productId, string userId)
+		{
+			var cart = await _cartsRepository.GetAsync(userId);
 
-            if (cart is null)
-            {
-                await CreateAsync(productId, userId);
-                return;
-            }
+			if (cart is null)
+			{
+				return await CreateAsync(productId, userId);
+			}
 
-            var position = cart.Positions.FirstOrDefault(position => position.Product.Id == productId);
+			var position = cart.Positions.FirstOrDefault(position => position.Product.Id == productId);
 
-            if (position is null)
-            {
-                await AddPositionAsync(cart, productId);
-                await _cartsRepository.UpdateAsync(cart);
-                return;
-            }
+			if (position is null)
+			{
+				var isPositionAdded = await AddPositionAsync(cart, productId);
 
-            await IncreasePositionAsync(userId, position.Id);
-        }
+				return isPositionAdded && await _cartsRepository.UpdateAsync(cart);
+			}
 
-        public async Task IncreasePositionAsync(string userId, Guid positionId)
-        {
-            var cart = await _cartsRepository.GetAsync(userId);
+			return await IncreasePositionAsync(userId, position.Id);
+		}
 
-            var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
+		public async Task<bool> IncreasePositionAsync(string userId, Guid positionId)
+		{
+			var cart = await _cartsRepository.GetAsync(userId);
 
-            if (position is null)
-            {
-                return;
-            }
+			var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
 
-            position.Quantity++;
+			if (position is null)
+			{
+				return false;
+			}
 
-            await _cartsRepository.UpdateAsync(cart!);
-        }
+			position.Quantity++;
 
-        public async Task DecreasePositionAsync(string userId, Guid positionId)
-        {
-            var cart = await _cartsRepository.GetAsync(userId);
+			return await _cartsRepository.UpdateAsync(cart!);
+		}
 
-            var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
-            if (position is null)
-            {
-                return;
-            }
+		public async Task<bool> DecreasePositionAsync(string userId, Guid positionId)
+		{
+			var cart = await _cartsRepository.GetAsync(userId);
 
-            if (position.Quantity == 1)
-            {
-                await DeletePositionAsync(userId, positionId);
-                return;
-            }
+			var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
+			if (position is null)
+			{
+				return false;
+			}
 
-            position.Quantity--;
+			if (position.Quantity == 1)
+			{
 
-            await _cartsRepository.UpdateAsync(cart!);
-        }
+				return await DeletePositionAsync(userId, positionId); ;
+			}
 
-        public async Task DeleteAsync(string userId) => await _cartsRepository.DeleteAsync(userId);
+			position.Quantity--;
 
-        public async Task DeletePositionAsync(string userId, Guid positionId)
-        {
-            var cart = await _cartsRepository.GetAsync(userId);
-            var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
+			return await _cartsRepository.UpdateAsync(cart!);
+		}
 
-            if (position is null)
-            {
-                return;
-            }
+		public async Task<bool> DeleteAsync(string userId) => await _cartsRepository.DeleteAsync(userId);
 
-            cart!.Positions.Remove(position);
-            await _cartsRepository.UpdateAsync(cart);
-        }
+		public async Task<bool> DeletePositionAsync(string userId, Guid positionId)
+		{
+			var cart = await _cartsRepository.GetAsync(userId);
+			var position = cart?.Positions.FirstOrDefault(pos => pos.Id == positionId);
 
-        public async Task ReplaceFromCookieAsync(CartViewModel cookieCart, string userId)
-        {
-            if (cookieCart is null || cookieCart.Positions.Count == 0)
-            {
-                return;
-            }
+			if (position is null)
+			{
+				return false;
+			}
 
-            var cart = await _cartsRepository.GetAsync(userId);
+			cart!.Positions.Remove(position);
+			return await _cartsRepository.UpdateAsync(cart);
+		}
 
-            cart ??= new Cart()
-            {
-                UserId = userId
-            };
+		public async Task ReplaceFromCookieAsync(CartViewModel cookieCart, string userId)
+		{
+			if (cookieCart is null || cookieCart.Positions.Count == 0)
+			{
+				return;
+			}
 
-            cart.Positions.Clear();
+			var cart = await _cartsRepository.GetAsync(userId);
 
-            foreach (var position in cookieCart.Positions)
-            {
-                var productDb = await _productsService.GetAsync(position.Product.Id);
-                var newCartPosition = new CartPosition()
-                {
-                    Product = productDb,
-                    Quantity = position.Quantity,
-                    CartId = cart.Id
-                };
+			cart ??= new Cart()
+			{
+				UserId = userId
+			};
 
-                cart.Positions.Add(newCartPosition);
-            }
+			cart.Positions.Clear();
 
-            if (cart.Id == new Guid())
-            {
-                await _cartsRepository.CreateAsync(cart);
-                return;
-            }
+			foreach (var position in cookieCart.Positions)
+			{
+				var productDb = await _productsService.GetAsync(position.Product.Id);
+				var newCartPosition = new CartPosition()
+				{
+					Product = productDb,
+					Quantity = position.Quantity,
+					CartId = cart.Id
+				};
 
-            await _cartsRepository.UpdateAsync(cart);
-        }
+				cart.Positions.Add(newCartPosition);
+			}
 
-        /// <summary>
-        /// Create a new cart for related user.
-        /// </summary>        
-        /// <param name="productId">product Id (GUID)</param>
-        /// <param name="userId">GUID user id</param>
-        private async Task CreateAsync(Guid productId, string userId)
-        {
-            var cart = new Cart()
-            {
-                UserId = userId
-            };
+			if (cart.Id == new Guid())
+			{
+				await _cartsRepository.CreateAsync(cart);
+				return;
+			}
 
-            await AddPositionAsync(cart, productId);
-            await _cartsRepository.CreateAsync(cart);
-        }
+			await _cartsRepository.UpdateAsync(cart);
+		}
 
-        /// <summary>
-        /// Add new product position to cart.
-        /// </summary>        
-        /// <param name="cart">Cart with products</param>
-        /// <param name="productId">product Id (GUID)</param>
-        private async Task AddPositionAsync(Cart cart, Guid productId)
-        {
-            var product = await _productsService.GetAsync(productId);
+		/// <summary>
+		/// Create a new cart for related user.
+		/// </summary>        
+		/// <param name="productId">product Id (GUID)</param>
+		/// <param name="userId">GUID user id</param>
+		private async Task<bool> CreateAsync(Guid productId, string userId)
+		{
+			var cart = new Cart()
+			{
+				UserId = userId
+			};
 
-            var position = new CartPosition()
-            {
-                Product = product,
-                Quantity = 1,
-                CartId = cart.Id
-            };
+			var result = await AddPositionAsync(cart, productId);
 
-            cart.Positions.Add(position);
-        }
-    }
+			if (!result)
+			{
+				return false;
+			}
+
+			await _cartsRepository.CreateAsync(cart);
+			return true;
+		}
+
+		/// <summary>
+		/// Add new product position to cart.
+		/// </summary>        
+		/// <param name="cart">Cart with products</param>
+		/// <param name="productId">product Id (GUID)</param>
+		private async Task<bool> AddPositionAsync(Cart cart, Guid productId)
+		{
+			var product = await _productsService.GetAsync(productId);
+
+			if (product is null)
+			{
+				return false;
+			}
+
+			var position = new CartPosition()
+			{
+				Product = product,
+				Quantity = 1,
+				CartId = cart.Id
+			};
+
+			cart.Positions.Add(position);
+			return true;
+		}
+	}
 }
