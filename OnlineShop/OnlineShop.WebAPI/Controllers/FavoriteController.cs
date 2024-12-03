@@ -67,11 +67,11 @@ namespace OnlineShop.WebAPI.Controllers
 			return NotFound($"FavoriteProduct with id {id} not found");
 		}
 
-		[HttpDelete("All")]
 		/// <summary>
 		/// Delete all FavoriteProducts by userId
 		/// </summary>
-		/// <return>sOperation StatusCode</returns>
+		/// <return>Operation StatusCode</return>
+		[HttpDelete("All")]
 		public async Task<IActionResult> DeleteAll()
 		{
 			var isSuccess = await _favoritesService.DeleteAllAsync(_userId!);

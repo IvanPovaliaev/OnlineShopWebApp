@@ -54,10 +54,10 @@ namespace OnlineShop.WebAPI.Controllers
 		/// Get all products that match the search query
 		/// </summary>
 		/// <returns>Collection of all products that match the search query</returns> 
-		[HttpGet("search/{searchQuery}")]
-		public async Task<IActionResult> GetFromSearchQuery(string searchQuery)
+		[HttpGet("search/{query}")]
+		public async Task<IActionResult> GetFromSearchQuery(string query)
 		{
-			var products = await _productsService.GetAllFromSearchAsync(searchQuery);
+			var products = await _productsService.GetAllFromSearchAsync(query);
 			return products.Count != 0 ? Ok(products) : NotFound();
 		}
 	}

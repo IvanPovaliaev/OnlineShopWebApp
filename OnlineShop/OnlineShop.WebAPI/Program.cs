@@ -75,6 +75,12 @@ namespace OnlineShop.WebAPI
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen(options =>
 			{
+				var basePath = AppContext.BaseDirectory;
+
+				var xmlPath = Path.Combine(basePath, "OnlineShop.WebAPI.xml");
+
+				options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+
 				options.SwaggerDoc("v1", new OpenApiInfo
 				{
 					Version = "v1",
@@ -107,7 +113,7 @@ namespace OnlineShop.WebAPI
 					}
 				});
 
-				options.SchemaFilter<EnumSchemaFilter>();
+				options.UseInlineDefinitionsForEnums();
 			});
 
 			builder.Services.AddAuthentication(option =>

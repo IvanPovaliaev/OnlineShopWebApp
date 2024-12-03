@@ -59,7 +59,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Delete role by name
 		/// </summary>
-		/// <returns>Operation StatusCode<</returns>
+		/// <returns>Operation StatusCode</returns>
 		/// <param name="name">Target role name</param>
 		[HttpDelete("{name}")]
 		public async Task<IActionResult> Delete(string name)

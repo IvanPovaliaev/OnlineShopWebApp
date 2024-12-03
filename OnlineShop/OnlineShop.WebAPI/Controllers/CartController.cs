@@ -100,17 +100,17 @@ namespace OnlineShop.WebAPI.Controllers
 		/// Delete target position by Id
 		/// </summary>
 		/// <returns>Operation StatusCode</returns>
-		/// <param name="positionId">Position ID (GUID)</param>
-		[HttpDelete("Position")]
-		public async Task<IActionResult> DeletePosition(Guid positionId)
+		/// <param name="id">Position ID (GUID)</param>
+		[HttpDelete("Position/{id}")]
+		public async Task<IActionResult> DeletePosition(Guid id)
 		{
-			var isSuccess = await _cartsService.DeletePositionAsync(_userId!, positionId);
+			var isSuccess = await _cartsService.DeletePositionAsync(_userId!, id);
 			if (isSuccess)
 			{
-				return Ok(new { Message = $"Position {positionId} deleted successfully" });
+				return Ok(new { Message = $"Position {id} deleted successfully" });
 			}
 
-			return NotFound(new { Message = $"Position {positionId} not found" });
+			return NotFound(new { Message = $"Position {id} not found" });
 		}
 	}
 }

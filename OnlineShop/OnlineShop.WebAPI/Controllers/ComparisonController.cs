@@ -34,7 +34,7 @@ namespace OnlineShop.WebAPI.Controllers
 		/// <summary>
 		/// Add product to users comparisons
 		/// </summary>
-		/// <returns>Operation StatusCode/returns>
+		/// <returns>Operation StatusCode</returns>
 		/// <param name="productId">Product id (GUID)</param>
 		[HttpPost(nameof(Add))]
 		public async Task<IActionResult> Add(Guid productId)

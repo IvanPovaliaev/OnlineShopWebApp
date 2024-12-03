@@ -21,9 +21,9 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		}
 
 		/// <summary>
-		/// Open Admin Users Page
+		/// Get all users
 		/// </summary>
-		/// <returns>Admin Users View</returns>
+		/// <returns>collection of all users</returns>
 		[HttpGet("All")]
 		public async Task<IActionResult> GetAll()
 		{
@@ -32,9 +32,9 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		}
 
 		/// <summary>
-		/// Open Admin User Details Page
+		/// Get user model
 		/// </summary>
-		/// <returns>Admin Users View</returns>
+		/// <returns>Target user view model</returns>
 		/// <param name="id">Target user Id</param>
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetById(string id)
@@ -51,7 +51,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Add a new user
 		/// </summary>
-		/// <returns>Admins users View</returns> 
+		/// <returns>Operation StatusCode</returns> 
 		/// <param name="register">Target register user model</param>
 		[HttpPost(nameof(Add))]
 		public async Task<IActionResult> Add([FromBody] AdminRegisterViewModel register)
@@ -71,7 +71,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Change password for user
 		/// </summary>
-		/// <returns>User Details Page</returns>
+		/// <returns>Operation StatusCode</returns>
 		/// <param name="changePassword">Target changePassword model</param>  
 		[HttpPost(nameof(ChangePassword))]
 		public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel changePassword)
@@ -93,7 +93,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Update target user
 		/// </summary>
-		/// <returns>Operation StatusCode<</returns>
+		/// <returns>Operation StatusCode</returns>
 		/// <param name="editUser">Target EditUser model</param>  
 		[HttpPost(nameof(Update))]
 		public async Task<IActionResult> Update([FromBody] AdminEditUserViewModel editUser)
@@ -117,7 +117,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		/// <summary>
 		/// Delete user by Id
 		/// </summary>
-		/// <returns>Operation StatusCode<</returns>
+		/// <returns>Operation StatusCode</returns>
 		/// <param name="id">Target user Id</param>
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(string id)
