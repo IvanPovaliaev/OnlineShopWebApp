@@ -47,14 +47,13 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 				return BadRequest(new { Message = "Invalid input data", Errors = ModelState.GetErrors() });
 			}
 
-			await _rolesService.AddAsync(role);
-
-			var result = new
+			var isSuccess = await _rolesService.AddAsync(role);
+			if (isSuccess)
 			{
-				Message = $"Role '{role.Name}' added successfully"
-			};
+				return Ok(new { Message = $"Role '{role.Name}' added successfully" });
+			}
 
-			return Ok(result);
+			return StatusCode(500, new { Message = $"Failed to create the role '{role.Name}'. Please try again later." });
 		}
 
 		/// <summary>
@@ -65,14 +64,14 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		[HttpDelete("{name}")]
 		public async Task<IActionResult> Delete(string name)
 		{
-			await _rolesService.DeleteAsync(name);
+			var isSuccess = await _rolesService.DeleteAsync(name);
 
-			var result = new
+			if (isSuccess)
 			{
-				Message = $"Role '{name}' deleted successfully"
-			};
+				return Ok(new { Message = $"Role '{name}' deleted successfully" });
+			}
 
-			return Ok(result);
+			return NotFound(new { Message = $"Role '{name}' not found or can't be deleted" });
 		}
 	}
 }
