@@ -89,11 +89,16 @@ namespace OnlineShop.Infrastructure.Redis
 			await ClearProductCacheAsync();
 		}
 
-		public async Task DeleteAsync(Guid id)
+		public async Task<bool> DeleteAsync(Guid id)
 		{
-			await _decoretedProductsService.DeleteAsync(id);
+			var isSuccess = await _decoretedProductsService.DeleteAsync(id);
+			if (!isSuccess)
+			{
+				return false;
+			}
 			await ClearProductCacheAsync();
 			await _redisService.RemoveAsync(id.ToString());
+			return true;
 		}
 
 		public async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)

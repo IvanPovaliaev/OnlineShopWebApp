@@ -105,9 +105,9 @@ namespace OnlineShop.Application.Services
 			await _productsRepository.UpdateAsync(productDb);
 		}
 
-		public async Task DeleteAsync(Guid id)
+		public async Task<bool> DeleteAsync(Guid id)
 		{
-			await _productsRepository.DeleteAsync(id);
+			return await _productsRepository.DeleteAsync(id);
 		}
 
 		public async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)

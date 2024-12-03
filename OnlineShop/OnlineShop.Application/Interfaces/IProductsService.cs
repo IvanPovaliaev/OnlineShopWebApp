@@ -35,18 +35,21 @@ namespace OnlineShop.Application.Interfaces
 		/// Get product from repository by GUID
 		/// </summary>
 		/// <returns>Product; returns null if product not found</returns>
+		/// <param name="id">Target product id</param>
 		Task<Product> GetAsync(Guid id);
 
 		/// <summary>
 		/// Get product ViewModel of related product by GUID
 		/// </summary>
 		/// <returns>ProductViewModel; returns null if product not found</returns>
+		/// <param name="id">Target product id</param>
 		Task<ProductViewModel> GetViewModelAsync(Guid id);
 
 		/// <summary>
 		/// Get EditProduct from repository by GUID
 		/// </summary>
 		/// <returns>EditProductViewModel; returns null if product not found</returns>
+		/// <param name="id">Target product id</param>
 		Task<EditProductViewModel> GetEditProductAsync(Guid id);
 
 		/// <summary>
@@ -62,9 +65,10 @@ namespace OnlineShop.Application.Interfaces
 		Task UpdateAsync(EditProductViewModel product);
 
 		/// <summary>
-		/// Delete product from repository by GUID
+		/// Delete product from repository by its ID
 		/// </summary>
-		Task DeleteAsync(Guid id);
+		/// <param name="id">Target product id</param>
+		Task<bool> DeleteAsync(Guid id);
 
 		/// <summary>
 		/// Validates the order edit product model

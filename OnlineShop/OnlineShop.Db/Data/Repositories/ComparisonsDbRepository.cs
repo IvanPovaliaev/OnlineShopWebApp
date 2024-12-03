@@ -54,7 +54,7 @@ namespace OnlineShop.Infrastructure.Data.Repositories
 				return false;
 			}
 
-			_databaseContext.ComparisonProducts.Remove(comparison!);
+			_databaseContext.ComparisonProducts.Remove(comparison);
 			await _databaseContext.SaveChangesAsync();
 			return true;
 		}

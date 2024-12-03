@@ -50,17 +50,18 @@ namespace OnlineShop.Infrastructure.Data.Repositories
 			await _databaseContext.SaveChangesAsync();
 		}
 
-		public async Task DeleteAsync(Guid id)
+		public async Task<bool> DeleteAsync(Guid id)
 		{
-			var product = await GetAsync(id);
+			var product = await _databaseContext.Products.FindAsync(id);
 
 			if (product is null)
 			{
-				return;
+				return false;
 			}
 
 			_databaseContext.Products.Remove(product);
 			await _databaseContext.SaveChangesAsync();
+			return true;
 		}
 
 		public async Task UpdateAsync(Product product)

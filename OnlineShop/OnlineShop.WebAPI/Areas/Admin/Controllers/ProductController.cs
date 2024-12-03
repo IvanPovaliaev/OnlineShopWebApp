@@ -26,14 +26,13 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(Guid id)
 		{
-			await _productsService.DeleteAsync(id);
+			var isSuccess = await _productsService.DeleteAsync(id);
 
-			var result = new
+			if (isSuccess)
 			{
-				Message = $"Product ({id}) deleted successfully"
-			};
-
-			return Ok(result);
+				return Ok(new { Message = $"Product ({id}) deleted successfully" });
+			}
+			return NotFound(new { Message = $"Product ({id}) not found" });
 		}
 	}
 }
