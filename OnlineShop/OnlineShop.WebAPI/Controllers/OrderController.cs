@@ -40,7 +40,12 @@ namespace OnlineShop.WebAPI.Controllers
 				return BadRequest(new { Message = "Invalid input data", Errors = ModelState.GetErrors() });
 			}
 
-			await _ordersService.CreateAsync(_userId, deliveryInfo, positions);
+			var createdId = await _ordersService.CreateAsync(_userId, deliveryInfo, positions!);
+			if (createdId is null)
+			{
+				return StatusCode(500, new { Message = "Failed to create the order. Please try again later." });
+			}
+
 			await _cartsService.DeleteAsync(_userId);
 
 			var order = await _ordersService.GetLastAsync(_userId);

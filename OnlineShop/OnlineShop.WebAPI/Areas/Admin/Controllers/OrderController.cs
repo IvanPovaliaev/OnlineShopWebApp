@@ -39,14 +39,14 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		[HttpGet(nameof(UpdateStatus))]
 		public async Task<IActionResult> UpdateStatus(Guid id, OrderStatusViewModel status)
 		{
-			await _ordersService.UpdateStatusAsync(id, status);
+			var isSuccess = await _ordersService.UpdateStatusAsync(id, status);
 
-			var result = new
+			if (isSuccess)
 			{
-				Message = $"Order ({id}) status was change to '{status}' successfully"
-			};
+				return Ok(new { Message = $"Order ({id}) status was change to '{status}' successfully" });
+			}
 
-			return Ok(result);
+			return NotFound(new { Message = $"Order with id {id} not found" });
 		}
 	}
 }
