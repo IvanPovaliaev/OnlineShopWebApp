@@ -63,6 +63,7 @@ namespace OnlineShop.WebAPI.Controllers
 			{
 				return Ok($"ComparisonProduct {id} deleted from user {_userId} comparisons successfully");
 			}
+
 			return NotFound($"ComparisonProduct with id {id} not found");
 		}
 

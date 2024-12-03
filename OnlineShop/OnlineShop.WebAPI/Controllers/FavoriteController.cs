@@ -38,12 +38,15 @@ namespace OnlineShop.WebAPI.Controllers
 		[HttpPost(nameof(Add))]
 		public async Task<IActionResult> Add(Guid productId)
 		{
-			await _favoritesService.CreateAsync(productId, _userId!);
-			var result = new
+			var createdId = await _favoritesService.CreateAsync(productId, _userId!);
+
+			if (createdId is null)
 			{
-				Message = $"Product {productId} added to user {_userId} favorites successfully"
-			};
-			return Ok(result);
+				var message = new { Message = $"Product {productId} is already in user {_userId} favorites or product not found." };
+				return BadRequest(message);
+			}
+
+			return Ok($"Product {productId} added to user {_userId} favorites successfully with id {createdId}");
 		}
 
 		/// <summary>
@@ -54,14 +57,14 @@ namespace OnlineShop.WebAPI.Controllers
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(Guid id)
 		{
-			await _favoritesService.DeleteAsync(id);
+			var isSuccess = await _favoritesService.DeleteAsync(id);
 
-			var result = new
+			if (isSuccess)
 			{
-				Message = $"FavoriteProduct {id} deleted from user {_userId} comparisons successfully"
-			};
+				return Ok($"FavoriteProduct {id} deleted from user {_userId} favorites successfully");
+			}
 
-			return Ok(result);
+			return NotFound($"FavoriteProduct with id {id} not found");
 		}
 
 		[HttpDelete("All")]
@@ -71,14 +74,14 @@ namespace OnlineShop.WebAPI.Controllers
 		/// <return>sOperation StatusCode</returns>
 		public async Task<IActionResult> DeleteAll()
 		{
-			await _favoritesService.DeleteAllAsync(_userId!);
+			var isSuccess = await _favoritesService.DeleteAllAsync(_userId!);
 
-			var result = new
+			if (isSuccess)
 			{
-				Message = $"All FavoriteProducts was be deleted from user {_userId} comparisons successfully"
-			};
+				return Ok($"All FavoriteProducts was be deleted from user {_userId} comparisons successfully");
+			}
 
-			return Ok(result);
+			return NotFound($"No FavoriteProducts found for user {_userId}.");
 		}
 	}
 }

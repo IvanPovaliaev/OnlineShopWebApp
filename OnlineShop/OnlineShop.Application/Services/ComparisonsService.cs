@@ -41,7 +41,7 @@ namespace OnlineShop.Application.Services
 		public async Task<Guid?> CreateAsync(Guid productId, string userId)
 		{
 			var product = await _productsService.GetAsync(productId);
-			if (product is null || await IsProductExistsAsync(product, userId))
+			if (await IsProductNullOrExistsAsync(product, userId))
 			{
 				return null;
 			}
@@ -71,8 +71,12 @@ namespace OnlineShop.Application.Services
 		/// <returns>true if product exists; otherwise returns false</returns>
 		/// <param name="product">Target Product</param>
 		/// <param name="userId">User Id (GUID)</param>
-		private async Task<bool> IsProductExistsAsync(Product product, string userId)
+		private async Task<bool> IsProductNullOrExistsAsync(Product product, string userId)
 		{
+			if (product is null)
+			{
+				return true;
+			}
 			return (await GetAllAsync(userId)).Any(c => c.Product.Id == product?.Id);
 		}
 	}
