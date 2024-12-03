@@ -4,6 +4,9 @@ using OnlineShop.Application.Models;
 
 namespace OnlineShop.WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for managing products.
+	/// </summary>
 	[ApiController]
 	[Route("[controller]")]
 	public class ProductController : Controller

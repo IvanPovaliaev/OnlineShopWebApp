@@ -7,6 +7,9 @@ using OnlineShop.WebAPI.Helpers;
 
 namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 {
+	/// <summary>
+	/// Controller for managing roles in the admin area.
+	/// </summary>
 	[ApiController]
 	[Route("[area]/[controller]")]
 	[Area(Constants.AdminRoleName)]

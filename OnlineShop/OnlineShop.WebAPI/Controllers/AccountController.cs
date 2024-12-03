@@ -9,6 +9,9 @@ using System.Security.Claims;
 
 namespace OnlineShop.WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for users accounts.
+	/// </summary>
 	[ApiController]
 	[Route("[controller]")]
 	public class AccountController : Controller

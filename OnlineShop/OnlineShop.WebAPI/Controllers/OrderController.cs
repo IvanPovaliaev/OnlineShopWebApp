@@ -7,6 +7,9 @@ using System.Security.Claims;
 
 namespace OnlineShop.WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for managing orders.
+	/// </summary>
 	[ApiController]
 	[Route("[controller]")]
 	[Authorize]

@@ -6,6 +6,9 @@ using OnlineShop.Domain;
 
 namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 {
+	/// <summary>
+	/// Controller for managing orders in the admin area.
+	/// </summary>
 	[ApiController]
 	[Route("[area]/[controller]")]
 	[Area(Constants.AdminRoleName)]

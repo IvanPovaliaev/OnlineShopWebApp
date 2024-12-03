@@ -5,6 +5,9 @@ using System.Security.Claims;
 
 namespace OnlineShop.WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for managing users carts.
+	/// </summary>
 	[ApiController]
 	[Route("[controller]")]
 	[Authorize]

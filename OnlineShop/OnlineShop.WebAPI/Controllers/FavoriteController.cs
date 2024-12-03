@@ -5,6 +5,9 @@ using System.Security.Claims;
 
 namespace OnlineShop.WebAPI.Controllers
 {
+	/// <summary>
+	/// Controller for managing favorites.
+	/// </summary>
 	[ApiController]
 	[Route("[controller]")]
 	[Authorize]
