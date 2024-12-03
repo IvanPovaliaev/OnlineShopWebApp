@@ -38,12 +38,12 @@ namespace OnlineShop.Application.Services
 			return (await GetAllAsync(userId)).ToLookup(c => c.Product.Category);
 		}
 
-		public async Task CreateAsync(Guid productId, string userId)
+		public async Task<Guid?> CreateAsync(Guid productId, string userId)
 		{
 			var product = await _productsService.GetAsync(productId);
-			if (await IsProductExistsAsync(product, userId))
+			if (product is null || await IsProductExistsAsync(product, userId))
 			{
-				return;
+				return null;
 			}
 
 			var comparison = new ComparisonProduct()
@@ -52,17 +52,17 @@ namespace OnlineShop.Application.Services
 				Product = product
 			};
 
-			await _comparisonsRepository.CreateAsync(comparison);
+			return await _comparisonsRepository.CreateAsync(comparison);
 		}
 
-		public async Task DeleteAsync(Guid comparisonId)
+		public async Task<bool> DeleteAsync(Guid comparisonId)
 		{
-			await _comparisonsRepository.DeleteAsync(comparisonId);
+			return await _comparisonsRepository.DeleteAsync(comparisonId);
 		}
 
-		public async Task DeleteAllAsync(string userId)
+		public async Task<bool> DeleteAllAsync(string userId)
 		{
-			await _comparisonsRepository.DeleteAllAsync(userId);
+			return await _comparisonsRepository.DeleteAllAsync(userId);
 		}
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace OnlineShop.Application.Services
 		/// <param name="userId">User Id (GUID)</param>
 		private async Task<bool> IsProductExistsAsync(Product product, string userId)
 		{
-			return (await GetAllAsync(userId)).Any(c => c.Product.Id == product.Id);
+			return (await GetAllAsync(userId)).Any(c => c.Product.Id == product?.Id);
 		}
 	}
 }

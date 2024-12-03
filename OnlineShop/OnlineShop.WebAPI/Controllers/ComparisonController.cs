@@ -39,8 +39,15 @@ namespace OnlineShop.WebAPI.Controllers
 		[HttpPost(nameof(Add))]
 		public async Task<IActionResult> Add(Guid productId)
 		{
-			await _comparisonsService.CreateAsync(productId, _userId!);
-			return Ok($"Product {productId} added to user {_userId} comparisons successfully");
+			var createdId = await _comparisonsService.CreateAsync(productId, _userId!);
+
+			if (createdId is null)
+			{
+				var message = new { Message = $"Product {productId} is already in user {_userId} comparisons or product not found." };
+				return BadRequest(message);
+			}
+
+			return Ok($"Product {productId} added to user {_userId} comparisons successfully with id {createdId}");
 		}
 
 		/// <summary>
@@ -51,19 +58,27 @@ namespace OnlineShop.WebAPI.Controllers
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(Guid id)
 		{
-			await _comparisonsService.DeleteAsync(id);
-			return Ok($"ComparisonProduct {id} deleted from user {_userId} comparisons successfully");
+			var isSuccess = await _comparisonsService.DeleteAsync(id);
+			if (isSuccess)
+			{
+				return Ok($"ComparisonProduct {id} deleted from user {_userId} comparisons successfully");
+			}
+			return NotFound($"ComparisonProduct with id {id} not found");
 		}
 
 		/// <summary>
 		/// Delete all ComparisonProducts from users comparisons
 		/// </summary>
 		/// <returns>Operation StatusCode</returns>
-		[HttpDelete("all")]
+		[HttpDelete("All")]
 		public async Task<IActionResult> DeleteAll()
 		{
-			await _comparisonsService.DeleteAllAsync(_userId!);
-			return Ok($"All ComparisonProducts was be deleted from user {_userId} comparisons successfully");
+			var isSuccess = await _comparisonsService.DeleteAllAsync(_userId!);
+			if (isSuccess)
+			{
+				return Ok($"All ComparisonProducts was be deleted from user {_userId} comparisons successfully");
+			}
+			return NotFound($"No ComparisonProducts found for user {_userId}.");
 		}
 	}
 }
