@@ -105,30 +105,31 @@ namespace OnlineShop.Application.Services
 			}
 		}
 
-		public async Task ChangePasswordAsync(ChangePasswordViewModel changePassword)
+		public async Task<bool> ChangePasswordAsync(ChangePasswordViewModel changePassword)
 		{
 			var userId = changePassword.UserId;
 			var user = await _userManager.FindByIdAsync(userId);
 
 			if (user is null)
 			{
-				return;
+				return false;
 			}
 
 			var newPasswordHash = _userManager.PasswordHasher.HashPassword(user, changePassword.Password);
 			user.PasswordHash = newPasswordHash;
 
-			await _userManager.UpdateAsync(user);
+			var result = await _userManager.UpdateAsync(user);
+			return result.Succeeded;
 		}
 
-		public async Task UpdateInfoAsync(EditUserViewModel editUser)
+		public async Task<bool> UpdateInfoAsync(EditUserViewModel editUser)
 		{
 			var userId = editUser.Id;
 			var user = await _userManager.FindByIdAsync(userId);
 
 			if (user is null)
 			{
-				return;
+				return false;
 			}
 
 			user.Email = editUser.Email;
@@ -142,27 +143,35 @@ namespace OnlineShop.Application.Services
 				user.AvatarUrl = avatarUrl;
 			}
 
-			await _userManager.UpdateAsync(user);
+			var result = await _userManager.UpdateAsync(user);
+			if (!result.Succeeded)
+			{
+				return false;
+			}
 
 			if (editUser is AdminEditUserViewModel adminEditUser)
 			{
 				await ChangeRoleAsync(user, adminEditUser.RoleName);
-				return;
+				return true;
 			}
 
 			await _signInManager.RefreshSignInAsync(user);
+			return true;
 		}
 
-		public async Task DeleteAsync(string id)
+		public async Task<bool> DeleteAsync(string id)
 		{
 			var user = await _userManager.FindByIdAsync(id);
 
 			var isAdmin = await _userManager.IsInRoleAsync(user!, Constants.AdminRoleName);
 
-			if (!isAdmin)
+			if (isAdmin)
 			{
-				await _userManager.DeleteAsync(user!);
+				return false;
 			}
+
+			var result = await _userManager.DeleteAsync(user!);
+			return result.Succeeded;
 		}
 
 		public async Task<bool> IsLoginValidAsync(ModelStateDictionary modelState, LoginDTO login, bool keepMeLogged = false)

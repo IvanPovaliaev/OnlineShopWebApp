@@ -65,12 +65,7 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 
 			await _accountsService.AddAsync(register);
 
-			var result = new
-			{
-				Message = $"New user added successfully"
-			};
-
-			return Ok(result);
+			return Ok(new { Message = $"New user added successfully" });
 		}
 
 		/// <summary>
@@ -86,14 +81,13 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 				return BadRequest(new { Message = "Invalid input data", Errors = ModelState.GetErrors() });
 			}
 
-			await _accountsService.ChangePasswordAsync(changePassword);
-
-			var result = new
+			var isSuccess = await _accountsService.ChangePasswordAsync(changePassword);
+			if (isSuccess)
 			{
-				Message = $"Password for user ({changePassword.UserId}) changed successfully"
-			};
+				return Ok(new { Message = $"Password for user ({changePassword.UserId}) changes successfully" });
+			}
 
-			return Ok(result);
+			return NotFound(new { Message = $"User ({changePassword.UserId}) not found" });
 		}
 
 		/// <summary>
@@ -111,14 +105,13 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 				return BadRequest(new { Message = "Invalid input data", Errors = ModelState.GetErrors() });
 			}
 
-			await _accountsService.UpdateInfoAsync(editUser);
-
-			var result = new
+			var isSuccess = await _accountsService.UpdateInfoAsync(editUser);
+			if (isSuccess)
 			{
-				Message = $"Data for user ({editUser.Id}) updated successfully"
-			};
+				return Ok(new { Message = $"Data for user ({editUser.Id}) updated successfully" });
+			}
 
-			return Ok(result);
+			return NotFound(new { Message = $"User ({editUser.Id}) not found" });
 		}
 
 		/// <summary>
@@ -129,14 +122,13 @@ namespace OnlineShop.WebAPI.Areas.Admin.Controllers
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(string id)
 		{
-			await _accountsService.DeleteAsync(id);
+			var isSuccess = await _accountsService.DeleteAsync(id);
 
-			var result = new
+			if (isSuccess)
 			{
-				Message = $"User ({id}) deleted successfully"
-			};
-
-			return Ok(result);
+				return Ok(new { Message = $"User ({id}) deleted successfully" });
+			}
+			return NotFound(new { Message = $"User ({id}) not found" });
 		}
 	}
 }

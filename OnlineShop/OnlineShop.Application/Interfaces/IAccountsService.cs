@@ -41,19 +41,19 @@ namespace OnlineShop.Application.Interfaces
 		/// Change password for related user if user exist
 		/// </summary>        
 		/// <param name="changePassword">Target ChangePassword model</param>
-		Task ChangePasswordAsync(ChangePasswordViewModel changePassword);
+		Task<bool> ChangePasswordAsync(ChangePasswordViewModel changePassword);
 
 		/// <summary>
 		/// Update info for related user if user exist
 		/// </summary>        
 		/// <param name="editUser">Target editUser model</param>
-		Task UpdateInfoAsync(EditUserViewModel editUser);
+		Task<bool> UpdateInfoAsync(EditUserViewModel editUser);
 
 		/// <summary>
 		/// Delete user from repository by id. Admin can't be deleted
 		/// </summary>
 		/// <param name="id">Target user id (GUID)</param>
-		Task DeleteAsync(string id);
+		Task<bool> DeleteAsync(string id);
 
 		/// <summary>
 		/// Validates the user login model
