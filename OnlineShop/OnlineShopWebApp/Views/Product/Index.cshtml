@@ -35,10 +35,19 @@
         </div>
 
         <div class="col">
-            <div class="row">
+            <div class="mb-0">
                 <p>ID: @product.Article</p>
             </div>
-            <div class="row">
+
+            <div class="mb-3">
+                @{
+                    var rating = reviews.Count > 0 ? reviews.Average(r => r.Grade) : 0;
+                }
+                
+                @await Html.PartialAsync("_GenerateRatingBar", Convert.ToInt32(rating))
+            </div>
+
+            <div>
                 <h3>Коротко о товаре:</h3>
                 <ul class="list-unstyled">
                     @{
