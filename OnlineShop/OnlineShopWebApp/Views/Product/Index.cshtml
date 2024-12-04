@@ -1,10 +1,12 @@
-﻿@model ProductViewModel
+﻿@model (ProductViewModel, List<ReviewDTO>)
 @{
-    ViewData["Title"] = @Model.Name;
+    var product = Model.Item1;
+    var reviews = Model.Item2;
+    ViewData["Title"] = product.Name;
     var shortSpecificationsCount = 10;
     var addSpecificationFromStart = (int count) =>
     {
-        @foreach (var specification in Model.Specifications.Take(count))
+        @foreach (var specification in product.Specifications.Take(count))
         {
             <li>
                 <span class="text-blue">@specification.Key:</span> @specification.Value
@@ -14,7 +16,7 @@
 
     var addSpecificationFromEnd = (int count) =>
     {
-        @foreach (var specification in Model.Specifications.TakeLast(count))
+        @foreach (var specification in product.Specifications.TakeLast(count))
         {
             <li>
                 <span class="text-blue">@specification.Key:</span> @specification.Value
@@ -24,17 +26,17 @@
 }
 
 <section class="container">
-    <h1>@Model.Name</h1>
+    <h1>@product.Name</h1>
     <hr class="border-brown" />
 
     <div class="row">
         <div class="col-4">
-            @await Html.PartialAsync("_ImagesCarousel", Model.Images)
+            @await Html.PartialAsync("_ImagesCarousel", product.Images)
         </div>
 
         <div class="col">
             <div class="row">
-                <p>ID: @Model.Article</p>
+                <p>ID: @product.Article</p>
             </div>
             <div class="row">
                 <h3>Коротко о товаре:</h3>
@@ -48,12 +50,12 @@
 
         <div class="col-4 d-flex flex-column">
             <div class="product-cost text-blue mb-3 d-flex flex-column">
-                @Model.Cost ₽
+                @product.Cost ₽
             </div>
 
             <div class="mb-3">
                 <a class="btn btn-main w-100 d-flex justify-content-center align-items-center addToCart"
-                   asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@Model.Id">
+                   asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
                     <svg class="btn-cart-icon me-2">
                         <use href="/icons/CartIcon.svg#cart-icon" />
                     </svg>
@@ -65,7 +67,7 @@
             <div class="d-flex justify-content-between">
 
                 <a class="d-flex align-items-center me-2 addToComparisons"
-                    asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@Model.Id">
+                   asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@product.Id">
 
                     <svg class="icon-inactive product-icon--comparison me-2">
                         <use href="/icons/ComparisonIcon.svg#comparison-icon" />
@@ -75,7 +77,7 @@
                 </a>
 
                 <a class="d-flex align-items-center me-2 addToFavorites"
-                    asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@Model.Id">
+                   asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@product.Id">
 
                     <svg class="icon-inactive product-icon--favorite me-2">
                         <use href="/icons/Favorite.svg#favorite-icon" />
@@ -93,20 +95,25 @@
         </div>
     </div>
 
-    <h2>Описание</h2>
-    <hr class="border-brown" />
-
     <div class="row">
-        <p class="text-whitespace">@Model.Description</p>
+        <div class="column">
+            <h2>Описание</h2>
+            <hr class="border-brown" />
+
+            <p class="text-whitespace">@product.Description</p>
+        </div>
     </div>
 
-    <h2>Характеристики</h2>
-    <hr class="border-brown" />
     <div class="row">
         @{
-            var rigthColumnSpecificationsCount = Model.Specifications.Count / 2;
-            var leftColumnSpecificationsCount = Model.Specifications.Count - rigthColumnSpecificationsCount;
+            var rigthColumnSpecificationsCount = product.Specifications.Count / 2;
+            var leftColumnSpecificationsCount = product.Specifications.Count - rigthColumnSpecificationsCount;
         }
+        <div class="col-12">
+            <h2>Характеристики</h2>
+            <hr class="border-brown" />
+        </div>
+
         <div class="col-6">
             <ul class="list-unstyled">
                 @{
@@ -122,6 +129,22 @@
                 }
             </ul>
 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Отзывы</h2>
+            <hr class="border-brown" />
+
+            @foreach (var review in reviews)
+            {
+                <div class="col">
+                    <p>Отзыв пользователя @review.UserId от @review.CreationDate</p>
+                    <p>Оценка: @review.Grade из 5</p>
+                    <p>@review.Text</p>
+                </div>
+            }
         </div>
     </div>
 

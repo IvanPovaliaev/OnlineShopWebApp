@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
+using OnlineShop.Infrastructure.ApiServices;
 using System;
 using System.Threading.Tasks;
 
@@ -9,10 +10,12 @@ namespace OnlineShopWebApp.Controllers
     public class ProductController : Controller
     {
         private readonly IProductsService _productsService;
+        private readonly IReviewService _reviewService;
 
-        public ProductController(IProductsService productsService)
+        public ProductController(IProductsService productsService, IReviewService reviewService)
         {
             _productsService = productsService;
+            _reviewService = reviewService;
         }
 
         /// <summary>
@@ -29,7 +32,10 @@ namespace OnlineShopWebApp.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            var reviews = await _reviewService.GetReviewsByProductIdAsync(id);
+            var productWithReview = (product, reviews);
+
+            return View(productWithReview);
         }
 
         /// <summary>
