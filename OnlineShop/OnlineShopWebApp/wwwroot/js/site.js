@@ -216,3 +216,33 @@ $(document).ready(function () {
         }
     });
 });
+
+//Скрипт для работы с модальным окном добавления отзыва
+$(document).ready(function () {
+    $(document).on('submit', '#addReviewForm', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.redirectUrl) {
+                    window.location.href = response.redirectUrl;
+                }
+                else {
+                    $('#addReviewFormWrapper').html(response);
+                    $.validator.unobtrusive.parse($("#addReviewForm"));
+                }
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    // Инициализация библиотеки jQuery Bar Rating
+    $('#grade-select').barrating({
+        theme: 'css-stars',
+        initialRating: $('#grade-select').val()
+    });
+});

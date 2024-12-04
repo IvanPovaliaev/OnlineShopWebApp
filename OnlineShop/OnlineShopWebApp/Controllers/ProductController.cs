@@ -70,5 +70,30 @@ namespace OnlineShopWebApp.Controllers
             var productsWithQuery = (products, searchQuery);
             return View(productsWithQuery);
         }
+
+        /// <summary>
+        /// Add a new review for product
+        /// </summary>
+        /// <returns>Product page view</returns>        
+        public async Task<IActionResult> AddReview(AddReviewViewModel newReview)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_AddReviewForm", newReview);
+            }
+
+            var isSuccess = await _reviewService.AddReviewAsync(newReview);
+
+            if (!isSuccess)
+            {
+                ModelState.AddModelError(string.Empty, "Произошла ошибка при отправке отзыва. Попробуйте позднее.");
+                return PartialView("_AddReviewForm", newReview);
+            }
+
+            var redirectUrl = Url.Action(nameof(Index), new { id = newReview.ProductId });
+
+            return Json(new { redirectUrl });
+        }
+
     }
 }

@@ -134,18 +134,63 @@
 
     <div class="row">
         <div class="col">
-            <h2>Отзывы</h2>
+            <h2>Отзывы (@reviews.Count)</h2>
             <hr class="border-brown" />
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="d-flex">
+                    <div class="col me-3">
+                        <button type="button" class="btn btn-main w-100" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+                            Оставить отзыв
+                        </button>
+                    </div>                    
+                </div>
+                <hr class="border-brown" />
+            }
 
             @foreach (var review in reviews)
             {
                 <div class="col">
-                    <p>Отзыв пользователя @review.UserId от @review.CreationDate</p>
-                    <p>Оценка: @review.Grade из 5</p>
-                    <p>@review.Text</p>
+                    <p class="review-title fw-bold mb-1">Пользователь: <span class="fs-6 fw-medium">@review.UserId</span></p>
+                    <p class="fs-6 fw-medium text-third mb-1">@review.CreationDate.ToString("d")</p>
+
+                    <div class="mb-3">
+                        @await Html.PartialAsync("_GenerateRatingBar", review.Grade)
+                    </div>                    
+
+                    <p class="review-title fw-bold mb-2">Отзыв</p>
+                    <p class="fs-5">@review.Text</p>
                 </div>
+                <hr class="border-brown" />
             }
         </div>
     </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="modal fade" id="addReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addReviewModalLabel">Ваш отзыв о товаре: <br/> @product.Name</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+
+                    <div class="modal-body" id="addReviewFormWrapper">
+                        @await Html.PartialAsync("_AddReviewForm", new AddReviewViewModel() {ProductId = product.Id})
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-main w-100" type="submit" form="addReviewForm">
+                            Отправить отзыв
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
 
 </section>

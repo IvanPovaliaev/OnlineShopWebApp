@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineShop.Application.Models;
-using OnlineShop.Application.Models.Abstractions;
 using OnlineShop.Application.Models.Admin;
 using OnlineShop.Application.Models.DTO;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Application.Interfaces
 {
-	public interface IAccountsService
+    public interface IAccountsService
 	{
 		/// <summary>
 		/// Get all users from repository

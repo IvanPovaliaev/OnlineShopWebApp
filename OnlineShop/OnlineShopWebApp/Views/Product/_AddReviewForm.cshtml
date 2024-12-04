@@ -1,0 +1,36 @@
+﻿@model AddReviewViewModel
+
+@{
+    var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<form method="post" id="addReviewForm" asp-area="" asp-controller="Product" asp-action="AddReview">
+    <div class="mb">
+        <input type="hidden" asp-for="ProductId" value="@Model?.ProductId" />
+        <input type="hidden" asp-for="UserId" value="@userId" />
+
+        <div class="mb-3">
+            <label asp-for="Grade" class="form-label">Ваш оценка:</label>
+
+            <select id="grade-select" class="form-select rating" asp-for="Grade">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <span asp-validation-for="Grade" class="validation-error-message"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Text" class="form-label">Ваш отзыв:</label>
+            <textarea class="form-control"
+                      asp-for="Text" rows="5"></textarea>
+            <span asp-validation-for="Text" class="validation-error-message"></span>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="validation-error-message"></div>
+    </div>    
+</form>
+

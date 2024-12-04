@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
-using OnlineShop.Application.Models.Abstractions;
 using OnlineShop.Application.Models.Admin;
 using OnlineShop.Application.Models.DTO;
 using OnlineShop.Domain;
@@ -18,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Application.Services
 {
-	public class AccountsService : IAccountsService
+    public class AccountsService : IAccountsService
 	{
 		private readonly IMapper _mapper;
 		private readonly IRolesService _rolesService;

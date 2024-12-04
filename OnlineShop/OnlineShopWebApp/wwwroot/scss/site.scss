@@ -203,6 +203,14 @@ footer {
     color: $main-color;
 }
 
+.text-second {
+    color: $second-color;
+}
+
+.text-third {
+    color: $third-color;
+}
+
 .text-inactive {
     color: $inactive-color;
 }
@@ -550,6 +558,28 @@ footer {
     width: 4rem;
 }
 
-.form-control{
+.form-control {
     border-radius: 0.125rem;
+}
+
+.review-title {
+    font-size: 1.125rem;
+}
+
+.br-theme-css-stars {
+    .br-widget {
+        a {
+            &:after {
+                color: $inactive-color;
+            }
+
+            &.br-active:after {
+                color: $main-color;
+            }
+
+            &.br-selected:after {
+                color: $main-color;
+            }
+        }
+    }
 }

@@ -1,6 +1,4 @@
-﻿using OnlineShop.Application.Models.Abstractions;
-
-namespace OnlineShop.Application.Models
+﻿namespace OnlineShop.Application.Models
 {
     public class UserRegisterViewModel : RegisterViewModel
     {
