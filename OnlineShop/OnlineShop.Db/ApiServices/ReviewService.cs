@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using OnlineShop.Application.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -12,11 +14,15 @@ namespace OnlineShop.Infrastructure.ApiServices
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<ReviewService> _logger;
+        private readonly IAccountsService _accountsService;
+        private readonly IProductsService _productService;
 
-        public ReviewService(IHttpClientFactory httpClientFactory, ILogger<ReviewService> logger)
+        public ReviewService(IHttpClientFactory httpClientFactory, ILogger<ReviewService> logger, IAccountsService accountsService, IProductsService productsService)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _accountsService = accountsService;
+            _productService = productsService;
         }
 
         public async Task<List<ReviewDTO>> GetReviewsByProductIdAsync(Guid productId)
@@ -67,6 +73,24 @@ namespace OnlineShop.Infrastructure.ApiServices
                 _logger.LogError($"Error occurred while adding review: {ex.Message}");
                 return false;
             }
+        }
+
+        public async Task<bool> IsNewValidAsync(ModelStateDictionary modelState, AddReviewViewModel newReview)
+        {
+            var isUserExist = await _accountsService.IsUserExistAsync(newReview.UserId);
+            if (isUserExist)
+            {
+                modelState.AddModelError(string.Empty, $"Пользователь с id {newReview.UserId} не найден");
+            }
+
+            var product = await _productService.GetAsync(newReview.ProductId);
+
+            if (product is null)
+            {
+                modelState.AddModelError(string.Empty, $"Продукт с id {newReview.ProductId} не найден");
+            }
+
+            return modelState.IsValid;
         }
     }
 }

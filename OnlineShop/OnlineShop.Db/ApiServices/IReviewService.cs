@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,5 +10,6 @@ namespace OnlineShop.Infrastructure.ApiServices
         Task<List<ReviewDTO>> GetReviewsByProductIdAsync(Guid productId);
 
         Task<bool> AddReviewAsync(AddReviewViewModel review);
+        Task<bool> IsNewValidAsync(ModelStateDictionary modelState, AddReviewViewModel newReview);
     }
 }

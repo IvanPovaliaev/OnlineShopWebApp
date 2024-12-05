@@ -13,8 +13,8 @@ namespace OnlineShop.Infrastructure.ApiServices
 
         public string? Text { get; init; }
 
-        [Required(ErrorMessage = "Не указан Grade")]
-        [Range(0, 5, ErrorMessage = "Цена должна быть от {1} до {2} руб.")]
+        [Required(ErrorMessage = "Не указана оценка")]
+        [Range(0, 5, ErrorMessage = "Оценка должна быть от {1} до {2} руб.")]
         public int Grade { get; init; }
     }
 }

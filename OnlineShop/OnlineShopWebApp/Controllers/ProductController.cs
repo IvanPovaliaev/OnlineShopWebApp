@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Infrastructure.ApiServices;
@@ -75,9 +76,11 @@ namespace OnlineShopWebApp.Controllers
         /// Add a new review for product
         /// </summary>
         /// <returns>Product page view</returns>        
+        [Authorize]
         public async Task<IActionResult> AddReview(AddReviewViewModel newReview)
         {
-            if (!ModelState.IsValid)
+            var isReviewValid = await _reviewService.IsNewValidAsync(ModelState, newReview);
+            if (!isReviewValid)
             {
                 return PartialView("_AddReviewForm", newReview);
             }
