@@ -1,0 +1,293 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OnlineShop.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="T:OnlineShop.WebAPI.Areas.Admin.Controllers.OrderController">
+            <summary>
+            Controller for managing orders in the admin area.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.OrderController.GetAll">
+            <summary>
+            Get all orders
+            </summary>
+            <returns>Collection of ordersViewModel</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.OrderController.UpdateStatus(System.Guid,OnlineShop.Application.Models.OrderStatusViewModel)">
+            <summary>
+            Update target order status if possible
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="id">Order id (guid)</param>
+            <param name="status">New order status</param>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Areas.Admin.Controllers.ProductController">
+            <summary>
+            Controller for managing products in the admin area.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.ProductController.Delete(System.Guid)">
+            <summary>
+            Delete product by Id
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="id">Target productId</param>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Areas.Admin.Controllers.RoleController">
+            <summary>
+            Controller for managing roles in the admin area.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.RoleController.GetAll">
+            <summary>
+            Get all roles
+            </summary>
+            <returns>Collections if rolesViewModels</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.RoleController.Add(OnlineShop.Application.Models.Admin.AddRoleViewModel)">
+            <summary>
+            Add new role
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="role">Target role</param>  
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.RoleController.Delete(System.String)">
+            <summary>
+            Delete role by name
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="name">Target role name</param>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Areas.Admin.Controllers.UserController">
+            <summary>
+            Controller for managing users in the admin area.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.UserController.GetAll">
+            <summary>
+            Get all users
+            </summary>
+            <returns>collection of all users</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.UserController.GetById(System.String)">
+            <summary>
+            Get user model
+            </summary>
+            <returns>Target user view model</returns>
+            <param name="id">Target user Id</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.UserController.Add(OnlineShop.Application.Models.Admin.AdminRegisterViewModel)">
+            <summary>
+            Add a new user
+            </summary>
+            <returns>Operation StatusCode</returns> 
+            <param name="register">Target register user model</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.UserController.ChangePassword(OnlineShop.Application.Models.Admin.ChangePasswordViewModel)">
+            <summary>
+            Change password for user
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="changePassword">Target changePassword model</param>  
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.UserController.Update(OnlineShop.Application.Models.Admin.AdminEditUserViewModel)">
+            <summary>
+            Update target user
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="editUser">Target EditUser model</param>  
+        </member>
+        <member name="M:OnlineShop.WebAPI.Areas.Admin.Controllers.UserController.Delete(System.String)">
+            <summary>
+            Delete user by Id
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="id">Target user Id</param>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Controllers.AccountController">
+            <summary>
+            Controller for users accounts.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.AccountController.Login(OnlineShop.Application.Models.DTO.LoginDTO)">
+            <summary>
+            Login as user
+            </summary>
+            <returns>Authentication token</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.AccountController.Register(OnlineShop.Application.Models.Abstractions.RegisterViewModel)">
+            <summary>
+            Register a new user
+            </summary>
+            <returns>Authentication token</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.AccountController.GetInfo">
+            <summary>
+            Get current user model
+            </summary>
+            <returns>Operation StatusCode</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.AccountController.Orders">
+            <summary>
+            Get all orders related to current user
+            </summary>
+            <returns>Collection of user orders</returns>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Controllers.CartController">
+            <summary>
+            Controller for managing users carts.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.CartController.Get">
+            <summary>
+            Get current cart for related user
+            </summary>
+            <returns>NoContent if cart not exist; otherwise return cart view model</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.CartController.Add(System.Guid)">
+            <summary>
+            Add product to users cart
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="productId">Product id (guid)</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.CartController.Increase(System.Guid)">
+            <summary>
+            Increase quantity of target position
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="positionId">Position ID (GUID)</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.CartController.Decrease(System.Guid)">
+            <summary>
+            Decrease quantity of target position
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="positionId">Position ID (GUID)</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.CartController.Delete">
+            <summary>
+            Delete users cart
+            </summary>
+            <returns>Operation StatusCode</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.CartController.DeletePosition(System.Guid)">
+            <summary>
+            Delete target position by Id
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="id">Position ID (GUID)</param>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Controllers.ComparisonController">
+            <summary>
+            Controller for managing comparisons.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ComparisonController.GetAll">
+            <summary>
+            Get all comparisons
+            </summary>
+            <returns>ILookup comparison grouped by product categories</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ComparisonController.Add(System.Guid)">
+            <summary>
+            Add product to users comparisons
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="productId">Product id (GUID)</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ComparisonController.Delete(System.Guid)">
+            <summary>
+            Delete ComparisonProducts from users comparisons by Id.
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="id">ComparisonProduct id (GUID)</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ComparisonController.DeleteAll">
+            <summary>
+            Delete all ComparisonProducts from users comparisons
+            </summary>
+            <returns>Operation StatusCode</returns>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Controllers.FavoriteController">
+            <summary>
+            Controller for managing favorites.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.FavoriteController.GetAll">
+            <summary>
+            Get all favorites
+            </summary>
+            <returns>Favorites collection</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.FavoriteController.Add(System.Guid)">
+            <summary>
+            Add product to users favorites
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="productId">Product id (GUID)</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.FavoriteController.Delete(System.Guid)">
+            <summary>
+            Delete product from users favorites
+            </summary>
+            <returns>Operation StatusCode</returns>
+            <param name="id">FavoriteProduct Id (GUID)</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.FavoriteController.DeleteAll">
+            <summary>
+            Delete all FavoriteProducts by userId
+            </summary>
+            <return>Operation StatusCode</return>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Controllers.OrderController">
+            <summary>
+            Controller for managing orders.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.OrderController.Create(OnlineShop.Application.Models.UserDeliveryInfoViewModel)">
+            <summary>
+            Create user order
+            </summary>
+            <returns>Operation StatusCode</returns>
+        </member>
+        <member name="T:OnlineShop.WebAPI.Controllers.ProductController">
+            <summary>
+            Controller for managing products.
+            </summary>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ProductController.Get(System.Guid)">
+            <summary>
+            Get product by id
+            </summary>
+            <returns>ProductViewModel</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ProductController.Get(OnlineShop.Application.Models.ProductCategoriesViewModel)">
+            <summary>
+            Get all products of the target category.
+            </summary>
+            <returns>Collection of ProductViewModels of target category</returns>
+            <param name="category">Product category</param>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ProductController.GetAll">
+            <summary>
+            Get all products
+            </summary>
+            <returns>Collection of ProductViewModels</returns>
+        </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ProductController.GetFromSearchQuery(System.String)">
+            <summary>
+            Get all products that match the search query
+            </summary>
+            <returns>Collection of all products that match the search query</returns> 
+        </member>
+        <member name="M:OnlineShop.WebAPI.Helpers.ModelStateExtensions.GetErrors(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+            <summary>
+            Get collection of all error from current ModelStateDictionary
+            </summary>
+            <returns>Collection of error messages</returns>
+        </member>
+    </members>
+</doc>

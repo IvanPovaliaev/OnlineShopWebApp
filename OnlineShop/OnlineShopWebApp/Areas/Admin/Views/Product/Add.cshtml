@@ -18,13 +18,13 @@
                     asp-area="Admin" asp-controller="Product" asp-action="Add"
                     enctype="multipart/form-data">
 
-                    @await Html.PartialAsync("_UploadImagesCarousel", Model?.Images)
+                    @await Html.PartialAsync("_UploadImagesCarousel")
 
                     <div class="row mb-3">
                         <div class="col-12">
                             <label asp-for="UploadedImages" class="form-label">Загрузить изображения</label>
                             <input asp-for="UploadedImages"
-                                   type="file" class="form-control border-main" multiple />
+                                   type="file" class="form-control border-main" accept="image/*" multiple />
                         </div>
                     </div>
 

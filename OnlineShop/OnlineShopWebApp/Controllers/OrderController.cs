@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
@@ -7,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
-        private string _userId;
+        private readonly string _userId;
         private readonly ICartsService _cartsService;
         private readonly IOrdersService _ordersService;
 
@@ -17,7 +19,7 @@ namespace OnlineShopWebApp.Controllers
         {
             _cartsService = cartsService;
             _ordersService = ordersService;
-            _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            _userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
         }
 
         /// <summary>

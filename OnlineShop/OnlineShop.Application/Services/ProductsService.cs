@@ -2,7 +2,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Helpers.Specifications;
 using OnlineShop.Application.Interfaces;
@@ -18,182 +17,145 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Application.Services
 {
-    public class ProductsService : IProductsService
-    {
-        private readonly IProductsRepository _productsRepository;
-        private readonly IExcelService _excelService;
-        private readonly IEnumerable<IProductSpecificationsRules> _specificationsRules;
-        private readonly IMapper _mapper;
-        private readonly ImagesProvider _imageProvider;
-        private readonly string _productsImagesStoragePath;
-        private readonly IRedisCacheService _redisHashService;
-        private readonly string _redisProductsHashKey;
+	public class ProductsService : IProductsService
+	{
+		private readonly IProductsRepository _productsRepository;
+		private readonly IExcelService _excelService;
+		private readonly IEnumerable<IProductSpecificationsRules> _specificationsRules;
+		private readonly IMapper _mapper;
+		private readonly ImagesProvider _imageProvider;
+		private readonly string _productsImagesStoragePath;
 
-        public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider, IRedisCacheService redisCacheService)
-        {
-            _productsRepository = productsRepository;
-            _mapper = mapper;
-            _excelService = excelService;
-            _specificationsRules = specificationsRules;
+		public ProductsService(IProductsRepository productsRepository, IMapper mapper, IExcelService excelService, IEnumerable<IProductSpecificationsRules> specificationsRules, IConfiguration configuration, ImagesProvider imagesProvider)
+		{
+			_productsRepository = productsRepository;
+			_mapper = mapper;
+			_excelService = excelService;
+			_specificationsRules = specificationsRules;
 
-            _productsImagesStoragePath = configuration["ImagesStorage:Products"]!;
-            _imageProvider = imagesProvider;
+			_productsImagesStoragePath = configuration["ImagesStorage:Products"]!;
+			_imageProvider = imagesProvider;
+		}
 
-            _redisProductsHashKey = configuration["Redis:TableKeys:Products"]!;
-            _redisHashService = redisCacheService;
-        }
+		public async Task<List<ProductViewModel>> GetAllAsync()
+		{
+			var products = await _productsRepository.GetAllAsync();
 
-        public async Task<List<ProductViewModel>> GetAllAsync()
-        {
-            var cachedProducts = await _redisHashService.GetAllValuesAsync(_redisProductsHashKey);
+			return products.Select(_mapper.Map<ProductViewModel>)
+											.ToList();
+		}
 
-            if (cachedProducts is not null && cachedProducts.Count != 0)
-            {
-                return cachedProducts!.Select(JsonConvert.DeserializeObject<ProductViewModel>)
-                                                   .ToList()!;
-            }
+		public async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
+		{
+			var specification = new ProductByCategorySpecification((ProductCategories)category);
 
-            var products = await _productsRepository.GetAllAsync();
-            var productViewModels = products.Select(_mapper.Map<ProductViewModel>)
-                                            .ToList();
+			var products = await _productsRepository.GetAllAsync(specification);
+			return products.Select(_mapper.Map<ProductViewModel>)
+						   .ToList();
+		}
 
-            var productsDictionary = productViewModels.ToDictionary(x => x.Id.ToString(), JsonConvert.SerializeObject);
-            await _redisHashService.SetHashFieldsAsync(_redisProductsHashKey, productsDictionary);
+		public async Task<List<ProductViewModel>> GetAllFromSearchAsync(string searchQuery)
+		{
+			if (string.IsNullOrEmpty(searchQuery))
+			{
+				return [];
+			}
 
+			var searchSpecification = new ProductsBySearchSpecification(searchQuery);
 
-            return productViewModels!;
-        }
+			var products = await _productsRepository.GetAllAsync(searchSpecification);
 
-        public async Task<List<ProductViewModel>> GetAllAsync(ProductCategoriesViewModel category)
-        {
-            var specification = new ProductByCategorySpecification((ProductCategories)category);
+			return products.Select(_mapper.Map<ProductViewModel>)
+						   .ToList();
+		}
 
-            var products = await _productsRepository.GetAllAsync(specification);
-            return products.Select(_mapper.Map<ProductViewModel>)
-                           .ToList();
-        }
+		public async Task<Product> GetAsync(Guid id) => await _productsRepository.GetAsync(id);
 
-        public async Task<List<ProductViewModel>> GetAllFromSearchAsync(string searchQuery)
-        {
-            if (string.IsNullOrEmpty(searchQuery))
-            {
-                return [];
-            }
+		public async Task<ProductViewModel> GetViewModelAsync(Guid id)
+		{
+			var productDb = await GetAsync(id);
+			return _mapper.Map<ProductViewModel>(productDb);
+		}
 
-            var searchSpecification = new ProductsBySearchSpecification(searchQuery);
+		public async Task<EditProductViewModel> GetEditProductAsync(Guid id)
+		{
+			var productDb = await GetAsync(id);
+			return _mapper.Map<EditProductViewModel>(productDb);
+		}
 
-            var products = await _productsRepository.GetAllAsync(searchSpecification);
+		public async Task AddAsync(AddProductViewModel product)
+		{
+			var productDb = _mapper.Map<Product>(product);
+			var images = await SaveImagesAsync(productDb.Id, product.UploadedImages!);
+			productDb.Images = images;
 
-            return products.Select(_mapper.Map<ProductViewModel>)
-                           .ToList();
-        }
+			await _productsRepository.AddAsync(productDb);
+		}
 
-        public async Task<Product> GetAsync(Guid id) => await _productsRepository.GetAsync(id);
+		public async Task UpdateAsync(EditProductViewModel product)
+		{
+			var productDb = _mapper.Map<Product>(product);
+			var images = await SaveImagesAsync(productDb.Id, product.UploadedImages!);
 
-        public async Task<ProductViewModel> GetViewModelAsync(Guid id)
-        {
-            var cachedProduct = await _redisHashService.TryGetHashFieldAsync(_redisProductsHashKey, id.ToString());
+			if (images.Count != 0)
+			{
+				productDb.Images = images;
+			}
 
-            if (!string.IsNullOrEmpty(cachedProduct))
-            {
-                return JsonConvert.DeserializeObject<ProductViewModel>(cachedProduct)!;
-            }
+			await _productsRepository.UpdateAsync(productDb);
+		}
 
-            var productDb = await GetAsync(id);
-            return _mapper.Map<ProductViewModel>(productDb);
-        }
+		public async Task<bool> DeleteAsync(Guid id)
+		{
+			return await _productsRepository.DeleteAsync(id);
+		}
 
-        public async Task<EditProductViewModel> GetEditProductAsync(Guid id)
-        {
-            var productDb = await GetAsync(id);
-            return _mapper.Map<EditProductViewModel>(productDb);
-        }
+		public async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)
+		{
+			var repositoryProduct = await GetViewModelAsync(product.Id);
 
-        public async Task AddAsync(AddProductViewModel product)
-        {
-            var productDb = _mapper.Map<Product>(product);
-            var images = await SaveImagesAsync(productDb.Id, product.UploadedImages!);
-            productDb.Images = images;
+			if (repositoryProduct.Category != product.Category)
+			{
+				modelState.AddModelError(string.Empty, "Изменена категория продукта.");
+			}
 
-            await _productsRepository.AddAsync(productDb);
-            await CacheProduct(productDb.Id);
-        }
+			return modelState.IsValid;
+		}
 
-        public async Task UpdateAsync(EditProductViewModel product)
-        {
-            var productDb = _mapper.Map<Product>(product);
-            var images = await SaveImagesAsync(productDb.Id, product.UploadedImages!);
-            productDb.Images = images;
+		public IProductSpecificationsRules GetSpecificationsRules(ProductCategoriesViewModel category)
+		{
+			var categoryDb = (ProductCategories)category;
+			return _specificationsRules.FirstOrDefault(s => s.Category == categoryDb)!;
+		}
 
-            await _productsRepository.UpdateAsync(productDb);
+		public async Task<MemoryStream> ExportAllToExcelAsync()
+		{
+			var products = await GetAllAsync();
+			return _excelService.ExportProducts(products);
+		}
 
-            await CacheProduct(productDb.Id);
-        }
+		/// <summary>
+		/// Save images to local storage and return List of related ProductImage
+		/// </summary>
+		/// <param name="productId">Related product Id</param>
+		/// <param name="uploadedImages">Target collection of images</param>
+		private async Task<List<ProductImage>> SaveImagesAsync(Guid productId, ICollection<IFormFile> uploadedImages)
+		{
+			var imagesUrls = await _imageProvider.SaveAllAsync(uploadedImages, _productsImagesStoragePath);
 
-        public async Task DeleteAsync(Guid id)
-        {
-            await _productsRepository.DeleteAsync(id);
+			var images = new List<ProductImage>(imagesUrls.Count);
 
-            await _redisHashService.RemoveHashFieldAsync(_redisProductsHashKey, id.ToString());
-        }
+			foreach (var imageUrl in imagesUrls)
+			{
+				var image = new ProductImage()
+				{
+					Url = imageUrl,
+					ProductId = productId
+				};
+				images.Add(image);
+			}
 
-        public async Task<bool> IsUpdateValidAsync(ModelStateDictionary modelState, EditProductViewModel product)
-        {
-            var repositoryProduct = await GetViewModelAsync(product.Id);
-
-            if (repositoryProduct.Category != product.Category)
-            {
-                modelState.AddModelError(string.Empty, "Изменена категория продукта.");
-            }
-
-            return modelState.IsValid;
-        }
-
-        public IProductSpecificationsRules GetSpecificationsRules(ProductCategoriesViewModel category)
-        {
-            var categoryDb = (ProductCategories)category;
-            return _specificationsRules.FirstOrDefault(s => s.Category == categoryDb)!;
-        }
-
-        public async Task<MemoryStream> ExportAllToExcelAsync()
-        {
-            var products = await GetAllAsync();
-            return _excelService.ExportProducts(products);
-        }
-
-        /// <summary>
-        /// Save images to local storage and return List of related ProductImage
-        /// </summary>
-        /// <param name="productId">Related product Id</param>
-        /// <param name="uploadedImages">Target collection of images</param>
-        private async Task<List<ProductImage>> SaveImagesAsync(Guid productId, ICollection<IFormFile> uploadedImages)
-        {
-            var imagesUrls = await _imageProvider.SaveAllAsync(uploadedImages, _productsImagesStoragePath);
-
-            var images = new List<ProductImage>(imagesUrls.Count);
-
-            foreach (var imageUrl in imagesUrls)
-            {
-                var image = new ProductImage()
-                {
-                    Url = imageUrl,
-                    ProductId = productId
-                };
-                images.Add(image);
-            }
-
-            return images;
-        }
-
-        /// <summary>
-        /// Caches target product
-        /// </summary>
-        /// <param name="id">Target product id</param>
-        private async Task CacheProduct(Guid id)
-        {
-            var product = await _productsRepository.GetAsync(id);
-            var productVMJson = JsonConvert.SerializeObject(_mapper.Map<ProductViewModel>(product));
-            await _redisHashService.SetHashFieldAsync(_redisProductsHashKey, product.Id.ToString(), productVMJson);
-        }
-    }
+			return images;
+		}
+	}
 }
