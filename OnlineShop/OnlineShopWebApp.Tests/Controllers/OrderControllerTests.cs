@@ -9,6 +9,7 @@ using OnlineShop.Application.Models;
 using OnlineShop.Domain.Models;
 using OnlineShopWebApp.Controllers;
 using OnlineShopWebApp.Tests.Helpers;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -77,14 +78,14 @@ namespace OnlineShopWebApp.Tests.Controllers
                               .Returns(true);
 
             _ordersServiceMock.Setup(s => s.CreateAsync(_userId!, deliveryInfo, _fakeCart.Positions))
-                              .Returns(Task.CompletedTask);
+                              .ReturnsAsync(It.IsAny<Guid?>);
 
             var fakeOrder = new OrderViewModel();
             _ordersServiceMock.Setup(s => s.GetLastAsync(_userId!))
                               .ReturnsAsync(fakeOrder);
 
             _cartsServiceMock.Setup(s => s.DeleteAsync(_userId!))
-                             .Returns(Task.CompletedTask);
+                             .ReturnsAsync(true);
 
             // Act
             var result = await _controller.Create(deliveryInfo);

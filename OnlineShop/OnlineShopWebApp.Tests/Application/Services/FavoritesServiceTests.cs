@@ -77,25 +77,29 @@ namespace OnlineShopWebApp.Tests.Application.Services
         }
 
         [Fact]
-        public async Task CreateAsync_WhenProductIsNotInFavorites_AddProductToFavorites()
+        public async Task CreateAsync_WhenProductIsNotInFavorites_ReturnsCreatedFavoriteId()
         {
             // Arrange
             var fakeProduct = _productFaker.Generate();
+            var expectedId = Guid.NewGuid();
 
             _productsServiceMock.Setup(service => service.GetAsync(fakeProduct.Id))
                                 .ReturnsAsync(fakeProduct);
             _favoritesRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<FavoriteProduct>>()))
                                     .ReturnsAsync(_fakeFavoriteProducts);
+            _favoritesRepositoryMock.Setup(repo => repo.CreateAsync(It.Is<FavoriteProduct>(fp => fp.Product.Id == fakeProduct.Id && fp.UserId == _userId)))
+                                    .ReturnsAsync(expectedId);
 
             // Act
-            await _favoritesService.CreateAsync(fakeProduct.Id, _userId);
+            var result = await _favoritesService.CreateAsync(fakeProduct.Id, _userId);
 
             // Assert
+            Assert.Equal(expectedId, result);
             _favoritesRepositoryMock.Verify(repo => repo.CreateAsync(It.Is<FavoriteProduct>(fp => fp.Product.Id == fakeProduct.Id && fp.UserId == _userId)), Times.Once);
         }
 
         [Fact]
-        public async Task CreateAsync_WhenProductInFavorites_NotAddProductToFavorites()
+        public async Task CreateAsync_WhenProductInFavorites_ReturnsNull()
         {
             // Arrange
             var fakeProduct = _fakeFavoriteProducts.First().Product;
@@ -106,9 +110,10 @@ namespace OnlineShopWebApp.Tests.Application.Services
                                     .ReturnsAsync(_fakeFavoriteProducts);
 
             // Act
-            await _favoritesService.CreateAsync(fakeProduct.Id, _userId);
+            var result = await _favoritesService.CreateAsync(fakeProduct.Id, _userId);
 
             // Assert
+            Assert.Null(result);
             _favoritesRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<FavoriteProduct>()), Times.Never);
         }
 
@@ -118,7 +123,7 @@ namespace OnlineShopWebApp.Tests.Application.Services
             // Arrange
             var favoriteId = _fakeFavoriteProducts.First().Id;
             _favoritesRepositoryMock.Setup(repo => repo.DeleteAsync(favoriteId))
-                                    .Returns(Task.CompletedTask);
+                                    .ReturnsAsync(true);
 
             // Act
             await _favoritesService.DeleteAsync(favoriteId);
@@ -132,12 +137,13 @@ namespace OnlineShopWebApp.Tests.Application.Services
         {
             // Arrange
             _favoritesRepositoryMock.Setup(repo => repo.DeleteAllAsync(_userId))
-                                    .Returns(Task.CompletedTask);
+                                    .ReturnsAsync(true);
 
             // Act
-            await _favoritesService.DeleteAllAsync(_userId);
+            var result = await _favoritesService.DeleteAllAsync(_userId);
 
             // Assert
+            Assert.True(result);
             _favoritesRepositoryMock.Verify(repo => repo.DeleteAllAsync(_userId), Times.Once);
         }
     }

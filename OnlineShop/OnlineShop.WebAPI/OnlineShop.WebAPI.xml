@@ -264,6 +264,12 @@
             </summary>
             <returns>ProductViewModel</returns>
         </member>
+        <member name="M:OnlineShop.WebAPI.Controllers.ProductController.GetProductWithReviews(System.Guid)">
+            <summary>
+            Get product by id with all reviews
+            </summary>
+            <returns>Model that contains product and its reviews</returns>
+        </member>
         <member name="M:OnlineShop.WebAPI.Controllers.ProductController.Get(OnlineShop.Application.Models.ProductCategoriesViewModel)">
             <summary>
             Get all products of the target category.
