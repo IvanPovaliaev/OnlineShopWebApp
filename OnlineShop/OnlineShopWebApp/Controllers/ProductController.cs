@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
-using OnlineShop.Infrastructure.ApiServices;
+using OnlineShop.Infrastructure.ReviewApiService;
+using OnlineShop.Infrastructure.ReviewApiService.Models;
 using System;
 using System.Threading.Tasks;
 

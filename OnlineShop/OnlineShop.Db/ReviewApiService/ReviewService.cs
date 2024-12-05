@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OnlineShop.Application.Interfaces;
+using OnlineShop.Infrastructure.ReviewApiService.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineShop.Infrastructure.ApiServices
+namespace OnlineShop.Infrastructure.ReviewApiService
 {
     public class ReviewService : IReviewService
     {

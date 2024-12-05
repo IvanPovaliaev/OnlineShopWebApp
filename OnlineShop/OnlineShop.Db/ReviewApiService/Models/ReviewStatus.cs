@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.Infrastructure.ApiServices
+﻿namespace OnlineShop.Infrastructure.ReviewApiService.Models
 {
     public enum ReviewStatus
     {

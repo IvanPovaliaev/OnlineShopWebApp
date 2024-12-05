@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Infrastructure.ApiServices
+namespace OnlineShop.Infrastructure.ReviewApiService.Models
 {
     public class AddReviewViewModel
     {

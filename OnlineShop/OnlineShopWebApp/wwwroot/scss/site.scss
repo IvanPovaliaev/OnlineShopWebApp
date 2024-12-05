@@ -213,10 +213,10 @@ footer {
 
 .text-inactive {
     color: $inactive-color;
-}
 
-.text-inactive:hover {
-    color: $main-color;
+    &:hover {
+        color: $main-color;
+    }
 }
 
 .text-whitespace {

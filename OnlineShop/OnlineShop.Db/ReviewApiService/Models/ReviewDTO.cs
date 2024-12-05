@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OnlineShop.Infrastructure.ApiServices
+namespace OnlineShop.Infrastructure.ReviewApiService.Models
 {
     public class ReviewDTO
     {
