@@ -79,7 +79,7 @@ namespace OnlineShop.Infrastructure.ReviewApiService
         public async Task<bool> IsNewValidAsync(ModelStateDictionary modelState, AddReviewViewModel newReview)
         {
             var isUserExist = await _accountsService.IsUserExistAsync(newReview.UserId);
-            if (isUserExist)
+            if (!isUserExist)
             {
                 modelState.AddModelError(string.Empty, $"Пользователь с id {newReview.UserId} не найден");
             }
