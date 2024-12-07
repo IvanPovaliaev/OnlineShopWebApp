@@ -5,7 +5,10 @@ using OnlineShop.Application.Interfaces;
 using OnlineShop.Infrastructure.ReviewApiService.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,13 +20,15 @@ namespace OnlineShop.Infrastructure.ReviewApiService
         private readonly ILogger<ReviewService> _logger;
         private readonly IAccountsService _accountsService;
         private readonly IProductsService _productService;
+        private readonly ReviewTokenStorage _tokenStorage;
 
-        public ReviewService(IHttpClientFactory httpClientFactory, ILogger<ReviewService> logger, IAccountsService accountsService, IProductsService productsService)
+        public ReviewService(IHttpClientFactory httpClientFactory, ILogger<ReviewService> logger, IAccountsService accountsService, IProductsService productsService, ReviewTokenStorage tokenStorage)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
             _accountsService = accountsService;
             _productService = productsService;
+            _tokenStorage = tokenStorage;
         }
 
         public async Task<List<ReviewDTO>> GetReviewsByProductIdAsync(Guid productId)
@@ -32,6 +37,9 @@ namespace OnlineShop.Infrastructure.ReviewApiService
 
             try
             {
+                var token = await GetTokenAsync();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 var response = await client.GetAsync($"api/Review/GetAllByProductId?productId={productId}");
 
                 if (response.IsSuccessStatusCode)
@@ -56,6 +64,9 @@ namespace OnlineShop.Infrastructure.ReviewApiService
 
             try
             {
+                var token = await GetTokenAsync();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 var content = new StringContent(JsonConvert.SerializeObject(review), Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync("api/Review", content);
@@ -92,6 +103,42 @@ namespace OnlineShop.Infrastructure.ReviewApiService
             }
 
             return modelState.IsValid;
+        }
+
+        private async Task<string> GetTokenAsync()
+        {
+            if (_tokenStorage.Expiration > DateTime.UtcNow)
+            {
+                return _tokenStorage.Token!;
+            }
+
+            var client = _httpClientFactory.CreateClient("ReviewsService");
+            var loginDTO = new
+            {
+                userName = "admin",
+                password = "admin"
+            };
+
+            var requestContent = new StringContent(JsonConvert.SerializeObject(loginDTO), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("api/Authentication/login", requestContent);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return string.Empty;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            var tokenResponse = JsonConvert.DeserializeObject<JWTTokenResponse>(responseContent);
+
+            var token = new JwtSecurityTokenHandler().ReadJwtToken(tokenResponse.Token);
+            var expirationClaim = token.Claims.FirstOrDefault(c => c.Type == "exp")?.Value;
+            var expirationDate = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expirationClaim!)).UtcDateTime;
+
+            _tokenStorage.Expiration = expirationDate;
+            _tokenStorage.Token = responseContent;
+
+            return _tokenStorage.Token;
         }
     }
 }

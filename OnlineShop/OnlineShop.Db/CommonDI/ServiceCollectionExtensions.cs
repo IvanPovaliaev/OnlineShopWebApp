@@ -12,8 +12,11 @@ using OnlineShop.Infrastructure.Data.Repositories;
 using OnlineShop.Infrastructure.Email;
 using OnlineShop.Infrastructure.Excel;
 using OnlineShop.Infrastructure.Redis;
+using OnlineShop.Infrastructure.ReviewApiService;
 using StackExchange.Redis;
+using System;
 using System.Globalization;
+using System.Net.Http.Headers;
 using System.Reflection;
 
 namespace OnlineShop.Infrastructure.CommonDI
@@ -82,6 +85,16 @@ namespace OnlineShop.Infrastructure.CommonDI
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
+
+            var reviewsServiceUrl = configuration["Microservices:ReviewsService"];
+            services.AddHttpClient("ReviewsService", client =>
+            {
+                client.BaseAddress = new Uri(reviewsServiceUrl);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddSingleton<ReviewTokenStorage>();
 
             return services;
         }
