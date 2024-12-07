@@ -108,6 +108,13 @@ namespace OnlineShop.Infrastructure.ReviewApiService
             return modelState.IsValid;
         }
 
+        /// <summary>
+        /// Retrieves an authentication token for accessing the Reviews API.
+        /// </summary>
+        /// <returns>
+        /// Returns a JWT token as a string to be used in API authorization headers.
+        /// If the authentication request fails, an empty string is returned.
+        /// </returns>
         private async Task<string> GetTokenAsync()
         {
             if (_tokenStorage.Expiration > DateTime.UtcNow)
