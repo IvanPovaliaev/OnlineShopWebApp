@@ -32,7 +32,7 @@ namespace OnlineShop.Infrastructure.Data.Repositories
                               .ToListAsync();
         }
 
-        public async Task<FavoriteProduct> GetAsync(Guid id)
+        public async Task<FavoriteProduct?> GetAsync(Guid id)
         {
             return await _databaseContext.FavoriteProducts.Include(f => f.Product)
                                                           .ThenInclude(p => p.Images)
