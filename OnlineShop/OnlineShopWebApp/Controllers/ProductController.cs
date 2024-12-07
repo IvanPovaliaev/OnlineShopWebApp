@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
+using OnlineShop.Infrastructure.ReviewApiService;
+using OnlineShop.Infrastructure.ReviewApiService.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -9,10 +12,12 @@ namespace OnlineShopWebApp.Controllers
     public class ProductController : Controller
     {
         private readonly IProductsService _productsService;
+        private readonly IReviewService _reviewService;
 
-        public ProductController(IProductsService productsService)
+        public ProductController(IProductsService productsService, IReviewService reviewService)
         {
             _productsService = productsService;
+            _reviewService = reviewService;
         }
 
         /// <summary>
@@ -29,7 +34,10 @@ namespace OnlineShopWebApp.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            var reviews = await _reviewService.GetReviewsByProductIdAsync(id);
+            var productWithReview = (product, reviews);
+
+            return View(productWithReview);
         }
 
         /// <summary>
@@ -64,5 +72,32 @@ namespace OnlineShopWebApp.Controllers
             var productsWithQuery = (products, searchQuery);
             return View(productsWithQuery);
         }
+
+        /// <summary>
+        /// Add a new review for product
+        /// </summary>
+        /// <returns>Product page view</returns>        
+        [Authorize]
+        public async Task<IActionResult> AddReview(AddReviewViewModel newReview)
+        {
+            var isReviewValid = await _reviewService.IsNewValidAsync(ModelState, newReview);
+            if (!isReviewValid)
+            {
+                return PartialView("_AddReviewForm", newReview);
+            }
+
+            var isSuccess = await _reviewService.AddReviewAsync(newReview);
+
+            if (!isSuccess)
+            {
+                ModelState.AddModelError(string.Empty, "Произошла ошибка при отправке отзыва. Попробуйте позднее.");
+                return PartialView("_AddReviewForm", newReview);
+            }
+
+            var redirectUrl = Url.Action(nameof(Index), new { id = newReview.ProductId });
+
+            return Json(new { redirectUrl });
+        }
+
     }
 }

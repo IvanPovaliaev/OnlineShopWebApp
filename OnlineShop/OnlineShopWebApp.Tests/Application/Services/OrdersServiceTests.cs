@@ -111,7 +111,27 @@ namespace OnlineShopWebApp.Tests.Application.Services
         }
 
         [Fact]
-        public async Task CreateAsync_WhenCalled_InvokeRepositoryCreateAsyncWithCorrectOrder()
+        public async Task CreateAsync_WhenCreationSuccess_ReturnGuid()
+        {
+            // Arrange
+            var userId = _fakeOrderViewModels.First().UserId;
+            var deliveryInfo = _fakeOrderViewModels.First().Info;
+            var positions = _fakerProvider.CartPositionFaker.Generate(2);
+            var expectedId = Guid.NewGuid();
+
+            _ordersRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<Order>()))
+                                 .ReturnsAsync(expectedId);
+
+            // Act
+            var result = await _ordersService.CreateAsync(userId, deliveryInfo, positions);
+
+            // Assert
+            Assert.Equal(expectedId, result);
+            _ordersRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Order>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task CreateAsync_WhenCreationFailed_ReturnsNull()
         {
             // Arrange
             var userId = _fakeOrderViewModels.First().UserId;
@@ -119,12 +139,13 @@ namespace OnlineShopWebApp.Tests.Application.Services
             var positions = _fakerProvider.CartPositionFaker.Generate(2);
 
             _ordersRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<Order>()))
-                                 .Returns(Task.CompletedTask);
+                                 .ReturnsAsync((Guid?)null!);
 
             // Act
-            await _ordersService.CreateAsync(userId, deliveryInfo, positions);
+            var result = await _ordersService.CreateAsync(userId, deliveryInfo, positions);
 
             // Assert
+            Assert.Null(result);
             _ordersRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Order>()), Times.Once);
         }
 
@@ -159,19 +180,38 @@ namespace OnlineShopWebApp.Tests.Application.Services
         }
 
         [Fact]
-        public async Task UpdateStatusAsync_WhenCalled_CallUpdateStatusInRepository()
+        public async Task UpdateStatusAsync_WhenUpdateSuccess_ReturnTrue()
         {
             // Arrange
             var orderId = _fakeOrders.First().Id;
             var newStatus = OrderStatusViewModel.Confirmed;
 
             _ordersRepositoryMock.Setup(repo => repo.UpdateStatusAsync(orderId, (OrderStatus)newStatus))
-                                 .Returns(Task.CompletedTask);
+                                 .ReturnsAsync(true);
 
             // Act
-            await _ordersService.UpdateStatusAsync(orderId, newStatus);
+            var result = await _ordersService.UpdateStatusAsync(orderId, newStatus);
 
             // Assert
+            Assert.True(result);
+            _ordersRepositoryMock.Verify(repo => repo.UpdateStatusAsync(orderId, (OrderStatus)newStatus), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateStatusAsync_WhenUpdateFalse_ReturnFalse()
+        {
+            // Arrange
+            var orderId = _fakeOrders.First().Id;
+            var newStatus = OrderStatusViewModel.Confirmed;
+
+            _ordersRepositoryMock.Setup(repo => repo.UpdateStatusAsync(orderId, (OrderStatus)newStatus))
+                                 .ReturnsAsync(false);
+
+            // Act
+            var result = await _ordersService.UpdateStatusAsync(orderId, newStatus);
+
+            // Assert
+            Assert.False(result);
             _ordersRepositoryMock.Verify(repo => repo.UpdateStatusAsync(orderId, (OrderStatus)newStatus), Times.Once);
         }
 

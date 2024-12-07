@@ -52,4 +52,11 @@
     <ProjectReference Include="..\OnlineShop.Domain\OnlineShop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Product\_GenerateRatingBar.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

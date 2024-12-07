@@ -4,6 +4,8 @@ using Moq;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Domain.Models;
+using OnlineShop.Infrastructure.ReviewApiService;
+using OnlineShop.Infrastructure.ReviewApiService.Models;
 using OnlineShopWebApp.Controllers;
 using OnlineShopWebApp.Tests.Helpers;
 using System;
@@ -17,15 +19,17 @@ namespace OnlineShopWebApp.Tests.Controllers
     public class ProductControllerTests
     {
         private readonly Mock<IProductsService> _productsServiceMock;
+        private readonly Mock<IReviewService> _reviewServiceMock;
         private readonly ProductController _controller;
         private readonly IMapper _mapper;
 
         private readonly List<Product> _fakeProducts;
 
-        public ProductControllerTests(IMapper mapper, Mock<IProductsService> productsServiceMock, FakerProvider fakerProvider)
+        public ProductControllerTests(IMapper mapper, Mock<IProductsService> productsServiceMock, Mock<IReviewService> reviewServiceMock, FakerProvider fakerProvider)
         {
             _productsServiceMock = productsServiceMock;
-            _controller = new ProductController(_productsServiceMock.Object);
+            _reviewServiceMock = reviewServiceMock;
+            _controller = new ProductController(_productsServiceMock.Object, _reviewServiceMock.Object);
 
             _mapper = mapper;
             _fakeProducts = fakerProvider.FakeProducts;
@@ -36,17 +40,20 @@ namespace OnlineShopWebApp.Tests.Controllers
         {
             // Arrange
             var fakeProduct = _mapper.Map<ProductViewModel>(_fakeProducts.First());
+            var expectedReviews = new List<ReviewDTO>();
 
             _productsServiceMock.Setup(s => s.GetViewModelAsync(fakeProduct.Id))
                                 .ReturnsAsync(fakeProduct);
+            _reviewServiceMock.Setup(r => r.GetReviewsByProductIdAsync(fakeProduct.Id))
+                              .ReturnsAsync(expectedReviews);
 
             // Act
             var result = await _controller.Index(fakeProduct.Id);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsType<ProductViewModel>(viewResult.Model);
-            Assert.Equal(fakeProduct, model);
+            var model = Assert.IsType<(ProductViewModel, List<ReviewDTO>)>(viewResult.Model);
+            Assert.Equal((fakeProduct, expectedReviews), model);
         }
 
         [Fact]

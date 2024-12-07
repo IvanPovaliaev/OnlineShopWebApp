@@ -182,13 +182,15 @@ namespace OnlineShopWebApp.Tests.Application.Services
                 Name = _fakeRoleViewModels.First().Name
             };
 
-            var role = _fakeRoles.First();
+            _rolesManagerMock.Setup(repo => repo.CreateAsync(It.Is<Role>(r => r.Name == fakeRole.Name)))
+                             .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            await _rolesService.AddAsync(fakeRole);
+            var result = await _rolesService.AddAsync(fakeRole);
 
             // Assert
-            _rolesManagerMock.Verify(repo => repo.CreateAsync(It.Is<Role>(r => r.Name == role.Name)), Times.Once);
+            Assert.True(result);
+            _rolesManagerMock.Verify(repo => repo.CreateAsync(It.Is<Role>(r => r.Name == fakeRole.Name)), Times.Once);
         }
 
         [Fact]

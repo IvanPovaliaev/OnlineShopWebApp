@@ -1,10 +1,12 @@
-﻿@model ProductViewModel
+﻿@model (ProductViewModel, List<ReviewDTO>)
 @{
-    ViewData["Title"] = @Model.Name;
+    var product = Model.Item1;
+    var reviews = Model.Item2;
+    ViewData["Title"] = product.Name;
     var shortSpecificationsCount = 10;
     var addSpecificationFromStart = (int count) =>
     {
-        @foreach (var specification in Model.Specifications.Take(count))
+        @foreach (var specification in product.Specifications.Take(count))
         {
             <li>
                 <span class="text-blue">@specification.Key:</span> @specification.Value
@@ -14,7 +16,7 @@
 
     var addSpecificationFromEnd = (int count) =>
     {
-        @foreach (var specification in Model.Specifications.TakeLast(count))
+        @foreach (var specification in product.Specifications.TakeLast(count))
         {
             <li>
                 <span class="text-blue">@specification.Key:</span> @specification.Value
@@ -24,19 +26,28 @@
 }
 
 <section class="container">
-    <h1>@Model.Name</h1>
+    <h1>@product.Name</h1>
     <hr class="border-brown" />
 
     <div class="row">
         <div class="col-4">
-            @await Html.PartialAsync("_ImagesCarousel", Model.Images)
+            @await Html.PartialAsync("_ImagesCarousel", product.Images)
         </div>
 
         <div class="col">
-            <div class="row">
-                <p>ID: @Model.Article</p>
+            <div class="mb-0">
+                <p>ID: @product.Article</p>
             </div>
-            <div class="row">
+
+            <div class="mb-3">
+                @{
+                    var rating = reviews.Count > 0 ? reviews.Average(r => r.Grade) : 0;
+                }
+                
+                @await Html.PartialAsync("_GenerateRatingBar", Convert.ToInt32(rating))
+            </div>
+
+            <div>
                 <h3>Коротко о товаре:</h3>
                 <ul class="list-unstyled">
                     @{
@@ -48,12 +59,12 @@
 
         <div class="col-4 d-flex flex-column">
             <div class="product-cost text-blue mb-3 d-flex flex-column">
-                @Model.Cost ₽
+                @product.Cost ₽
             </div>
 
             <div class="mb-3">
                 <a class="btn btn-main w-100 d-flex justify-content-center align-items-center addToCart"
-                   asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@Model.Id">
+                   asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">
                     <svg class="btn-cart-icon me-2">
                         <use href="/icons/CartIcon.svg#cart-icon" />
                     </svg>
@@ -65,7 +76,7 @@
             <div class="d-flex justify-content-between">
 
                 <a class="d-flex align-items-center me-2 addToComparisons"
-                    asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@Model.Id">
+                   asp-area="" asp-controller="Comparison" asp-action="Add" asp-route-productId="@product.Id">
 
                     <svg class="icon-inactive product-icon--comparison me-2">
                         <use href="/icons/ComparisonIcon.svg#comparison-icon" />
@@ -75,7 +86,7 @@
                 </a>
 
                 <a class="d-flex align-items-center me-2 addToFavorites"
-                    asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@Model.Id">
+                   asp-area="" asp-controller="Favorite" asp-action="Add" asp-route-productId="@product.Id">
 
                     <svg class="icon-inactive product-icon--favorite me-2">
                         <use href="/icons/Favorite.svg#favorite-icon" />
@@ -93,20 +104,25 @@
         </div>
     </div>
 
-    <h2>Описание</h2>
-    <hr class="border-brown" />
-
     <div class="row">
-        <p class="text-whitespace">@Model.Description</p>
+        <div class="column">
+            <h2>Описание</h2>
+            <hr class="border-brown" />
+
+            <p class="text-whitespace">@product.Description</p>
+        </div>
     </div>
 
-    <h2>Характеристики</h2>
-    <hr class="border-brown" />
     <div class="row">
         @{
-            var rigthColumnSpecificationsCount = Model.Specifications.Count / 2;
-            var leftColumnSpecificationsCount = Model.Specifications.Count - rigthColumnSpecificationsCount;
+            var rigthColumnSpecificationsCount = product.Specifications.Count / 2;
+            var leftColumnSpecificationsCount = product.Specifications.Count - rigthColumnSpecificationsCount;
         }
+        <div class="col-12">
+            <h2>Характеристики</h2>
+            <hr class="border-brown" />
+        </div>
+
         <div class="col-6">
             <ul class="list-unstyled">
                 @{
@@ -124,5 +140,66 @@
 
         </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Отзывы (@reviews.Count)</h2>
+            <hr class="border-brown" />
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="d-flex">
+                    <div class="col me-3">
+                        <button type="button" class="btn btn-main w-100" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+                            Оставить отзыв
+                        </button>
+                    </div>                    
+                </div>
+                <hr class="border-brown" />
+            }
+
+            @foreach (var review in reviews)
+            {
+                <div class="col">
+                    <p class="review-title fw-bold mb-1">Пользователь: <span class="fs-6 fw-medium">@review.UserId</span></p>
+                    <p class="fs-6 fw-medium text-third mb-1">@review.CreationDate.ToString("d")</p>
+
+                    <div class="mb-3">
+                        @await Html.PartialAsync("_GenerateRatingBar", review.Grade)
+                    </div>                    
+
+                    <p class="review-title fw-bold mb-2">Отзыв</p>
+                    <p class="fs-5">@review.Text</p>
+                </div>
+                <hr class="border-brown" />
+            }
+        </div>
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="modal fade" id="addReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addReviewModalLabel">Ваш отзыв о товаре: <br/> @product.Name</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+
+                    <div class="modal-body" id="addReviewFormWrapper">
+                        @await Html.PartialAsync("_AddReviewForm", new AddReviewViewModel() {ProductId = product.Id})
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-main w-100" type="submit" form="addReviewForm">
+                            Отправить отзыв
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
 
 </section>

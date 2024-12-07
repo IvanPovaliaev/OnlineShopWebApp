@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Interfaces;
-using OnlineShop.Application.Models.Abstractions;
+using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.DTO;
 using OnlineShop.Infrastructure.Jwt;
 using OnlineShop.WebAPI.Helpers;
@@ -9,10 +9,10 @@ using System.Security.Claims;
 
 namespace OnlineShop.WebAPI.Controllers
 {
-	/// <summary>
-	/// Controller for users accounts.
-	/// </summary>
-	[ApiController]
+    /// <summary>
+    /// Controller for users accounts.
+    /// </summary>
+    [ApiController]
 	[Route("[controller]")]
 	public class AccountController : Controller
 	{

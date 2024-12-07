@@ -185,10 +185,17 @@ footer {
   color: #729FD8;
 }
 
+.text-second {
+  color: #C9E0F2;
+}
+
+.text-third {
+  color: #8c6642;
+}
+
 .text-inactive {
   color: #D9D9D9;
 }
-
 .text-inactive:hover {
   color: #729FD8;
 }
@@ -513,4 +520,18 @@ footer {
 
 .form-control {
   border-radius: 0.125rem;
+}
+
+.review-title {
+  font-size: 1.125rem;
+}
+
+.br-theme-css-stars .br-widget a:after {
+  color: #D9D9D9;
+}
+.br-theme-css-stars .br-widget a.br-active:after {
+  color: #729FD8;
+}
+.br-theme-css-stars .br-widget a.br-selected:after {
+  color: #729FD8;
 }

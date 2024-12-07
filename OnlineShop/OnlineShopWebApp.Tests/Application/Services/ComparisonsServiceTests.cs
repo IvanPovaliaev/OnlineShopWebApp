@@ -112,24 +112,29 @@ namespace OnlineShopWebApp.Tests.Application.Services
         }
 
         [Fact]
-        public async Task CreateAsync_WhenProductIsNotInComparisons_AddsProductToComparison()
+        public async Task CreateAsync_WhenProductIsNotInComparisons_AddsProductToComparisonAndReturnsCreatedId()
         {
             // Arrange
             var fakeProduct = _productsFaker.Generate();
+            var expectedId = Guid.NewGuid();
+
             _productsServiceMock.Setup(service => service.GetAsync(fakeProduct.Id))
                                 .ReturnsAsync(fakeProduct);
             _comparisonsRepositoryMock.Setup(repo => repo.GetAllAsync(It.IsAny<Specification<ComparisonProduct>>()))
                                 .ReturnsAsync(_fakeComparisonProducts);
+            _comparisonsRepositoryMock.Setup(repo => repo.CreateAsync(It.Is<ComparisonProduct>(c => c.Product == fakeProduct && c.UserId == _userId)))
+                                       .ReturnsAsync(expectedId);
 
             // Act
-            await _comparisonsService.CreateAsync(fakeProduct.Id, _userId);
+            var result = await _comparisonsService.CreateAsync(fakeProduct.Id, _userId);
 
             // Assert
+            Assert.Equal(expectedId, result);
             _comparisonsRepositoryMock.Verify(repo => repo.CreateAsync(It.Is<ComparisonProduct>(c => c.Product == fakeProduct && c.UserId == _userId)), Times.Once);
         }
 
         [Fact]
-        public async Task CreateAsync_WhenProductInFavorites_NotAddProductToComparisons()
+        public async Task CreateAsync_WhenProductInComparisons_NotAddProductToComparisonsAndReturnNull()
         {
             // Arrange
             var fakeProduct = _fakeComparisonProducts.First().Product;
@@ -139,9 +144,10 @@ namespace OnlineShopWebApp.Tests.Application.Services
                                 .ReturnsAsync(_fakeComparisonProducts);
 
             // Act
-            await _comparisonsService.CreateAsync(fakeProduct.Id, _userId);
+            var result = await _comparisonsService.CreateAsync(fakeProduct.Id, _userId);
 
             // Assert
+            Assert.Null(result);
             _comparisonsRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<ComparisonProduct>()), Times.Never);
         }
 
