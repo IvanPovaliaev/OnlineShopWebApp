@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Infrastructure.ReviewApiService.Models;
@@ -21,14 +22,16 @@ namespace OnlineShop.Infrastructure.ReviewApiService
         private readonly IAccountsService _accountsService;
         private readonly IProductsService _productService;
         private readonly ReviewTokenStorage _tokenStorage;
+        private readonly ReviewsSettings _reviewsSettings;
 
-        public ReviewService(IHttpClientFactory httpClientFactory, ILogger<ReviewService> logger, IAccountsService accountsService, IProductsService productsService, ReviewTokenStorage tokenStorage)
+        public ReviewService(IHttpClientFactory httpClientFactory, ILogger<ReviewService> logger, IAccountsService accountsService, IProductsService productsService, ReviewTokenStorage tokenStorage, IOptions<ReviewsSettings> reviewsSettings)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
             _accountsService = accountsService;
             _productService = productsService;
             _tokenStorage = tokenStorage;
+            _reviewsSettings = reviewsSettings.Value;
         }
 
         public async Task<List<ReviewDTO>> GetReviewsByProductIdAsync(Guid productId)
@@ -115,8 +118,8 @@ namespace OnlineShop.Infrastructure.ReviewApiService
             var client = _httpClientFactory.CreateClient("ReviewsService");
             var loginDTO = new
             {
-                userName = "admin",
-                password = "admin"
+                userName = _reviewsSettings.Login,
+                password = _reviewsSettings.Password
             };
 
             var requestContent = new StringContent(JsonConvert.SerializeObject(loginDTO), Encoding.UTF8, "application/json");
@@ -136,9 +139,9 @@ namespace OnlineShop.Infrastructure.ReviewApiService
             var expirationDate = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expirationClaim!)).UtcDateTime;
 
             _tokenStorage.Expiration = expirationDate;
-            _tokenStorage.Token = responseContent;
+            _tokenStorage.Token = tokenResponse.Token;
 
-            return _tokenStorage.Token;
+            return _tokenStorage.Token!;
         }
     }
 }

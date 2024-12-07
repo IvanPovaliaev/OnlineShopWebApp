@@ -86,10 +86,14 @@ namespace OnlineShop.Infrastructure.CommonDI
                 options.SupportedUICultures = supportedCultures;
             });
 
-            var reviewsServiceUrl = configuration["Microservices:ReviewsService"];
+
+            var reviewsService = configuration.GetSection("Microservices:ReviewsService");
+            services.Configure<ReviewsSettings>(reviewsService);
+
             services.AddHttpClient("ReviewsService", client =>
             {
-                client.BaseAddress = new Uri(reviewsServiceUrl);
+                var reviewSettings = reviewsService.Get<ReviewsSettings>();
+                client.BaseAddress = new Uri(reviewSettings!.Url);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 

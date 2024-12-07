@@ -107,7 +107,7 @@ using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
-    var roleManager = services.GetRequiredService<RoleManager<OnlineShop.Domain.Models.Role>>();
+    var roleManager = services.GetRequiredService<RoleManager<Role>>();
     var configuration = services.GetRequiredService<IConfiguration>();
 
     var identityInitializer = new IdentityInitializer(configuration);
