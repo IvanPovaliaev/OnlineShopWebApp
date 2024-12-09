@@ -8,11 +8,9 @@ using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.CommonDI;
 using OnlineShop.Infrastructure.Data;
 using OnlineShop.Infrastructure.Jwt;
-using OnlineShop.Infrastructure.ReviewApiService;
 using OnlineShop.WebAPI.Helpers;
 using OnlineShop.WebAPI.Middleware;
 using Serilog;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -140,15 +138,6 @@ namespace OnlineShop.WebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings!.SecretKey))
                 };
             });
-
-            var reviewsServiceUrl = builder.Configuration["Microservices:ReviewsService"];
-            builder.Services.AddHttpClient("ReviewsService", client =>
-            {
-                client.BaseAddress = new Uri(reviewsServiceUrl);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            });
-
-            builder.Services.AddScoped<IReviewService, ReviewService>();
 
             var app = builder.Build();
 

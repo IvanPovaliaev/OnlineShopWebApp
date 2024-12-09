@@ -9,55 +9,55 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Infrastructure.Data.Repositories
 {
-	public class OrdersDbRepository : IOrdersRepository
-	{
-		private readonly DatabaseContext _databaseContext;
+    public class OrdersDbRepository : IOrdersRepository
+    {
+        private readonly DatabaseContext _databaseContext;
 
-		public OrdersDbRepository(DatabaseContext databaseContext)
-		{
-			_databaseContext = databaseContext;
-		}
+        public OrdersDbRepository(DatabaseContext databaseContext)
+        {
+            _databaseContext = databaseContext;
+        }
 
-		public async Task<List<Order>> GetAllAsync(Specification<Order>? specification = null)
-		{
-			var query = _databaseContext.Orders.AsQueryable();
+        public async Task<List<Order>> GetAllAsync(Specification<Order>? specification = null)
+        {
+            var query = _databaseContext.Orders.AsQueryable();
 
-			if (specification is not null)
-			{
-				query = query.Where(specification.ToExpression());
-			}
+            if (specification is not null)
+            {
+                query = query.Where(specification.ToExpression());
+            }
 
-			return await query.Include(order => order.Info)
-							  .Include(order => order.Positions)
-							  .ThenInclude(position => position.Product)
-							  .ToListAsync();
-		}
+            return await query.Include(order => order.Info)
+                              .Include(order => order.Positions)
+                              .ThenInclude(position => position.Product)
+                              .ToListAsync();
+        }
 
-		public async Task<Order> GetAsync(Guid id)
-		{
-			return await _databaseContext.Orders.FindAsync(id);
-		}
+        public async Task<Order?> GetAsync(Guid id)
+        {
+            return await _databaseContext.Orders.FindAsync(id);
+        }
 
-		public async Task<Guid?> CreateAsync(Order order)
-		{
-			await _databaseContext.Orders.AddAsync(order);
-			var result = await _databaseContext.SaveChangesAsync();
-			return result > 0 ? order.Id : null;
-		}
+        public async Task<Guid?> CreateAsync(Order order)
+        {
+            await _databaseContext.Orders.AddAsync(order);
+            var result = await _databaseContext.SaveChangesAsync();
+            return result > 0 ? order.Id : null;
+        }
 
-		public async Task<bool> UpdateStatusAsync(Guid id, OrderStatus newStatus)
-		{
-			var repositoryOrder = await GetAsync(id);
+        public async Task<bool> UpdateStatusAsync(Guid id, OrderStatus newStatus)
+        {
+            var repositoryOrder = await GetAsync(id);
 
-			if (repositoryOrder is null)
-			{
-				return false;
-			}
+            if (repositoryOrder is null)
+            {
+                return false;
+            }
 
-			repositoryOrder.Status = newStatus;
+            repositoryOrder.Status = newStatus;
 
-			await _databaseContext.SaveChangesAsync();
-			return true;
-		}
-	}
+            await _databaseContext.SaveChangesAsync();
+            return true;
+        }
+    }
 }

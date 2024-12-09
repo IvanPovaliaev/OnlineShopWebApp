@@ -14,7 +14,7 @@ namespace OnlineShop.Infrastructure.Data.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<Cart> GetAsync(string userId)
+        public async Task<Cart?> GetAsync(string userId)
         {
             return await _databaseContext.Carts.Include(cart => cart.Positions)
                                                .ThenInclude(position => position.Product)

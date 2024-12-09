@@ -11,12 +11,10 @@ using OnlineShop.Application.Services;
 using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.CommonDI;
 using OnlineShop.Infrastructure.Data;
-using OnlineShop.Infrastructure.ReviewApiService;
 using OnlineShopWebApp.Helpers;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,15 +73,6 @@ builder.Services.AddTransient<AuthenticationHelper>();
 
 builder.Services.AddScoped<IHostingEnvironmentService, HostingEnvironmentService>();
 
-var reviewsServiceUrl = builder.Configuration["Microservices:ReviewsService"];
-builder.Services.AddHttpClient("ReviewsService", client =>
-{
-    client.BaseAddress = new Uri(reviewsServiceUrl);
-    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-});
-
-builder.Services.AddScoped<IReviewService, ReviewService>();
-
 var app = builder.Build();
 
 app.UseRequestLocalization();
@@ -118,7 +107,7 @@ using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
-    var roleManager = services.GetRequiredService<RoleManager<OnlineShop.Domain.Models.Role>>();
+    var roleManager = services.GetRequiredService<RoleManager<Role>>();
     var configuration = services.GetRequiredService<IConfiguration>();
 
     var identityInitializer = new IdentityInitializer(configuration);
