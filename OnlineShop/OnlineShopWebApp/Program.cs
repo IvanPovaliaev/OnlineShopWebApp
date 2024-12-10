@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.FeatureManagement;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models.Options;
 using OnlineShop.Application.Services;
@@ -68,6 +69,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddCommonServices(builder.Configuration);
+
+builder.Services.AddFeatureManagement();
 
 builder.Services.AddOptions<CookieCartOptions>()
                 .Bind(builder.Configuration.GetSection("CookiesSettings"))
