@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models.Options;
 using OnlineShop.Application.Services;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
@@ -64,6 +65,9 @@ namespace OnlineShop.Infrastructure.CommonDI
             var mailSetting = configuration.GetSection("MailSettings");
             services.Configure<MailSettings>(mailSetting);
             services.AddTransient<IMailService, EmailService>();
+
+            services.Configure<ImagesStorage>(
+                configuration.GetSection(nameof(ImagesStorage)));
 
             var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
 
