@@ -65,7 +65,7 @@ namespace OnlineShop.Infrastructure.CommonDI
             services.AddTransient<ImagesProvider>();
             services.AddTransient<IExcelService, ClosedXMLExcelService>();
 
-            var mailSetting = configuration.GetSection("MailSettings");
+            var mailSetting = configuration.GetSection(nameof(MailSettings));
             services.Configure<MailSettings>(mailSetting);
             services.AddTransient<IMailService, EmailService>();
 
@@ -94,7 +94,7 @@ namespace OnlineShop.Infrastructure.CommonDI
             var reviewsService = configuration.GetSection("Microservices:ReviewsService");
             services.Configure<ReviewsSettings>(reviewsService);
 
-            services.AddHttpClient("ReviewsService", client =>
+            services.AddHttpClient(nameof(ReviewService), client =>
             {
                 var reviewSettings = reviewsService.Get<ReviewsSettings>();
                 client.BaseAddress = new Uri(reviewSettings!.Url);
