@@ -90,15 +90,21 @@ namespace OnlineShop.Infrastructure.CommonDI
                 options.SupportedUICultures = supportedCultures;
             });
 
+            var reviewsServiceConfiguration = configuration.GetSection("Microservices:ReviewsService");
 
-            var reviewsService = configuration.GetSection("Microservices:ReviewsService");
-            services.Configure<ReviewsSettings>(reviewsService);
+            services.AddOptions<ReviewsSettings>()
+                    .Bind(reviewsServiceConfiguration)
+                    .ValidateDataAnnotations()
+                    .ValidateOnStart();
+
+            services.Configure<ReviewsSettings>(reviewsServiceConfiguration);
 
             services.AddHttpClient("ReviewsService", client =>
             {
-                var reviewSettings = reviewsService.Get<ReviewsSettings>();
+                var reviewSettings = reviewsServiceConfiguration.Get<ReviewsSettings>();
                 client.BaseAddress = new Uri(reviewSettings!.Url);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.Timeout = TimeSpan.FromMilliseconds(reviewSettings.Timeout);
             });
 
             services.AddScoped<IReviewsService, ReviewsService>();
