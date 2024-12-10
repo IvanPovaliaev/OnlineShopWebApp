@@ -69,8 +69,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddCommonServices(builder.Configuration);
 
-builder.Services.Configure<CookieCartOptions>(
-    builder.Configuration.GetSection("CookiesSettings"));
+builder.Services.AddOptions<CookieCartOptions>()
+                .Bind(builder.Configuration.GetSection("CookiesSettings"))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
 builder.Services.AddTransient<ICookieCartsService, CookieCartsService>();
 builder.Services.AddTransient<AuthenticationHelper>();
