@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineShop.Application.Helpers;
+using OnlineShop.Application.Helpers.Handlers;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models.Options;
 using OnlineShop.Application.Services;
@@ -18,7 +19,6 @@ using StackExchange.Redis;
 using System;
 using System.Globalization;
 using System.Net.Http.Headers;
-using System.Reflection;
 
 namespace OnlineShop.Infrastructure.CommonDI
 {
@@ -32,7 +32,7 @@ namespace OnlineShop.Infrastructure.CommonDI
             services.AddSingleton<RedisService>();
 
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UsersOnRoleDeletedHandler).Assembly));
 
             services.AddScoped<IProductsRepository, ProductsDbRepository>();
             services.AddTransient<IProductsService, ProductsService>();

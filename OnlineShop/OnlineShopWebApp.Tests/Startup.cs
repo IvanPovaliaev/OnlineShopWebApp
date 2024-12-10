@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Moq;
 using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models.Options;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Infrastructure.ReviewApiService;
 using OnlineShopWebApp.Tests.Helpers;
@@ -22,6 +24,8 @@ namespace OnlineShopWebApp.Tests
             services.AddTransient<Mock<IUrlHelper>>();
             services.AddTransient<Mock<IExcelService>>();
             services.AddTransient<Mock<IMediator>>();
+            services.AddTransient<Mock<IOptions<ImagesStorage>>>();
+
             services.AddTransient<Mock<IAccountsService>>();
 
             services.AddTransient<Mock<IProductsRepository>>();

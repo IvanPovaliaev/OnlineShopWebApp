@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models.Options;
 using OnlineShop.Application.Services;
 using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.CommonDI;
@@ -67,6 +68,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddCommonServices(builder.Configuration);
+
+builder.Services.Configure<CookieCartOptions>(
+    builder.Configuration.GetSection("CookiesSettings"));
 
 builder.Services.AddTransient<ICookieCartsService, CookieCartsService>();
 builder.Services.AddTransient<AuthenticationHelper>();

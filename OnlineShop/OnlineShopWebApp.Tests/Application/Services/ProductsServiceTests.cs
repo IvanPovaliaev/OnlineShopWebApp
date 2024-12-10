@@ -2,12 +2,13 @@
 using Bogus;
 using LinqSpecs;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Moq;
 using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
+using OnlineShop.Application.Models.Options;
 using OnlineShop.Application.Services;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
@@ -30,13 +31,17 @@ namespace OnlineShopWebApp.Tests.Application.Services
 
         private readonly List<Product> _fakeProducts;
 
-        public ProductsServiceTests(Mock<IProductsRepository> productsRepositoryMock, IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock)
+        public ProductsServiceTests(Mock<IProductsRepository> productsRepositoryMock, IMapper mapper, FakerProvider fakerProvider, Mock<IExcelService> excelServiceMock, Mock<IOptions<ImagesStorage>> imagesStorageMock)
         {
             _productsRepositoryMock = productsRepositoryMock;
             _excelServiceMock = excelServiceMock;
             _mapper = mapper;
-            var configurationMock = new Mock<IConfiguration>();
             var imageProviderMock = new Mock<ImagesProvider>(null!);
+
+            imagesStorageMock.Setup(o => o.Value).Returns(new ImagesStorage
+            {
+                ProductsPath = "fake/path"
+            });
 
             var rules = new List<IProductSpecificationsRules>();
 
@@ -45,7 +50,7 @@ namespace OnlineShopWebApp.Tests.Application.Services
                 _mapper,
                 _excelServiceMock.Object,
                 rules,
-                configurationMock.Object,
+                imagesStorageMock.Object,
                 imageProviderMock.Object
             );
 
