@@ -13,10 +13,6 @@
 </head>
 <body>
 
-    <feature name="@FeatureFlags.HappyNewYearTheme">
-        @await Html.PartialAsync("_NewYearTheme");
-    </feature>
-
     @await Html.PartialAsync("_Header")
     @await Html.PartialAsync("_Nav")
 
@@ -36,6 +32,10 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <feature name="@FeatureFlags.HappyNewYearTheme">
+        @await Html.PartialAsync("_NewYearTheme")
+    </feature>
 
     @await Html.PartialAsync("_ValidationScriptsPartial")
     @await RenderSectionAsync("Scripts", required: false)

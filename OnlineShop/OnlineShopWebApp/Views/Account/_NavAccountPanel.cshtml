@@ -29,18 +29,20 @@
         </a>
     }
 
-    @if (IsCurrentPage("Account", "Orders"))
-    {
-        <div class="btn btn-inactive w-100 mb-3" asp-area="" asp-controller="Account" asp-action="Orders">
-            Заказы
-        </div>
-    }
-    else
-    {
-        <a class="btn btn-main w-100 mb-3" asp-area="" asp-controller="Account" asp-action="Orders">
-            Заказы
-        </a>
-    }
+    <feature name="@FeatureFlags.OrdersInAccount">
+        @if (IsCurrentPage("Account", "Orders"))
+        {
+            <div class="btn btn-inactive w-100 mb-3" asp-area="" asp-controller="Account" asp-action="Orders">
+                Заказы
+            </div>
+        }
+        else
+        {
+            <a class="btn btn-main w-100 mb-3" asp-area="" asp-controller="Account" asp-action="Orders">
+                Заказы
+            </a>
+        }
+    </feature>
 
 	<a class="btn btn-main w-100" data-bs-toggle="modal" data-bs-target="#logoutModal">
 		Выйти из профиля
