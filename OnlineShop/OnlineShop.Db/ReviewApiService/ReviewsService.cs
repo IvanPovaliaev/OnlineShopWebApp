@@ -15,16 +15,16 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Infrastructure.ReviewApiService
 {
-    public class ReviewService : IReviewService
+    public class ReviewsService : IReviewsService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ILogger<ReviewService> _logger;
+        private readonly ILogger<ReviewsService> _logger;
         private readonly IAccountsService _accountsService;
         private readonly IProductsService _productService;
         private readonly ReviewTokenStorage _tokenStorage;
         private readonly ReviewsSettings _reviewsSettings;
 
-        public ReviewService(IHttpClientFactory httpClientFactory, ILogger<ReviewService> logger, IAccountsService accountsService, IProductsService productsService, ReviewTokenStorage tokenStorage, IOptions<ReviewsSettings> reviewsSettings)
+        public ReviewsService(IHttpClientFactory httpClientFactory, ILogger<ReviewsService> logger, IAccountsService accountsService, IProductsService productsService, ReviewTokenStorage tokenStorage, IOptionsSnapshot<ReviewsSettings> reviewsSettings)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;

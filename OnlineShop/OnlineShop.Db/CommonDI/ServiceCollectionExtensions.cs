@@ -69,8 +69,13 @@ namespace OnlineShop.Infrastructure.CommonDI
             services.Configure<MailSettings>(mailSetting);
             services.AddTransient<IMailService, EmailService>();
 
+
+
             services.Configure<ImagesStorage>(
                 configuration.GetSection(nameof(ImagesStorage)));
+
+
+
 
             var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
 
@@ -94,14 +99,14 @@ namespace OnlineShop.Infrastructure.CommonDI
             var reviewsService = configuration.GetSection("Microservices:ReviewsService");
             services.Configure<ReviewsSettings>(reviewsService);
 
-            services.AddHttpClient(nameof(ReviewService), client =>
+            services.AddHttpClient("ReviewsService", client =>
             {
                 var reviewSettings = reviewsService.Get<ReviewsSettings>();
                 client.BaseAddress = new Uri(reviewSettings!.Url);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 
-            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IReviewsService, ReviewsService>();
             services.AddSingleton<ReviewTokenStorage>();
 
             return services;

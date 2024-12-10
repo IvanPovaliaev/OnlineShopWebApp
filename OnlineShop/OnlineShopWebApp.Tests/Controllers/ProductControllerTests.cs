@@ -19,13 +19,13 @@ namespace OnlineShopWebApp.Tests.Controllers
     public class ProductControllerTests
     {
         private readonly Mock<IProductsService> _productsServiceMock;
-        private readonly Mock<IReviewService> _reviewServiceMock;
+        private readonly Mock<IReviewsService> _reviewServiceMock;
         private readonly ProductController _controller;
         private readonly IMapper _mapper;
 
         private readonly List<Product> _fakeProducts;
 
-        public ProductControllerTests(IMapper mapper, Mock<IProductsService> productsServiceMock, Mock<IReviewService> reviewServiceMock, FakerProvider fakerProvider)
+        public ProductControllerTests(IMapper mapper, Mock<IProductsService> productsServiceMock, Mock<IReviewsService> reviewServiceMock, FakerProvider fakerProvider)
         {
             _productsServiceMock = productsServiceMock;
             _reviewServiceMock = reviewServiceMock;

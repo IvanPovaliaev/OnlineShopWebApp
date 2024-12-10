@@ -12,9 +12,9 @@ namespace OnlineShopWebApp.Controllers
     public class ProductController : Controller
     {
         private readonly IProductsService _productsService;
-        private readonly IReviewService _reviewService;
+        private readonly IReviewsService _reviewService;
 
-        public ProductController(IProductsService productsService, IReviewService reviewService)
+        public ProductController(IProductsService productsService, IReviewsService reviewService)
         {
             _productsService = productsService;
             _reviewService = reviewService;

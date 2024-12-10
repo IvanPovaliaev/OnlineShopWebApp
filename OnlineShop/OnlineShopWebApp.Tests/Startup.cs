@@ -43,7 +43,7 @@ namespace OnlineShopWebApp.Tests
             services.AddTransient<Mock<IRolesService>>();
             services.AddTransient<Mock<IMailService>>();
 
-            services.AddTransient<Mock<IReviewService>>();
+            services.AddTransient<Mock<IReviewsService>>();
         }
     }
 }

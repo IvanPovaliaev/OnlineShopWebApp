@@ -1,9 +1,16 @@
-﻿namespace OnlineShop.Infrastructure.ReviewApiService
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace OnlineShop.Infrastructure.ReviewApiService
 {
     public class ReviewsSettings
     {
-        public required string Url { get; set; }
-        public required string Login { get; set; }
-        public required string Password { get; set; }
+        [Required]
+        public required string Url { get; init; }
+
+        [Required]
+        public required string Login { get; init; }
+
+        [Required]
+        public required string Password { get; init; }
     }
 }
