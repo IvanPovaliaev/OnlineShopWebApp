@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 using Moq;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
@@ -25,11 +26,11 @@ namespace OnlineShopWebApp.Tests.Controllers
 
         private readonly List<Product> _fakeProducts;
 
-        public ProductControllerTests(IMapper mapper, Mock<IProductsService> productsServiceMock, Mock<IReviewsService> reviewServiceMock, FakerProvider fakerProvider)
+        public ProductControllerTests(IMapper mapper, Mock<IProductsService> productsServiceMock, Mock<IReviewsService> reviewServiceMock, Mock<IFeatureManager> featureManagerMock, FakerProvider fakerProvider)
         {
             _productsServiceMock = productsServiceMock;
             _reviewServiceMock = reviewServiceMock;
-            _controller = new ProductController(_productsServiceMock.Object, _reviewServiceMock.Object);
+            _controller = new ProductController(_productsServiceMock.Object, _reviewServiceMock.Object, featureManagerMock.Object);
 
             _mapper = mapper;
             _fakeProducts = fakerProvider.FakeProducts;
@@ -53,7 +54,9 @@ namespace OnlineShopWebApp.Tests.Controllers
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsType<(ProductViewModel, List<ReviewDTO>)>(viewResult.Model);
-            Assert.Equal((fakeProduct, expectedReviews), model);
+
+            Assert.Equal(fakeProduct, model.Item1);
+            Assert.Equal(expectedReviews, model.Item2);
         }
 
         [Fact]
