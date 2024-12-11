@@ -50,9 +50,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// Update 
+        /// Update application features
         /// </summary>
-        /// <returns>Admins products View</returns>
+        /// <returns>Admin Settings View</returns>
         [HttpPost]
         public async Task<IActionResult> Update(List<FeatureFlagViewModel> features)
         {
