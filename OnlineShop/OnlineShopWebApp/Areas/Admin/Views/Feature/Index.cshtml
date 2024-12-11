@@ -1,0 +1,58 @@
+﻿@model List<FeatureFlagModel>
+
+<section class="container flex-row">
+    <div class="row">
+
+        <div class="col-3 flex-column">
+            @await Html.PartialAsync("_NavigationPanel")
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <h2>Настройки</h2>
+                <hr class="border-brown mb-3" />
+
+                <form asp-area="Admin" asp-controller="Feature" asp-action="Update" method="post" class="p-0">
+                    <div class="d-flex col-9">                    
+                        <table class="table table-hover text-center align-middle">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col" class="col-1">#</th>
+                                    <th scope="col" class="col">Наименование</th>
+                                    <th scope="col" class="col">Состояние</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    var feature = Model[i];
+                                    var position = i + 1;
+
+                                    <input type="hidden" asp-for="@Model[i].Name" />
+                                    <tr>
+                                        <td>
+                                            @position
+                                        </td>
+                                        <td><label class="form-check-label" for="flexSwitchCheck-@i">@Model[i].Name</label></td>
+                                        <td>
+                                            <div class="form-check form-switch d-flex justify-content-center">
+                                                <input asp-for="@Model[i].IsEnabled" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck-@i">
+                                            </div>                                        
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>                   
+                    </div>
+
+                    <button class="btn btn-main mb-3" type="submit">
+                        Обновить настройки
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

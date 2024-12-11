@@ -9,7 +9,7 @@ Visit http://rainbow.arch.scriptmania.com/scripts/
 var snowmax = 100
 
 // Set the colors for the snow. Add as many colors as you like
-var snowcolor = new Array("#b9dff5", "#b9dff5", "#b9dff5", "#b9dff5", "#b9dff5")
+var snowcolor = new Array("#b9dff5", "#C9E0F2", "#729FD8")
 
 // Set the fonts, that create the snowflakes. Add as many fonts as you like
 var snowtype = new Array("Times")
@@ -21,10 +21,10 @@ var snowletter = "*"
 var sinkspeed = 0.6
 
 // Set the maximum-size of your snowflakes
-var snowmaxsize = 55
+var snowmaxsize = 56
 
 // Set the minimal-size of your snowflakes
-var snowminsize = 26
+var snowminsize = 30
 
 // Set the snowing-zone
 // Set 1 for all-over-snowing, set 2 for left-side-snowing
@@ -58,11 +58,11 @@ function randommaker(range) {
 
 function initsnow() {
     if (ie5 || opera) {
-        marginbottom = document.html.scrollHeight
-        marginright = document.html.clientWidth - 15
+        marginbottom = document.documentElement.scrollHeight
+        marginright = document.body.clientWidth - 15
     }
     else if (ns6) {
-        marginbottom = document.html.scrollHeight
+        marginbottom = document.documentElement.scrollHeight
         marginright = window.innerWidth - 15
     }
     var snowsizerange = snowmaxsize - snowminsize
@@ -75,7 +75,7 @@ function initsnow() {
         snow[i].size = randommaker(snowsizerange) + snowminsize
         snow[i].style.fontSize = snow[i].size + 'px';
         snow[i].style.color = snowcolor[randommaker(snowcolor.length)]
-        snow[i].style.zIndex = 10000
+        snow[i].style.zIndex = 2000
         snow[i].sink = sinkspeed * snow[i].size / 5
         if (snowingzone == 1) { snow[i].posx = randommaker(marginright - snow[i].size) }
         if (snowingzone == 2) { snow[i].posx = randommaker(marginright / 2 - snow[i].size) }
