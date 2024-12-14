@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Services;
 using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.CommonDI;
 using OnlineShop.Infrastructure.Data;
@@ -138,6 +139,8 @@ namespace OnlineShop.WebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings!.SecretKey))
                 };
             });
+
+            builder.Services.AddTransient<ICookieCartsService, CookieCartsService>();
 
             var app = builder.Build();
 
