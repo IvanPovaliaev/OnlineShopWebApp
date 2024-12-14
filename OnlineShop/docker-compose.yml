@@ -27,6 +27,18 @@ services:
       - ./OnlineShopWebApp/appsettings.json:/app/appsettings.json:rw
       - ./OnlineShopWebApp/wwwroot:/app/wwwroot:rw
 
+  onlineshop.webapi:
+    container_name: onlineshop_api
+    image: ${DOCKER_REGISTRY-}onlineshop_api
+    build:
+      context: .
+      dockerfile: OnlineShop.WebAPI/Dockerfile
+    ports:
+      - 8090:8090
+    depends_on:
+      - mssqlserver   
+    restart: unless-stopped 
+
 volumes:
     mssql_data:
         driver: local
