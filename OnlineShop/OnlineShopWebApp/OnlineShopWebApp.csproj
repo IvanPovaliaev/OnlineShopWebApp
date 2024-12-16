@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="BuildWebCompiler2022" Version="1.14.10" />
+    <PackageReference Include="ConfigCat.Client" Version="9.3.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
