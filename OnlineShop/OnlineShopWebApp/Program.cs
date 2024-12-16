@@ -70,7 +70,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddCommonServices(builder.Configuration);
 
+builder.Configuration.AddJsonFile("featureFlags.json", optional: true, reloadOnChange: true);
 builder.Services.AddFeatureManagement();
+
 
 builder.Services.AddOptions<CookieCartOptions>()
                 .Bind(builder.Configuration.GetSection("CookiesSettings"))
