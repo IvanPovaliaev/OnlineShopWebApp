@@ -56,7 +56,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(List<FeatureFlagViewModel> features)
         {
-            var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+            var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "featureFlags.json");
             var json = await System.IO.File.ReadAllTextAsync(jsonPath);
             var jsonObject = JObject.Parse(json);
 
@@ -79,6 +79,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             }
 
             await System.IO.File.WriteAllTextAsync(jsonPath, jsonObject.ToString(Formatting.Indented));
+
 
             var root = _configuration as IConfigurationRoot;
             root?.Reload();

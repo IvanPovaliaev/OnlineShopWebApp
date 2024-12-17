@@ -69,8 +69,10 @@ namespace OnlineShop.Infrastructure.CommonDI
             services.Configure<MailSettings>(mailSetting);
             services.AddTransient<IMailService, EmailService>();
 
-            services.Configure<ImagesStorage>(
-                configuration.GetSection(nameof(ImagesStorage)));
+            services.AddOptions<ImagesStorage>()
+                    .Bind(configuration.GetSection(nameof(ImagesStorage)))
+                    .ValidateDataAnnotations()
+                    .ValidateOnStart();
 
             var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
 

@@ -18,10 +18,10 @@ namespace OnlineShopWebApp.Controllers
         private readonly IReviewsService _reviewService;
         private readonly IFeatureManager _featureManager;
 
-        public ProductController(IProductsService productsService, IReviewsService reviewService, IFeatureManager featureManager)
+        public ProductController(IProductsService productsService, IReviewsService reviewsService, IFeatureManager featureManager)
         {
             _productsService = productsService;
-            _reviewService = reviewService;
+            _reviewService = reviewsService;
             _featureManager = featureManager;
         }
 
@@ -41,16 +41,17 @@ namespace OnlineShopWebApp.Controllers
 
             var reviews = new List<ReviewDTO>();
 
-            var isReviewsFeatureEnabled = await _featureManager.IsEnabledAsync(FeatureFlags.ReviewsService);
+            var isReviewsFeatureEnabled = await _featureManager
+                                                .IsEnabledAsync(FeatureFlags.ReviewsService);
 
             if (isReviewsFeatureEnabled)
             {
                 reviews = await _reviewService.GetReviewsByProductIdAsync(id);
             }
 
-            var productWithReview = (product, reviews);
+            var productWithReviews = (product, reviews);
 
-            return View(productWithReview);
+            return View(productWithReviews);
         }
 
         /// <summary>
