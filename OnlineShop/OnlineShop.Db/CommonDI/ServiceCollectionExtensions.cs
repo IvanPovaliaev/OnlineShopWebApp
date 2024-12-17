@@ -74,8 +74,9 @@ namespace OnlineShop.Infrastructure.CommonDI
                     .ValidateDataAnnotations()
                     .ValidateOnStart();
 
-            var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
+            services.AddTransient<ICookieCartsService, CookieCartsService>();
 
+            var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
                 return ConnectionMultiplexer.Connect(redisConfiguration);

@@ -50,7 +50,7 @@ builder.Host.UseSerilog((context, configuration) => configuration
             .Enrich.FromLogContext()
             .Enrich.WithProperty("ApplicationName", "Online Shop"));
 
-builder.Services.AddIdentity<OnlineShop.Domain.Models.User, Role>()
+builder.Services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
@@ -69,8 +69,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddCommonServices(builder.Configuration);
-
-builder.Configuration.AddJsonFile("featureFlags.json", optional: true, reloadOnChange: true);
 
 builder.Services.AddOptions<ConfigCatOptions>()
                 .Bind(builder.Configuration.GetSection(nameof(ConfigCatOptions)))
@@ -123,7 +121,7 @@ app.MapControllerRoute(
 using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
-    var userManager = services.GetRequiredService<UserManager<OnlineShop.Domain.Models.User>>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
     var roleManager = services.GetRequiredService<RoleManager<Role>>();
     var configuration = services.GetRequiredService<IConfiguration>();
 
