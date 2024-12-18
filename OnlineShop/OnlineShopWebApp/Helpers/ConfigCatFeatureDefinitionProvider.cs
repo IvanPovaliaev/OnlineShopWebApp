@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Helpers
@@ -32,7 +31,7 @@ namespace OnlineShopWebApp.Helpers
                 Name = featureName,
                 EnabledFor = isEnabled
                     ? [new FeatureFilterConfiguration { Name = "AlwaysOn" }]
-                    : Enumerable.Empty<FeatureFilterConfiguration>()
+                    : []
             };
         }
 
