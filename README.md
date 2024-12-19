@@ -81,7 +81,7 @@ services:
 
   onlineshop.webapi:
     container_name: onlineshop_api
-    image: ivanpovaliaev/onlineshop_api
+    image: ivanpovaliaev/onlineshop_api:latest
     environment:
       - ASPNETCORE_HTTP_PORTS=8090
     build:
