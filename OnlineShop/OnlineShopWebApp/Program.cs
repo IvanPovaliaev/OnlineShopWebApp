@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.FeatureManagement;
 using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models.Options;
 using OnlineShop.Application.Services;
 using OnlineShop.Domain.Models;
 using OnlineShop.Infrastructure.CommonDI;
@@ -67,6 +69,19 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddCommonServices(builder.Configuration);
+
+builder.Services.AddOptions<ConfigCatOptions>()
+                .Bind(builder.Configuration.GetSection(nameof(ConfigCatOptions)))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+//builder.Services.AddSingleton<IFeatureDefinitionProvider, ConfigCatFeatureDefinitionProvider>();
+builder.Services.AddFeatureManagement();
+
+builder.Services.AddOptions<CookieCartOptions>()
+                .Bind(builder.Configuration.GetSection("CookiesSettings"))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
 builder.Services.AddTransient<ICookieCartsService, CookieCartsService>();
 builder.Services.AddTransient<AuthenticationHelper>();

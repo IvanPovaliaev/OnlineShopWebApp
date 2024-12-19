@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineShop.Application.Helpers;
+using OnlineShop.Application.Helpers.Handlers;
 using OnlineShop.Application.Interfaces;
+using OnlineShop.Application.Models.Options;
 using OnlineShop.Application.Services;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Models;
@@ -17,7 +19,6 @@ using StackExchange.Redis;
 using System;
 using System.Globalization;
 using System.Net.Http.Headers;
-using System.Reflection;
 
 namespace OnlineShop.Infrastructure.CommonDI
 {
@@ -31,11 +32,11 @@ namespace OnlineShop.Infrastructure.CommonDI
             services.AddSingleton<RedisService>();
 
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UsersOnRoleDeletedHandler).Assembly));
 
             services.AddScoped<IProductsRepository, ProductsDbRepository>();
             services.AddTransient<IProductsService, ProductsService>();
-            //services.Decorate<IProductsService, RedisProductsService>();
+            services.Decorate<IProductsService, RedisProductsService>();
 
             services.Scan(scan => scan
                     .FromAssemblyOf<IProductSpecificationsRules>()
@@ -64,12 +65,18 @@ namespace OnlineShop.Infrastructure.CommonDI
             services.AddTransient<ImagesProvider>();
             services.AddTransient<IExcelService, ClosedXMLExcelService>();
 
-            var mailSetting = configuration.GetSection("MailSettings");
+            var mailSetting = configuration.GetSection(nameof(MailSettings));
             services.Configure<MailSettings>(mailSetting);
             services.AddTransient<IMailService, EmailService>();
 
-            var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
+            services.AddOptions<ImagesStorage>()
+                    .Bind(configuration.GetSection(nameof(ImagesStorage)))
+                    .ValidateDataAnnotations()
+                    .ValidateOnStart();
 
+            services.AddTransient<ICookieCartsService, CookieCartsService>();
+
+            var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
                 return ConnectionMultiplexer.Connect(redisConfiguration);
@@ -86,18 +93,24 @@ namespace OnlineShop.Infrastructure.CommonDI
                 options.SupportedUICultures = supportedCultures;
             });
 
+            var reviewsServiceConfiguration = configuration.GetSection("Microservices:ReviewsService");
 
-            var reviewsService = configuration.GetSection("Microservices:ReviewsService");
-            services.Configure<ReviewsSettings>(reviewsService);
+            services.AddOptions<ReviewsSettings>()
+                    .Bind(reviewsServiceConfiguration)
+                    .ValidateDataAnnotations()
+                    .ValidateOnStart();
+
+            services.Configure<ReviewsSettings>(reviewsServiceConfiguration);
 
             services.AddHttpClient("ReviewsService", client =>
             {
-                var reviewSettings = reviewsService.Get<ReviewsSettings>();
+                var reviewSettings = reviewsServiceConfiguration.Get<ReviewsSettings>();
                 client.BaseAddress = new Uri(reviewSettings!.Url);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.Timeout = TimeSpan.FromMilliseconds(reviewSettings.Timeout);
             });
 
-            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IReviewsService, ReviewsService>();
             services.AddSingleton<ReviewTokenStorage>();
 
             return services;
