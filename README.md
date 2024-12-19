@@ -25,6 +25,7 @@
 16. MimeKit (работа с электронной почтой)
 17. Clean Architecture
 18. *Docker (в разработке)*
+19. FeatureFlags
 
 ## Docker
 
