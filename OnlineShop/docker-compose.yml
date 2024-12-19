@@ -1,16 +1,30 @@
-version: '3.4'
+networks:
+    onlineshop:
+
 services:
-  mssqlserver:
+  postgre:
     container_name: online_shop_app_db
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: postgres:latest
     environment: 
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=1Secure*Password1
-    volumes:
-      - mssql_data:/var/opt/mssql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1Secure*Password1
+      POSTGRES_DB: online_shop_db
     ports:
-      - "1433:1433"
-    
+      - 5432:5432
+    networks:
+      - onlineshop
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - 6379:6379
+    restart: unless-stopped 
+    networks:
+      onlineshop:
+
   onlineshopwebapp:
     container_name: online_shop_app_mvc
     image: ${DOCKER_REGISTRY-}online_shop_web_app
@@ -21,24 +35,59 @@ services:
       - 8080:8080
       - 8081:8081
     depends_on:
-      - mssqlserver   
-    restart: unless-stopped 
+      - postgre
+      - redis
+    restart: unless-stopped
+    networks:
+      - onlineshop
     volumes:
       - ./OnlineShopWebApp/appsettings.json:/app/appsettings.json:rw
-      - ./OnlineShopWebApp/wwwroot:/app/wwwroot:rw
+      - ./OnlineShopWebApp/wwwroot/img:/app/wwwroot/img:rw
 
   onlineshop.webapi:
     container_name: onlineshop_api
     image: ${DOCKER_REGISTRY-}onlineshop_api
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8090
     build:
       context: .
       dockerfile: OnlineShop.WebAPI/Dockerfile
     ports:
-      - 8090:8090
+      - "8090:8090"
+    depends_on:
+      - postgre  
+      - redis
+    restart: unless-stopped
+    networks:
+      - onlineshop
+
+  mssqlserver:
+    container_name: reviews_db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment: 
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=1Secure*Password1
+    volumes:
+      - mssql_data:/var/opt/mssql
+    ports:
+      - "1433:1433"
+    networks:
+      - onlineshop
+    
+  reviews.api:
+    container_name: reviews_api
+    image: ivanpovaliaev/reviews_api:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:7274;
+    ports:
+      - "7274:7274"
     depends_on:
       - mssqlserver   
-    restart: unless-stopped 
+    restart: unless-stopped
+    networks:
+      - onlineshop
 
 volumes:
     mssql_data:
-        driver: local
+    postgres_data:

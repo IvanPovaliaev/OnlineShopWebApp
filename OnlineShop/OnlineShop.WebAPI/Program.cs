@@ -145,14 +145,11 @@ namespace OnlineShop.WebAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            app.UseSwagger();
+            app.UseSwaggerUI(option =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(option =>
-                {
-                    option.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
-                });
-            }
+                option.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+            });
 
             app.UseHttpsRedirection();
             app.UseSerilogRequestLogging();
