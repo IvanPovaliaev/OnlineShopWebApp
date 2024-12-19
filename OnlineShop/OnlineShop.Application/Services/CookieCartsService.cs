@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OnlineShop.Application.Interfaces;
@@ -14,7 +13,6 @@ namespace OnlineShop.Application.Services
     public class CookieCartsService : ICookieCartsService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IConfiguration _configuration;
         private readonly IProductsService _productsService;
         private readonly CookieCartOptions _cookieCartOptions;
 

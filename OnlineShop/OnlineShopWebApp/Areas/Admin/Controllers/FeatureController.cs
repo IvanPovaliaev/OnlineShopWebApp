@@ -61,13 +61,13 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             var jsonObject = JObject.Parse(json);
 
             var featureManagement = jsonObject["FeatureManagement"] as JObject;
-            var featureNames = _featureManager.GetFeatureNamesAsync()
-                                              .ToBlockingEnumerable();
-
             if (featureManagement is null)
             {
                 return BadRequest();
             }
+
+            var featureNames = _featureManager.GetFeatureNamesAsync()
+                                              .ToBlockingEnumerable();
 
             foreach (var feature in features)
             {
@@ -80,11 +80,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
             await System.IO.File.WriteAllTextAsync(jsonPath, jsonObject.ToString(Formatting.Indented));
 
-
             var root = _configuration as IConfigurationRoot;
             root?.Reload();
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }
