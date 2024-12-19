@@ -3,7 +3,7 @@ networks:
 
 services:
   postgre:
-    container_name: online_shop_app_db
+Bpvty    container_name: online_shop_db
     image: postgres:latest
     environment: 
       POSTGRES_USER: postgres
@@ -25,9 +25,9 @@ services:
     networks:
       onlineshop:
 
-  onlineshopwebapp:
-    container_name: online_shop_app_mvc
-    image: ${DOCKER_REGISTRY-}online_shop_web_app
+  onlineshop.mvc:
+    container_name: online_shop_mvc
+    image: ${DOCKER_REGISTRY-}online_shop_mvc
     build:
       context: .
       dockerfile: OnlineShopWebApp/Dockerfile
