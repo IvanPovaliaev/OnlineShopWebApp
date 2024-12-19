@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
+using OnlineShop.Application.Models.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,23 +16,19 @@ namespace OnlineShop.Application.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
         private readonly IProductsService _productsService;
-        private readonly string CookieCartKey;
-        private readonly int ExpiresTime;
+        private readonly CookieCartOptions _cookieCartOptions;
 
-        public CookieCartsService(IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IProductsService productsService)
+        public CookieCartsService(IHttpContextAccessor httpContextAccessor, IOptionsSnapshot<CookieCartOptions> cookieCartOptions, IProductsService productsService)
         {
             _httpContextAccessor = httpContextAccessor;
-            _configuration = configuration;
+            _cookieCartOptions = cookieCartOptions.Value;
             _productsService = productsService;
-
-            CookieCartKey = _configuration["CookiesSettings:CartKey"]!;
-            ExpiresTime = Convert.ToInt32(_configuration["CookiesSettings:ExpiresTime"]);
         }
 
         public async Task<CartViewModel> GetViewModelAsync()
         {
-            var cartJson = _httpContextAccessor.HttpContext?.Items[CookieCartKey]?.ToString();
-            cartJson ??= _httpContextAccessor.HttpContext?.Request.Cookies[CookieCartKey] ?? string.Empty;
+            var cartJson = _httpContextAccessor.HttpContext?.Items[_cookieCartOptions.CartKey]?.ToString();
+            cartJson ??= _httpContextAccessor.HttpContext?.Request.Cookies[_cookieCartOptions.CartKey] ?? string.Empty;
 
             var cookieCart = JsonConvert.DeserializeObject<CookieCartViewModel>(cartJson);
             cookieCart ??= new CookieCartViewModel();
@@ -112,7 +110,7 @@ namespace OnlineShop.Application.Services
 
         public void Delete()
         {
-            _httpContextAccessor.HttpContext?.Response.Cookies.Delete(CookieCartKey);
+            _httpContextAccessor.HttpContext?.Response.Cookies.Delete(_cookieCartOptions.CartKey);
         }
 
         public async Task DeletePositionAsync(Guid positionId)
@@ -174,11 +172,11 @@ namespace OnlineShop.Application.Services
             var cartJson = JsonConvert.SerializeObject(cookieCart);
             var options = new CookieOptions
             {
-                Expires = DateTimeOffset.UtcNow.AddDays(ExpiresTime)
+                Expires = DateTimeOffset.UtcNow.AddDays(_cookieCartOptions.ExpiresDays)
             };
 
-            _httpContextAccessor.HttpContext?.Response.Cookies.Append(CookieCartKey, cartJson, options);
-            _httpContextAccessor.HttpContext?.Items.Add(CookieCartKey, cartJson);
+            _httpContextAccessor.HttpContext?.Response.Cookies.Append(_cookieCartOptions.CartKey, cartJson, options);
+            _httpContextAccessor.HttpContext?.Items.Add(_cookieCartOptions.CartKey, cartJson);
         }
     }
 }

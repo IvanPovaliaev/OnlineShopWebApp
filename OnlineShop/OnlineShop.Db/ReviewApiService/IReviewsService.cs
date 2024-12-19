@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Infrastructure.ReviewApiService
 {
-    public interface IReviewService
+    public interface IReviewsService
     {
         /// <summary>
         /// Retrieves a list of reviews for a specific product.

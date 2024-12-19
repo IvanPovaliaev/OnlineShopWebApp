@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Infrastructure.ReviewApiService;
 using OnlineShop.Infrastructure.ReviewApiService.Models;
+using OnlineShopWebApp.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OnlineShopWebApp.Controllers
@@ -12,12 +15,14 @@ namespace OnlineShopWebApp.Controllers
     public class ProductController : Controller
     {
         private readonly IProductsService _productsService;
-        private readonly IReviewService _reviewService;
+        private readonly IReviewsService _reviewService;
+        private readonly IFeatureManager _featureManager;
 
-        public ProductController(IProductsService productsService, IReviewService reviewService)
+        public ProductController(IProductsService productsService, IReviewsService reviewsService, IFeatureManager featureManager)
         {
             _productsService = productsService;
-            _reviewService = reviewService;
+            _reviewService = reviewsService;
+            _featureManager = featureManager;
         }
 
         /// <summary>
@@ -29,15 +34,24 @@ namespace OnlineShopWebApp.Controllers
         {
             var product = await _productsService.GetViewModelAsync(id);
 
-            if (product == null)
+            if (product is null)
             {
                 return NotFound();
             }
 
-            var reviews = await _reviewService.GetReviewsByProductIdAsync(id);
-            var productWithReview = (product, reviews);
+            var reviews = new List<ReviewDTO>();
 
-            return View(productWithReview);
+            var isReviewsFeatureEnabled = await _featureManager
+                                                .IsEnabledAsync(FeatureFlags.ReviewsService);
+
+            if (isReviewsFeatureEnabled)
+            {
+                reviews = await _reviewService.GetReviewsByProductIdAsync(id);
+            }
+
+            var productWithReviews = (product, reviews);
+
+            return View(productWithReviews);
         }
 
         /// <summary>

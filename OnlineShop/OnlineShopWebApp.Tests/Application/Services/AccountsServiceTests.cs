@@ -3,13 +3,14 @@ using Bogus;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Moq;
 using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
 using OnlineShop.Application.Models.DTO;
+using OnlineShop.Application.Models.Options;
 using OnlineShop.Application.Services;
 using OnlineShop.Domain;
 using OnlineShop.Domain.Models;
@@ -36,7 +37,7 @@ namespace OnlineShopWebApp.Tests.Application.Services
         private readonly List<User> _fakeUsers;
         private readonly Faker<User> _userFaker;
 
-        public AccountsServiceTests(Mock<IRolesService> rolesServiceMock, IMapper mapper, Mock<IExcelService> excelServiceMock, FakerProvider fakerProvider, Mock<IHttpContextAccessor> httpContextAccessorMock)
+        public AccountsServiceTests(Mock<IRolesService> rolesServiceMock, IMapper mapper, Mock<IExcelService> excelServiceMock, FakerProvider fakerProvider, Mock<IHttpContextAccessor> httpContextAccessorMock, Mock<IOptions<ImagesStorage>> imagesStorageMock)
         {
             _mapper = mapper;
             _rolesServiceMock = rolesServiceMock;
@@ -63,7 +64,11 @@ namespace OnlineShopWebApp.Tests.Application.Services
                 null!
                 );
 
-            var configurationMock = new Mock<IConfiguration>();
+            imagesStorageMock.Setup(o => o.Value).Returns(new ImagesStorage
+            {
+                AvatarsPath = "fake/path"
+            });
+
             var imageProviderMock = new Mock<ImagesProvider>(null!);
 
             _accountsService = new AccountsService(
@@ -72,7 +77,7 @@ namespace OnlineShopWebApp.Tests.Application.Services
                 _excelServiceMock.Object,
                 _signInManagerMock.Object,
                 _userManagerMock.Object,
-                configurationMock.Object,
+                imagesStorageMock.Object,
                 imageProviderMock.Object);
 
             _fakeRoles = fakerProvider.FakeRoles;

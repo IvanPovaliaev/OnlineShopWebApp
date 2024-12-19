@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using OnlineShop.Application.Helpers;
 using OnlineShop.Application.Interfaces;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Models.Admin;
 using OnlineShop.Application.Models.DTO;
+using OnlineShop.Application.Models.Options;
 using OnlineShop.Domain;
 using OnlineShop.Domain.Models;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace OnlineShop.Application.Services
         private readonly ImagesProvider _imageProvider;
         private readonly string _usersAvatarsStoragePath;
 
-        public AccountsService(IMapper mapper, IRolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, ImagesProvider imagesProvider)
+        public AccountsService(IMapper mapper, IRolesService rolesService, IExcelService excelService, SignInManager<User> signInManager, UserManager<User> userManager, IOptions<ImagesStorage> imagesStorage, ImagesProvider imagesProvider)
         {
             _mapper = mapper;
             _rolesService = rolesService;
@@ -35,7 +36,7 @@ namespace OnlineShop.Application.Services
             _signInManager = signInManager;
             _userManager = userManager;
 
-            _usersAvatarsStoragePath = configuration["ImagesStorage:Avatars"]!;
+            _usersAvatarsStoragePath = imagesStorage.Value.AvatarsPath;
             _imageProvider = imagesProvider;
         }
 
