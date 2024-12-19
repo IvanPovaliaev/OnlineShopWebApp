@@ -75,7 +75,7 @@ builder.Services.AddOptions<ConfigCatOptions>()
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
 
-builder.Services.AddSingleton<IFeatureDefinitionProvider, ConfigCatFeatureDefinitionProvider>();
+//builder.Services.AddSingleton<IFeatureDefinitionProvider, ConfigCatFeatureDefinitionProvider>();
 builder.Services.AddFeatureManagement();
 
 builder.Services.AddOptions<CookieCartOptions>()
