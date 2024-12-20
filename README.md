@@ -84,9 +84,6 @@ services:
     image: ivanpovaliaev/onlineshop_api:latest
     environment:
       - ASPNETCORE_HTTP_PORTS=8090
-    build:
-      context: .
-      dockerfile: OnlineShop.WebAPI/Dockerfile
     ports:
       - "8090:8090"
     depends_on:
