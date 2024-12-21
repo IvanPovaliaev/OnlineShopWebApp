@@ -2,9 +2,6 @@
 
 @await Html.PartialAsync("_Carousel")
 
-@* Блок с новинками (пока показывает с последнего добавленого товара)
-   TODO: Реализовать логику получения новинок
-*@
 <section class="container d-flex flex-column">
     <h2>Новинки</h2>
     <hr class="border-brown"/>
@@ -13,21 +10,6 @@
         <div class="row gx-3">
             @* Генерация карт товаров *@
             @await Html.PartialAsync("_ProductCards", Model.Reverse())
-        </div>
-    </div>
-</section>
-
-@* Блок с хитами (пока показывает с первого добавленного товара)
-   TODO: Реализовать логику получения хита. В мыслях - по количеству проданных товаров в сутки, если это можно реализовать на данном курсе
-*@
-<section class="container d-flex flex-column">
-    <h2>Хиты продаж</h2>
-    <hr class="border-brown" />
-
-    <div class="container">
-        <div class="row gx-3">
-            @* Генерация карт товаров *@
-            @await Html.PartialAsync("_ProductCards", Model)
         </div>
     </div>
 </section>

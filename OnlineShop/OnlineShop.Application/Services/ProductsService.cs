@@ -70,6 +70,16 @@ namespace OnlineShop.Application.Services
                            .ToList();
         }
 
+        public async Task<List<ProductViewModel>> GetAllNew(int quantity)
+        {
+            var products = await _productsRepository.GetAllAsync();
+
+            return products.OrderByDescending(p => p.CreationDate)
+                           .Take(quantity)
+                           .Select(_mapper.Map<ProductViewModel>)
+                           .ToList();
+        }
+
         public async Task<Product> GetAsync(Guid id) => await _productsRepository.GetAsync(id);
 
         public async Task<ProductViewModel> GetViewModelAsync(Guid id)
