@@ -6,6 +6,7 @@ namespace OnlineShopWebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly int _newProductsCount = 8;
         private readonly IProductsService _productsService;
 
         public HomeController(IProductsService productsService)
@@ -19,7 +20,7 @@ namespace OnlineShopWebApp.Controllers
         /// <returns>Home page View</returns>
         public async Task<IActionResult> Index()
         {
-            var products = await _productsService.GetAllAsync();
+            var products = await _productsService.GetAllNew(_newProductsCount);
 
             return View(products);
         }
