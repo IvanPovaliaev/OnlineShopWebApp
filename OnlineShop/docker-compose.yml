@@ -26,8 +26,8 @@ services:
       onlineshop:
 
   onlineshop.mvc:
-    container_name: online_shop_mvc
-    image: ${DOCKER_REGISTRY-}online_shop_mvc
+    container_name: onlineshop_mvc
+    image: ${DOCKER_REGISTRY-}onlineshop_mvc
     build:
       context: .
       dockerfile: OnlineShopWebApp/Dockerfile
