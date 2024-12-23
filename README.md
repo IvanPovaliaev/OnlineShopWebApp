@@ -157,7 +157,7 @@ MVC приложение поддерживает работу FeatureFlags дл
 
 # Установка и настройка
 
-Для работа приложения достаточно иметь любую установленную СУБД (MsSQL, MySQL, PostgreSQL) и настроить подключение в `appsettings.json` (у WebApi и MVC)
+Для работы приложения достаточно иметь любую установленную СУБД (MsSQL, MySQL, PostgreSQL) и настроить подключение в `appsettings.json` (у WebApi и MVC)
 ```
   "DatabaseProvider": "online_shop_MsSQL",
   "ConnectionStrings": {
@@ -174,7 +174,7 @@ MVC приложение поддерживает работу FeatureFlags дл
 
 В `ConnectionStrings` указать строку подключения / изменить существующие\
 В `DatabaseTypes` указать тип БД.\
-В `DatabaseProvider` указать имя строки подключение из ConnectionStrings\
+В `DatabaseProvider` указать имя строки подключения из ConnectionStrings\
 P.S. Для MsSQL достаточно настроек по умолчанию.
 
 Дополнительно можно настроить:
