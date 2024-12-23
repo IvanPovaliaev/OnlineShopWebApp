@@ -151,7 +151,7 @@ MVC приложение поддерживает работу FeatureFlags дл
 > [!NOTE]
 > Имеется возможность настройки сторонних сервисов для работы с флагами.\
 > Пример для ConfigCat имеется в приложении:\
-> Расскомментируйте `//builder.Services.AddSingleton<IFeatureDefinitionProvider, ConfigCatFeatureDefinitionProvider>();` в `Program.cs` и добавьте свой SDK-ключ в appsettings.json в секции `ConfigCatOptions`.\
+> Раскомментируйте `//builder.Services.AddSingleton<IFeatureDefinitionProvider, ConfigCatFeatureDefinitionProvider>();` в `Program.cs` и добавьте свой SDK-ключ в appsettings.json в секции `ConfigCatOptions`.\
 > При использовании сторонних сервисов работы с флагами секцию администратора `Настройки` рекомедуется отключить.
 ---
 
