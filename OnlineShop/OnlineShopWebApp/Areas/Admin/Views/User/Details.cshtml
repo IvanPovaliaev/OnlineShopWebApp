@@ -1,6 +1,7 @@
 ﻿@model UserViewModel
 
 @{
+    ViewData["Title"] = $"Подробности {Model.Email}";
     var changePasswordModel = new ChangePasswordViewModel()
             {
                 UserId = Model.Id
