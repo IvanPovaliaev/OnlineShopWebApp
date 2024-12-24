@@ -107,7 +107,7 @@ function movesnow() {
 }
 
 for (i = 0; i <= snowmax; i++) {
-    document.write("<span id='s" + i + "' style='position:absolute;top:-" + snowmaxsize + "'>" + snowletter + "</span>")
+    document.write("<span id='s" + i + "' style='position:absolute;top:-" + snowmaxsize + "px; user-select: none;'>" + snowletter + "</span>");
 }
 if (browserok) {
     window.onload = initsnow
