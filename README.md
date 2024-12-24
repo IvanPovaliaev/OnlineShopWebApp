@@ -33,7 +33,9 @@ Docker-образы проекта:
 (путь до Swagger по умолчанию `{Scheme}://{ServiceHost}:{ServicePort}/swagger`)
 2. MVC: https://hub.docker.com/repository/docker/ivanpovaliaev/onlineshop_mvc/general
 
-Для сборки всего приложения, используйте приведённый compose файл:
+Для сборки всего приложения, используйте приведённый compose файл.
+<details><summary>docker-compose.yml</summary>
+
 ```
 networks:
     onlineshop:
@@ -124,6 +126,8 @@ volumes:
     postgres_data:
     img_data:
 ```
+
+</details>
 
 ## Кеширование
 Для получения данных каталога используется Redis, что улучшает производительность и уменьшает нагрузку на базу данных. <br/>
