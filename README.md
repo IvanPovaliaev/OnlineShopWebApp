@@ -129,7 +129,7 @@ volumes:
 ## Кеширование
 Для получения данных каталога используется Redis, что улучшает производительность и уменьшает нагрузку на базу данных. <br/>
 Redis интегрирован через декоратор, что позволяет не изменять существующую функциональность.\
-*Установка Redis носит опциональный характер. Приложение работает и без него*
+*Установка Redis носит опциональный характер и влияет только на производительность приложения*
 
 ## Тестирование
 Проект (OnlineShopWebApp и Application) покрыт тестами с использованием xUnit, Bogus и Moq.\
@@ -151,13 +151,13 @@ MVC приложение поддерживает работу FeatureFlags дл
 > [!NOTE]
 > Имеется возможность настройки сторонних сервисов для работы с флагами.\
 > Пример для ConfigCat имеется в приложении:\
-> Расскомментируйте `//builder.Services.AddSingleton<IFeatureDefinitionProvider, ConfigCatFeatureDefinitionProvider>();` в `Program.cs` и добавьте свой SDK-ключ в appsettings.json в секции `ConfigCatOptions`.\
+> Раскомментируйте `//builder.Services.AddSingleton<IFeatureDefinitionProvider, ConfigCatFeatureDefinitionProvider>();` в `Program.cs` и добавьте свой SDK-ключ в appsettings.json в секции `ConfigCatOptions`.\
 > При использовании сторонних сервисов работы с флагами секцию администратора `Настройки` рекомедуется отключить.
 ---
 
 # Установка и настройка
 
-Для работа приложения достаточно иметь любую установленную СУБД (MsSQL, MySQL, PostgreSQL) и настроить подключение в `appsettings.json` (у WebApi и MVC)
+Для работы приложения достаточно иметь любую установленную СУБД (MsSQL, MySQL, PostgreSQL) и настроить подключение в `appsettings.json` (у WebApi и MVC)
 ```
   "DatabaseProvider": "online_shop_MsSQL",
   "ConnectionStrings": {
@@ -174,7 +174,7 @@ MVC приложение поддерживает работу FeatureFlags дл
 
 В `ConnectionStrings` указать строку подключения / изменить существующие\
 В `DatabaseTypes` указать тип БД.\
-В `DatabaseProvider` указать имя строки подключение из ConnectionStrings\
+В `DatabaseProvider` указать имя строки подключения из ConnectionStrings\
 P.S. Для MsSQL достаточно настроек по умолчанию.
 
 Дополнительно можно настроить:
