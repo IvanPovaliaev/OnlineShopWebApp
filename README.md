@@ -66,9 +66,9 @@ services:
     container_name: online_shop_mvc
     image: ivanpovaliaev/onlineshop_mvc:latest
     environment:
-      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTP_PORTS=80
     ports:
-      - 8080:8080
+      - "8080:80"
     depends_on:
       - postgre
       - redis
@@ -76,16 +76,15 @@ services:
     networks:
       - onlineshop
     volumes:
-      - ./OnlineShopWebApp/appsettings.json:/app/appsettings.json:rw
-      - ./OnlineShopWebApp/wwwroot/img:/app/wwwroot/img:rw
+      - img_data:/app/wwwroot/img
 
   onlineshop.webapi:
     container_name: onlineshop_api
     image: ivanpovaliaev/onlineshop_api:latest
     environment:
-      - ASPNETCORE_HTTP_PORTS=8090
+      - ASPNETCORE_HTTP_PORTS=90
     ports:
-      - "8090:8090"
+      - "8090:90"
     depends_on:
       - postgre  
       - redis
@@ -123,7 +122,7 @@ services:
 volumes:
     mssql_data:
     postgres_data:
-
+    img_data:
 ```
 
 ## Кеширование
