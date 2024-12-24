@@ -32,8 +32,8 @@ services:
       context: .
       dockerfile: OnlineShopWebApp/Dockerfile
     ports:
-      - 8080:8080
-      - 8081:8081
+      - "8080:80"
+      - "8081:81"
     depends_on:
       - postgre
       - redis
@@ -48,12 +48,12 @@ services:
     container_name: onlineshop_api
     image: ${DOCKER_REGISTRY-}onlineshop_api
     environment:
-      - ASPNETCORE_HTTP_PORTS=8090
+      - ASPNETCORE_HTTP_PORTS=90
     build:
       context: .
       dockerfile: OnlineShop.WebAPI/Dockerfile
     ports:
-      - "8090:8090"
+      - "8090:90"
     depends_on:
       - postgre  
       - redis
