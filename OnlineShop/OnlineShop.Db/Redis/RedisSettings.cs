@@ -1,7 +1,8 @@
 ﻿namespace OnlineShop.Infrastructure.Redis
 {
-	public class RedisSettings
-	{
-		public string? ProductsKey { get; init; }
-	}
+    public class RedisSettings
+    {
+        public string? ProductsKey { get; init; }
+        public int DefaultExpirationTime { get; init; }
+    }
 }

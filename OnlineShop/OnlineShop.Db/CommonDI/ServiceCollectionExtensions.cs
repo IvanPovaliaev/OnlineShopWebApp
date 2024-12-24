@@ -27,7 +27,16 @@ namespace OnlineShop.Infrastructure.CommonDI
         public static IServiceCollection AddCommonServices(this IServiceCollection services, IConfiguration configuration)
         {
             var redisSettings = configuration.GetSection("Redis");
-            services.Configure<RedisSettings>(redisSettings);
+            services.AddOptions<RedisSettings>()
+                    .Bind(redisSettings)
+                    .ValidateDataAnnotations()
+                    .ValidateOnStart();
+
+            var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                return ConnectionMultiplexer.Connect(redisConfiguration);
+            });
 
             services.AddSingleton<RedisService>();
 
@@ -75,12 +84,6 @@ namespace OnlineShop.Infrastructure.CommonDI
                     .ValidateOnStart();
 
             services.AddTransient<ICookieCartsService, CookieCartsService>();
-
-            var redisConfiguration = ConfigurationOptions.Parse(configuration.GetSection("Redis:ConnectionString").Value);
-            services.AddSingleton<IConnectionMultiplexer>(sp =>
-            {
-                return ConnectionMultiplexer.Connect(redisConfiguration);
-            });
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
