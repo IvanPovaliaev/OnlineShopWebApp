@@ -30,4 +30,10 @@ RUN dotnet publish "./OnlineShopWebApp.csproj" -c $BUILD_CONFIGURATION -o /app/p
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+USER root
+RUN chown -R app:app /app
+RUN chown -R app:app /app/wwwroot/img
+USER app
+
 ENTRYPOINT ["dotnet", "OnlineShopWebApp.dll"]

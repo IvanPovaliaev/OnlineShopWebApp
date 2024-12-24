@@ -42,7 +42,7 @@ services:
       - onlineshop
     volumes:
       - ./OnlineShopWebApp/appsettings.json:/app/appsettings.json:rw
-      - ./OnlineShopWebApp/wwwroot/img:/app/wwwroot/img:rw
+      - img_data:/app/wwwroot/img
 
   onlineshop.webapi:
     container_name: onlineshop_api
@@ -91,3 +91,4 @@ services:
 volumes:
     mssql_data:
     postgres_data:
+    img_data:
