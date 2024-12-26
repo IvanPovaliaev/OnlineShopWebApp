@@ -9,7 +9,7 @@ namespace OnlineShop.WebAPI.Controllers
     /// Controller for managing products.
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProductController : Controller
     {
         private readonly IProductsService _productsService;
