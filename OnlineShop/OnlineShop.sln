@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShopWebApp", "OnlineShopWebApp\OnlineShopWebApp.csproj", "{6904FE62-86D5-45D0-B3D4-4C1C98CB2F07}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Infrastructure", "OnlineShop.Db\OnlineShop.Infrastructure.csproj", "{5A34A114-0700-4429-81AB-454A437A72BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Infrastructure", "OnlineShop.Infrastructure\OnlineShop.Infrastructure.csproj", "{5A34A114-0700-4429-81AB-454A437A72BE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShopWebApp.Tests", "OnlineShopWebApp.Tests\OnlineShopWebApp.Tests.csproj", "{EBD4BA43-1929-45C9-BD89-D9BBC3DB2BD9}"
 EndProject

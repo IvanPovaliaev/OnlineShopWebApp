@@ -1,12 +1,20 @@
 # OnlineShop
 Проект интернет магазина компьютерной техники на ASP.NET Core. <br/>
 Использует микросервис отзывов [ReviewsWebApplication](https://github.com/IvanPovaliaev/ReviewsWebApplication) (*данный микросервис добавляет доп. функционал к приложению, его использование не носит обязательный характер*)\
-Проект реализован в виде MVC приложения и так же имеет своё WebApi. Проект обёрнут в докер (см. раздел ***Docker***)\
-Демонстрация работы сайта доступна по адресу:
-https://pc-dream.ru/
+Проект реализован в виде MVC приложения и так же имеет своё WebApi. Проект обёрнут в докер (см. раздел ***Docker***).
 
 ![image](https://github.com/user-attachments/assets/cce15af0-08bc-41d8-8235-ac91b94eaae0)
 ![image](https://github.com/user-attachments/assets/66c49a56-9b91-4f9a-a1b5-9e8ad4d6d366)
+
+# Демонстрация
+Демонстрация работы сайта доступна по адресу:\
+https://pc-dream.ru/
+
+Базовый путь для запросов к API:\
+https://pc-dream.ru/api/
+
+Работа с WebApi через Swagger:\
+https://pc-dream.ru/api/swagger/
 
 # Используемые библиотеки и технологии
 1. ASP.NET CORE MVC/WebApi
