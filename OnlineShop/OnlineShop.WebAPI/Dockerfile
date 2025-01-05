@@ -15,7 +15,7 @@ WORKDIR /src
 COPY ["OnlineShop.WebAPI/OnlineShop.WebAPI.csproj", "OnlineShop.WebAPI/"]
 COPY ["OnlineShop.Application/OnlineShop.Application.csproj", "OnlineShop.Application/"]
 COPY ["OnlineShop.Domain/OnlineShop.Domain.csproj", "OnlineShop.Domain/"]
-COPY ["OnlineShop.Db/OnlineShop.Infrastructure.csproj", "OnlineShop.Db/"]
+COPY ["OnlineShop.Infrastructure/OnlineShop.Infrastructure.csproj", "OnlineShop.Db/"]
 RUN dotnet restore "./OnlineShop.WebAPI/OnlineShop.WebAPI.csproj"
 COPY . .
 WORKDIR "/src/OnlineShop.WebAPI"
